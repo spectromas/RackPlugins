@@ -43,7 +43,8 @@ public:
 
 	void sendMsg(const char *address, float value)
 	{
-		OSCMsg msg(m_scene, address, value);
+		OSCMsg msg;
+		msg.set(m_scene, address, value);
 		comm->Write(&msg);
 	}
 

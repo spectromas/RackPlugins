@@ -10,7 +10,7 @@ public:
 
 	bool Intersect(std::string address) { return address == m_address; }
 	void ChangeFromGUI(OSCDriver *drv);  // gui updated: the new value is already in the binded parameter
-	void onOscMsg(OSCMsg msg) { setValue(msg.param.f); }
+	void onOscMsg(OSCMsg msg) { setValue(msg.value); }
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
 	int ID() { return is_light ? pBindedLight->firstLightId : pBindedParam->paramId; }

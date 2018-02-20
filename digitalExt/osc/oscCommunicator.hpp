@@ -23,23 +23,19 @@ struct OSCParam
 };
 
 #pragma pack(push,1)
-class __attribute__((aligned(1), packed)) OSCMsg
+struct __attribute__((aligned(1), packed)) OSCMsg
 {
 public:
 	uint32_t scene;
 	char address[40];
 	float value;
-	/*
-	OSCMsg() { memset(address, 0, sizeof(address)); }
-	OSCMsg(int scn, const char *addr, float v) 
+	void set(int scn, const char *addr, float v) 
 	{ 
 		memset(address, 0, sizeof(address)); 
 		strcpy(address, addr);
 		scene = scn;
-		param.f = v;
-		param.paramLen = sizeof(float);
-		param.paramType = 'f';
-	}*/
+		value = v;
+	}
 };
 #pragma pack(pop)
 
