@@ -40,6 +40,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_MBCS;%(PreprocessorDefinitions);OSC_ENABLE;OSCTEST_MODULE</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
@@ -51,11 +52,18 @@
     <ClInclude Include="..\..\digitalExt\driver_include.hpp" />
     <ClInclude Include="..\..\digitalExt\launchpad.hpp" />
     <ClInclude Include="..\..\digitalExt\launchpadControls.hpp" />
+    <ClInclude Include="..\..\digitalExt\osc\oscCircBuff.hpp" />
+    <ClInclude Include="..\..\digitalExt\osc\oscCommunicator.hpp" />
+    <ClInclude Include="..\..\digitalExt\osc\oscControl.hpp" />
+    <ClInclude Include="..\..\digitalExt\osc\oscDriver.hpp" />
+    <ClInclude Include="..\..\digitalExt\osc\oscSkt.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
     <ClInclude Include="..\..\src\M581.hpp" />
     <ClInclude Include="..\..\src\M581Types.hpp" />
+    <ClInclude Include="..\..\src\oscTestModule.hpp" />
+    <ClInclude Include="..\..\src\pwmClock.hpp" />
     <ClInclude Include="..\..\src\Renato.hpp" />
     <ClInclude Include="..\..\src\rntSequencer.hpp" />
     <ClInclude Include="..\..\src\Spiralone.hpp" />
@@ -68,6 +76,10 @@
     <ClCompile Include="..\..\src\KleeModule.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
+    <ClCompile Include="..\..\src\oscImplementation.cpp" />
+    <ClCompile Include="..\..\src\OSCServer.cpp" />
+    <ClCompile Include="..\..\src\oscTestModule.cpp" />
+    <ClCompile Include="..\..\src\pwmClock.cpp" />
     <ClCompile Include="..\..\src\RenatoModule.cpp" />
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />

@@ -1,4 +1,5 @@
 #pragma once
+#define DEBUG
 #include "rack.hpp"
 #include <algorithm>
 #include <sstream>
@@ -17,7 +18,12 @@ extern Plugin *plugin;
 #ifdef LAUNCHPAD
 #include "../digitalExt/launchpad.hpp"
 #include "../digitalExt/launchpadControls.hpp"
-// #define TEST_MODULE
+#define LPTEST_MODULE
+#endif
+
+#if defined(ARCH_WIN) && defined(USE_OSC)
+#define OSC_ENABLE
+#define OSCTEST_MODULE
 #endif
 
 struct PJ301YPort : SVGPort

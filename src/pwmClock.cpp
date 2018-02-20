@@ -31,7 +31,7 @@ struct PwmClock : Module
 
 		on_loaded();
 	}
-	void step();
+	void step() override;
 
 	json_t *toJson() override
 	{

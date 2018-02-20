@@ -12,3 +12,5 @@ RackPlugins/RackPlugins/RackPlugins.vcxproj.filters
 RackPlugins/RackPlugins.sdf
 *.vcxproj
 RackPlugins/RackPlugins/RackPlugins.vcxproj.filters
+*.tlog
+*.log

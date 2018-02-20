@@ -5,9 +5,13 @@
 #include "Spiralone.hpp"
 #include "pwmClock.hpp"
 
-#ifdef TEST_MODULE
+#ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
-#endif // defined
+#endif 
+
+#ifdef OSCTEST_MODULE
+#include "oscTestModule.hpp"
+#endif 
 
 // The plugin-wide instance of the Plugin class
 Plugin *plugin;
@@ -31,10 +35,13 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<SpiraloneWidget>("TheXOR", "Spiralone", "Spiralone Sequencer", SEQUENCER_TAG));
 	p->addModel(createModel<PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock Widget", UTILITY_TAG, CLOCK_TAG));
 
-#ifdef TEST_MODULE
+#ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTestWidget>("TheXOR", "LaunchpadTest", "Launchpad Test", DIGITAL_TAG));
 #endif
 
+#ifdef OSCTEST_MODULE
+	p->addModel(createModel<OscTestWidget>("TheXOR", "OSCTest", "OSC Test", DIGITAL_TAG));
+#endif
 
 	// Any other plugin initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
