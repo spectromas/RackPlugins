@@ -6,7 +6,6 @@
 #include <WinSock2.h>
 #include <windows.h>
 
-#pragma pack(push,1)
 struct OSCParam
 {
 	char paramType;
@@ -23,12 +22,14 @@ struct OSCParam
 	};
 };
 
+#pragma pack(push,1)
 class __attribute__((aligned(1), packed)) OSCMsg
 {
 public:
-	int scene;
+	uint32_t scene;
 	char address[40];
-	OSCParam param;
+	float value;
+	/*
 	OSCMsg() { memset(address, 0, sizeof(address)); }
 	OSCMsg(int scn, const char *addr, float v) 
 	{ 
@@ -38,7 +39,7 @@ public:
 		param.f = v;
 		param.paramLen = sizeof(float);
 		param.paramType = 'f';
-	}
+	}*/
 };
 #pragma pack(pop)
 
