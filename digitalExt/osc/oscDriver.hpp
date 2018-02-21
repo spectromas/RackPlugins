@@ -33,9 +33,11 @@ public:
 
 	void ProcessOSC()
 	{
-		processGUI();
-		processOSCMsg();
-		if (!Connected() && (GetTickCount() - lastCheck) >= 2000)
+		if(Connected())
+		{
+			processGUI();
+			processOSCMsg();
+		} else if((GetTickCount() - lastCheck) >= 2000)
 		{
 			initConnection(true);
 		}
@@ -97,25 +99,21 @@ private:
 	{
 		OSCMsg msg;
 
-		for (;;)
+		while (comm->Read(&msg))
 		{
-			if (comm->Read(&msg))
+			for (std::map<int, oscControl *>::iterator it = m_bindings.begin(); it != m_bindings.end(); ++it)
 			{
-				for (std::map<int, oscControl *>::iterator it = m_bindings.begin(); it != m_bindings.end(); ++it)
+				if(msg.scene == m_scene && it->second->Intersect(msg.address))
 				{
-					if(msg.scene == m_scene && it->second->Intersect(msg.address))
-					{
 #ifdef DEBUG
-						info("MSG: scene=%i, address= %s", msg.scene, msg.address);
+					info("MSG: scene=%i, address= %s", msg.scene, msg.address);
 #endif
-						it->second->onOscMsg(msg);
-					}
+					it->second->onOscMsg(msg);
+					break;
 				}
 			}
-			else
-				break;
 		}
-	};
+	}
 };
 
 #endif //OSC

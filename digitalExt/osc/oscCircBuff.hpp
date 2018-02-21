@@ -18,7 +18,6 @@ public:
 
 	void Clear()
 	{
-		info("WR_PTR_POS is %i p is %x", WR_PTR_POS,mapAccess );//dbg
 		rdPtr = wrPtr_get();
 	}
 

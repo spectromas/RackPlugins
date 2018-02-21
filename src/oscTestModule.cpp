@@ -67,17 +67,17 @@ OscTestWidget::OscTestWidget()
 	addChild(new DigitalLed(60, 20, &module->connected));
 
 	ParamWidget *pctrl = createParam<Davies1900hBlackKnob>(Vec(20, 70), module, OscTest::POT1, 0.0, 1.0, 0.0);
-	oscControl *oc = new oscControl("/knob1");
+	oscControl *oc = new oscControl("/Knob1");
 	module->drv->Add(oc, pctrl);
 	addParam(pctrl);     // rnd threshold
 	
 	ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(60, 70), module, OscTest::LED1);
-	oc = new oscControl("/led1");
-	module->drv->Add(oc, pctrl);
+	oc = new oscControl("/Led1");
+	module->drv->Add(oc, plight);
 	addChild(plight);
-
+	
 	pctrl = createParam<CKSS>(Vec(20, 20), module, OscTest::BTN1, 0.0, 1.0, 0.0);
-	oc = new oscControl("/switch1");
+	oc = new oscControl("/Switch1");
 	module->drv->Add(oc, pctrl);
 	addParam(pctrl);
 }

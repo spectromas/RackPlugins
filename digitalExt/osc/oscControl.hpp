@@ -8,9 +8,15 @@ public:
 	virtual ~oscControl() {};
 	void Draw(OSCDriver *drv, bool force = false);
 
-	bool Intersect(std::string address) { return address == m_address; }
+	bool Intersect(std::string address) 
+	{ 
+		return m_address.compare(address) == 0; 
+	}
 	void ChangeFromGUI(OSCDriver *drv);  // gui updated: the new value is already in the binded parameter
-	void onOscMsg(OSCMsg msg) { setValue(msg.value); }
+	void onOscMsg(OSCMsg msg) 
+	{
+		setValueOsc(msg.value); 		
+	}
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
 	int ID() { return is_light ? pBindedLight->firstLightId : pBindedParam->paramId; }
@@ -41,7 +47,16 @@ private:
 			m_dirty = true;
 		}
 	}
-
+	void setValueOsc(float v)
+	{		
+		if(is_light)
+			pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
+		else
+			pBindedParam->setValue(v);
+		
+		m_lastDrawnValue = v;
+		m_dirty = false;
+	}
 	std::string m_address;
 	ModuleLightWidget *pBindedLight;
 	ParamWidget *pBindedParam;
