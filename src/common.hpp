@@ -257,7 +257,7 @@ protected:
 	virtual Menu *addContextMenu(Menu *menu) { return menu; }
 };
 
-#ifdef LAUNCHPAD
+#if defined(LAUNCHPAD) || defined(OSC_ENABLE)
 struct DigitalLed : SVGWidget
 {
 	float *value;

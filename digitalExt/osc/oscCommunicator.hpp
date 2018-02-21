@@ -1,9 +1,8 @@
 #pragma once
 #ifdef OSC_ENABLE
-
+#define NUM_SCENES  (8)
 #include <map>
 #include <memory.h>
-#include <WinSock2.h>
 #include <windows.h>
 
 struct OSCParam
@@ -112,17 +111,14 @@ private:
 	void init()
 	{
 		int b_l = OSCBUFFER_SIZE * sizeof(OSCMsg) + oscCircBuffer::bufferOverhead();
-
-#ifdef DEBUG
-		info("CLIENT: Open file mapping");
-#endif
+		int rawsize = NUM_SCENES * 2 * b_l + sizeof(uint32_t) /*flag SERVER_POS*/;
 		hMapFile = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, TRUE, "OSC_mem");
 		if(hMapFile != NULL)
 		{
 #ifdef DEBUG
-			info("file mapping opened");
+			info("file mapping opened, buff size = %i", b_l);
 #endif
-			void *p = MapViewOfFile(hMapFile, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 2 * b_l + sizeof(uint32_t)/*flag SERVER_POS*/);
+			void *p = MapViewOfFile(hMapFile, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, rawsize);
 #ifdef DEBUG
 			if(p == NULL)
 				info("MapViewOfFile failed");
