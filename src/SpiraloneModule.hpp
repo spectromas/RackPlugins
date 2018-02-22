@@ -37,18 +37,28 @@ struct Spiralone : Module
 
 	Spiralone() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(Scene5, 1);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		#define MY_SCENE    5
+		oscDrv = new OSCDriver(MY_SCENE);
+		#endif
+
 		on_loaded();
 	}
 
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	~Spiralone()
 	{
+		#if defined(LAUNCHPAD)
 		delete drv;
+		#endif
+		#if defined(OSCTEST_MODULE)
+		delete oscDrv;
+		#endif
 	}
-#endif
+	#endif
 
 	void step() override;
 	void reset() override { load(); }
@@ -60,10 +70,15 @@ struct Spiralone : Module
 		return rootJ;
 	}
 
-#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
+	#ifdef DIGITAL_EXT
 	float connected;
-#endif
+	#endif
+	#ifdef LAUNCHPAD
+	LaunchpadBindingDriver *drv;
+	#endif
+	#if defined(OSCTEST_MODULE)
+	OSCDriver *oscDrv;
+	#endif
 
 private:
 	void on_loaded();

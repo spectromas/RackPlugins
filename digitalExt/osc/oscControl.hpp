@@ -15,7 +15,7 @@ public:
 	void ChangeFromGUI(OSCDriver *drv);  // gui updated: the new value is already in the binded parameter
 	void onOscMsg(OSCMsg msg) 
 	{
-		setValueOsc(msg.value); 		
+		setValue(msg.value); 		
 	}
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
@@ -34,26 +34,16 @@ public:
 	}
 
 private:
-	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->value; }
+	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->value; }	
 	void setValue(float v)
-	{
-		if (v != getValue())
-		{
-			if (is_light)
-				pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
-			else
-				pBindedParam->setValue(v);
-
-			m_dirty = true;
-		}
-	}
-	void setValueOsc(float v)
 	{		
 		if(is_light)
 			pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
 		else
+		{
+			v = rescalef(v, 0.0, 1.0, pBindedParam->minValue, pBindedParam->maxValue);
 			pBindedParam->setValue(v);
-		
+		}
 		m_lastDrawnValue = v;
 		m_dirty = false;
 	}

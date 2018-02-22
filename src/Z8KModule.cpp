@@ -59,19 +59,28 @@ struct Z8K : Module
 
 	Z8K() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(Scene4, 1);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		#define MY_SCENE    4
+		oscDrv = new OSCDriver(MY_SCENE);
+		#endif
 		on_loaded();
 	}
 
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	~Z8K()
 	{
+		#if defined(LAUNCHPAD)
 		delete drv;
+		#endif
+		#if defined(OSCTEST_MODULE)
+		delete oscDrv;
+		#endif
 	}
-#endif
+	#endif
 
 	void step() override;
 	void reset() override { load(); }
@@ -83,10 +92,15 @@ struct Z8K : Module
 		return rootJ;
 	}
 
-#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
+	#ifdef DIGITAL_EXT
 	float connected;
-#endif
+	#endif
+	#ifdef LAUNCHPAD
+	LaunchpadBindingDriver *drv;
+	#endif
+	#if defined(OSCTEST_MODULE)
+	OSCDriver *oscDrv;
+	#endif
 
 private:
 	void on_loaded();
@@ -96,9 +110,9 @@ private:
 
 void Z8K::on_loaded()
 {
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	connected = 0;
-#endif
+	#endif
 	load();
 }
 
@@ -130,14 +144,30 @@ void Z8K::step()
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
 		seq[k].Step();
 
-#ifdef LAUNCHPAD
-	connected = drv->Connected() ? 1.0 : 0.0;
+	#ifdef DIGITAL_EXT
+	bool dig_connected = false;
+
+	#ifdef LAUNCHPAD
+	if(drv->Connected())
+		dig_connected = true;
 	drv->ProcessLaunchpad();
-#endif
+	#endif
+
+	#if defined(OSCTEST_MODULE)
+	if(oscDrv->Connected())
+		dig_connected = true;
+	oscDrv->ProcessOSC();
+	#endif	
+	connected = dig_connected ? 1.0 : 0.0;
+	#endif
 }
 
 Z8KWidget::Z8KWidget()
 {
+	#ifdef OSCTEST_MODULE
+	char name[60];
+	#endif
+
 	Z8K *module = new Z8K();
 	setModule(module);
 	box.size = Vec(28 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
@@ -178,11 +208,45 @@ Z8KWidget::Z8KWidget()
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			addParam(createParam<Davies1900hBlackKnob>(Vec(x + dist_h * c, y + dist_v * r), module, Z8K::VOLTAGE_1 + n, 0.005, 6.0, 1.0));
-			addChild(createLight<SmallLight<RedLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_ROW + n));
-			addChild(createLight<SmallLight<GreenLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_COL + n));
-			addChild(createLight<SmallLight<YellowLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_VERT + n));
-			addChild(createLight<SmallLight<BlueLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_HORIZ + n));
+			ParamWidget *pctrl = createParam<Davies1900hBlackKnob>(Vec(x + dist_h * c, y + dist_v * r), module, Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.5);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/Knob%i", n + 1);
+			oscControl *oc = new oscControl(name);
+			module->oscDrv->Add(oc, pctrl);
+			#endif
+			addParam(pctrl);
+
+			ModuleLightWidget *plight = createLight<SmallLight<RedLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_ROW + n);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/LedR%i", n + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+			#endif
+			addChild(plight);
+
+			plight = createLight<SmallLight<GreenLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_COL + n);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/LedC%i", n + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+			#endif
+			addChild(plight);
+
+			plight = createLight<SmallLight<YellowLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_VERT + n);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/LedV%i", n + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+			#endif
+			addChild(plight);
+
+			plight = createLight<SmallLight<BlueLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_HORIZ + n);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/LedH%i", n + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+			#endif
+			addChild(plight);
 
 			if(r == 3)
 				addOutput(createOutput<PJ301GPort>(Vec(x + dist_h * c + 7, y + dist_v * 4 - dist_v / 3), module, Z8K::CV_A + c));
@@ -202,7 +266,7 @@ Z8KWidget::Z8KWidget()
 		addOutput(createOutput<PJ301GPort>(Vec(px + 3 * dist_h, y - dist_v), module, Z8K::CV_VERT + k));
 	}
 
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	addChild(new DigitalLed((box.size.x - 24) / 2, 5, &module->connected));
-#endif
+	#endif
 }

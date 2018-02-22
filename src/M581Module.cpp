@@ -43,21 +43,31 @@ struct M581 : Module
 
 	M581() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(Scene2, 3);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
 		drv->SetAutoPageKey(LaunchpadKey::NOTE, 1);
 		drv->SetAutoPageKey(LaunchpadKey::DEVICE, 2);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		#define MY_SCENE    2
+		oscDrv = new OSCDriver(MY_SCENE);
+		#endif
+
 		on_loaded();
 	}
 
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	~M581()
 	{
+		#if defined(LAUNCHPAD)
 		delete drv;
+		#endif
+		#if defined(OSCTEST_MODULE)
+		delete oscDrv;
+		#endif
 	}
-#endif
+	#endif
 
 	void step() override;
 	void reset() override { load(); }
@@ -81,10 +91,15 @@ struct M581 : Module
 		return NULL;
 	}
 
-#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
+	#ifdef DIGITAL_EXT
 	float connected;
-#endif
+	#endif
+	#ifdef LAUNCHPAD
+	LaunchpadBindingDriver *drv;
+	#endif
+	#if defined(OSCTEST_MODULE)
+	OSCDriver *oscDrv;
+	#endif
 
 private:
 	CV_LINE cvControl;
@@ -105,9 +120,9 @@ private:
 
 void M581::on_loaded()
 {
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	connected = 0;
-#endif
+	#endif
 	load();
 }
 
@@ -135,7 +150,7 @@ void M581::step()
 		_reset();
 	} else
 	{
-		Timer.Step(); 
+		Timer.Step();
 
 		if(clockTrigger.process(inputs[CLOCK].value) && any())
 			beginNewStep();
@@ -144,10 +159,22 @@ void M581::step()
 		outputs[GATE].value = gateControl.Play(&Timer, stepCounter.PulseCounter());
 	}
 
-#ifdef LAUNCHPAD
-	connected = drv->Connected() ? 1.0 : 0.0;
+	#ifdef DIGITAL_EXT
+	bool dig_connected = false;
+
+	#ifdef LAUNCHPAD
+	if(drv->Connected())
+		dig_connected = true;
 	drv->ProcessLaunchpad();
-#endif
+	#endif
+
+	#if defined(OSCTEST_MODULE)
+	if(oscDrv->Connected())
+		dig_connected = true;
+	oscDrv->ProcessOSC();
+	#endif	
+	connected = dig_connected ? 1.0 : 0.0;
+	#endif
 }
 
 void M581::beginNewStep()
@@ -186,6 +213,10 @@ bool M581::any()
 
 M581Widget::M581Widget()
 {
+	#ifdef OSCTEST_MODULE
+	char name[60];
+	#endif
+
 	M581 *module = new M581();
 	setModule(module);
 	box.size = Vec(27 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
@@ -204,64 +235,119 @@ M581Widget::M581Widget()
 			  // step enable
 		ParamWidget *pwdg = createParam<CKSSThree>(Vec(36 + 35 * k, RACK_GRID_HEIGHT - 58), module, M581::STEP_ENABLE + k, 0.0, 2.0, 1.0);
 		addParam(pwdg);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(43), LaunchpadLed::Color(32));
 		module->drv->Add(radio, pwdg);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/Enable%i", k + 1);
+		oscControl *oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+		#endif
 
 		// Gate switches
 		pwdg = createParam<VerticalSwitch>(Vec(39 + 35 * k, RACK_GRID_HEIGHT - 140), module, M581::GATE_SWITCH + k, 0.0, 3.0, 2.0);
 		addParam(pwdg);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(19), LaunchpadLed::Color(17));
 		module->drv->Add(radio, pwdg);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/GateMode%i", k + 1);
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+		#endif
 
 		// page #1 (Note): Notes
 		// step notes
-		pwdg = createParam<BefacoSlidePot>(Vec(35 + 35 * k, RACK_GRID_HEIGHT - 368), module, M581::STEP_NOTES + k, 0.001, 1.0, 0.5);
+		pwdg = createParam<BefacoSlidePot>(Vec(35 + 35 * k, RACK_GRID_HEIGHT - 368), module, M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
 		addParam(pwdg);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		LaunchpadKnob *pknob = new LaunchpadKnob(1, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Rgb(20, 10, 10), LaunchpadLed::Rgb(60, 40, 40));
 		module->drv->Add(pknob, pwdg);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/Knob%i", k + 1);
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+		#endif
 
 		//page #2 (Device): Counters
 		// Counter switches
 		pwdg = createParam<CounterSwitch>(Vec(39 + 35 * k, RACK_GRID_HEIGHT - 246), module, M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);
 		addParam(pwdg);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		radio = new LaunchpadRadio(2, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(56), LaunchpadLed::Color(58));
 		module->drv->Add(radio, pwdg);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/Count%i", k + 1);
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+		#endif
 
 		// step leds (all pages)
 		ModuleLightWidget *plight = createLight<LargeLight<RedLight>>(Vec(36 + 35 * k, RACK_GRID_HEIGHT - 80), module, M581::LED_STEP + k);
 		addChild(plight);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(9));
 		module->drv->Add(ld1, plight);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/Led%i", k + 1);
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, plight);
+		#endif
 
 		// subdiv leds (all pages)
 		plight = createLight<TinyLight<RedLight>>(Vec(26, RACK_GRID_HEIGHT - 162 - 11.28 * k), module, M581::LED_SUBDIV + k);
 		addChild(plight);
-#ifdef LAUNCHPAD
+		#ifdef LAUNCHPAD
 		ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(61));   // colonna PLAY
 		module->drv->Add(ld1, plight);
-#endif
+		#endif
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/SubLed%i", k + 1);
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, plight);
+		#endif
 	}
 
 	// Gate time
-	addParam(createParam<Davies1900hBlackKnob>(Vec(310, RACK_GRID_HEIGHT - 368), module, M581::GATE_TIME, 0.005, 1.0, 0.25));    // in sec
+	ParamWidget *pwdg = createParam<Davies1900hBlackKnob>(Vec(310, RACK_GRID_HEIGHT - 368), module, M581::GATE_TIME, 0.005, 1.0, 0.25);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/GateTime");
+	oscControl *oc = new oscControl(name);
+	module->oscDrv->Add(oc, pwdg);
+	#endif
+	addParam(pwdg);    // in sec
+
 	// Slide time
-	addParam(createParam<Davies1900hBlackKnob>(Vec(310, RACK_GRID_HEIGHT - 310), module, M581::SLIDE_TIME, 0.005, 2.0, 0.5)); // in sec
+	pwdg = createParam<Davies1900hBlackKnob>(Vec(310, RACK_GRID_HEIGHT - 310), module, M581::SLIDE_TIME, 0.005, 2.0, 0.5);
+	addParam(pwdg); // in sec
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/SlideTime");
+	oc = new oscControl(name);
+	module->oscDrv->Add(oc, pwdg);
+	#endif
 
 	// volt fondo scala
-	addParam(createParam<CKSS>(Vec(12, RACK_GRID_HEIGHT - 350), module, M581::MAXVOLTS, 0.0, 1.0, 1.0));
+	pwdg = createParam<CKSS>(Vec(12, RACK_GRID_HEIGHT - 350), module, M581::MAXVOLTS, 0.0, 1.0, 1.0);
+	addParam(pwdg);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/Voltage");
+	oc = new oscControl(name);
+	module->oscDrv->Add(oc, pwdg);
+	#endif
 
 	// step div
-	addParam(createParam<VerticalSwitch>(Vec(364, RACK_GRID_HEIGHT - 340), module, M581::STEP_DIV, 0.0, 3.0, 0.0));
+	pwdg = createParam<VerticalSwitch>(Vec(364, RACK_GRID_HEIGHT - 340), module, M581::STEP_DIV, 0.0, 3.0, 0.0);
+	addParam(pwdg);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/StepDiv");
+		oc = new oscControl(name);
+	module->oscDrv->Add(oc, pwdg);
+	#endif
 
 	// input
 	addInput(createInput<PJ301YPort>(Vec(320, RACK_GRID_HEIGHT - 240), module, M581::RESET));
@@ -287,9 +373,9 @@ M581Widget::M581Widget()
 	addChild(display);
 	addParam(createParam<BefacoSnappedTinyKnob>(Vec(312, RACK_GRID_HEIGHT - 66), module, M581::RUN_MODE, 0.0, 4.0, 0.0));
 
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	addChild(new DigitalLed(360, 20, &module->connected));
-#endif
+	#endif
 }
 
 Menu *M581Widget::addContextMenu(Menu *menu)
@@ -305,10 +391,10 @@ void M581Widget::onMenu(int action)
 {
 	switch(action)
 	{
-	case RANDOMIZE_COUNTER: std_randomize(M581::COUNTER_SWITCH, M581::COUNTER_SWITCH+8); break;
-	case RANDOMIZE_PITCH: std_randomize(M581::STEP_NOTES, M581::STEP_NOTES+8); break;
-	case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH+8); break;
-	case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE+8); break;
+	case RANDOMIZE_COUNTER: std_randomize(M581::COUNTER_SWITCH, M581::COUNTER_SWITCH + 8); break;
+	case RANDOMIZE_PITCH: std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); break;
+	case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8); break;
+	case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); break;
 	}
 }
 

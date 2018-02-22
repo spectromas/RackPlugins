@@ -11,9 +11,9 @@ float *AccessLight(Spiralone *p, int id) { return &p->lights[id].value; }
 
 void Spiralone::on_loaded()
 {
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	connected = 0;
-#endif
+	#endif
 	load();
 }
 
@@ -28,14 +28,30 @@ void Spiralone::step()
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
 		sequencer[k].Step(k, this);
 
-#ifdef LAUNCHPAD
-	connected = drv->Connected() ? 1.0 : 0.0;
+	#ifdef DIGITAL_EXT
+	bool dig_connected = false;
+
+	#ifdef LAUNCHPAD
+	if(drv->Connected())
+		dig_connected = true;
 	drv->ProcessLaunchpad();
-#endif
+	#endif
+
+	#if defined(OSCTEST_MODULE)
+	if(oscDrv->Connected())
+		dig_connected = true;
+	oscDrv->ProcessOSC();
+	#endif	
+	connected = dig_connected ? 1.0 : 0.0;
+	#endif
 }
 
 SpiraloneWidget::SpiraloneWidget()
 {
+	#ifdef OSCTEST_MODULE
+	char name[60];
+	#endif
+
 	color[0] = COLOR_RED;
 	color[1] = COLOR_WHITE;
 	color[2] = COLOR_BLUE;
@@ -65,28 +81,43 @@ SpiraloneWidget::SpiraloneWidget()
 		float cx = cos(angle);
 		float cy = sin(angle);
 		angle += step;
-		addParam(createParam<BefacoTinyKnob>(Vec(x + r * cx, y + r * cy), module, Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0));
+		ParamWidget *pctrl = createParam<BefacoTinyKnob>(Vec(x + r * cx, y + r * cy), module, Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0);
+		#ifdef OSCTEST_MODULE
+		sprintf(name, "/Knob%i", k + 1);
+		oscControl *oc = new oscControl(name);
+		module->oscDrv->Add(oc, pctrl);
+		#endif
+		addParam(pctrl);
 
 		r -= 8;
 		for(int s = 0; s < NUM_SEQUENCERS; s++)
 		{
 			int n = s * TOTAL_STEPS + k;
 			r -= 15;
-			addChild(createLed(s, Vec(x + r * cx + 9.7, y + r * cy + 9.4), module, Spiralone::LED_SEQUENCE_1 + n));
+			ModuleLightWidget *plight = createLed(s, Vec(x + r * cx + 9.7, y + r * cy + 9.4), module, Spiralone::LED_SEQUENCE_1 + n);
+			#ifdef OSCTEST_MODULE
+			sprintf(name, "/Led%i_%i", s+1, n + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+			#endif
+			addChild(plight);
 
 			if(k == 0)
 				createSequencer(s);
 		}
 	}
 
-
-#ifdef LAUNCHPAD
+	#ifdef DIGITAL_EXT
 	addChild(new DigitalLed((box.size.x - 28) / 2 - 32, RACK_GRID_HEIGHT - 28, &module->connected));
-#endif
+	#endif
 }
 
 void SpiraloneWidget::createSequencer(int seq)
 {
+	#ifdef OSCTEST_MODULE
+	char name[60];
+	#endif
+
 	int margin = 6;
 	int x = 400;
 	int y = (RACK_GRID_HEIGHT) / NUM_SEQUENCERS;
@@ -100,7 +131,7 @@ void SpiraloneWidget::createSequencer(int seq)
 
 	ParamWidget *pwdg = createParam<BefacoSnappedSwitch>(Vec(x, y), module, Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
 	addParam(pwdg);
-#ifdef LAUNCHPAD
+	#ifdef LAUNCHPAD
 	int color_launchpad[NUM_SEQUENCERS][2];
 	color_launchpad[0][0] = 11; color_launchpad[0][1] = 5;
 	color_launchpad[1][0] = 1; color_launchpad[1][1] = 3;
@@ -109,17 +140,41 @@ void SpiraloneWidget::createSequencer(int seq)
 	color_launchpad[4][0] = 19; color_launchpad[4][1] = 21;
 	LaunchpadRadio *sw = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(0, seq), 2, LaunchpadLed::Color(color_launchpad[seq][0]), LaunchpadLed::Color(color_launchpad[seq][1]));
 	((Spiralone *)module)->drv->Add(sw, pwdg);
-#endif
+	#endif
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/Mode%i", seq + 1);
+	oscControl *oc = new oscControl(name);
+	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	#endif
+
 	x += 50;
-	addParam(createParam<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS));
+	pwdg = createParam<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/Lenght%i", seq + 1);
+	oc = new oscControl(name);
+	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	#endif
+	addParam(pwdg);
 	addInput(createInput<PJ301MPort>(Vec(x + 10, y + 14), module, Spiralone::INLENGHT_1 + seq));
 
 	x += 60;
-	addParam(createParam<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0));
+	pwdg = createParam<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/Stride%i", seq + 1);
+	oc = new oscControl(name);
+	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	#endif
+	addParam(pwdg);
 	addInput(createInput<PJ301MPort>(Vec(x + 10, y + 14), module, Spiralone::INSTRIDE_1 + seq));
 
 	x += 60;
-	addParam(createParam<BefacoTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0));
+	pwdg = createParam<BefacoTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0);
+	#ifdef OSCTEST_MODULE
+	sprintf(name, "/Transpose%i", seq + 1);
+	oc = new oscControl(name);
+	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	#endif
+	addParam(pwdg);
 	addInput(createInput<PJ301MPort>(Vec(x + 10, y + 14), module, Spiralone::INXPOSE_1 + seq));
 
 	x += 55;
@@ -142,7 +197,7 @@ ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, 
 	return rv;
 }
 
-Menu *SpiraloneWidget::addContextMenu(Menu *menu) 
+Menu *SpiraloneWidget::addContextMenu(Menu *menu)
 {
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Length", this, RANDOMIZE_LEN));
@@ -155,20 +210,20 @@ void SpiraloneWidget::onMenu(int action)
 {
 	switch(action)
 	{
-		case RANDOMIZE_PITCH:
-			std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1+TOTAL_STEPS);
-			break;
+	case RANDOMIZE_PITCH:
+		std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
+		break;
 
-		case RANDOMIZE_LEN:
-			std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
-			break;
+	case RANDOMIZE_LEN:
+		std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
+		break;
 
-		case RANDOMIZE_STRIDE:
-			std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
-			break;
+	case RANDOMIZE_STRIDE:
+		std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
+		break;
 
-		case RANDOMIZE_XPOSE:
-			std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
-			break;
+	case RANDOMIZE_XPOSE:
+		std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
+		break;
 	}
 }

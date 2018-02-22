@@ -1,6 +1,5 @@
 #include "oscTestModule.hpp"
 #ifdef OSCTEST_MODULE
-#include "../digitalExt/osc/oscDriver.hpp"
 
 #define MY_SCENE    8
 struct OscTest : Module

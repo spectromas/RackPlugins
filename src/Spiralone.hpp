@@ -36,4 +36,3 @@ private:
 	NVGcolor color[NUM_SEQUENCERS];
 };
 
-

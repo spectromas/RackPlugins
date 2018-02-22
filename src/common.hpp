@@ -18,12 +18,21 @@ extern Plugin *plugin;
 #ifdef LAUNCHPAD
 #include "../digitalExt/launchpad.hpp"
 #include "../digitalExt/launchpadControls.hpp"
+#ifdef DEBUG
 #define LPTEST_MODULE
+#endif
 #endif
 
 #if defined(ARCH_WIN) && defined(USE_OSC)
 #define OSC_ENABLE
+#ifdef DEBUG
 #define OSCTEST_MODULE
+#endif
+#include "../digitalExt/osc/oscDriver.hpp"
+#endif
+
+#if defined(LAUNCHPAD) || defined(OSCTEST_MODULE)
+#define DIGITAL_EXT
 #endif
 
 struct PJ301YPort : SVGPort
