@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Release|x64">
@@ -56,7 +56,6 @@
     <ClInclude Include="..\..\digitalExt\osc\oscCommunicator.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscControl.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscDriver.hpp" />
-    <ClInclude Include="..\..\digitalExt\osc\oscSkt.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
@@ -77,7 +76,6 @@
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
-    <ClCompile Include="..\..\src\OSCServer.cpp" />
     <ClCompile Include="..\..\src\oscTestModule.cpp" />
     <ClCompile Include="..\..\src\pwmClock.cpp" />
     <ClCompile Include="..\..\src\RenatoModule.cpp" />

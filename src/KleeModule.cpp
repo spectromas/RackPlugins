@@ -581,7 +581,7 @@ KleeWidget::KleeWidget()
 		pwdg = createParam<Davies1900hBlackKnob>(Vec(pos_x[k], RACK_GRID_HEIGHT - pos_y[k]), module, Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Knob%1", k+1);
+		sprintf(name, "/Knob%i", k+1);
 		oc = new oscControl(name);
 		module->oscDrv->Add(oc, pwdg);
 		#endif
@@ -600,7 +600,7 @@ KleeWidget::KleeWidget()
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Led%1", k + 1);
+		sprintf(name, "/Ledbpm_integer");
 		oc = new oscControl(name);
 		module->oscDrv->Add(oc, plight);
 		#endif
@@ -608,7 +608,7 @@ KleeWidget::KleeWidget()
 		pwdg = createParam<Davies1900hBlackKnob>(Vec(pos_x[7 - k], RACK_GRID_HEIGHT - 419 + pos_y[7 - k]), module, Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Knob%1", k + 9);
+		sprintf(name, "/Knob%i", k + 9);
 		oc = new oscControl(name);
 		module->oscDrv->Add(oc, pwdg);
 		#endif
@@ -627,7 +627,7 @@ KleeWidget::KleeWidget()
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Led%1", k + 9);
+		sprintf(name, "/Led%i", k + 9);
 		oc = new oscControl(name);
 		module->oscDrv->Add(oc, plight);
 		#endif

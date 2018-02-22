@@ -8,7 +8,11 @@ void oscControl::Draw(OSCDriver *drv, bool force)
 {
 	if((force || m_dirty))
 	{
-		float v = rescalef(getValue(), pBindedParam->minValue, pBindedParam->maxValue, 0.0, 1.0);
+		float v;
+		if(is_light)
+			v = getValue();
+		else
+			v=  rescalef(getValue(), pBindedParam->minValue, pBindedParam->maxValue, 0.0, 1.0);
 		drv->sendMsg(m_address.c_str(), v);
 	}
 	m_dirty = false;
