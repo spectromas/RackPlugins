@@ -6,3 +6,6 @@ RackPlugins/.vs/*
 *.log
 *.opensdf
 RackPlugins/RackPlugins.sdf
+*.suo
+*.sdf
+*.suo
