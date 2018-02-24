@@ -41,7 +41,7 @@ private:
 			pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
 		else
 		{
-			v = rescalef(v, 0.0, 1.0, pBindedParam->minValue, pBindedParam->maxValue);
+			v = rescale(v, 0.0, 1.0, pBindedParam->minValue, pBindedParam->maxValue);
 			pBindedParam->setValue(v);
 		}
 		m_lastDrawnValue = v;

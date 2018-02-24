@@ -39,7 +39,7 @@ public:
 	{
 		uint8_t *ptr = (uint8_t *)msg;
 		int cur_wrPtr = wrPtr_get();
-		for(int k = 0; k < sizeof(OSCMsg); k++)
+		for(int k = 0; k < (int)sizeof(OSCMsg); k++)
 			cur_wrPtr = Put(*ptr++, cur_wrPtr);
 		wrPtr_set(cur_wrPtr);	// finalizza IN SOLIDO il chunk appena letto
 	}
@@ -49,7 +49,7 @@ public:
 		if(data_available())
 		{
 			uint8_t *p = (uint8_t *)msg;
-			for(int k = 0; k < sizeof(OSCMsg); k++)
+			for(int k = 0; k < (int)sizeof(OSCMsg); k++)
 				*p++ = Get();
 
 			return true;

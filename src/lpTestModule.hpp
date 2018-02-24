@@ -1,19 +1,19 @@
 #include "common.hpp"
-#include "dsp/digital.hpp"
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
 
-#ifdef TEST_MODULE
+#ifdef LPTEST_MODULE
 ////////////////////
 // module widgets
 ////////////////////
 using namespace rack;
 extern Plugin *plugin;
 
+struct LaunchpadTest;
 struct LaunchpadTestWidget : ModuleWidget
 {
-	LaunchpadTestWidget();
+	LaunchpadTestWidget(LaunchpadTest * module);
 };
 
 struct PatternBtn : SVGSwitch, ToggleSwitch {
@@ -22,4 +22,44 @@ struct PatternBtn : SVGSwitch, ToggleSwitch {
 		addFrame(SVG::load(assetPlugin(plugin, "res/Patternbtn_1.svg")));
 	}
 };
+
+struct LaunchpadTest : Module
+{
+	enum ParamIds
+	{
+		BTN1,
+		BTN2,
+		BTN3,
+		BTN4,
+		GATE_TIME,
+		NUM_PARAMS
+	};
+	enum InputIds
+	{
+
+		NUM_INPUTS
+	};
+	enum OutputIds
+	{
+		KNOB_OUT,
+		NUM_OUTPUTS
+	};
+	enum LightIds
+	{
+		LP_CONNECTED,
+		NUM_LIGHTS
+	};
+	LaunchpadTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	{
+		drv = new LaunchpadBindingDriver(Scene8, 1);
+	}
+	~LaunchpadTest()
+	{
+		delete drv;
+	}
+	void step() override;
+
+	LaunchpadBindingDriver *drv;
+};
+
 #endif

@@ -1,7 +1,5 @@
+#pragma once
 #include "common.hpp"
-
-#include "dsp/digital.hpp"
-
 
 #include <sstream>
 #include <iomanip>
@@ -10,16 +8,19 @@
 
 #define NUM_SEQUENCERS (5)
 #define TOTAL_STEPS (32)
+#include "sprlnSequencer.hpp"
+#include "SpiraloneModule.hpp"
+
 
 ////////////////////
 // module widgets
 ////////////////////
 
-
+struct Spiralone;
 struct SpiraloneWidget : SequencerWidget
 {
 public:
-	SpiraloneWidget();
+	SpiraloneWidget(Spiralone *module);
 	Menu *addContextMenu(Menu *menu) override;
 	void onMenu(int action);
 

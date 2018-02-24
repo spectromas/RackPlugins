@@ -1,6 +1,7 @@
 #pragma once
 #define DEBUG
 #include "rack.hpp"
+#include "dsp/digital.hpp"
 #include <algorithm>
 #include <sstream>
 #include <iomanip>
@@ -128,7 +129,7 @@ struct NKK2 : NKK
 {
 	void randomize() override
 	{
-		if(randomf() >= 0.5)
+		if(randomUniform() >= 0.5)
 			setValue(1.0);
 		else
 			setValue(0.0);
@@ -139,7 +140,7 @@ struct BefacoSnappedSwitch : SVGSwitch, ToggleSwitch
 {
 	void randomize() override
 	{
-		if(randomf() >= 0.5)
+		if(randomUniform() >= 0.5)
 			setValue(1.0);
 		else
 			setValue(0.0);
@@ -170,7 +171,7 @@ struct NKK3 : NKK
 {
 	void randomize() override
 	{
-		setValue(randomf() * maxValue);
+		setValue(randomUniform() * maxValue);
 	}
 };
 
@@ -179,7 +180,7 @@ struct CKSS2 : CKSS
 {
 	void randomize() override
 	{
-		if(randomf() >= 0.5)
+		if(randomUniform() >= 0.5)
 			setValue(1.0);
 		else
 			setValue(0.0);
@@ -192,10 +193,10 @@ struct BefacoSnappedTinyKnob : BefacoTinyKnob
 	{
 		snap = true;
 	}
-	void randomize() override { setValue(roundf(rescalef(randomf(), 0.0, 1.0, minValue, maxValue))); }
+	void randomize() override { setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue))); }
 };
 
-struct VerticalSwitch : SVGSlider
+struct VerticalSwitch : SVGFader 
 {
 	VerticalSwitch()
 	{
@@ -210,7 +211,7 @@ struct VerticalSwitch : SVGSlider
 		handle->wrap();
 	}
 
-	void randomize() override { setValue(roundf(randomf() * maxValue)); }
+	void randomize() override { setValue(roundf(randomUniform() * maxValue)); }
 
 };
 
@@ -234,6 +235,8 @@ private:
 class SequencerWidget : public ModuleWidget
 {
 protected:
+	SequencerWidget(Module *module) : ModuleWidget(module)
+	{}
 	int getParamIndex(int index)
 	{
 		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramId == index; });

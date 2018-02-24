@@ -1,130 +1,5 @@
 #include "Klee.hpp"
 
-struct Klee : Module
-{
-	enum ParamIds
-	{
-		PITCH_KNOB,
-		GROUPBUS = PITCH_KNOB + 16,
-		LOAD_BUS = GROUPBUS + 16,
-		LOAD_PARAM = LOAD_BUS + 16,
-		STEP_PARAM,
-		X28_X16,
-		RND_PAT,
-		B_INV,
-		RND_THRESHOLD,
-		BUS1_LOAD,
-		BUS_MERGE,
-		RANGE = BUS_MERGE + 3,
-		BUS2_MODE,
-		NUM_PARAMS
-	};
-
-	enum InputIds
-	{
-		LOAD_INPUT,
-		EXT_CLOCK_INPUT,
-		RND_THRES_IN,
-		RANGE_IN,
-		NUM_INPUTS
-	};
-
-	enum OutputIds
-	{
-		CV_A,
-		CV_B,
-		CV_AB,
-		CV_A__B,
-		GATE_OUT,
-		TRIG_OUT = GATE_OUT + 3,
-		temp = TRIG_OUT + 3,
-		NUM_OUTPUTS
-	};
-
-	enum LightIds
-	{
-		LED_PITCH,
-
-		LED_BUS = LED_PITCH + 16,
-		temp1 = LED_BUS + 3,
-		NUM_LIGHTS
-	};
-
-	Klee() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
-	{
-		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene1, 1);
-		#endif
-		#ifdef OSCTEST_MODULE
-		#define MY_SCENE    1
-		oscDrv = new OSCDriver(MY_SCENE);
-		#endif
-
-		on_loaded();
-	}
-
-	#ifdef DIGITAL_EXT
-	~Klee()
-	{
-		#if defined(LAUNCHPAD)
-		delete drv;
-		#endif
-		#if defined(OSCTEST_MODULE)
-		delete oscDrv;
-		#endif
-	}
-	#endif
-
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
-	{
-		json_t *rootJ = json_object();
-
-		return rootJ;
-	}
-	void step() override;
-	void reset() override { load(); }
-	void randomize() override { load(); }
-
-	#ifdef DIGITAL_EXT
-	float connected;
-	#endif
-	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
-	#endif
-	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv;
-	#endif
-
-private:
-	const float pulseTime = 0.002;      //2msec trigger
-	void showValues();
-	void sr_rotate();
-	bool chance();
-	void populate_gate(int clk);
-	void update_bus();
-	void load();
-	void on_loaded();
-	void populate_outputs();
-	void check_triggers(float deltaTime);
-	bool isSwitchOn(int ptr);
-	int getValue3(int k);
-	SchmittTrigger loadTrigger;
-	SchmittTrigger2 clockTrigger;
-	PulseGenerator triggers[3];
-
-	union
-	{
-		struct
-		{
-			bool A[8];
-			bool B[8];
-		};
-		bool P[16];
-	} shiftRegister;
-
-	bool bus_active[3];
-};
 
 void Klee::on_loaded()
 {
@@ -325,14 +200,12 @@ bool Klee::chance()
 	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
 }
 
-KleeWidget::KleeWidget()
+KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 {
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
 
-	Klee *module = new Klee();
-	setModule(module);
 	#ifdef LAUNCHPAD
 	int numLaunchpads = module->drv->GetNumLaunchpads();
 	#ifdef DEBUG
@@ -344,15 +217,15 @@ KleeWidget::KleeWidget()
 	panel->box.size = box.size;
 	panel->setBackground(SVG::load(assetPlugin(plugin, "res/KleeModule.svg")));
 	addChild(panel);
-	addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createScrew<ScrewSilver>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createScrew<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	for(int k = 0; k < 8; k++)
 	{
 		// Load switches
-		ParamWidget *pwdg = createParam<NKK2>(Vec(38 + 35 * k, RACK_GRID_HEIGHT - 370), module, Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(38 + 35 * k, RACK_GRID_HEIGHT - 370), module, Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -371,7 +244,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		pwdg = createParam<NKK2>(Vec(343 + 35 * k, RACK_GRID_HEIGHT - 370), module, Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
+		pwdg = ParamWidget::create<NKK2>(Vec(343 + 35 * k, RACK_GRID_HEIGHT - 370), module, Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -391,7 +264,7 @@ KleeWidget::KleeWidget()
 		#endif
 
 		// BUS switches
-		pwdg = createParam<NKK3>(Vec(19 + 35 * k, RACK_GRID_HEIGHT - 55), module, Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
+		pwdg = ParamWidget::create<NKK3>(Vec(19 + 35 * k, RACK_GRID_HEIGHT - 55), module, Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -410,7 +283,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		pwdg = createParam<NKK3>(Vec(356 + 35 * k, RACK_GRID_HEIGHT - 55), module, Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
+		pwdg = ParamWidget::create<NKK3>(Vec(356 + 35 * k, RACK_GRID_HEIGHT - 55), module, Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -433,7 +306,7 @@ KleeWidget::KleeWidget()
 	// trig/gate out
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = createParam<NKK2>(Vec(572, RACK_GRID_HEIGHT - 202 - 28 + k * 54), module, Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(572, RACK_GRID_HEIGHT - 202 - 28 + k * 54), module, Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, 4 + k), LaunchpadLed::Color(31), LaunchpadLed::Color(35));
@@ -445,7 +318,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		ModuleLightWidget *plight = createLight<LargeLight<BlueLight>>(Vec(616, RACK_GRID_HEIGHT - 187 - 28 + k * 54), module, Klee::LED_BUS + k);
+		ModuleLightWidget *plight = ModuleLightWidget::create<LargeLight<BlueLight>>(Vec(616, RACK_GRID_HEIGHT - 187 - 28 + k * 54), module, Klee::LED_BUS + k);
 		addChild(plight);
 		#ifdef OSCTEST_MODULE
 		sprintf(name, "/BusLed%i", k + 1);
@@ -453,10 +326,10 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, plight);
 		#endif
 
-		addOutput(createOutput<PJ301WPort>(Vec(648, RACK_GRID_HEIGHT - 192 - 28 + k * 54), module, Klee::TRIG_OUT + k));
-		addOutput(createOutput<PJ301GPort>(Vec(688, RACK_GRID_HEIGHT - 192 - 28 + k * 54), module, Klee::GATE_OUT + k));
+		addOutput(Port::create<PJ301WPort>(Vec(648, RACK_GRID_HEIGHT - 192 - 28 + k * 54), Port::OUTPUT, module, Klee::TRIG_OUT + k));
+		addOutput(Port::create<PJ301GPort>(Vec(688, RACK_GRID_HEIGHT - 192 - 28 + k * 54), Port::OUTPUT, module, Klee::GATE_OUT + k));
 	}
-	ParamWidget *pwdg = createParam<CKSS2>(Vec(550, RACK_GRID_HEIGHT - 192 - 28 + 54), module, Klee::BUS2_MODE, 0.0, 1.0, 0.0);
+	ParamWidget *pwdg = ParamWidget::create<CKSS2>(Vec(550, RACK_GRID_HEIGHT - 192 - 28 + 54), module, Klee::BUS2_MODE, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::STOP_CLIP, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
@@ -469,7 +342,7 @@ KleeWidget::KleeWidget()
 	#endif
 
 	//load
-	pwdg = createParam<BefacoPush>(Vec(10, RACK_GRID_HEIGHT - 296), module, Klee::LOAD_PARAM, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<BefacoPush>(Vec(10, RACK_GRID_HEIGHT - 296), module, Klee::LOAD_PARAM, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	LaunchpadMomentary *mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD, LaunchpadLed::Color(1), LaunchpadLed::Color(2));
@@ -481,9 +354,9 @@ KleeWidget::KleeWidget()
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	addInput(createInput<PJ301MPort>(Vec(12, RACK_GRID_HEIGHT - 28 - 210), module, Klee::LOAD_INPUT));
+	addInput(Port::create<PJ301MPort>(Vec(12, RACK_GRID_HEIGHT - 28 - 210), Port::INPUT, module, Klee::LOAD_INPUT));
 
-	pwdg = createParam<NKK2>(Vec(57, RACK_GRID_HEIGHT - 304), module, Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(57, RACK_GRID_HEIGHT - 304), module, Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
@@ -496,7 +369,7 @@ KleeWidget::KleeWidget()
 	#endif
 
 	//step
-	pwdg = createParam<BefacoPush>(Vec(10, RACK_GRID_HEIGHT - 132 - 28), module, Klee::STEP_PARAM, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<BefacoPush>(Vec(10, RACK_GRID_HEIGHT - 132 - 28), module, Klee::STEP_PARAM, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::CLICK, LaunchpadLed::Color(1), LaunchpadLed::Color(2));
@@ -508,16 +381,16 @@ KleeWidget::KleeWidget()
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	addInput(createInput<PJ301RPort>(Vec(12, RACK_GRID_HEIGHT - 76 - 28), module, Klee::EXT_CLOCK_INPUT));
+	addInput(Port::create<PJ301RPort>(Vec(12, RACK_GRID_HEIGHT - 76 - 28), Port::INPUT, module, Klee::EXT_CLOCK_INPUT));
 
 	// CV Out
-	addOutput(createOutput<PJ301MPort>(Vec(643, RACK_GRID_HEIGHT - 333 - 28), module, Klee::CV_A));
-	addOutput(createOutput<PJ301MPort>(Vec(687, RACK_GRID_HEIGHT - 333 - 28), module, Klee::CV_B));
-	addOutput(createOutput<PJ301MPort>(Vec(687, RACK_GRID_HEIGHT - 288 - 28), module, Klee::CV_AB));
-	addOutput(createOutput<PJ301MPort>(Vec(643, RACK_GRID_HEIGHT - 288 - 28), module, Klee::CV_A__B));
+	addOutput(Port::create<PJ301MPort>(Vec(643, RACK_GRID_HEIGHT - 333 - 28), Port::OUTPUT, module, Klee::CV_A));
+	addOutput(Port::create<PJ301MPort>(Vec(687, RACK_GRID_HEIGHT - 333 - 28), Port::OUTPUT, module, Klee::CV_B));
+	addOutput(Port::create<PJ301MPort>(Vec(687, RACK_GRID_HEIGHT - 288 - 28), Port::OUTPUT, module, Klee::CV_AB));
+	addOutput(Port::create<PJ301MPort>(Vec(643, RACK_GRID_HEIGHT - 288 - 28), Port::OUTPUT, module, Klee::CV_A__B));
 
 	// mode
-	pwdg = createParam<NKK2>(Vec(258, RACK_GRID_HEIGHT - 182 - 28), module, Klee::X28_X16, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(258, RACK_GRID_HEIGHT - 182 - 28), module, Klee::X28_X16, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // 2x8 1x16
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(2));
@@ -529,7 +402,7 @@ KleeWidget::KleeWidget()
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(310, RACK_GRID_HEIGHT - 182 - 28), module, Klee::RND_PAT, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(310, RACK_GRID_HEIGHT - 182 - 28), module, Klee::RND_PAT, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // rnd/pattern
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(2));
@@ -541,7 +414,7 @@ KleeWidget::KleeWidget()
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(362, RACK_GRID_HEIGHT - 182 - 28), module, Klee::B_INV, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(362, RACK_GRID_HEIGHT - 182 - 28), module, Klee::B_INV, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // norm /B inverted
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(2));
@@ -554,31 +427,31 @@ KleeWidget::KleeWidget()
 	#endif
 
 	// CV Range
-	pwdg = createParam<Davies1900hBlackKnob>(Vec(57, RACK_GRID_HEIGHT - 138 - 28), module, Klee::RANGE, 0.001, 5.0, 1.0);
+	pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(57, RACK_GRID_HEIGHT - 138 - 28), module, Klee::RANGE, 0.001, 5.0, 1.0);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Range");
 	oc = new oscControl(name);
 	module->oscDrv->Add(oc, pwdg);
 	#endif
-	addInput(createInput<PJ301MPort>(Vec(62, RACK_GRID_HEIGHT - 76 - 28), module, Klee::RANGE_IN));
+	addInput(Port::create<PJ301MPort>(Vec(62, RACK_GRID_HEIGHT - 76 - 28), Port::INPUT, module, Klee::RANGE_IN));
 
 	// RND Threshold
-	pwdg = createParam<Davies1900hBlackKnob>(Vec(535, RACK_GRID_HEIGHT - 276 - 28), module, Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(535, RACK_GRID_HEIGHT - 276 - 28), module, Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // rnd threshold
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/RndTH");
 	oc = new oscControl(name);
 	module->oscDrv->Add(oc, pwdg);
 	#endif
-	addInput(createInput<PJ301MPort>(Vec(584, RACK_GRID_HEIGHT - 270 - 28), module, Klee::RND_THRES_IN));
+	addInput(Port::create<PJ301MPort>(Vec(584, RACK_GRID_HEIGHT - 270 - 28), Port::INPUT, module, Klee::RND_THRES_IN));
 
 	// pitch Knobs + leds
 	int pos_x[8] = {109, 143, 202, 270, 336, 401, 461, 496};
 	int pos_y[8] = {232, 272, 299, 307, 307, 299, 272, 232};
 	for(int k = 0; k < 8; k++)
 	{
-		pwdg = createParam<Davies1900hBlackKnob>(Vec(pos_x[k], RACK_GRID_HEIGHT - pos_y[k]), module, Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
+		pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(pos_x[k], RACK_GRID_HEIGHT - pos_y[k]), module, Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
 		sprintf(name, "/Knob%i", k+1);
@@ -586,7 +459,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(pos_x[k] + 38, RACK_GRID_HEIGHT - pos_y[k] + 20), module, Klee::LED_PITCH + k);
+		ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<RedLight>>(Vec(pos_x[k] + 38, RACK_GRID_HEIGHT - pos_y[k] + 20), module, Klee::LED_PITCH + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -605,7 +478,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, plight);
 		#endif
 
-		pwdg = createParam<Davies1900hBlackKnob>(Vec(pos_x[7 - k], RACK_GRID_HEIGHT - 419 + pos_y[7 - k]), module, Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
+		pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(pos_x[7 - k], RACK_GRID_HEIGHT - 419 + pos_y[7 - k]), module, Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
 		sprintf(name, "/Knob%i", k + 9);
@@ -613,7 +486,7 @@ KleeWidget::KleeWidget()
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		plight = createLight<MediumLight<GreenLight>>(Vec(pos_x[7 - k] - 12, RACK_GRID_HEIGHT - 419 + pos_y[7 - k] + 20), module, Klee::LED_PITCH + k + 8);
+		plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(pos_x[7 - k] - 12, RACK_GRID_HEIGHT - 419 + pos_y[7 - k] + 20), module, Klee::LED_PITCH + k + 8);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)

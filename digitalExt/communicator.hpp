@@ -15,7 +15,8 @@ struct __attribute__((aligned(1), packed)) _launchpadMessage
 	uint8_t shiftDown;
 	short param0;
 	short param1;
-
+	
+	#pragma GCC diagnostic ignored "-Wmaybe-uninitialized"
 	void FromMessage(LaunchpadMessage *src)
 	{
 		status = (uint8_t)src->status;
@@ -89,7 +90,7 @@ private:
 
 			uint8_t *ptr = (uint8_t *)&msg;
 			int cur_wrPtr = wrPtr_get();
-			for(int k = 0; k < sizeof(_launchpadMessage); k++)
+			for(int k = 0; k < (int)sizeof(_launchpadMessage); k++)
 				cur_wrPtr = Put(*ptr++, cur_wrPtr);
 			wrPtr_set(cur_wrPtr);	// finalizza IN SOLIDO il chunk appena letto
 		}
@@ -100,7 +101,7 @@ private:
 			{
 				_launchpadMessage msg;
 				uint8_t *p = (uint8_t *)&msg;
-				for(int k = 0; k < sizeof(_launchpadMessage); k++)
+				for(int k = 0; k < (int)sizeof(_launchpadMessage); k++)
 					*p++ = Get();
 
 				return msg.Reconstruct();

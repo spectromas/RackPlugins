@@ -25,7 +25,7 @@ struct OSCParam
 struct __attribute__((aligned(1), packed)) OSCMsg
 {
 public:
-	uint32_t scene;
+	int32_t scene;
 	char address[40];
 	float value;
 	void set(int scn, const char *addr, float v) 

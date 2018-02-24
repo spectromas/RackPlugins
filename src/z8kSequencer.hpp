@@ -34,7 +34,7 @@ public:
 			}
 		}
 
-		float v = rescalef(sequence[curStep]->value, 0.0, 1.0, 0.0, 6.0);
+		float v = rescale(sequence[curStep]->value, 0.0, 1.0, 0.0, 6.0);
 		pOutput->value = v;
 		for(int k = 0; k < numSteps; k++)
 			leds[k]->value = k == curStep ? 10.0 : 0;

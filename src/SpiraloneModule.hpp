@@ -41,8 +41,7 @@ struct Spiralone : Module
 		drv = new LaunchpadBindingDriver(Scene5, 1);
 		#endif
 		#ifdef OSCTEST_MODULE
-		#define MY_SCENE    5
-		oscDrv = new OSCDriver(MY_SCENE);
+		oscDrv = new OSCDriver(5);
 		#endif
 
 		on_loaded();

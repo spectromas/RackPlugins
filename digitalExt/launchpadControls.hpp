@@ -120,14 +120,14 @@ protected:
 		float inv_v = pBindedParam->maxValue - v + pBindedParam->minValue;
 		LaunchpadLed led;
 		led.status = ButtonColorType::RGB;
-		led.r_color = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_key, led);
 
-		led.r_color = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_secondKey, led);
 	}
 	virtual bool intersect(LaunchpadKey key) override { return key == m_key || key == m_secondKey; }
@@ -135,6 +135,8 @@ protected:
 	{
 		switch(msg.status)
 		{
+			default:
+			break;
 		case LaunchpadKeyStatus::keyChannelPressure:
 		case LaunchpadKeyStatus::keyPressure:
 			float delta = sensitivity * (pBindedParam->maxValue - pBindedParam->minValue);

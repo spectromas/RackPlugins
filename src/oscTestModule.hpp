@@ -1,6 +1,6 @@
+#pragma once
 #include "common.hpp"
 #ifdef OSCTEST_MODULE
-#include "dsp/digital.hpp"
 #include <sstream>
 #include <iomanip>
 #include <algorithm>
@@ -11,9 +11,49 @@
 using namespace rack;
 extern Plugin *plugin;
 
+struct OscTest;
 struct OscTestWidget : ModuleWidget
 {
-	OscTestWidget();
+	OscTestWidget(OscTest *module);
+};
+
+struct OscTest : Module
+{
+	enum ParamIds
+	{
+		BTN1,
+		POT1,
+		NUM_PARAMS
+	};
+	enum InputIds
+	{
+
+		NUM_INPUTS
+	};
+	enum OutputIds
+	{
+		NUM_OUTPUTS
+	};
+	enum LightIds
+	{
+		LED1,
+		NUM_LIGHTS
+	};
+	OscTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	{
+		connected = 0;
+		drv = new OSCDriver(8);
+		lasttime = clock();
+	}
+	~OscTest()
+	{
+		delete drv;
+	}
+	void step() override;
+
+	OSCDriver *drv;
+	float connected;
+	clock_t lasttime;
 };
 
 #endif

@@ -305,7 +305,7 @@ protected:
 				return true;
 			}
 
-		} while((GetTickCount() - now) <= timeout);
+		} while((GetTickCount() - now) <= (DWORD)timeout);
 		return false;
 	}
 
