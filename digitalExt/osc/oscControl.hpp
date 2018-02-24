@@ -8,6 +8,7 @@ public:
 	virtual ~oscControl() {};
 	void Draw(OSCDriver *drv, bool force = false);
 
+	bool isDirty() { return m_dirty; }
 	bool Intersect(std::string address) 
 	{ 
 		return m_address.compare(address) == 0; 
@@ -42,7 +43,22 @@ private:
 		else
 		{
 			v = rescale(v, 0.0, 1.0, pBindedParam->minValue, pBindedParam->maxValue);
-			pBindedParam->setValue(v);
+
+			SVGKnob *pk = (SVGKnob *)dynamic_cast<SVGKnob *>(pBindedParam);
+			if(pk != NULL)
+			{
+				pBindedParam->value = v;
+				pk->dirty = true;
+			} else
+			{
+				SVGFader *pk1 = (SVGFader *)dynamic_cast<SVGFader *>(pBindedParam);
+				if(pk1 != NULL)
+				{
+					pBindedParam->value = v;
+					pk1->dirty = true;
+				} else
+					pBindedParam->setValue(v);
+			}
 		}
 		m_lastDrawnValue = v;
 		m_dirty = false;

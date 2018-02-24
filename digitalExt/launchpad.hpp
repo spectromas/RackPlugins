@@ -411,8 +411,23 @@ protected:
 			if(is_light)
 				pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
 			else
-				pBindedParam->setValue(v);
-
+			{
+				SVGKnob *pk = (SVGKnob *)dynamic_cast<SVGKnob *>(pBindedParam);
+				if(pk != NULL)
+				{
+					pBindedParam->value = v;
+					pk->dirty = true;
+				} else
+				{
+					SVGFader *pk1 = (SVGFader *)dynamic_cast<SVGFader *>(pBindedParam);
+					if(pk1 != NULL)
+					{
+						pBindedParam->value = v;
+						pk1->dirty = true;
+					} else
+						pBindedParam->setValue(v);
+				}
+			}
 			m_dirty = true;
 		}
 	}

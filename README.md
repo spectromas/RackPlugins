@@ -29,3 +29,18 @@ Hypnotic!
 Most of these sequencers have their gate outputs dependent
 from the clock pulse cycle; for this reason there is a clock generator
 with controllable PWM (pwmClockGen).
+
+0.5.7:
+For Microsoft Windows users only, there is the possibility to control 
+the sequencers through OSC. To do so, you must compile the plugins with the command:
+
+make -f makefile_osc
+
+and compile oscServer (a background process that acts like a bridge between VCV and OSC).
+You know that oscServer is connected because the 'DIGITAL' led in the sequencers goes lit.
+oscServer is written in C# and needs at least Microsoft .NET Framerwork 4.5; in RackPlugins\digitalExt\osc\Repository
+there are some Liine Lemur patches (jzml). If you want to program your own OSC patches, 
+all the mappings are listed in RackPlugins\digitalExt\osc\RepositoryControl List.txt .
+What else? Ah, yes, oscServer can control ALL the sequencers SIMULTANEOUSLY ;-) so you can program
+(and send to me) a mega-patch able to control... everything.
+
