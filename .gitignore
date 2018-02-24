@@ -2,10 +2,8 @@
 build/*
 dist/*
 RackPlugins/.vs/*
-*.vcxproj
 *.log
 *.opensdf
-RackPlugins/RackPlugins.sdf
 *.suo
 *.sdf
 *.suo
