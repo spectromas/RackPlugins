@@ -42,7 +42,7 @@ struct OscTest : Module
 	OscTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		connected = 0;
-		drv = new OSCDriver(8);
+		drv = new OSCDriver(this, 8);
 		lasttime = clock();
 	}
 	~OscTest()

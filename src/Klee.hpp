@@ -73,10 +73,10 @@ struct Klee : Module
 	Klee() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene1, 1);
+		drv = new LaunchpadBindingDriver(this, Scene1, 1);
 		#endif
 		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(1);
+		oscDrv = new OSCDriver(this, 1);
 		#endif
 
 		on_loaded();

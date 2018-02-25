@@ -6,9 +6,10 @@
 class OSCDriver
 {
 public:
-	OSCDriver(int scene)
+	OSCDriver(Module *pmod, int scene)
 	{
 		m_scene = scene;
+		pModule = pmod;
 		comm = new oscCommunicator(m_scene);
 		lastCheck = 0;
 		initConnection(true);
@@ -66,6 +67,7 @@ public:
 
 private:
 	oscCommunicator *comm;
+	Module *pModule;
 	int m_scene;
 	uint32_t lastCheck;
 	std::map<int, oscControl *>m_bindings;
@@ -108,7 +110,7 @@ private:
 #ifdef DEBUG
 					info("MSG: scene=%i, address= %s", msg.scene, msg.address);
 #endif
-					it->second->onOscMsg(msg);
+					it->second->onOscMsg(pModule, msg);
 					break;
 				}
 			}

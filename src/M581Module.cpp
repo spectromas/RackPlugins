@@ -131,7 +131,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		pwdg = ParamWidget::create<VerticalSwitch>(Vec(39 + 35 * k, RACK_GRID_HEIGHT - 140), module, M581::GATE_SWITCH + k, 0.0, 3.0, 2.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(19), LaunchpadLed::Color(17));
+		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(11), LaunchpadLed::Color(17));
 		module->drv->Add(radio, pwdg);
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -145,7 +145,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		pwdg = ParamWidget::create<BefacoSlidePot>(Vec(35 + 35 * k, RACK_GRID_HEIGHT - 368), module, M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		LaunchpadKnob *pknob = new LaunchpadKnob(1, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Rgb(20, 10, 10), LaunchpadLed::Rgb(60, 40, 40));
+		LaunchpadKnob *pknob = new LaunchpadKnob(1, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Rgb(10, 0, 0), LaunchpadLed::Rgb(63, 63, 63));
 		module->drv->Add(pknob, pwdg);
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -159,7 +159,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		pwdg = ParamWidget::create<CounterSwitch>(Vec(39 + 35 * k, RACK_GRID_HEIGHT - 246), module, M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		radio = new LaunchpadRadio(2, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(56), LaunchpadLed::Color(58));
+		radio = new LaunchpadRadio(2, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(1), LaunchpadLed::Color(58));
 		module->drv->Add(radio, pwdg);
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -172,7 +172,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		ModuleLightWidget *plight = ModuleLightWidget::create<LargeLight<RedLight>>(Vec(36 + 35 * k, RACK_GRID_HEIGHT - 80), module, M581::LED_STEP + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
-		LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(9));
+		LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
 		module->drv->Add(ld1, plight);
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -185,7 +185,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		plight = ModuleLightWidget::create<TinyLight<RedLight>>(Vec(26, RACK_GRID_HEIGHT - 162 - 11.28 * k), module, M581::LED_SUBDIV + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
-		ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(61));   // colonna PLAY
+		ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));   // colonna PLAY
 		module->drv->Add(ld1, plight);
 		#endif
 		#ifdef OSCTEST_MODULE

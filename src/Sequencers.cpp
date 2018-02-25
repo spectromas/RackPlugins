@@ -1,3 +1,4 @@
+#include "common.hpp"
 #include "Klee.hpp"
 #include "M581.hpp"
 #include "Z8K.hpp"

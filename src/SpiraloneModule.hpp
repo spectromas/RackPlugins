@@ -38,10 +38,10 @@ struct Spiralone : Module
 	Spiralone() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene5, 1);
+		drv = new LaunchpadBindingDriver(this, Scene5, 1);
 		#endif
 		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(5);
+		oscDrv = new OSCDriver(this, 5);
 		#endif
 
 		on_loaded();

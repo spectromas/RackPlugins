@@ -51,7 +51,7 @@ struct LaunchpadTest : Module
 	};
 	LaunchpadTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
-		drv = new LaunchpadBindingDriver(Scene8, 1);
+		drv = new LaunchpadBindingDriver(this, Scene8, 1);
 	}
 	~LaunchpadTest()
 	{

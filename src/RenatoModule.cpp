@@ -20,22 +20,28 @@ void Renato::load()
 
 void Renato::step()
 {
-	bool seek_mode = params[SEEKSLEEP].value > 0;
-	int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
-	int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
-	int n = xy(seqX.Position(), seqY.Position());
-	if(_access(n))
+	if(resetTrigger.process(inputs[RESET].value))
 	{
-		if(_gateX(n))
-			seqX.Gate(clkX, &outputs[XGATE], &lights[LED_GATEX]);
+		seqX.Reset();
+		seqY.Reset();
+	} else
+	{
+		bool seek_mode = params[SEEKSLEEP].value > 0;
+		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
+		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
+		int n = xy(seqX.Position(), seqY.Position());
+		if(_access(n))
+		{
+			if(_gateX(n))
+				seqX.Gate(clkX, &outputs[XGATE], &lights[LED_GATEX]);
 
-		if(_gateY(n))
-			seqY.Gate(clkY, &outputs[YGATE], &lights[LED_GATEY]);
+			if(_gateY(n))
+				seqY.Gate(clkY, &outputs[YGATE], &lights[LED_GATEY]);
 
-		outputs[CV].value = params[VOLTAGE_1 + n].value;
-		led(n);
+			outputs[CV].value = params[VOLTAGE_1 + n].value;
+			led(n);
+		}
 	}
-
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -96,8 +102,10 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	addInput(Port::create<PJ301RPort>(Vec(x, y), Port::INPUT, module, Renato::XCLK));
 	x += dist_h;
 	addInput(Port::create<PJ301RPort>(Vec(x, y), Port::INPUT, module, Renato::YCLK));
-	x += 2 * dist_h;
-
+	x += dist_h;
+	addInput(Port::create<PJ301YPort>(Vec(x, y), Port::INPUT, module, Renato::RESET));
+	x += dist_h+10;
+	
 	// page 0 (SESSION)
 	ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(x, y - 10), module, Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
 	addParam(pwdg);
@@ -226,8 +234,8 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			#endif
 		}
 	}
-
+	
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(84, 34, &module->connected));
+	addChild(new DigitalLed(20, 70, &module->connected));
 	#endif
 }

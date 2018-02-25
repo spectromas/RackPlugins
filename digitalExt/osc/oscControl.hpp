@@ -14,9 +14,9 @@ public:
 		return m_address.compare(address) == 0; 
 	}
 	void ChangeFromGUI(OSCDriver *drv);  // gui updated: the new value is already in the binded parameter
-	void onOscMsg(OSCMsg msg) 
+	void onOscMsg(Module *pModule, OSCMsg msg) 
 	{
-		setValue(msg.value); 		
+		setValue(pModule, msg.value); 		
 	}
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
@@ -36,7 +36,7 @@ public:
 
 private:
 	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->value; }	
-	void setValue(float v)
+	void setValue(Module *pModule, float v)
 	{		
 		if(is_light)
 			pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
@@ -47,14 +47,14 @@ private:
 			SVGKnob *pk = (SVGKnob *)dynamic_cast<SVGKnob *>(pBindedParam);
 			if(pk != NULL)
 			{
-				pBindedParam->value = v;
-				pk->dirty = true;
+				pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
+				pk->dirty = true;				
 			} else
 			{
 				SVGFader *pk1 = (SVGFader *)dynamic_cast<SVGFader *>(pBindedParam);
 				if(pk1 != NULL)
 				{
-					pBindedParam->value = v;
+					pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
 					pk1->dirty = true;
 				} else
 					pBindedParam->setValue(v);

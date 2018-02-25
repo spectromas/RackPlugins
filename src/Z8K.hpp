@@ -73,11 +73,11 @@ struct Z8K : Module
 	Z8K() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene4, 1);
+		drv = new LaunchpadBindingDriver(this, Scene4, 1);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
 		#endif
 		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(4);
+		oscDrv = new OSCDriver(this, 4);
 		#endif
 		on_loaded();
 	}

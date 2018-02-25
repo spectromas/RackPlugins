@@ -138,13 +138,13 @@ struct M581 : Module
 	M581() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene2, 3);
+		drv = new LaunchpadBindingDriver(this, Scene2, 3);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
 		drv->SetAutoPageKey(LaunchpadKey::NOTE, 1);
 		drv->SetAutoPageKey(LaunchpadKey::DEVICE, 2);
 		#endif
 		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(2);
+		oscDrv = new OSCDriver(this, 2);
 		#endif
 
 		on_loaded();

@@ -44,6 +44,7 @@ struct Renato : Module
 	{
 		XCLK,
 		YCLK,
+		RESET,
 		NUM_INPUTS
 	};
 
@@ -64,12 +65,12 @@ struct Renato : Module
 	Renato() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
 		#ifdef LAUNCHPAD
-		drv = new LaunchpadBindingDriver(Scene3, 2);
+		drv = new LaunchpadBindingDriver(this, Scene3, 2);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
 		drv->SetAutoPageKey(LaunchpadKey::NOTE, 1);
 		#endif
 		#ifdef OSCTEST_MODULE
-		oscDrv = new OSCDriver(3);
+		oscDrv = new OSCDriver(this, 3);
 		#endif
 		on_loaded();
 	}
@@ -109,6 +110,7 @@ struct Renato : Module
 	#endif
 
 private:
+	SchmittTrigger resetTrigger;
 	void on_loaded();
 	void load();
 	void led(int n) { for(int k = 0; k < 16; k++) lights[LED_1 + k].value = k == n ? 10.0 : 0.0; }
