@@ -1,7 +1,6 @@
 #include "Z8K.hpp"
 #include <sstream>
 
-
 void Z8K::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -41,11 +40,11 @@ void Z8K::step()
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
-	#ifdef LAUNCHPAD
+	/*#ifdef LAUNCHPAD
 	if(drv->Connected())
 		dig_connected = true;
 	drv->ProcessLaunchpad();
-	#endif
+	#endif*/
 
 	#if defined(OSCTEST_MODULE)
 	if(oscDrv->Connected())

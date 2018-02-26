@@ -32,6 +32,7 @@ struct OscTest : Module
 	};
 	enum OutputIds
 	{
+		OUT_1,
 		NUM_OUTPUTS
 	};
 	enum LightIds

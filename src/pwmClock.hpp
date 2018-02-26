@@ -54,6 +54,8 @@ struct PwmClock : Module
 	};
 	enum InputIds
 	{
+		RESET,
+		PWM_IN,
 		NUM_INPUTS
 	};
 
@@ -107,6 +109,7 @@ private:
 	PwmClockWidget *pWidget;
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;
+	SchmittTrigger2 resetTrigger;
 
 	void process_keys();
 	void updateBpm()
@@ -130,5 +133,7 @@ private:
 	float duration[OUT_SOCKETS];
 	void on_loaded();
 	void load();
+	void _reset();
+	float getPwm();
 	SA_TIMER sa_timer[OUT_SOCKETS];
 };

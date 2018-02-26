@@ -72,10 +72,11 @@ struct Z8K : Module
 
 	Z8K() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
+		/*
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene4, 1);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
-		#endif
+		#endif*/
 		#ifdef OSCTEST_MODULE
 		oscDrv = new OSCDriver(this, 4);
 		#endif
@@ -85,9 +86,9 @@ struct Z8K : Module
 	#ifdef DIGITAL_EXT
 	~Z8K()
 	{
-		#if defined(LAUNCHPAD)
+		/*#if defined(LAUNCHPAD)
 		delete drv;
-		#endif
+		#endif*/
 		#if defined(OSCTEST_MODULE)
 		delete oscDrv;
 		#endif
@@ -107,9 +108,9 @@ struct Z8K : Module
 	#ifdef DIGITAL_EXT
 	float connected;
 	#endif
-	#ifdef LAUNCHPAD
+	/*#ifdef LAUNCHPAD
 	LaunchpadBindingDriver *drv;
-	#endif
+	#endif*/
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv;
 	#endif

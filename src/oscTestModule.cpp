@@ -10,6 +10,7 @@ void OscTest::step()
 		lasttime = clock();
 		lights[LED1].value = lights[LED1].value > 0 ? 0 : 10;
 	}
+	outputs[OUT_1].value = params[BTN1].value > 0 ? LVL_ON : LVL_OFF;
 }
 
 OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget(module)
@@ -38,6 +39,7 @@ OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget(module)
 	module->drv->Add(oc, plight);
 	addChild(plight);
 	
+	addOutput(Port::create<PJ301MPort>(Vec(50, 100), Port::OUTPUT, module, OscTest::OUT_1 ));
 	pctrl = ParamWidget::create<CKSS>(Vec(20, 20), module, OscTest::BTN1, 0.0, 1.0, 0.0);
 	oc = new oscControl("/Switch1");
 	module->drv->Add(oc, pctrl);

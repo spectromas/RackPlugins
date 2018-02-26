@@ -87,7 +87,7 @@ struct SchmittTrigger2
 		this->low = low;
 		this->high = high;
 	}
-	/** Returns true if triggered */
+
 	int process(float in)
 	{
 		switch(state)
