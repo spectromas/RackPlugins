@@ -1,7 +1,7 @@
 # LAUNCHPAD-ENABLED compile script
 
 SLUG = TheXOR
-VERSION = 0.5.6
+VERSION = 0.6.0dev
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=

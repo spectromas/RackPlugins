@@ -159,8 +159,8 @@ private:
 	bool pp_rev;
 	int curStep;
 
-	bool testaCroce() { return randomf() > 0.5; }
-	int getRand(int rndMax) { return int(randomf() * rndMax); }
+	bool testaCroce() { return randomUniform() > 0.5; }
+	int getRand(int rndMax) { return int(randomUniform() * rndMax); }
 
 	int get_next_step(int current)
 	{

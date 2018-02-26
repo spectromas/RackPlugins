@@ -305,7 +305,7 @@ protected:
 				return true;
 			}
 
-		} while((GetTickCount() - now) <= timeout);
+		} while((GetTickCount() - now) <= (DWORD)timeout);
 		return false;
 	}
 
@@ -378,7 +378,7 @@ public:
 		Draw(drv);
 	}
 
-	virtual void onLaunchpadKey(LaunchpadMessage msg) = 0;
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) = 0;
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
 	int ID() { return is_light ? pBindedLight->firstLightId : pBindedParam->paramId; }
@@ -404,15 +404,30 @@ protected:
 
 	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->value; }
 
-	void setValue(float v)
+	void setValue(Module *pModule, float v)
 	{
 		if(v != getValue())
 		{
 			if(is_light)
 				pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
 			else
-				pBindedParam->setValue(v);
-
+			{
+				SVGKnob *pk = (SVGKnob *)dynamic_cast<SVGKnob *>(pBindedParam);
+				if(pk != NULL)
+				{
+					pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
+					pk->dirty = true;
+				} else
+				{
+					SVGFader *pk1 = (SVGFader *)dynamic_cast<SVGFader *>(pBindedParam);
+					if(pk1 != NULL)
+					{
+						pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
+						pk1->dirty = true;
+					} else
+						pBindedParam->setValue(v);
+				}
+			}
 			m_dirty = true;
 		}
 	}
@@ -431,8 +446,9 @@ protected:
 struct LaunchpadBindingDriver : public launchpadDriver
 {
 public:
-	LaunchpadBindingDriver(LaunchpadScene scene, int maxPage) : launchpadDriver(scene, maxPage)
+	LaunchpadBindingDriver(Module *pMod, LaunchpadScene scene, int maxPage) : launchpadDriver(scene, maxPage)
 	{
+		pModule = pMod;
 	}
 
 	virtual ~LaunchpadBindingDriver()
@@ -488,6 +504,7 @@ protected:
 	}
 
 private:
+	Module *pModule;
 	std::map<int, launchpadControl *>m_bindings;
 	void processGUI()
 	{
@@ -536,7 +553,7 @@ private:
 #ifdef DEBUG
 							info("MSG: lp#=%i page=%i, key=%i shift=%i detected: %i", msg.lpNumber, GetPage(), msg.key, msg.shiftDown, it->first);
 #endif
-							it->second->onLaunchpadKey(msg);
+							it->second->onLaunchpadKey(pModule, msg);
 						}
 					}
 				}

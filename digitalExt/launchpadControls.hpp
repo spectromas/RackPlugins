@@ -19,7 +19,7 @@ public:
 protected:
 	virtual void draw(launchpadDriver *drv) override { drv->drive_led(m_lpNumber, m_key, getValue() > 0.0 ? m_onColor : m_offColor); }
 	virtual bool intersect(LaunchpadKey key) override { return key == m_key; }
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override { if(msg.status == LaunchpadKeyStatus::keyDown) setValue(getValue() < 1); }
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override { if(msg.status == LaunchpadKeyStatus::keyDown) setValue(pModule, getValue() < 1); }
 
 private:
 	LaunchpadLed m_offColor;
@@ -51,14 +51,14 @@ protected:
 		drv->drive_led(m_lpNumber, m_key, m_colors[n]);
 	}
 	virtual bool intersect(LaunchpadKey key) override { return key == m_key; }
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override
 	{
 		if(msg.status == LaunchpadKeyStatus::keyDown)
 		{
 			int n = (int)roundf(getValue()) + 1;
 			if(n > 2)
 				n = 0;
-			setValue(n);
+			setValue(pModule, n);
 		}
 	}
 
@@ -85,9 +85,9 @@ protected:
 	{
 		return key == m_key;
 	}
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override
 	{
-		setValue(msg.status == LaunchpadKeyStatus::keyDown ? 1.0 : 0.0);
+		setValue(pModule, msg.status == LaunchpadKeyStatus::keyDown ? 1.0 : 0.0);
 	}
 
 private:
@@ -120,40 +120,42 @@ protected:
 		float inv_v = pBindedParam->maxValue - v + pBindedParam->minValue;
 		LaunchpadLed led;
 		led.status = ButtonColorType::RGB;
-		led.r_color = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescalef(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_key, led);
 
-		led.r_color = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescalef(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_secondKey, led);
 	}
 	virtual bool intersect(LaunchpadKey key) override { return key == m_key || key == m_secondKey; }
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override
 	{
 		switch(msg.status)
 		{
+			default:
+			break;
 		case LaunchpadKeyStatus::keyChannelPressure:
 		case LaunchpadKeyStatus::keyPressure:
 			float delta = sensitivity * (pBindedParam->maxValue - pBindedParam->minValue);
 			if(msg.param0 < 100)
 				delta /= 16.0;
-
+			
 			float v = pBindedParam->value;
 			if(msg.key == m_key)
 				v += delta;
 			else
 				v -= delta;
 
-			setValue(v);
+			setValue(pModule, v);
 			break;
 		}
 	}
 
 private:
-	const float sensitivity = 0.0015;
+	const float sensitivity = 0.015;
 	LaunchpadKey m_secondKey;
 	LaunchpadLed m_offColor;
 	LaunchpadLed m_onColor;
@@ -176,7 +178,7 @@ protected:
 		float newValue = getValue();
 		drv->drive_led(m_lpNumber, m_key, newValue > 0.0 ? m_onColor : m_offColor);
 	}
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override {}
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override {}
 
 private:
 	LaunchpadLed m_offColor;
@@ -199,7 +201,7 @@ public:
 		m_horizontal = horizontal;
 	}
 
-	virtual void onLaunchpadKey(LaunchpadMessage msg) override
+	virtual void onLaunchpadKey(Module *pModule, LaunchpadMessage msg) override
 	{
 		if(msg.status == LaunchpadKeyStatus::keyDown)
 		{
@@ -207,7 +209,7 @@ public:
 			if(ILaunchpadPro::Key2RC(m_key, &r, &c) && ILaunchpadPro::Key2RC(msg.key, &ir, &ic))
 			{
 				int v = m_horizontal ? ic - c : (m_numKeys - 1) - (ir - r);
-				setValue(v);
+				setValue(pModule, v);
 			}
 		}
 	}
