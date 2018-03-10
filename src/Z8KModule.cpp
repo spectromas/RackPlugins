@@ -106,8 +106,11 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			module->oscDrv->Add(oc, pctrl);
 			#endif
 			addParam(pctrl);
+			const int displ = 4;
 
-			ModuleLightWidget *plight = ModuleLightWidget::create<SmallLight<RedLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_ROW + n);
+			int led_x = x-7 + 2 * dist_h / 3 + c * dist_h;
+			int led_y = y-8 + 2 * dist_v / 3 + dist_v * r;
+			ModuleLightWidget *plight = ModuleLightWidget::create<SmallLight<RedLight>>(Vec(led_x - displ,led_y - displ), module, Z8K::LED_ROW + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedR%i", n + 1);
 			oc = new oscControl(name);
@@ -115,7 +118,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r - 5), module, Z8K::LED_COL + n);
+			plight = ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(led_x+ displ, led_y - displ), module, Z8K::LED_COL + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedC%i", n + 1);
 			oc = new oscControl(name);
@@ -123,7 +126,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<YellowLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h - 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_VERT + n);
+			plight = ModuleLightWidget::create<SmallLight<YellowLight>>(Vec(led_x - displ, led_y + displ), module, Z8K::LED_VERT + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedV%i", n + 1);
 			oc = new oscControl(name);
@@ -131,7 +134,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<BlueLight>>(Vec(x + 2 * dist_h / 3 + c * dist_h + 5, y + 2 * dist_v / 3 + dist_v * r + 5), module, Z8K::LED_HORIZ + n);
+			plight = ModuleLightWidget::create<SmallLight<BlueLight>>(Vec(led_x + displ, led_y + displ), module, Z8K::LED_HORIZ + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedH%i", n + 1);
 			oc = new oscControl(name);
@@ -140,7 +143,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			addChild(plight);
 
 			if(r == 3)
-				addOutput(Port::create<PJ301GPort>(Vec(x + dist_h * c + 7, y + dist_v * 4 - dist_v / 3), Port::OUTPUT, module, Z8K::CV_A + c));
+				addOutput(Port::create<PJ301GPort>(Vec(x + dist_h * c + 5, y+7 + dist_v * 4 - dist_v / 3), Port::OUTPUT, module, Z8K::CV_A + c));
 		}
 		addOutput(Port::create<PJ301GPort>(Vec(box.size.x - 40, y + 5 + dist_v * r), Port::OUTPUT, module, Z8K::CV_1 + r));
 	}
@@ -150,7 +153,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 	dist_v = 20;
 	for(int k = 0; k < 2; k++)
 	{
-		int px = 7 + x + k * 4 * dist_h;
+		int px = 7 + x + k * 4 * (dist_h+5);
 		addInput(Port::create<PJ301YPort>(Vec(px, y), Port::INPUT, module, Z8K::RESET_VERT + k));
 		addInput(Port::create<PJ301WPort>(Vec(px + dist_h, y - dist_v), Port::INPUT, module, Z8K::DIR_VERT + k));
 		addInput(Port::create<PJ301RPort>(Vec(px + 2 * dist_h, y), Port::INPUT, module, Z8K::CLOCK_VERT + k));

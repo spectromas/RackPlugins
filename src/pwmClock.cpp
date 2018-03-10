@@ -145,5 +145,12 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 void PwmClockWidget::SetBpm(float bpm_integer)
 {
 	int index = getParamIndex(PwmClock::BPM);
-	params[index]->setValue(bpm_integer);
+	if(index >= 0)
+	{
+		// VCV interface update is ahem.... migliorabile....
+		bool smooth = params[index]->smooth;
+		params[index]->smooth = false;
+		params[index]->setValue((double)bpm_integer);
+		params[index]->smooth = smooth;
+	}
 }
