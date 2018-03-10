@@ -5,6 +5,7 @@
 void PwmClock::on_loaded()
 {
 	bpm = 0;
+	swing = 0;
 	_reset();
 	load();
 }
@@ -14,6 +15,7 @@ void PwmClock::_reset()
 	for(int k = 0; k < OUT_SOCKETS; k++)
 	{
 		sa_timer[k].Reset();
+		odd_beat[k] = false;
 	}
 }
 
@@ -52,12 +54,13 @@ void PwmClock::step()
 	{
 		for(int k = 0; k < OUT_SOCKETS; k++)
 		{
-			float gate_len = duration[k] * getPwm();
+			float gate_len = getDuration(k) * getPwm();
 			sa_timer[k].Step();
 			float elps = sa_timer[k].Elapsed();
-			if(elps >= duration[k])
+			if(elps >= getDuration(k))
 			{
 				elps = sa_timer[k].Reset();
+				odd_beat[k] = !odd_beat[k];
 			}
 			if(elps <= gate_len)
 				outputs[OUT_1 + k].value = LVL_ON;
@@ -92,17 +95,18 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 
 	int pos_y = 35;
 	SigDisplayWidget *display = new SigDisplayWidget(4, 1);
-	display->box.pos = Vec(35, pos_y);
+	display->box.pos = Vec(25, pos_y);
 	display->box.size = Vec(78, 24);
 
 	display->value = &module->bpm;
 	addChild(display);
 	
-	addParam(ParamWidget::create<LEDButton>(Vec(10, pos_y + 2), module, PwmClock::BPM_DEC, 0.0, 1.0, 0.0));
-	addParam(ParamWidget::create<LEDButton>(Vec(120, pos_y + 2), module, PwmClock::BPM_INC, 0.0, 1.0, 0.0));
+	addParam(ParamWidget::create<UPSWITCH>(Vec(8, pos_y ), module, PwmClock::BPM_INC, 0.0, 1.0, 0.0));
+	addParam(ParamWidget::create<DNSWITCH>(Vec(8, pos_y + 12), module, PwmClock::BPM_DEC, 0.0, 1.0, 0.0));
 	addParam(ParamWidget::create<Rogan1PSWhiteSnapped>(Vec(12, pos_y + 36), module, PwmClock::BPM, 20.0, 220.0, 120.0));
 	addParam(ParamWidget::create<Rogan1PSWhiteSnappedSmall>(Vec(62, pos_y + 42), module, PwmClock::BPMDEC, 0.0, 9.0, 0.0));
 	addParam(ParamWidget::create<Rogan1PSGreen>(Vec(97, pos_y + 36), module, PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5));
+	addParam(ParamWidget::create<Rogan1PSRedSmall>(Vec(112, pos_y-2), module, PwmClock::SWING, 0.0, 0.5, 0.0));
 
 	int row = 0;
 	int col = 0;

@@ -1,6 +1,32 @@
 #pragma once
 #include "common.hpp"
 
+struct UPSWITCH : SVGSwitch, MomentarySwitch
+{
+	UPSWITCH()
+	{
+		addFrame(SVG::load(assetPlugin(plugin, "res/upswitch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/upswitch_1.svg")));
+	}
+};
+
+struct DNSWITCH : SVGSwitch, MomentarySwitch
+{
+	DNSWITCH()
+	{
+		addFrame(SVG::load(assetPlugin(plugin, "res/dnswitch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/dnswitch_1.svg")));
+	}
+};
+
+struct Rogan1PSRedSmall : Rogan
+{
+	Rogan1PSRedSmall()
+	{
+		setSVG(SVG::load(assetPlugin(plugin, "res/Rogan2PSRedSmall.svg")));
+	}
+};
+
 #define OUT_SOCKETS (21)
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget
@@ -50,6 +76,7 @@ struct PwmClock : Module
 	{
 		BPM_INC, BPM_DEC,
 		PWM, BPM, BPMDEC,
+		SWING,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -102,6 +129,7 @@ struct PwmClock : Module
 	void randomize() override {}
 	void setWidget(PwmClockWidget *pwdg) { pWidget = pwdg; }
 	float bpm;
+	float swing;
 
 private:
 	SchmittTrigger btnup;
@@ -114,9 +142,11 @@ private:
 	void process_keys();
 	void updateBpm()
 	{
+		bool updated = false;
 		float new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
 		if(bpm != new_bpm)
 		{
+			updated = true;
 			bpm = new_bpm;
 			duration[0] = 240.0 / bpm;	// 1/1
 			duration[1] = duration[0] + duration[0] / 2.0;
@@ -129,8 +159,21 @@ private:
 				duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
 			}
 		}
+		float new_swing = params[SWING].value;
+		if(updated || new_swing != swing)
+		{
+			swing = new_swing;
+			for(int k = 0; k < OUT_SOCKETS; k++)
+				swingAmt[k] = duration[k] + duration[k] * swing;
+		}
+	}
+	float getDuration(int n)
+	{
+		return odd_beat[n] ? swingAmt[n] : duration[n];
 	}
 	float duration[OUT_SOCKETS];
+	float swingAmt[OUT_SOCKETS];
+	bool odd_beat[OUT_SOCKETS];
 	void on_loaded();
 	void load();
 	void _reset();
