@@ -12,6 +12,7 @@
     <ClCompile Include="..\..\src\Z8KModule.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
+    <ClCompile Include="..\..\src\quantizer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -78,6 +79,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Z8K.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\quantizer.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

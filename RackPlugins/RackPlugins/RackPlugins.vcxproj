@@ -63,6 +63,7 @@
     <ClInclude Include="..\..\src\M581Types.hpp" />
     <ClInclude Include="..\..\src\oscTestModule.hpp" />
     <ClInclude Include="..\..\src\pwmClock.hpp" />
+    <ClInclude Include="..\..\src\quantizer.hpp" />
     <ClInclude Include="..\..\src\Renato.hpp" />
     <ClInclude Include="..\..\src\rntSequencer.hpp" />
     <ClInclude Include="..\..\src\Spiralone.hpp" />
@@ -78,6 +79,7 @@
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
     <ClCompile Include="..\..\src\oscTestModule.cpp" />
     <ClCompile Include="..\..\src\pwmClock.cpp" />
+    <ClCompile Include="..\..\src\quantizer.cpp" />
     <ClCompile Include="..\..\src\RenatoModule.cpp" />
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />
