@@ -87,14 +87,13 @@ void Klee::update_bus()
 
 int Klee::getValue3(int k)
 {
-	if(params[GROUPBUS + k].value < 0.5) return 2;
-	if(params[GROUPBUS + k].value > 1.0) return 0;
-	return 1;
+	int v = roundf(params[GROUPBUS + k].value);
+	return 2-v;
 }
 
 bool Klee::isSwitchOn(int ptr)
 {
-	return params[ptr].value >= 0.5;
+	return params[ptr].value > 0.1;
 }
 
 void Klee::check_triggers(float deltaTime)
@@ -427,7 +426,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#endif
 
 	// CV Range
-	pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(57, RACK_GRID_HEIGHT - 138 - 28), module, Klee::RANGE, 0.001, 5.0, 1.0);
+	pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(57, RACK_GRID_HEIGHT - 138 - 28), module, Klee::RANGE, 0.0001, 5.0, 1.0);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Range");

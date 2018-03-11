@@ -171,7 +171,7 @@ struct NKK3 : NKK
 {
 	void randomize() override
 	{
-		setValue(randomUniform() * maxValue);
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
 	}
 };
 
