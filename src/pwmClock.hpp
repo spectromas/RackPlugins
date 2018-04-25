@@ -77,12 +77,15 @@ struct PwmClock : Module
 		BPM_INC, BPM_DEC,
 		PWM, BPM, BPMDEC,
 		SWING,
+		OFFON,
 		NUM_PARAMS
 	};
 	enum InputIds
 	{
 		RESET,
 		PWM_IN,
+		SWING_IN,
+		OFFON_IN,
 		NUM_INPUTS
 	};
 
@@ -94,6 +97,7 @@ struct PwmClock : Module
 
 	enum LightIds
 	{
+		ACTIVE,
 		NUM_LIGHTS
 	};
 
@@ -159,7 +163,7 @@ private:
 				duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
 			}
 		}
-		float new_swing = params[SWING].value;
+		float new_swing = getSwing();
 		if(updated || new_swing != swing)
 		{
 			swing = new_swing;
@@ -178,5 +182,6 @@ private:
 	void load();
 	void _reset();
 	float getPwm();
+	float getSwing();
 	SA_TIMER sa_timer[OUT_SOCKETS];
 };

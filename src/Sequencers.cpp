@@ -6,6 +6,7 @@
 #include "Spiralone.hpp"
 #include "pwmClock.hpp"
 #include "quantizer.hpp"
+#include "burst.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -37,6 +38,7 @@ void init(rack::Plugin *p)
 	p->addModel(Model::create<Spiralone, SpiraloneWidget>("TheXOR", "Spiralone", "Spiralone Sequencer", SEQUENCER_TAG));
 	p->addModel(Model::create<PwmClock, PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock", UTILITY_TAG, CLOCK_TAG));
 	p->addModel(Model::create<Quantizer, QuantizerWidget>("TheXOR", "Quantizer", "Quantizer", UTILITY_TAG, QUANTIZER_TAG));
+	p->addModel(Model::create<Burst, BurstWidget>("TheXOR", "Burst", "Burst", SEQUENCER_TAG));
 
 #ifdef LPTEST_MODULE
 	p->addModel(Model::create<LaunchpadTest, LaunchpadTestWidget>("TheXOR", "LaunchpadTest", "Launchpad Test", DIGITAL_TAG));

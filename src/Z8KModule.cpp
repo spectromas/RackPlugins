@@ -161,6 +161,6 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 	}
 
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(box.size.x - 40, box.size.y-70, &module->connected));
+	addChild(new DigitalLed(box.size.x - 42, box.size.y-96, &module->connected));
 	#endif
 }

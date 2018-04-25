@@ -18,12 +18,14 @@ struct Quantizer : Module
 {
 	enum ParamIds
 	{
-		NUM_PARAMS
+		TRANSP_1,
+		NUM_PARAMS = TRANSP_1 + NUM_QUANTIZERS
 	};
 	enum InputIds
 	{
 		IN_1,
-		NUM_INPUTS = IN_1 + NUM_QUANTIZERS
+		TRNSPIN_1 = IN_1 + NUM_QUANTIZERS,
+		NUM_INPUTS = TRNSPIN_1 + NUM_QUANTIZERS
 	};
 	enum OutputIds
 	{
@@ -40,5 +42,6 @@ struct Quantizer : Module
 	void step() override;
 
 private:
-	float quantize_out(Input &in);
+	float quantize_out(Input &in, float transpose);
+	float getQuantize(int n);
 };

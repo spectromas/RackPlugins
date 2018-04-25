@@ -56,6 +56,7 @@
     <ClInclude Include="..\..\digitalExt\osc\oscCommunicator.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscControl.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscDriver.hpp" />
+    <ClInclude Include="..\..\src\burst.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
@@ -73,6 +74,7 @@
     <ClInclude Include="..\..\src\z8kSequencer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\burst.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
@@ -87,6 +89,7 @@
     <ClCompile Include="..\..\src\Z8KModule.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\res\Burst.svg" />
     <None Include="..\..\res\counterSwitchPot.svg" />
     <None Include="..\..\res\counterSwitchPotHandle.svg" />
     <None Include="..\..\res\counterSwitchShort.svg" />

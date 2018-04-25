@@ -7,3 +7,5 @@ RackPlugins/.vs/*
 *.suo
 *.sdf
 *.suo
+*.db
+RackPlugins/RackPlugins.VC.VC.opendb
