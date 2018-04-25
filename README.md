@@ -36,13 +36,13 @@ Most of these sequencers have their gate outputs dependent
 from the clock pulse cycle; for this reason there is a clock generator
 with controllable PWM
 
-![pwmClockGen] (/res/pwmClock.png?raw=true "pwmClockGen")
+![pwmClockGen](/res/pwmClock.png?raw=true "pwmClockGen")
 
 # multiQuantizer
 The CV outputs of all the sequencers are not quantized, so a Quantizer is handy, expecially
 if it is modulable...
 
-![multiQuantizer] (/res/quantizer.png?raw=true "multiQuantizer")
+![multiQuantizer](/res/quantizer.png?raw=true "multiQuantizer")
 
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 
