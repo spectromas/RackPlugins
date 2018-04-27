@@ -44,6 +44,11 @@ if it is modulable...
 
 ![multiQuantizer](/res/quantizer.png?raw=true "multiQuantizer")
 
+# Uncertain
+Unstable voltages
+
+![Uncertain](/res/uncertain.png?raw=true "Uncertain")
+
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 
 To do so, you must compile the plugins with the command:

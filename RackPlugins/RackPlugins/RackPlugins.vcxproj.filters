@@ -14,6 +14,7 @@
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\quantizer.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
+    <ClCompile Include="..\..\src\uncert.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -88,6 +89,9 @@
     <ClInclude Include="..\..\src\burst.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\uncert.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\counterSwitchPot.svg">
@@ -141,6 +145,21 @@
     <None Include="..\..\res\Burst.svg">
       <Filter>res</Filter>
     </None>
+    <None Include="..\..\res\uncert.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\makefile_digital">
+      <Filter>makefile</Filter>
+    </None>
+    <None Include="..\..\Makefile">
+      <Filter>makefile</Filter>
+    </None>
+    <None Include="..\..\makefile_osc">
+      <Filter>makefile</Filter>
+    </None>
+    <None Include="..\..\makefile_lp">
+      <Filter>makefile</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -148,6 +167,9 @@
     </Filter>
     <Filter Include="res">
       <UniqueIdentifier>{64188b20-3ca0-401b-a26b-79400811a771}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="makefile">
+      <UniqueIdentifier>{304b5b48-b31c-45eb-8946-c09bbba21d85}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
