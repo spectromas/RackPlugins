@@ -96,18 +96,12 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
-	int x = 20;
-	int y = 30;
-	int dist_h = 32;
-	addInput(Port::create<PJ301RPort>(Vec(x, y), Port::INPUT, module, Renato::XCLK));
-	x += dist_h;
-	addInput(Port::create<PJ301RPort>(Vec(x, y), Port::INPUT, module, Renato::YCLK));
-	x += dist_h;
-	addInput(Port::create<PJ301YPort>(Vec(x, y), Port::INPUT, module, Renato::RESET));
-	x += dist_h+10;
+	addInput(Port::create<PJ301RPort>(Vec(mm2px(7.899), yncscape(115.267,8.255)), Port::INPUT, module, Renato::XCLK));
+	addInput(Port::create<PJ301RPort>(Vec(mm2px(28.687), yncscape(115.267,8.255)), Port::INPUT, module, Renato::YCLK));
+	addInput(Port::create<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), Port::INPUT, module, Renato::RESET));
 	
 	// page 0 (SESSION)
-	ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(x, y - 10), module, Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
+	ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(71.102), yncscape(115.727-1, 8.467)), module, Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 1), 3, LaunchpadLed::Color(47), LaunchpadLed::Color(32));
@@ -119,8 +113,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	x += 5 * dist_h / 3;
-	pwdg = ParamWidget::create<NKK2>(Vec(x, y - 10), module, Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(94.827), yncscape(115.727-1, 8.467)), module, Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 3), 3, LaunchpadLed::Color(19), LaunchpadLed::Color(21));
@@ -132,8 +125,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	x += 5 * dist_h / 3;
-	pwdg = ParamWidget::create<NKK2>(Vec(x, y - 10), module, Renato::SEEKSLEEP, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(118.551), yncscape(115.727-1, 8.467)), module, Renato::SEEKSLEEP, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 5), 2, LaunchpadLed::Color(51), LaunchpadLed::Color(52));
@@ -145,11 +137,9 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	x = box.size.x - 3 * dist_h - 20;
-	addOutput(Port::create<PJ301MPort>(Vec(x, y), Port::OUTPUT, module, Renato::CV));
-	x += dist_h;
-	addOutput(Port::create<PJ301GPort>(Vec(x, y), Port::OUTPUT, module, Renato::XGATE));
-	ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(x + 18, y + 27), module, Renato::LED_GATEX);
+	addOutput(Port::create<PJ301MPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::CV));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::XGATE));
+	ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(159.030), yncscape(113.150, 3.176)), module, Renato::LED_GATEX);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/LedGX");
 	oc = new oscControl(name);
@@ -157,9 +147,8 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#endif
 	addChild(plight);
 
-	x += dist_h;
-	addOutput(Port::create<PJ301GPort>(Vec(x, y), Port::OUTPUT, module, Renato::YGATE));
-	plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(x + 18, y + 27), module, Renato::LED_GATEY);
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(171.033), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::YGATE));
+	plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(167.328), yncscape(113.150, 3.176)), module, Renato::LED_GATEY);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/LedGY");
 	oc = new oscControl(name);
@@ -168,15 +157,16 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	addChild(plight);
 
 	// page 1 (NOTES)
-	x = 40;
-	y = 90;
-	dist_h = 95;
-	int dist_v = 75;
+	float x_col[4] = {7.899, 18.293, 28.687, 40.677};
+	float delta_x = 55.348 - x_col[0];
+
 	for(int r = 0; r < 4; r++)
 	{
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
+			addInput(Port::create<PJ301WPort>(Vec(mm2px(x_col[0]+c*delta_x), yncscape(115.267, 8.255)), Port::INPUT, module, Renato::ACCESS_IN+n));
+
 			pwdg = ParamWidget::create<Davies1900hBlackKnob>(Vec(x + dist_h * c, y + dist_v * r), module, Renato::VOLTAGE_1 + n, 0.005, 6.0, 1.0);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/Knob%i", n+1);
@@ -236,6 +226,6 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	}
 	
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(20, 70, &module->connected));
+	addChild(new DigitalLed(mm2px(50.616), yncscape(112.094, 3.867), &module->connected));
 	#endif
 }
