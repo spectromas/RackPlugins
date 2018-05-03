@@ -86,15 +86,15 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	char name[60];
 	#endif
 
-	box.size = Vec(27 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	box.size = Vec(39 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	SVGPanel *panel = new SVGPanel();
 	panel->box.size = box.size;
 	panel->setBackground(SVG::load(assetPlugin(plugin, "res/RenatoModule.svg")));
 	addChild(panel);
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	int x = 20;
 	int y = 30;
