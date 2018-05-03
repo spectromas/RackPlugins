@@ -50,7 +50,7 @@ QuantizerWidget::QuantizerWidget(Quantizer *module) : ModuleWidget(module)
 	for(int k = 0; k < NUM_QUANTIZERS; k++)
 	{
 		addInput(Port::create<PJ301GPort>(Vec(in_x, y), Port::INPUT, module, Quantizer::IN_1 + k));
-		addParam(ParamWidget::create<Rogan1PSWhiteSnappedSmall>(Vec(pot_x, ypot+1), module, Quantizer::TRANSP_1+k, 0.0, 5.0, 0.0));
+		addParam(ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, ypot+1), module, Quantizer::TRANSP_1+k, 0.0, 5.0, 0.0));
 		addInput(Port::create<PJ301WPort>(Vec(mod_x, y), Port::INPUT, module, Quantizer::TRNSPIN_1 + k));
 		addOutput(Port::create<PJ301RPort>(Vec(out_x, y), Port::OUTPUT, module, Quantizer::OUT_1+k));
 		y += delta_y;

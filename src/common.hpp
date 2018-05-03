@@ -163,8 +163,14 @@ struct SchmittTrigger2
 	}
 };
 
-struct NKK2 : NKK
+struct NKK2 : SVGSwitch, ToggleSwitch
 {
+	NKK2() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_1.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_2.svg")));
+	}
+
 	void randomize() override
 	{
 		if(randomUniform() >= 0.5)
@@ -237,11 +243,9 @@ struct Rogan1PSWhiteSnapped : Rogan1PSWhite
 	void randomize() override {}
 };
 
-struct Rogan1PSWhiteSnappedSmall : Rogan
-{
-	Rogan1PSWhiteSnappedSmall()
-	{
-		setSVG(SVG::load(assetPlugin(plugin, "res/Rogan2PSWhiteSmall.svg")));
+struct Davies1900hFixWhiteKnobSmall : Davies1900hKnob {
+	Davies1900hFixWhiteKnobSmall() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hWhiteSmall.svg")));
 	}
 };
 
