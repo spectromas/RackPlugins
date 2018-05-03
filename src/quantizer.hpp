@@ -12,6 +12,11 @@ struct Quantizer;
 struct QuantizerWidget : ModuleWidget
 {
 	QuantizerWidget(Quantizer * module);
+private:
+	float yncscape(float y, float height)
+	{
+		return RACK_GRID_HEIGHT - mm2px(y + height);
+	}
 };
 
 struct Quantizer : Module
