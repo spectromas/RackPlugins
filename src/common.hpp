@@ -46,6 +46,23 @@ struct PJ301YPort : SVGPort
 	}
 };
 
+struct Davies1900hFixWhiteKnob : Davies1900hKnob {
+	Davies1900hFixWhiteKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hWhite.svg")));
+	}
+};
+
+struct Davies1900hFixBlackKnob : Davies1900hKnob {
+	Davies1900hFixBlackKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hBlack.svg")));
+	}
+};
+
+struct Davies1900hFixRedKnob : Davies1900hKnob {
+	Davies1900hFixRedKnob() {
+		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hRed.svg")));
+	}
+};
 struct PJ301GPort : SVGPort
 {
 	PJ301GPort()
@@ -153,6 +170,46 @@ struct BefacoSnappedSwitch : SVGSwitch, ToggleSwitch
 	}
 };
 
+struct CL1362YPort : SVGPort
+{
+	CL1362YPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/CL1362Y.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+struct CL1362GPort : SVGPort
+{
+	CL1362GPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/CL1362G.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+struct CL1362RPort : SVGPort
+{
+	CL1362RPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/CL1362R.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+struct CL1362WPort : SVGPort
+{
+	CL1362WPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/CL1362W.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
 struct Rogan1PSWhiteSnapped : Rogan1PSWhite
 {
 	Rogan1PSWhiteSnapped() { snap = true; }
@@ -235,8 +292,11 @@ private:
 class SequencerWidget : public ModuleWidget
 {
 protected:
-	SequencerWidget(Module *module) : ModuleWidget(module)
-	{}
+	SequencerWidget(Module *module) : ModuleWidget(module) 	{}
+	float yncscape(float y, float height)
+	{
+		return RACK_GRID_HEIGHT - mm2px(y + height);
+	}
 	int getParamIndex(int index)
 	{
 		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramId == index; });

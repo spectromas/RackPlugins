@@ -14,7 +14,7 @@
    viewBox="0 0 8.3556203 8.3556298"
    version="1.1"
    id="svg15246"
-   sodipodi:docname="PJ301W.svg"
+   sodipodi:docname="PJ301GR.svg"
    inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <defs
      id="defs15240">
@@ -180,7 +180,7 @@
      id="layer1"
      transform="translate(-88.611154,-119.19859)">
     <path
-       style="fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#cccccc;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#e6e6e6;fill-opacity:1;fill-rule:nonzero;stroke:#cccccc;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="M 15.791016 0.47265625 C 7.343095 0.47265625 0.47265625 7.3431668 0.47265625 15.791016 C 0.47265625 24.239016 7.343095 31.107422 15.791016 31.107422 C 24.238925 31.107422 31.107422 24.239016 31.107422 15.791016 C 31.107422 7.3431668 24.238925 0.47265625 15.791016 0.47265625 z M 15.791016 4.7597656 C 21.87435 4.7597656 26.822266 9.7077148 26.822266 15.791016 C 26.822266 21.874354 21.87435 26.822266 15.791016 26.822266 C 9.7076846 26.822266 4.7597656 21.874354 4.7597656 15.791016 C 4.7597656 9.7077148 9.7076846 4.7597656 15.791016 4.7597656 z "
        transform="matrix(0.26458333,0,0,0.26458333,88.611154,119.19859)"
        id="path7255" />

@@ -1,0 +1,5 @@
+Eurorack 1HP module size: 
+	128.5mm x 5.08mm
+	5.06" x 0.2"
+	380px x 15px @ 75DPI
+

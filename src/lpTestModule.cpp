@@ -17,8 +17,9 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget(m
 	box.size = Vec(13 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		LightPanel *panel = new LightPanel();
+		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/test.svg")));
 		addChild(panel);
 	}
 
@@ -26,7 +27,7 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget(m
 	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-
+	/*
 	ParamWidget *pctrl = ParamWidget::create<PatternBtn>(Vec(20, 20), module, LaunchpadTest::BTN1, 0.0, 1.0, 0.0);
 	LaunchpadLed offColor;
 	LaunchpadLed onColor;
@@ -64,8 +65,16 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget(m
 	addParam(pEna);
 
 	addOutput(Port::create<PJ301GPort>(Vec(50, 200), Port::OUTPUT, module, LaunchpadTest::KNOB_OUT));
+	*/
 #ifdef DEBUG
 	info("RDY");
 #endif
+	// 5mm, 5mm
+	
+	float v = mm2px(29.0);
+	float vy = mm2px(128.5 - 60.0) - 31.5;//sizeof button
+	ParamWidget *pEna = ParamWidget::create<BefacoSwitch>(Vec(v, vy), module, LaunchpadTest::BTN2, 0.0, 2.0, 1.0);
+	addParam(pEna);
+
 }
 #endif
