@@ -93,6 +93,27 @@ struct PJ301WPort : SVGPort
 	}
 };
 
+struct BefacoPushBig : SVGSwitch, MomentarySwitch {
+	BefacoPushBig() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoPush_0big.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoPush_1big.svg")));
+	}
+};
+
+struct CKSSFix : SVGSwitch, ToggleSwitch {
+	CKSSFix() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_1.svg")));
+	}
+};
+
+struct CKSSThreeFix : SVGSwitch, ToggleSwitch {
+	CKSSThreeFix() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_1.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_2.svg")));
+	}
+};
 struct SchmittTrigger2
 {
 	// UNKNOWN is used to represent a stable state when the previous state is not yet set

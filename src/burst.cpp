@@ -176,50 +176,53 @@ int Burst::getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
 BurstWidget::BurstWidget(Burst *module) : SequencerWidget(module)
 {
 	box.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
 		panel->setBackground(SVG::load(assetPlugin(plugin, "res/Burst.svg")));		
 		addChild(panel);
 	}
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	float lft_x = mm2px(3.428);
 
-	int pos_x = 20;
-	int pos_y = 60;
-	addInput(Port::create<PJ301RPort>(Vec(pos_x, pos_y-1), Port::INPUT, module, Burst::CLOCK_IN));
-	addParam(ParamWidget::create<CKSSThree>(Vec(pos_x + 96, pos_y-4), module, Burst::MODE, 0.0, 2.0, 0.0));
-	addParam(ParamWidget::create<CKSS>(Vec(pos_x +168, pos_y), module, Burst::MODE_INVERT, 0.0, 1.0, 0.0));
+	addInput(Port::create<PJ301RPort>(Vec(lft_x, yncscape(108.765, 8.255)), Port::INPUT, module, Burst::CLOCK_IN));
+	addParam(ParamWidget::create<CKSSThreeFix>(Vec(mm2px(31.624), yncscape(105.749, 10.0)), module, Burst::MODE, 0.0, 2.0, 0.0));
+	addParam(ParamWidget::create<CKSSFix>(Vec(mm2px(71.875), yncscape(107.990, 5.46)), module, Burst::MODE_INVERT, 0.0, 1.0, 0.0));
 	
-	pos_y += 65;
-	addParam(ParamWidget::create<Rogan1PSWhiteSnapped>(Vec(pos_x + 40, pos_y), module, Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0));
-	addInput(Port::create<PJ301GPort>(Vec(pos_x, pos_y+7), Port::INPUT, module, Burst::OUT_SPAN_IN));
-	addParam(ParamWidget::create<Rogan1PSWhiteSnapped>(Vec(box.size.x -104, pos_y), module, Burst::EVENT_COUNT, 0.0, 23.0, 0.0));
-	addInput(Port::create<PJ301GPort>(Vec(box.size.x - 48, pos_y + 7), Port::INPUT, module, Burst::EVENT_COUNT_IN));
+	addInput(Port::create<PJ301GPort>(Vec(lft_x, yncscape(74.386, 8.255)), Port::INPUT, module, Burst::OUT_SPAN_IN));
+	ParamWidget *pwdg = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(22.644), yncscape(73.751, 9.525)), module, Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0);
+	((Davies1900hKnob *)pwdg)->snap = true;
+	addParam(pwdg);
+	pwdg = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(49.111), yncscape(73.751, 9.525)), module, Burst::EVENT_COUNT, 0.0, 23.0, 0.0);
+	((Davies1900hKnob *)pwdg)->snap = true;
+	addParam(pwdg);
+	addInput(Port::create<PJ301GPort>(Vec(mm2px(69.597), yncscape(74.386, 8.255)), Port::INPUT, module, Burst::EVENT_COUNT_IN));
 
-	pos_y += 90;
-	addInput(Port::create<PJ301GPort>(Vec(pos_x, pos_y + 7), Port::INPUT, module, Burst::TRIGGER_THRESH_IN));
-	addParam(ParamWidget::create<Rogan1PSGreen>(Vec(pos_x + 40, pos_y), module, Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF));
-	addInput(Port::create<PJ301YPort>(Vec(pos_x+110, pos_y+7), Port::INPUT, module, Burst::RESET));
-	addParam(ParamWidget::create<BefacoPush>(Vec(pos_x+168, pos_y+4), module, Burst::TRIGGER, 0.0, 1.0, 0.0));
+	addInput(Port::create<PJ301GPort>(Vec(lft_x, yncscape(43.036, 8.255)), Port::INPUT, module, Burst::TRIGGER_THRESH_IN));
+	addParam(ParamWidget::create<Davies1900hFixRedKnob>(Vec(mm2px(16.027), yncscape(42.401, 9.525)), module, Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF));
+	addInput(Port::create<PJ301YPort>(Vec(mm2px(56.363), yncscape(43.036, 8.255)), Port::INPUT, module, Burst::RESET));
+	addParam(ParamWidget::create<BefacoPushBig>(Vec(mm2px(69.224), yncscape(42.664, 8.999)), module, Burst::TRIGGER, 0.0, 1.0, 0.0));
 
-	pos_y += 75;
-	pos_x = 20;
-	int dist_h = (box.size.x-20) / NUM_BURST_PORTS;
+	float ysup_port = yncscape(17.532, 8.255);
+	float yinf_port = yncscape(4.832, 8.255);
+	float ysup_led = yncscape(19.070, 5.179);
+	float yinf_led = yncscape(6.370, 5.179);
+	float x_ports[NUM_BURST_PORTS] = {3.428, 16.662, 29.895, 43.129, 56.363, 69.597};
+	float x_leds[NUM_BURST_PORTS] = {4.966, 18.200, 31.434, 44.667, 57.901, 71.135};
+
 	for(int k = 0; k < NUM_BURST_PORTS; k++)
 	{
-		int x = pos_x + k * dist_h;
 		if(k < NUM_BURST_PORTS / 2)
 		{
-			addOutput(Port::create<PJ301MPort>(Vec(x, pos_y), Port::OUTPUT, module, Burst::OUT_1+k));
-			addChild(ModuleLightWidget::create<LargeLight<RedLight>>(Vec(4+x, pos_y+48), module, Burst::LEDOUT_1 + k));
+			addOutput(Port::create<PJ301GPort>(Vec(mm2px(x_ports[k]), ysup_port), Port::OUTPUT, module, Burst::OUT_1+k));
+			addChild(ModuleLightWidget::create<LargeLight<RedLight>>(Vec(mm2px(x_leds[k]), yinf_led), module, Burst::LEDOUT_1 + k));
 		} else
 		{
-			addOutput(Port::create<PJ301MPort>(Vec(x, pos_y+44), Port::OUTPUT, module, Burst::OUT_1 + k));
-			addChild(ModuleLightWidget::create<LargeLight<RedLight>>(Vec(4+x, pos_y+4), module, Burst::LEDOUT_1 + k));
+			addOutput(Port::create<PJ301GPort>(Vec(mm2px(x_ports[k]), yinf_port), Port::OUTPUT, module, Burst::OUT_1 + k));
+			addChild(ModuleLightWidget::create<LargeLight<RedLight>>(Vec(mm2px(x_leds[k]), ysup_led), module, Burst::LEDOUT_1 + k));
 		}
 	}
 }
