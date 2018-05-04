@@ -103,7 +103,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
 
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/PwmClock.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/PwmClock.svg")));
 		addChild(panel);
 	}
 

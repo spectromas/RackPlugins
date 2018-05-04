@@ -45,14 +45,18 @@ struct Renato : Module
 		XCLK,
 		YCLK,
 		RESET,
-		NUM_INPUTS
+		ACCESS_IN1,
+		GATEX_IN1 = ACCESS_IN1 + 16,
+		GATEY_IN1 = GATEX_IN1 + 16,
+		NUM_INPUTS = GATEY_IN1+16
 	};
 
 	enum OutputIds
 	{
 		CV,
 		XGATE, YGATE,
-		NUM_OUTPUTS
+		CV_OUTSTEP1,
+		NUM_OUTPUTS = CV_OUTSTEP1+16
 	};
 
 	enum LightIds
@@ -110,14 +114,20 @@ struct Renato : Module
 	#endif
 
 private:
+	float getStatus(int pid, int iid)
+	{
+		return inputs[iid].normalize(0.0) + params[pid].value;
+	}
+
+private:
 	SchmittTrigger resetTrigger;
 	void on_loaded();
 	void load();
 	void led(int n) { for(int k = 0; k < 16; k++) lights[LED_1 + k].value = k == n ? 10.0 : 0.0; }
 	int xy(int x, int y) { return 4 * y + x; }
-	bool _access(int n) { return params[ACCESS_1 + n].value > 0; }
-	bool _gateX(int n) { return params[GATEX_1 + n].value > 0; }
-	bool _gateY(int n) { return params[GATEY_1 + n].value > 0; }
+	bool _access(int n) { return getStatus(ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
+	bool _gateX(int n) { return  getStatus(GATEX_1 + n, GATEX_IN1 + n) > 0; }
+	bool _gateY(int n) { return  getStatus(GATEY_1 + n, GATEY_IN1 + n) > 0; }
 	rntSequencer seqX;
 	rntSequencer seqY;
 };

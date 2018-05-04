@@ -104,7 +104,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	box.size = Vec(27 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	SVGPanel *panel = new SVGPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/M581Module.svg")));
+	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/M581Module.svg")));
 	addChild(panel);
 	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));

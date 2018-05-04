@@ -179,7 +179,7 @@ BurstWidget::BurstWidget(Burst *module) : SequencerWidget(module)
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/Burst.svg")));		
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/Burst.svg")));		
 		addChild(panel);
 	}
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
