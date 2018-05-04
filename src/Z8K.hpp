@@ -9,7 +9,7 @@
 ////////////////////
 
 struct Z8K;
-struct Z8KWidget : ModuleWidget
+struct Z8KWidget : SequencerWidget
 {
 public:
 	Z8KWidget(Z8K *module);

@@ -60,7 +60,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	box.size = Vec(51 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	SVGPanel *panel = new SVGPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/SpiraloneModule.svg")));
+	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/SpiraloneModule.svg")));
 
 	addChild(panel);
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));

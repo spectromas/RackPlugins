@@ -114,7 +114,7 @@ UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget(module)
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/uncert.svg")));		
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/uncert.svg")));		
 		addChild(panel);
 	}
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
