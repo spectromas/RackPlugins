@@ -95,7 +95,6 @@ private:
 		"RND"
 	};
 };
-
 struct M581 : Module
 {
 	enum ParamIds
