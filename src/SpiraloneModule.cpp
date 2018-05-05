@@ -68,30 +68,30 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
-	int x = 180;
-	int y = 180;
 	float step = 2 * M_PI / TOTAL_STEPS;
-	float angle = -M_PI / 2.0;
+	float angle = M_PI / 2.0;
 	for(int k = 0; k < TOTAL_STEPS; k++)
 	{
-		int r = 160;
+		float r = 56.0;
 		float cx = cos(angle);
 		float cy = sin(angle);
-		angle += step;
-		ParamWidget *pctrl = ParamWidget::create<BefacoTinyKnob>(Vec(x + r * cx, y + r * cy), module, Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0);
+		float center_y = 64.250;
+		float center_x = 66.894;
+	
+		ParamWidget *pctrl = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(center_x-4.0+r*cx), yncscape(center_y-4.0 +r*cy, 8.0)), module, Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0);
 		#ifdef OSCTEST_MODULE
 		sprintf(name, "/Knob%i", k + 1);
 		oscControl *oc = new oscControl(name);
 		module->oscDrv->Add(oc, pctrl);
 		#endif
 		addParam(pctrl);
-
-		r -= 8;
+		
+		r -= 2;
 		for(int s = 0; s < NUM_SEQUENCERS; s++)
 		{
 			int n = s * TOTAL_STEPS + k;
-			r -= 15;
-			ModuleLightWidget *plight = createLed(s, Vec(x + r * cx + 9.7, y + r * cy + 9.4), module, Spiralone::LED_SEQUENCE_1 + n);
+			r -= 6;
+			ModuleLightWidget *plight = createLed(s, Vec(mm2px(center_x-1.088+ r*cx), yncscape(center_y-1.088 + r*cy, 2.176)), module, Spiralone::LED_SEQUENCE_1 + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/Led%i_%i", s+1, n + 1);
 			oc = new oscControl(name);
@@ -102,10 +102,11 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 			if(k == 0)
 				createSequencer(s);
 		}
+		angle += step;
 	}
 
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed((box.size.x - 28) / 2 - 32, RACK_GRID_HEIGHT - 28, &module->connected));
+	addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
 	#endif
 }
 
@@ -115,18 +116,13 @@ void SpiraloneWidget::createSequencer(int seq)
 	char name[60];
 	#endif
 
-	int margin = 6;
-	int x = 400;
-	int y = (RACK_GRID_HEIGHT) / NUM_SEQUENCERS;
+	float dist_v = -25.206;
+	
+	addInput(Port::create<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::CLOCK_1 + seq));
+	addInput(Port::create<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::RESET_1 + seq));
 
-	y *= seq;
-	y += 3 * margin + 2;
 
-	addInput(Port::create<PJ301RPort>(Vec(x, y - 11), Port::INPUT, module, Spiralone::CLOCK_1 + seq));
-	addInput(Port::create<PJ301YPort>(Vec(x, y + 19), Port::INPUT, module, Spiralone::RESET_1 + seq));
-	x += 34;
-
-	ParamWidget *pwdg = ParamWidget::create<BefacoSnappedSwitch>(Vec(x, y), module, Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
+	ParamWidget *pwdg = ParamWidget::create<BefacoSnappedSwitch>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 7.883)), module, Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	int color_launchpad[NUM_SEQUENCERS][2];
@@ -144,39 +140,37 @@ void SpiraloneWidget::createSequencer(int seq)
 	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
 	#endif
 
-	x += 50;
-	pwdg = ParamWidget::create<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS);
+	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS);
+	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Lenght%i", seq + 1);
 	oc = new oscControl(name);
 	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301MPort>(Vec(x + 10, y + 14), Port::INPUT, module, Spiralone::INLENGHT_1 + seq));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(181.649), yncscape(104.395 + dist_v*seq, 8.0)), Port::INPUT, module, Spiralone::INLENGHT_1 + seq));
 
-	x += 60;
-	pwdg = ParamWidget::create<BefacoSnappedTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0);
+	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0);
+	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Stride%i", seq + 1);
 	oc = new oscControl(name);
 	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301MPort>(Vec(x + 10, y + 14), Port::INPUT, module, Spiralone::INSTRIDE_1 + seq));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(201.913), yncscape(104.395 + dist_v*seq, 8.255)), Port::INPUT, module, Spiralone::INSTRIDE_1 + seq));
 
-	x += 60;
-	pwdg = ParamWidget::create<BefacoTinyKnob>(Vec(x - 10, y - 12), module, Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0);
+	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(215.954), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Transpose%i", seq + 1);
 	oc = new oscControl(name);
 	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301MPort>(Vec(x + 10, y + 14), Port::INPUT, module, Spiralone::INXPOSE_1 + seq));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v*seq, 8.255)), Port::INPUT, module, Spiralone::INXPOSE_1 + seq));
 
-	x += 55;
-	addOutput(Port::create<PJ301MPort>(Vec(x, y - 11), Port::OUTPUT, module, Spiralone::CV_1 + seq));
-	addOutput(Port::create<PJ301GPort>(Vec(x, y + 19), Port::OUTPUT, module, Spiralone::GATE_1 + seq));
+	addOutput(Port::create<PJ301MPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::CV_1 + seq));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::GATE_1 + seq));
 }
 
 ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, int firstLightId, bool big)

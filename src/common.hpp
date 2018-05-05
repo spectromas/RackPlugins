@@ -211,8 +211,8 @@ struct BefacoSnappedSwitch : SVGSwitch, ToggleSwitch
 
 	BefacoSnappedSwitch()
 	{
-		addFrame(SVG::load(assetGlobal("res/ComponentLibrary/BefacoSwitch_0.svg")));
-		addFrame(SVG::load(assetGlobal("res/ComponentLibrary/BefacoSwitch_2.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoSwitch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoSwitch_2.svg")));
 	}
 };
 
