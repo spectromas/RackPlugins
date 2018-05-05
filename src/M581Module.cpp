@@ -107,9 +107,9 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/M581Module.svg")));
 	addChild(panel);
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	float dist_h = 11.893;
 	for(int k = 0; k < 8; k++)
@@ -143,7 +143,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 
 		// page #1 (Note): Notes
 		// step notes
-		pwdg = ParamWidget::create<BefacoSlidePotFix>(Vec(mm2px(14.943 + k*dist_h), yncscape(94.422, 27.517)), module, M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
+		pwdg = ParamWidget::create<BefacoSlidePotFix>(Vec(mm2px(14.943 + k*dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		LaunchpadKnob *pknob = new LaunchpadKnob(1, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Rgb(10, 0, 0), LaunchpadLed::Rgb(63, 63, 63));
@@ -216,7 +216,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#endif
 
 	// volt fondo scala
-	pwdg = ParamWidget::create<CKSSFix>(Vec(mm2px(7.066), yncscape(112.357, 5.460)), module, M581::MAXVOLTS, 0.0, 1.0, 1.0);
+	pwdg = ParamWidget::create<CKSSFix>(Vec(mm2px(7.066), yncscape(114.224, 5.460)), module, M581::MAXVOLTS, 0.0, 1.0, 1.0);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/Voltage");

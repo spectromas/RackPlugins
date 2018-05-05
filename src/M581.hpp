@@ -27,13 +27,28 @@ public:
 };
 
 
+struct BefacoSlidePotFix : SVGSlider
+{
+	BefacoSlidePotFix()
+	{
+		Vec margin = Vec(4.5, 4.5);
+	
+		maxHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), -mm2px(5.09852 / 2.0)).plus(margin);
+		minHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), mm2px(27.51667 - 5.09852 / 2.0)).plus(margin);
+		setSVGs(SVG::load(assetPlugin(plugin, "res/BefacoSlidePot.svg")), SVG::load(assetPlugin(plugin, "res/BefacoSlidePotHandle.svg")));
+		background->box.pos = margin;
+		box.size = background->box.size.plus(margin.mult(2));
+	}
+};
+
+
 struct CounterSwitch : SVGFader
 {
 	CounterSwitch()
 	{
 		snap = true;
-		maxHandlePos = Vec(-4, 0);
-		minHandlePos = Vec(-4, 80);
+		maxHandlePos = Vec(-mm2px(2.3-2.3/2.0), 0);
+		minHandlePos = Vec(-mm2px(2.3-2.3/2.0), mm2px(24-2.8));
 		background->svg = SVG::load(assetPlugin(plugin, "res/counterSwitchPot.svg"));
 		background->wrap();
 		background->box.pos = Vec(0, 0);
