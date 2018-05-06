@@ -169,8 +169,8 @@ void SpiraloneWidget::createSequencer(int seq)
 	addParam(pwdg);
 	addInput(Port::create<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v*seq, 8.255)), Port::INPUT, module, Spiralone::INXPOSE_1 + seq));
 
-	addOutput(Port::create<PJ301MPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::CV_1 + seq));
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::GATE_1 + seq));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::CV_1 + seq));
+	addOutput(Port::create<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::GATE_1 + seq));
 }
 
 ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, int firstLightId, bool big)

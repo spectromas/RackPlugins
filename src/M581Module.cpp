@@ -234,8 +234,9 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#endif
 
 	// input
-	addInput(Port::create<PJ301YPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), Port::INPUT, module, M581::RESET));
-	addInput(Port::create<PJ301RPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)),Port::INPUT,  module, M581::CLOCK));
+	addInput(Port::create<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), Port::INPUT, module, M581::CLOCK));
+	addInput(Port::create<PJ301YPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)), Port::INPUT, module, M581::RESET));
+	
 
 	// OUTPUTS
 	addOutput(Port::create<PJ301GPort>(Vec(mm2px(113.864), yncscape(7.228, 8.255)), Port::OUTPUT, module, M581::CV));

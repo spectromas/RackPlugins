@@ -127,12 +127,12 @@ UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget(module)
 	float center_x = mm2px(25.717);
 
 	addInput(Port::create<PJ301RPort>(Vec(lft_x, yncscape(107.334,8.255)), Port::INPUT, module, Uncertain::CLOCK_FLUCT));
-	addInput(Port::create<PJ301WPort>(Vec(lft_x, yncscape(89.809, 8.255)), Port::INPUT, module, Uncertain::IN_FLUCT));
+	addInput(Port::create<PJ301BPort>(Vec(lft_x, yncscape(89.809, 8.255)), Port::INPUT, module, Uncertain::IN_FLUCT));
 	addParam(ParamWidget::create<Davies1900hFixRedKnob>(Vec(center_x, yncscape(97.936, 9.525)), module, Uncertain::FLUCT_AMT, Uncertain::MIN_VOLTAGE, Uncertain::MAX_VOLTAGE, Uncertain::MIN_VOLTAGE));
 	addOutput(Port::create<PJ301GPort>(Vec(rgt_x, yncscape(98.571, 8.255)), Port::OUTPUT, module, Uncertain::OUT_FLUCT));
 
 	addInput(Port::create<PJ301RPort>(Vec(lft_x, yncscape(68.885, 8.255)), Port::INPUT, module, Uncertain::CLOCK_QUANTIZED));
-	addInput(Port::create<PJ301WPort>(Vec(lft_x, yncscape(51.360, 8.255)), Port::INPUT, module, Uncertain::IN_QUANTIZED));
+	addInput(Port::create<PJ301BPort>(Vec(lft_x, yncscape(51.360, 8.255)), Port::INPUT, module, Uncertain::IN_QUANTIZED));
 	ParamWidget *pw = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(center_x, yncscape(59.487, 9.525)), module, Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
@@ -140,8 +140,8 @@ UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget(module)
 	addOutput(Port::create<PJ301GPort>(Vec(rgt_x, yncscape(51.360, 8.255)), Port::OUTPUT, module, Uncertain::OUT_QUANTIZED_2N));
 
 	addInput(Port::create<PJ301RPort>(Vec(lft_x, yncscape(28.407, 8.255)), Port::INPUT, module, Uncertain::CLOCK_STORED));
-	addInput(Port::create<PJ301WPort>(Vec(lft_x, yncscape(10.882, 8.255)), Port::INPUT, module, Uncertain::IN_STORED));
-	addInput(Port::create<PJ301WPort>(Vec(mm2px(23.591), yncscape(10.882, 8.255)), Port::INPUT, module, Uncertain::IN_CURVEAMP));
+	addInput(Port::create<PJ301BPort>(Vec(lft_x, yncscape(10.882, 8.255)), Port::INPUT, module, Uncertain::IN_STORED));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(23.591), yncscape(10.882, 8.255)), Port::INPUT, module, Uncertain::IN_CURVEAMP));
 	addParam(ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(16.285), yncscape(19.010, 9.525)), module, Uncertain::STORED_AMT, Uncertain::MIN_VOLTAGE + 2.5, Uncertain::MAX_VOLTAGE - 2.5, 5.0));
 	addParam(ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(35.150), yncscape(19.010, 9.525)), module, Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0));
 	addOutput(Port::create<PJ301GPort>(Vec(rgt_x, yncscape(28.407, 8.255)), Port::OUTPUT, module, Uncertain::OUT_STORED_RND));

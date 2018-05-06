@@ -100,9 +100,9 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/RenatoModule.svg")));
 	addChild(panel);
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	addInput(Port::create<PJ301RPort>(Vec(mm2px(7.899), yncscape(115.267,8.255)), Port::INPUT, module, Renato::XCLK));
 	addInput(Port::create<PJ301RPort>(Vec(mm2px(28.687), yncscape(115.267,8.255)), Port::INPUT, module, Renato::YCLK));
@@ -145,8 +145,8 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	addOutput(Port::create<PJ301MPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::CV));
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::XGATE));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::CV));
+	addOutput(Port::create<PJ301WPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::XGATE));
 	ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(157.888), yncscape(112.637, 3.176)), module, Renato::LED_GATEX);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/LedGX");
@@ -155,7 +155,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#endif
 	addChild(plight);
 
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(171.033), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::YGATE));
+	addOutput(Port::create<PJ301WPort>(Vec(mm2px(171.033), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::YGATE));
 	plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(168.403), yncscape(112.637, 3.176)), module, Renato::LED_GATEY);
 	#ifdef OSCTEST_MODULE
 	sprintf(name, "/LedGY");

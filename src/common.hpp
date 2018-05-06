@@ -61,17 +61,41 @@ struct Davies1900hFixWhiteKnob : Davies1900hKnob {
 	Davies1900hFixWhiteKnob() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hWhite.svg")));
 	}
+
+	void randomize() override
+	{
+		if(snap)
+			setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		else
+			Davies1900hKnob::randomize();
+	}
 };
 
 struct Davies1900hFixBlackKnob : Davies1900hKnob {
 	Davies1900hFixBlackKnob() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hBlack.svg")));
 	}
+
+	void randomize() override
+	{
+		if(snap)
+			setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		else
+			Davies1900hKnob::randomize();
+	}
 };
 
 struct Davies1900hFixRedKnob : Davies1900hKnob {
 	Davies1900hFixRedKnob() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hRed.svg")));
+	}
+
+	void randomize() override
+	{
+		if(snap)
+			setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		else
+			Davies1900hKnob::randomize();
 	}
 };
 
@@ -80,6 +104,17 @@ struct PJ301GPort : SVGPort
 	PJ301GPort()
 	{
 		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301G.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+
+struct PJ301GRPort : SVGPort
+{
+	PJ301GRPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301GR.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
@@ -100,6 +135,26 @@ struct PJ301WPort : SVGPort
 	PJ301WPort()
 	{
 		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301W.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+struct PJ301OPort : SVGPort
+{
+	PJ301OPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301O.svg"));
+		background->wrap();
+		box.size = background->box.size;
+	}
+};
+
+struct PJ301BLUPort : SVGPort
+{
+	PJ301BLUPort()
+	{
+		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301BLU.svg"));
 		background->wrap();
 		box.size = background->box.size;
 	}
@@ -257,15 +312,17 @@ struct CL1362WPort : SVGPort
 	}
 };
 
-struct Rogan1PSWhiteSnapped : Rogan1PSWhite
-{
-	Rogan1PSWhiteSnapped() { snap = true; }
-	void randomize() override {}
-};
-
 struct Davies1900hFixWhiteKnobSmall : Davies1900hKnob {
 	Davies1900hFixWhiteKnobSmall() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hWhiteSmall.svg")));
+	}
+	
+	void randomize() override
+	{
+		if(snap)
+			setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		else
+			Davies1900hKnob::randomize();
 	}
 };
 
@@ -287,16 +344,6 @@ struct CKSS2 : CKSS
 		else
 			setValue(0.0);
 	}
-};
-
-
-struct BefacoSnappedTinyKnob : BefacoTinyKnob
-{
-	BefacoSnappedTinyKnob() : BefacoTinyKnob()
-	{
-		snap = true;
-	}
-	void randomize() override { setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue))); }
 };
 
 struct VerticalSwitch : SVGFader 

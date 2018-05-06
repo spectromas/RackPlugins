@@ -67,33 +67,33 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/Z8KModule.svg")));
 	addChild(panel);
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 	float dist_h = 22.225;
 	float dist_v = -18.697;
 
 	for(int k = 0; k < 4; k++)
 	{
 		addInput(Port::create<PJ301YPort>(Vec(mm2px(5.738), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::RESET_1 + k));
-		addInput(Port::create<PJ301WPort>(Vec(mm2px(16.544), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::DIR_1 + k));
+		addInput(Port::create<PJ301BPort>(Vec(mm2px(16.544), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::DIR_1 + k));
 		addInput(Port::create<PJ301RPort>(Vec(mm2px(27.349), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::CLOCK_1 + k));
 	}
 
 	for(int k = 0; k < 4; k++)
 	{
 		addInput(Port::create<PJ301YPort>(Vec(mm2px(52.168+k*dist_h), yncscape(115.442,8.255)), Port::INPUT, module, Z8K::RESET_A + k));
-		addInput(Port::create<PJ301WPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), Port::INPUT, module, Z8K::DIR_A + k));
+		addInput(Port::create<PJ301BPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), Port::INPUT, module, Z8K::DIR_A + k));
 		addInput(Port::create<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), Port::INPUT, module, Z8K::CLOCK_A + k));
 	}
 
 	addInput(Port::create<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), Port::INPUT, module, Z8K::RESET_VERT ));
-	addInput(Port::create<PJ301WPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), Port::INPUT, module, Z8K::DIR_VERT));
+	addInput(Port::create<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), Port::INPUT, module, Z8K::DIR_VERT));
 	addInput(Port::create<PJ301RPort>( Vec(mm2px(152.575), yncscape(111.040,8.255)), Port::INPUT, module, Z8K::CLOCK_VERT ));
 	addOutput(Port::create<PJ301GPort>(Vec(mm2px(161.154), yncscape(102.785,8.255)), Port::OUTPUT, module, Z8K::CV_VERT) );
 
 	addInput(Port::create<PJ301YPort> (Vec(mm2px(5.738), yncscape(10.941, 8.255)), Port::INPUT, module, Z8K::RESET_HORIZ));
-	addInput(Port::create<PJ301WPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), Port::INPUT, module, Z8K::DIR_HORIZ ));
+	addInput(Port::create<PJ301BPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), Port::INPUT, module, Z8K::DIR_HORIZ ));
 	addInput(Port::create<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), Port::INPUT, module, Z8K::CLOCK_HORIZ));
 	addOutput(Port::create<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), Port::OUTPUT, module, Z8K::CV_HORIZ));
 
