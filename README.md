@@ -11,44 +11,44 @@ More information: https://www.google.com/search?q=klee%20sequencer%20pdf
 Inspired by the System 100 Sequencer
 More information: https://www.google.com/search?q=m185%20step%20sequencer
 
-![M581](/res/m581.png?raw=true "M581")
+![M581](/res/png/m581.png?raw=true "M581")
 
 # Renato
 X/Y Sequencer, dedicated to the great Renato!
 Vaguely inspired by https://www.google.com/search?q=renee%20sequencer
 
-![Renato!](/res/renato.png?raw=true "Renato")
+![Renato!](/res/png/renato.png?raw=true "Renato")
 
 # Z8K
 4 colors for 4 sequencers. Matrix reloaded.
 A tip: https://www.google.com/search?q=z8000%20sequencer
 
-![Z8K](/res/z8k.png?raw=true "Z8K")
+![Z8K](/res/png/z8k.png?raw=true "Z8K")
 
 # Spiralone
 Hypnotic!
 Based on https://www.google.com/search?q=cyclic%20sequencer
 
-![Spiralone](/res/spiralone.png?raw=true "Spiralone")
+![Spiralone](/res/png/spiralone.png?raw=true "Spiralone")
 
 # Burst
 Will likely cause serious damage to your ears
 Idea taken from here: https://www.youtube.com/watch?v=YlnHFTrhJnM
 
-![Burst](/res/burst.png?raw=true "Burst")
+![Burst](/res/png/burst.png?raw=true "Burst")
 
 # pwmClockGen
 Most of these sequencers have their gate outputs dependent
 from the clock pulse cycle; for this reason there is a clock generator
 with controllable PWM
 
-![pwmClockGen](/res/pwmClock.png?raw=true "pwmClockGen")
+![pwmClockGen](/res/png/pwmclockgen.png?raw=true "pwmClockGen")
 
 # multiQuantizer
 The CV outputs of all the sequencers are not quantized, so a Quantizer is handy, expecially
 if it is modulable...
 
-![multiQuantizer](/res/quantizer.png?raw=true "multiQuantizer")
+![multiQuantizer](/res/png/quantizer.png?raw=true "multiQuantizer")
 
 # Uncertain
 Unstable voltages
@@ -57,7 +57,7 @@ Recipe:
 1/4 buchla 266e
 1/4 gauss sigma control :-)
 
-![Uncertain](/res/uncertain.png?raw=true "Uncertain")
+![Uncertain](/res/png/uncertain.png?raw=true "Uncertain")
 
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 

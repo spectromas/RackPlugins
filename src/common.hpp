@@ -85,6 +85,15 @@ struct Davies1900hFixBlackKnob : Davies1900hKnob {
 	}
 };
 
+struct WhiteLight : GrayModuleLightWidget
+{
+	WhiteLight()
+	{
+		addBaseColor(COLOR_WHITE);
+	}
+};
+
+
 struct Davies1900hFixRedKnob : Davies1900hKnob {
 	Davies1900hFixRedKnob() {
 		setSVG(SVG::load(assetPlugin(plugin, "res/Davies1900hRed.svg")));
@@ -172,6 +181,10 @@ struct CKSSFix : SVGSwitch, ToggleSwitch {
 		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_0.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_1.svg")));
 	}
+	void randomize() override
+	{
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+	}
 };
 
 struct CKSSThreeFix : SVGSwitch, ToggleSwitch {
@@ -179,6 +192,10 @@ struct CKSSThreeFix : SVGSwitch, ToggleSwitch {
 		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_0.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_1.svg")));
 		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_2.svg")));
+	}
+	void randomize() override
+	{
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
 	}
 };
 
@@ -248,10 +265,7 @@ struct NKK2 : SVGSwitch, ToggleSwitch
 
 	void randomize() override
 	{
-		if(randomUniform() >= 0.5)
-			setValue(1.0);
-		else
-			setValue(0.0);
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
 	}
 };
 
@@ -326,25 +340,6 @@ struct Davies1900hFixWhiteKnobSmall : Davies1900hKnob {
 	}
 };
 
-struct NKK3 : NKK
-{
-	void randomize() override
-	{
-		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
-	}
-};
-
-
-struct CKSS2 : CKSS
-{
-	void randomize() override
-	{
-		if(randomUniform() >= 0.5)
-			setValue(1.0);
-		else
-			setValue(0.0);
-	}
-};
 
 struct VerticalSwitch : SVGFader 
 {
