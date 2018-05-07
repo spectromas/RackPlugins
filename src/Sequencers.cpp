@@ -9,6 +9,7 @@
 #include "burst.hpp"
 #include "uncert.hpp"
 #include "attenuator.hpp"
+#include "boole.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -38,11 +39,12 @@ void init(rack::Plugin *p)
 	p->addModel(Model::create<Z8K, Z8KWidget>("TheXOR", "Z8K", "Z8K Sequencer", SEQUENCER_TAG));
 	p->addModel(Model::create<Renato, RenatoWidget>("TheXOR", "Renato", "Renato Sequencer", SEQUENCER_TAG));
 	p->addModel(Model::create<Spiralone, SpiraloneWidget>("TheXOR", "Spiralone", "Spiralone Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<PwmClock, PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock", UTILITY_TAG, CLOCK_TAG));
-	p->addModel(Model::create<Quantizer, QuantizerWidget>("TheXOR", "Quantizer", "Quantizer", UTILITY_TAG, QUANTIZER_TAG));
-	p->addModel(Model::create<Attenuator, AttenuatorWidget>("TheXOR", "Attenuator", "Attenuator", UTILITY_TAG, ATTENUATOR_TAG));
 	p->addModel(Model::create<Burst, BurstWidget>("TheXOR", "Burst", "Burst", SEQUENCER_TAG));
 	p->addModel(Model::create<Uncertain, UncertainWidget>("TheXOR", "Uncertain", "Uncertain", RANDOM_TAG));
+	p->addModel(Model::create<PwmClock, PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock", CLOCK_TAG));
+	p->addModel(Model::create<Quantizer, QuantizerWidget>("TheXOR", "Quantizer", "Quantizer", QUANTIZER_TAG));
+	p->addModel(Model::create<Attenuator, AttenuatorWidget>("TheXOR", "Attenuator", "Attenuator", ATTENUATOR_TAG));
+	p->addModel(Model::create<Boole, BooleWidget>("TheXOR", "Boole", "Boole", LOGIC_TAG));
 
 #ifdef LPTEST_MODULE
 	p->addModel(Model::create<LaunchpadTest, LaunchpadTestWidget>("TheXOR", "LaunchpadTest", "Launchpad Test", DIGITAL_TAG));

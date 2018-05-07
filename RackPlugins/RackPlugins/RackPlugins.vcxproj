@@ -60,6 +60,7 @@
     <ClInclude Include="..\..\src\burst.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
+    <ClInclude Include="..\..\src\boole.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
     <ClInclude Include="..\..\src\M581.hpp" />
     <ClInclude Include="..\..\src\M581Types.hpp" />
@@ -79,6 +80,7 @@
     <ClCompile Include="..\..\src\attenuator.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
+    <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
