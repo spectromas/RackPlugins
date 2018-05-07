@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "Attenuator.hpp"
+#include "attenuator.hpp"
 
 void Attenuator::step()
 {

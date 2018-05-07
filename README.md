@@ -65,9 +65,14 @@ Calm down your boiling voltages
 ![Attenuator](/res/png/attenuator.png?raw=true "Attenuator")
 
 # Boole
-There are 10 kind of people: those who can understand boolean logic, and the other ones.
+There are 10 kind of people: those who can understand boolean logic, and the others....
 
 ![Boole](/res/png/boole.png?raw=true "Boole")
+
+# Switch
+Circuit breaker
+
+![Switch](/res/png/switch.png?raw=true "Switch")
 
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 

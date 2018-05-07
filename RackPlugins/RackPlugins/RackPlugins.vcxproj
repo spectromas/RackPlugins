@@ -72,6 +72,7 @@
     <ClInclude Include="..\..\src\Spiralone.hpp" />
     <ClInclude Include="..\..\src\SpiraloneModule.hpp" />
     <ClInclude Include="..\..\src\sprlnSequencer.hpp" />
+    <ClInclude Include="..\..\src\switch.hpp" />
     <ClInclude Include="..\..\src\uncert.hpp" />
     <ClInclude Include="..\..\src\Z8K.hpp" />
     <ClInclude Include="..\..\src\z8kSequencer.hpp" />
@@ -91,6 +92,7 @@
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />
     <ClCompile Include="..\..\src\sprlnSequencer.cpp" />
+    <ClCompile Include="..\..\src\switch.cpp" />
     <ClCompile Include="..\..\src\uncert.cpp" />
     <ClCompile Include="..\..\src\Z8KModule.cpp" />
   </ItemGroup>
