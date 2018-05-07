@@ -59,6 +59,16 @@ Recipe:
 
 ![Uncertain](/res/png/uncertain.png?raw=true "Uncertain")
 
+# Attenuator
+Calm down your boiling voltages
+
+![Attenuator](/res/png/attenuator.png?raw=true "Attenuator")
+
+# Boole
+There are 10 kind of people: those who can understand boolean logic, and the other ones.
+
+![Boole](/res/png/boole.png?raw=true "Boole")
+
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 
 To do so, you must compile the plugins with the command:
