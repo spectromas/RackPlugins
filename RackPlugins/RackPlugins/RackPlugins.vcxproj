@@ -56,6 +56,7 @@
     <ClInclude Include="..\..\digitalExt\osc\oscCommunicator.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscControl.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscDriver.hpp" />
+    <ClInclude Include="..\..\src\attenuator.hpp" />
     <ClInclude Include="..\..\src\burst.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
@@ -75,6 +76,7 @@
     <ClInclude Include="..\..\src\z8kSequencer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\attenuator.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />

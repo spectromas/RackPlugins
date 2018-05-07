@@ -8,6 +8,7 @@
 #include "quantizer.hpp"
 #include "burst.hpp"
 #include "uncert.hpp"
+#include "attenuator.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -39,6 +40,7 @@ void init(rack::Plugin *p)
 	p->addModel(Model::create<Spiralone, SpiraloneWidget>("TheXOR", "Spiralone", "Spiralone Sequencer", SEQUENCER_TAG));
 	p->addModel(Model::create<PwmClock, PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock", UTILITY_TAG, CLOCK_TAG));
 	p->addModel(Model::create<Quantizer, QuantizerWidget>("TheXOR", "Quantizer", "Quantizer", UTILITY_TAG, QUANTIZER_TAG));
+	p->addModel(Model::create<Attenuator, AttenuatorWidget>("TheXOR", "Attenuator", "Attenuator", UTILITY_TAG, ATTENUATOR_TAG));
 	p->addModel(Model::create<Burst, BurstWidget>("TheXOR", "Burst", "Burst", SEQUENCER_TAG));
 	p->addModel(Model::create<Uncertain, UncertainWidget>("TheXOR", "Uncertain", "Uncertain", RANDOM_TAG));
 

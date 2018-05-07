@@ -5,7 +5,7 @@ Plugins for your joy
 A rather complete Klee Sequencer, with some enhancements...
 More information: https://www.google.com/search?q=klee%20sequencer%20pdf
 
-![Klee](/res/klee.png?raw=true "The Klee")
+![Klee](/res/png/klee.png?raw=true "The Klee")
 
 # M581
 Inspired by the System 100 Sequencer

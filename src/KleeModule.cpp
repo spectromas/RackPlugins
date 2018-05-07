@@ -201,6 +201,7 @@ bool Klee::chance()
 
 KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 {
+	float nkk_offs = 2.3;
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
@@ -225,7 +226,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	for(int k = 0; k < 8; k++)
 	{
 		// Load switches
-		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+1,7.336)), module, Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -244,7 +245,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+1, 7.336)), module, Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
+		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -264,7 +265,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		#endif
 
 		// BUS switches
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 11.229), yncscape(4.502 + 1, 7.336)), module, Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
+		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 11.229), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -283,7 +284,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(4.502 + 1, 7.336)), module, Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
+		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(numLaunchpads > 1)
@@ -307,7 +308,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	float dist_v = 60.582 - 76.986;
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(184.360), yncscape(76.986 + 1 +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, 4 + k), LaunchpadLed::Color(11), LaunchpadLed::Color(52));
@@ -319,7 +320,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		module->oscDrv->Add(oc, pwdg);
 		#endif
 
-		ModuleLightWidget *plight = ModuleLightWidget::create<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(76.986 + k*dist_v, 5.179)), module, Klee::LED_BUS + k);
+		ModuleLightWidget *plight = ModuleLightWidget::create<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k*dist_v, 5.179)), module, Klee::LED_BUS + k);
 		addChild(plight);
 		#ifdef OSCTEST_MODULE
 		sprintf(name, "/BusLed%i", k + 1);
@@ -357,7 +358,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 
 	addInput(Port::create<PJ301BPort>(Vec(mm2px(9.218), yncscape(77.058, 8.255)), Port::INPUT, module, Klee::LOAD_INPUT));
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(25.627), yncscape(91.395 + 1, 7.336)), module, Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
@@ -391,7 +392,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	addOutput(Port::create<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), Port::OUTPUT, module, Klee::CV_AB));
 
 	// mode
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(68.915), yncscape(60.582 + 1, 7.336)), module, Klee::X28_X16, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // 2x8 1x16
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
@@ -403,7 +404,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(97.459), yncscape(60.582 + 1, 7.336)), module, Klee::RND_PAT, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // rnd/pattern
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
@@ -415,7 +416,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	module->oscDrv->Add(oc, pwdg);
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(126.004), yncscape(60.582 + 1, 7.336)), module, Klee::B_INV, 0.0, 1.0, 0.0);
+	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV, 0.0, 1.0, 0.0);
 	addParam(pwdg);     // norm /B inverted
 	#ifdef LAUNCHPAD
 	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
