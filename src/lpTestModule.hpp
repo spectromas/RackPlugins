@@ -27,21 +27,21 @@ struct LaunchpadTest : Module
 {
 	enum ParamIds
 	{
-		BTN1,
-		BTN2,
-		BTN3,
-		BTN4,
-		GATE_TIME,
+		BTN,
+		SW,
+		KNOB,
 		NUM_PARAMS
 	};
 	enum InputIds
 	{
-
+		IN_V,
 		NUM_INPUTS
 	};
 	enum OutputIds
 	{
 		KNOB_OUT,
+		BTN_OUT,
+		SW_OUT,
 		NUM_OUTPUTS
 	};
 	enum LightIds
@@ -51,6 +51,7 @@ struct LaunchpadTest : Module
 	};
 	LaunchpadTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{
+		v_in = 0;
 		drv = new LaunchpadBindingDriver(this, Scene8, 1);
 	}
 	~LaunchpadTest()
@@ -60,6 +61,7 @@ struct LaunchpadTest : Module
 	void step() override;
 
 	LaunchpadBindingDriver *drv;
+	float v_in;
 };
 
 #endif

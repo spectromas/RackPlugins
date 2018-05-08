@@ -6,9 +6,12 @@
 
 void LaunchpadTest::step()
 {
-	lights[LP_CONNECTED].value = params[LaunchpadTest::BTN2].value > 0 ? 1.0 : 0.0;
+	v_in = inputs[IN_V].value;
+	lights[LP_CONNECTED].value = params[LaunchpadTest::BTN].value > 0 ? 1.0 : 0.0;
 
-	outputs[KNOB_OUT].value = params[GATE_TIME].value;
+	outputs[KNOB_OUT].value = params[KNOB].value;
+	outputs[BTN_OUT].value = inputs[BTN].value;
+	outputs[SW_OUT].value = params[SW].value;
 	drv->ProcessLaunchpad();
 }
 
@@ -27,8 +30,19 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget(m
 	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	/*
-	ParamWidget *pctrl = ParamWidget::create<PatternBtn>(Vec(20, 20), module, LaunchpadTest::BTN1, 0.0, 1.0, 0.0);
+
+	int y = 40;
+	SigDisplayWidget *display = new SigDisplayWidget(5, 2);
+	display->box.pos = Vec(60, y);
+	display->box.size = Vec(50 + 53, 24);
+	display->value = &module->v_in;
+	addChild(display);
+
+	addInput(Port::create<PJ301RPort>(Vec(10, y), Port::INPUT, module, LaunchpadTest::IN_V));
+	
+	y += 60;
+
+	ParamWidget *pctrl = ParamWidget::create<PatternBtn>(Vec(10, y), module, LaunchpadTest::BTN, 0.0, 1.0, 0.0);
 	LaunchpadLed offColor;
 	LaunchpadLed onColor;
 	offColor.r_color = 20;
@@ -36,45 +50,25 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget(m
 	LaunchpadSwitch *sw1 = new LaunchpadSwitch(0, LaunchpadKey::R1C1, offColor, onColor);
 	module->drv->Add(sw1, pctrl);
 	addParam(pctrl);
+	addOutput(Port::create<PJ301GPort>(Vec(150, y), Port::OUTPUT, module, LaunchpadTest::BTN_OUT));
 
-	ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(50, 20), module, LaunchpadTest::LP_CONNECTED);
-	onColor.r_color = 9;
-	LaunchpadLight *ld1 = new LaunchpadLight(0, LaunchpadKey::R8C1, offColor, onColor);
-	module->drv->Add(ld1, plight);
-	addChild(plight);
-
-	LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(5, 2), 3, LaunchpadLed::Color(2), LaunchpadLed::Color(3));
-
-	ParamWidget *pEna = ParamWidget::create<CKSSThree>(Vec(36 + 80, RACK_GRID_HEIGHT - 58), module, LaunchpadTest::BTN2, 0.0, 2.0, 1.0);
-	module->drv->Add(radio, pEna);
-	radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(3, 0), 3, LaunchpadLed::Color(2), LaunchpadLed::Color(3), true);
-	addParam(pEna);
-
-	pEna = ParamWidget::create<CKSSThree>(Vec(36 + 50, RACK_GRID_HEIGHT - 58), module, LaunchpadTest::BTN3, 0.0, 2.0, 1.0);
-	module->drv->Add(radio, pEna);
-	addParam(pEna);
-
-	LaunchpadMomentary *mome = new LaunchpadMomentary(0, LaunchpadKey::RECORD, LaunchpadLed::Color(2), LaunchpadLed::Color(3));
-	pEna = ParamWidget::create<BefacoPush>(Vec(96, 20), module, LaunchpadTest::BTN4, 0.0, 1.0, 0.0);
-	module->drv->Add(mome, pEna);
-	addParam(pEna);
+	y += 60;
 
 	LaunchpadKnob *pknob = new LaunchpadKnob(0, ILaunchpadPro::RC2Key(6, 6), LaunchpadLed::Rgb(20, 10, 10), LaunchpadLed::Rgb(60, 40, 40));
-	pEna = ParamWidget::create<Davies1900hBlackKnob>(Vec(50, 100), module, LaunchpadTest::GATE_TIME, 0.0, 5.0, 0.25);
+	ParamWidget *pEna = ParamWidget::create<Davies1900hBlackKnob>(Vec(10, y), module, LaunchpadTest::KNOB, 0.0, 5.0, 0.25);
 	module->drv->Add(pknob, pEna);
 	addParam(pEna);
+	addOutput(Port::create<PJ301GPort>(Vec(150, y), Port::OUTPUT, module, LaunchpadTest::KNOB_OUT));
 
-	addOutput(Port::create<PJ301GPort>(Vec(50, 200), Port::OUTPUT, module, LaunchpadTest::KNOB_OUT));
-	*/
+	y += 60;
+
+	pEna = ParamWidget::create<BefacoSwitch>(Vec(10, y), module, LaunchpadTest::SW, 0.0, 2.0, 1.0);
+	addParam(pEna);
+	addOutput(Port::create<PJ301GPort>(Vec(150, y), Port::OUTPUT, module, LaunchpadTest::SW_OUT));
+
 #ifdef DEBUG
 	info("RDY");
 #endif
-	// 5mm, 5mm
-	
-	float v = mm2px(29.0);
-	float vy = mm2px(128.5 - 60.0) - 31.5;//sizeof button
-	ParamWidget *pEna = ParamWidget::create<BefacoSwitch>(Vec(v, vy), module, LaunchpadTest::BTN2, 0.0, 2.0, 1.0);
-	addParam(pEna);
-
+		
 }
 #endif

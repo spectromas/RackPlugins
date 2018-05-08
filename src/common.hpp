@@ -1,5 +1,5 @@
 #pragma once
-//#define DEBUG
+#define DEBUG
 #include "rack.hpp"
 #include "dsp/digital.hpp"
 #include <algorithm>
