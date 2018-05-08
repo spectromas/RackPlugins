@@ -74,6 +74,11 @@ Circuit breaker
 
 ![Switch](/res/png/switch.png?raw=true "Switch")
 
+# Mplex
+Multiplexer
+
+![Mplex](/res/png/mplex.png?raw=true "Mplex")
+
 OSC!!!!!
 For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 
 To do so, you must compile the plugins with the command:

@@ -64,6 +64,7 @@
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
     <ClInclude Include="..\..\src\M581.hpp" />
     <ClInclude Include="..\..\src\M581Types.hpp" />
+    <ClInclude Include="..\..\src\mplex.hpp" />
     <ClInclude Include="..\..\src\oscTestModule.hpp" />
     <ClInclude Include="..\..\src\pwmClock.hpp" />
     <ClInclude Include="..\..\src\quantizer.hpp" />
@@ -84,6 +85,7 @@
     <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
+    <ClCompile Include="..\..\src\mplex.cpp" />
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
     <ClCompile Include="..\..\src\oscTestModule.cpp" />
     <ClCompile Include="..\..\src\pwmClock.cpp" />

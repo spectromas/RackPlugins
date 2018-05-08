@@ -10,6 +10,7 @@
 #include "uncert.hpp"
 #include "attenuator.hpp"
 #include "boole.hpp"
+#include "mplex.hpp"
 #include "switch.hpp"
 
 #ifdef LPTEST_MODULE
@@ -47,6 +48,7 @@ void init(rack::Plugin *p)
 	p->addModel(Model::create<Attenuator, AttenuatorWidget>("TheXOR", "Attenuator", "Attenuator", ATTENUATOR_TAG));
 	p->addModel(Model::create<Boole, BooleWidget>("TheXOR", "Boole", "Boole", LOGIC_TAG));
 	p->addModel(Model::create<Switch, SwitchWidget>("TheXOR", "Switch", "Switch", SWITCH_TAG));
+	p->addModel(Model::create<Mplex, MplexWidget>("TheXOR", "Mplex", "Mplex", SWITCH_TAG));
 
 #ifdef LPTEST_MODULE
 	p->addModel(Model::create<LaunchpadTest, LaunchpadTestWidget>("TheXOR", "LaunchpadTest", "Launchpad Test", DIGITAL_TAG));
