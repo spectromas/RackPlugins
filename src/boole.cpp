@@ -9,6 +9,8 @@ void Boole::step()
 		if(inputs[IN_1 + index].active && (k == 0 || inputs[IN_1 + index - 1].active))
 		{
 			bool o = process(k, index);
+			if(k > 0 && params[INVERT_1 + k - 1].value > 0)
+				o = !o;
 			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = o ? 5.0 : 0.0;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
 		} else
@@ -33,8 +35,7 @@ bool Boole::process(int num_op, int index)
 	}
 	bool y = inputs[IN_1 + index].normalize(0.0) > params[THRESH_1 + index].value;
 	lights[LED_1 + index].value = y ? 5.0 : 0.0;
-	
-	//implication, 
+		
 	switch(num_op)
 	{	
 		case 1: return x && y;	//and
@@ -70,6 +71,7 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget(module)
 	float yout = 112.349;
 	float ypot = 112.477;
 	float yled = 115.389;
+	float yinv = 97.892;
 	float yled_out = 115.389;
 	float delta_y =- 14.771;
 	float sub_dy = -11.92;
@@ -107,8 +109,10 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget(module)
 			yout -= 20.731;
 		} else
 		{
+			addParam(ParamWidget::create<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k - 1, 0.0, 1.0, 0.0));
 			yled_out += out_dy;
 			yout += out_dy;
+			yinv += out_dy;
 		}
 
 		y += delta_y;

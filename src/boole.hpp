@@ -22,7 +22,8 @@ struct Boole : Module
 {
 	enum ParamIds
 	{
-		THRESH_1,
+		INVERT_1,
+		THRESH_1 = INVERT_1 + NUM_BOOL_OP - 1,
 		NUM_PARAMS = THRESH_1 + 2* NUM_BOOL_OP-1
 	};
 	enum InputIds
