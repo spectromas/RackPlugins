@@ -24,8 +24,14 @@ void Spiralone::load()
 
 void Spiralone::step()
 {
-	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		sequencer[k].Step(k, this);
+	if(masterReset.process(params[M_RESET].value))
+	{
+		load();
+	} else
+	{
+		for(int k = 0; k < NUM_SEQUENCERS; k++)
+			sequencer[k].Step(k, this);
+	}
 
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
@@ -105,6 +111,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 		angle += step;
 	}
 
+	addParam(ParamWidget::create<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET, 0.0, 1.0, 0.0));
 	#ifdef DIGITAL_EXT
 	addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
 	#endif
@@ -120,7 +127,6 @@ void SpiraloneWidget::createSequencer(int seq)
 	
 	addInput(Port::create<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::CLOCK_1 + seq));
 	addInput(Port::create<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::RESET_1 + seq));
-
 
 	ParamWidget *pwdg = ParamWidget::create<BefacoSnappedSwitch>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 7.883)), module, Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
 	addParam(pwdg);

@@ -4,6 +4,7 @@ struct Spiralone : Module
 {
 	enum ParamIds
 	{
+		M_RESET,
 		VOLTAGE_1,
 		MODE_1 = VOLTAGE_1 + TOTAL_STEPS,
 		LENGHT_1 = MODE_1 + NUM_SEQUENCERS,
@@ -84,5 +85,5 @@ private:
 	void load();
 
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];
-
+	SchmittTrigger masterReset;
 };
