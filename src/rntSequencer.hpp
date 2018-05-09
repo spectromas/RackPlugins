@@ -58,7 +58,7 @@ public:
 		return clk;
 	}
 
-	void Gate(int clk, Output *output, Light *led)
+	bool Gate(int clk, Output *output, Light *led)
 	{
 		if(clk == 1)  // rise
 		{
@@ -67,6 +67,8 @@ public:
 		{
 			led->value = output->value = LVL_OFF;
 		}
+
+		return clk == 1;
 	}
 
 private:

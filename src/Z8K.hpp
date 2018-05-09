@@ -9,7 +9,7 @@
 ////////////////////
 
 struct Z8K;
-struct Z8KWidget : ModuleWidget
+struct Z8KWidget : SequencerWidget
 {
 public:
 	Z8KWidget(Z8K *module);
@@ -49,7 +49,8 @@ struct Z8K : Module
 		CV_A = CV_1 + 4,
 		CV_VERT = CV_A + 4,
 		CV_HORIZ,
-		NUM_OUTPUTS
+		ACTIVE_STEP,
+		NUM_OUTPUTS = ACTIVE_STEP + 16
 	};
 
 	enum LightIds

@@ -15,6 +15,10 @@
     <ClCompile Include="..\..\src\quantizer.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
     <ClCompile Include="..\..\src\uncert.cpp" />
+    <ClCompile Include="..\..\src\attenuator.cpp" />
+    <ClCompile Include="..\..\src\boole.cpp" />
+    <ClCompile Include="..\..\src\switch.cpp" />
+    <ClCompile Include="..\..\src\mplex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -90,6 +94,18 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\uncert.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\attenuator.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\boole.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\switch.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\mplex.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

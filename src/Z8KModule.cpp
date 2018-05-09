@@ -34,8 +34,17 @@ void Z8K::load()
 
 void Z8K::step()
 {
+	bool activeSteps[16];
+	for(int k = 0; k < 16; k++)
+		activeSteps[k] = false;
+
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		seq[k].Step();
+		activeSteps[seq[k].Step()] = true;
+
+	for(int k = 0; k < 16; k++)
+	{
+		outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
+	}
 
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
@@ -55,62 +64,62 @@ void Z8K::step()
 	#endif
 }
 
-Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
+Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 {
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
 
-	box.size = Vec(28 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	box.size = Vec(34 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	SVGPanel *panel = new SVGPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/Z8KModule.svg")));
+	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/Z8KModule.svg")));
 	addChild(panel);
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	float dist_h = 22.225;
+	float dist_v = -18.697;
 
-	int x = 10;
-	int y = 30;
-	int dist_v = 38;
-	int dist_h = 32;
 	for(int k = 0; k < 4; k++)
 	{
-		addInput(Port::create<PJ301YPort>(Vec(x, y + k * dist_v), Port::INPUT, module, Z8K::RESET_1 + k));
-		addInput(Port::create<PJ301WPort>(Vec(x + dist_h, y + k * dist_v), Port::INPUT, module, Z8K::DIR_1 + k));
-		addInput(Port::create<PJ301RPort>(Vec(x + 2 * dist_h, y + k * dist_v), Port::INPUT, module, Z8K::CLOCK_1 + k));
+		addInput(Port::create<PJ301YPort>(Vec(mm2px(5.738), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::RESET_1 + k));
+		addInput(Port::create<PJ301BPort>(Vec(mm2px(16.544), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::DIR_1 + k));
+		addInput(Port::create<PJ301RPort>(Vec(mm2px(27.349), yncscape(82.210+k*dist_v,8.255)), Port::INPUT, module, Z8K::CLOCK_1 + k));
 	}
 
-	y += 5 * dist_v;
 	for(int k = 0; k < 4; k++)
 	{
-		addInput(Port::create<PJ301YPort>(Vec(x, y + k * dist_v), Port::INPUT, module, Z8K::RESET_A + k));
-		addInput(Port::create<PJ301WPort>(Vec(x + dist_h, y + k * dist_v), Port::INPUT, module, Z8K::DIR_A + k));
-		addInput(Port::create<PJ301RPort>(Vec(x + 2 * dist_h, y + k * dist_v), Port::INPUT, module, Z8K::CLOCK_A + k));
+		addInput(Port::create<PJ301YPort>(Vec(mm2px(52.168+k*dist_h), yncscape(115.442,8.255)), Port::INPUT, module, Z8K::RESET_A + k));
+		addInput(Port::create<PJ301BPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), Port::INPUT, module, Z8K::DIR_A + k));
+		addInput(Port::create<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), Port::INPUT, module, Z8K::CLOCK_A + k));
 	}
 
-	y = 35;
-	x += 2 * dist_h + 40;
-	dist_h = 64;
-	dist_v = 65;
+	addInput(Port::create<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), Port::INPUT, module, Z8K::RESET_VERT ));
+	addInput(Port::create<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), Port::INPUT, module, Z8K::DIR_VERT));
+	addInput(Port::create<PJ301RPort>( Vec(mm2px(152.575), yncscape(111.040,8.255)), Port::INPUT, module, Z8K::CLOCK_VERT ));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(161.154), yncscape(102.785,8.255)), Port::OUTPUT, module, Z8K::CV_VERT) );
+
+	addInput(Port::create<PJ301YPort> (Vec(mm2px(5.738), yncscape(10.941, 8.255)), Port::INPUT, module, Z8K::RESET_HORIZ));
+	addInput(Port::create<PJ301BPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), Port::INPUT, module, Z8K::DIR_HORIZ ));
+	addInput(Port::create<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), Port::INPUT, module, Z8K::CLOCK_HORIZ));
+	addOutput(Port::create<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), Port::OUTPUT, module, Z8K::CV_HORIZ));
+
 	for(int r = 0; r < 4; r++)
 	{
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			ParamWidget *pctrl = ParamWidget::create<Davies1900hBlackKnob>(Vec(x + dist_h * c, y + dist_v * r), module, Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.5);
+			ParamWidget *pctrl = ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.5);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/Knob%i", n + 1);
 			oscControl *oc = new oscControl(name);
 			module->oscDrv->Add(oc, pctrl);
 			#endif
 			addParam(pctrl);
-			const int displ = 4;
 
-			int led_x = x-7 + 2 * dist_h / 3 + c * dist_h;
-			int led_y = y-8 + 2 * dist_v / 3 + dist_v * r;
-			ModuleLightWidget *plight = ModuleLightWidget::create<SmallLight<RedLight>>(Vec(led_x - displ,led_y - displ), module, Z8K::LED_ROW + n);
+			ModuleLightWidget *plight = ModuleLightWidget::create<SmallLight<RedLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(85.272 + dist_v * r, 2.132)), module, Z8K::LED_ROW + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedR%i", n + 1);
 			oc = new oscControl(name);
@@ -118,7 +127,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(led_x+ displ, led_y - displ), module, Z8K::LED_COL + n);
+			plight = ModuleLightWidget::create<SmallLight<GreenLight>>(Vec(mm2px(55.230 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_COL + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedC%i", n + 1);
 			oc = new oscControl(name);
@@ -126,7 +135,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<YellowLight>>(Vec(led_x - displ, led_y + displ), module, Z8K::LED_VERT + n);
+			plight = ModuleLightWidget::create<SmallLight<YellowLight>>(Vec(mm2px(51.533 + dist_h * c), yncscape(78.385 + dist_v * r, 2.132)), module, Z8K::LED_VERT + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedV%i", n + 1);
 			oc = new oscControl(name);
@@ -134,7 +143,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			#endif
 			addChild(plight);
 
-			plight = ModuleLightWidget::create<SmallLight<BlueLight>>(Vec(led_x + displ, led_y + displ), module, Z8K::LED_HORIZ + n);
+			plight = ModuleLightWidget::create<SmallLight<BlueLight>>(Vec(mm2px(62.116 + dist_h * c), yncscape(81.575 +  dist_v * r, 2.132)), module, Z8K::LED_HORIZ + n);
 			#ifdef OSCTEST_MODULE
 			sprintf(name, "/LedH%i", n + 1);
 			oc = new oscControl(name);
@@ -143,24 +152,14 @@ Z8KWidget::Z8KWidget(Z8K *module) : ModuleWidget(module)
 			addChild(plight);
 
 			if(r == 3)
-				addOutput(Port::create<PJ301GPort>(Vec(x + dist_h * c + 5, y+7 + dist_v * 4 - dist_v / 3), Port::OUTPUT, module, Z8K::CV_A + c));
-		}
-		addOutput(Port::create<PJ301GPort>(Vec(box.size.x - 40, y + 5 + dist_v * r), Port::OUTPUT, module, Z8K::CV_1 + r));
-	}
+				addOutput(Port::create<PJ301GPort>(Vec(mm2px(52.168+ dist_h * c), yncscape(2.685, 8.255)), Port::OUTPUT, module, Z8K::CV_A + c));
 
-	y += dist_v * 4 + 40;
-	dist_h /= 2;
-	dist_v = 20;
-	for(int k = 0; k < 2; k++)
-	{
-		int px = 7 + x + k * 4 * (dist_h+5);
-		addInput(Port::create<PJ301YPort>(Vec(px, y), Port::INPUT, module, Z8K::RESET_VERT + k));
-		addInput(Port::create<PJ301WPort>(Vec(px + dist_h, y - dist_v), Port::INPUT, module, Z8K::DIR_VERT + k));
-		addInput(Port::create<PJ301RPort>(Vec(px + 2 * dist_h, y), Port::INPUT, module, Z8K::CLOCK_VERT + k));
-		addOutput(Port::create<PJ301GPort>(Vec(px + 3 * dist_h, y - dist_v), Port::OUTPUT, module, Z8K::CV_VERT + k));
+			addOutput(Port::create<PJ301WPort>(Vec(mm2px(57.362 + dist_h * c), yncscape(73.320 + dist_v * r, 8.255)), Port::OUTPUT, module, Z8K::ACTIVE_STEP + n));
+		}
+		addOutput(Port::create<PJ301GPort>(Vec(mm2px(161.154), yncscape(82.210+r*dist_v, 8.255)), Port::OUTPUT, module, Z8K::CV_1 + r));
 	}
 
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(box.size.x - 42, box.size.y-96, &module->connected));
+	addChild(new DigitalLed(mm2px(161.770), yncscape(6.879, 7.074), &module->connected));
 	#endif
 }

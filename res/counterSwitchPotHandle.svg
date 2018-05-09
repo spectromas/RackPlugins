@@ -9,9 +9,9 @@
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    id="svg3728"
    version="1.1"
-   viewBox="0 0 4.6550129 3.1336588"
-   height="11.84375"
-   width="17.59375"
+   viewBox="0 0 4.5999997 2.7999999"
+   height="2.8mm"
+   width="4.5999999mm"
    sodipodi:docname="counterSwitchPotHandle.svg"
    inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
   <sodipodi:namedview
@@ -23,12 +23,12 @@
      guidetolerance="10"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:window-width="1920"
-     inkscape:window-height="993"
+     inkscape:window-width="1858"
+     inkscape:window-height="1057"
      id="namedview11"
      showgrid="false"
      inkscape:zoom="32.000001"
-     inkscape:cx="3.5598121"
+     inkscape:cx="-1.7683127"
      inkscape:cy="3.0054794"
      inkscape:window-x="-8"
      inkscape:window-y="-8"
@@ -42,7 +42,9 @@
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
-     fit-margin-bottom="0" />
+     fit-margin-bottom="0"
+     units="mm"
+     inkscape:document-units="mm" />
   <defs
      id="defs3722" />
   <metadata
@@ -57,21 +59,11 @@
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <path
-     id="rect973-7"
-     d="M 0.32752465,1.6922859 H 4.4549365 V 2.1645345 H 0.32752465 Z"
-     style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.07793605;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     inkscape:connector-curvature="0" />
-  <path
-     id="rect973-1"
-     d="M 0.32752465,1.0279261 H 4.4549365 V 1.5001748 H 0.32752465 Z"
-     style="fill:#ff0000;fill-opacity:1;stroke:none;stroke-width:0.07793605;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-     inkscape:connector-curvature="0" />
   <ellipse
-     style="fill:#ff0000;stroke:none;stroke-width:0.079375;stroke-miterlimit:4;stroke-dasharray:none"
+     style="fill:#ff0000;stroke:none;stroke-width:0.07458566;stroke-miterlimit:4;stroke-dasharray:none"
      id="path23"
-     cx="2.3275065"
-     cy="1.5668294"
-     rx="2.3275065"
-     ry="1.5668294" />
+     cx="2.3"
+     cy="1.4"
+     rx="2.3"
+     ry="1.4" />
 </svg>

@@ -56,12 +56,15 @@
     <ClInclude Include="..\..\digitalExt\osc\oscCommunicator.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscControl.hpp" />
     <ClInclude Include="..\..\digitalExt\osc\oscDriver.hpp" />
+    <ClInclude Include="..\..\src\attenuator.hpp" />
     <ClInclude Include="..\..\src\burst.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
+    <ClInclude Include="..\..\src\boole.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
     <ClInclude Include="..\..\src\M581.hpp" />
     <ClInclude Include="..\..\src\M581Types.hpp" />
+    <ClInclude Include="..\..\src\mplex.hpp" />
     <ClInclude Include="..\..\src\oscTestModule.hpp" />
     <ClInclude Include="..\..\src\pwmClock.hpp" />
     <ClInclude Include="..\..\src\quantizer.hpp" />
@@ -70,15 +73,19 @@
     <ClInclude Include="..\..\src\Spiralone.hpp" />
     <ClInclude Include="..\..\src\SpiraloneModule.hpp" />
     <ClInclude Include="..\..\src\sprlnSequencer.hpp" />
+    <ClInclude Include="..\..\src\switch.hpp" />
     <ClInclude Include="..\..\src\uncert.hpp" />
     <ClInclude Include="..\..\src\Z8K.hpp" />
     <ClInclude Include="..\..\src\z8kSequencer.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\src\attenuator.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
+    <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
+    <ClCompile Include="..\..\src\mplex.cpp" />
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
     <ClCompile Include="..\..\src\oscTestModule.cpp" />
     <ClCompile Include="..\..\src\pwmClock.cpp" />
@@ -87,6 +94,7 @@
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />
     <ClCompile Include="..\..\src\sprlnSequencer.cpp" />
+    <ClCompile Include="..\..\src\switch.cpp" />
     <ClCompile Include="..\..\src\uncert.cpp" />
     <ClCompile Include="..\..\src\Z8KModule.cpp" />
   </ItemGroup>

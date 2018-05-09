@@ -14,10 +14,11 @@ public:
 		{
 			sequence.push_back(&params[steps[k]]);
 			leds.push_back(&pLights[steps[k]]);
+			chain.push_back(steps[k]);
 		}
 	}
 
-	void Step()
+	int Step()
 	{
 		if(resetTrigger.process(pReset->value))
 			curStep = 0;
@@ -38,6 +39,8 @@ public:
 		pOutput->value = v;
 		for(int k = 0; k < numSteps; k++)
 			leds[k]->value = k == curStep ? 10.0 : 0;
+
+		return chain[curStep];
 	}
 
 private:
@@ -49,6 +52,7 @@ private:
 	Output *pOutput;
 	std::vector<Param *> sequence;
 	std::vector<Light *> leds;
+	std::vector<int> chain;
 	int curStep;
 	int numSteps;
 };

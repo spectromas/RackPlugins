@@ -1,5 +1,7 @@
 #include "pwmClock.hpp"
 
+#define BPM_MINVALUE (10)
+#define BPM_MAXVALUE (300)
 #define PWM_MINVALUE (0.05)
 #define PWM_MAXVALUE (0.95)
 #define SWING_MINVALUE (0.0)
@@ -26,11 +28,44 @@ void PwmClock::load()
 	updateBpm();
 }
 
+void PwmClock::updateBpm()
+{
+	bool updated = false;
+	float new_bpm;
+	if(inputs[EXT_BPM].active)
+		new_bpm = rescale(inputs[EXT_BPM].value, LVL_OFF, LVL_ON, BPM_MINVALUE, BPM_MAXVALUE);
+	else
+		new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
+
+	if(bpm != new_bpm)
+	{
+		updated = true;
+		bpm = new_bpm;
+		duration[0] = 240.0 / bpm;	// 1/1
+		duration[1] = duration[0] + duration[0] / 2.0;
+		duration[2] = 2.0* duration[0] / 3.0;
+
+		for(int k = 1; k < 7; k++)
+		{
+			duration[3 * k] = duration[3 * (k - 1)] / 2.0;
+			duration[3 * k + 1] = duration[3 * (k - 1) + 1] / 2.0;
+			duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
+		}
+	}
+	float new_swing = getSwing();
+	if(updated || new_swing != swing)
+	{
+		swing = new_swing;
+		for(int k = 0; k < OUT_SOCKETS; k++)
+			swingAmt[k] = duration[k] + duration[k] * swing;
+	}
+}
+
 void PwmClock::process_keys()
 {
 	if(btnup.process(params[BPM_INC].value))
 	{
-		if(bpm_integer < 220.0)
+		if(bpm_integer < BPM_MAXVALUE)
 			bpm_integer += 1;
 		pWidget->SetBpm(bpm_integer);
 	}
@@ -103,60 +138,55 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
 
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/PwmClock.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/PwmClock.svg")));
 		addChild(panel);
 	}
 
-	addChild(Widget::create<ScrewSilver>(Vec(15, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 30, 0)));
-	addChild(Widget::create<ScrewSilver>(Vec(15, 365)));
-	addChild(Widget::create<ScrewSilver>(Vec(box.size.x - 30, 365)));
+	addChild(Widget::create<ScrewBlack>(Vec(15, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 30, 0)));
+	addChild(Widget::create<ScrewBlack>(Vec(15, 365)));
+	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 30, 365)));
 
-	int pos_y = 55;
+	addParam(ParamWidget::create<UPSWITCH>(Vec(mm2px(7.572), yncscape(104.588,4.115)), module, PwmClock::BPM_INC, 0.0, 1.0, 0.0));
+	addParam(ParamWidget::create<DNSWITCH>(Vec(mm2px(7.572), yncscape(99.788, 4.115)), module, PwmClock::BPM_DEC, 0.0, 1.0, 0.0));
+
 	SigDisplayWidget *display = new SigDisplayWidget(4, 1);
-	display->box.pos = Vec(30, pos_y);
+	display->box.pos = Vec(mm2px(20), RACK_GRID_HEIGHT-mm2px(108));
 	display->box.size = Vec(30+53, 24);
 	display->value = &module->bpm;
 	addChild(display);
 	
-	addParam(ParamWidget::create<UPSWITCH>(Vec(8, pos_y ), module, PwmClock::BPM_INC, 0.0, 1.0, 0.0));
-	addParam(ParamWidget::create<DNSWITCH>(Vec(8, pos_y + 12), module, PwmClock::BPM_DEC, 0.0, 1.0, 0.0));
+	ParamWidget *pw = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(50.364), yncscape(100.245, 8)), module, PwmClock::BPMDEC, 0.0, 9.0, 0.0);
+	((Davies1900hKnob *)pw)->snap = true;
+	addParam(pw);
+	pw = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(62.528), yncscape(99.483, 9.525)), module, PwmClock::BPM, BPM_MINVALUE, BPM_MAXVALUE, 120.0);
+	((Davies1900hKnob *)pw)->snap = true;
+	addParam(pw);
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(50.326), yncscape(86.857, 8.255)), Port::INPUT, module, PwmClock::EXT_BPM));
+	addInput(Port::create<PJ301YPort>(Vec(mm2px(63.162), yncscape(86.857, 8.255)), Port::INPUT, module, PwmClock::RESET));
 
-	int row = 0;
+	addParam(ParamWidget::create<NKK2>(Vec(mm2px(49.040), yncscape(64.997, 9.488)), module, PwmClock::OFFON, 0.0, 1.0, 0.0));
+	addChild(ModuleLightWidget::create<SmallLight<RedLight>>(Vec(mm2px(59.141), yncscape(67.715, 2.176)), module, PwmClock::ACTIVE));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(63.162), yncscape(64.675, 8.255)), Port::INPUT, module, PwmClock::OFFON_IN));
+
+	addParam(ParamWidget::create<Davies1900hFixRedKnob>(Vec(mm2px(48.511), yncscape(42.040, 9.525)), module, PwmClock::SWING, SWING_MINVALUE, SWING_MAXVALUE, SWING_MINVALUE));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(63.162), yncscape(42.675, 8.255)), Port::INPUT, module, PwmClock::SWING_IN));
+
+	addParam(ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(48.511), yncscape(20.040, 9.525)), module, PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5));
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(63.162), yncscape(20.675, 8.255)), Port::INPUT, module, PwmClock::PWM_IN));
+
+	float col_x[3] = {7.875, 21.633, 35.392};
+	float pos_y = yncscape(70.175, 8.255);
 	int col = 0;
-	pos_y += 45;	
 	for(int k = 0; k < OUT_SOCKETS; k++)
 	{
-		int x = col * 40 + 20;
-		int y = row * 37 + pos_y;
-		addOutput(Port::create<PJ301MPort>(Vec(x, y), Port::OUTPUT, module, PwmClock::OUT_1 + k));
+		addOutput(Port::create<PJ301OPort>(Vec(mm2px(col_x[col]), pos_y), Port::OUTPUT, module, PwmClock::OUT_1 + k));
 		if(++col >= 3)
 		{
 			col = 0;
-			row++;
+			pos_y += mm2px(11);
 		}
 	}
-	int pos_x = 186;
-	addInput(Port::create<PJ301YPort>(Vec(pos_x, pos_y), Port::INPUT, module, PwmClock::RESET));
-
-	pos_x = 132;
-	pos_y -= 60;
-	addParam(ParamWidget::create<Rogan1PSWhiteSnappedSmall>(Vec(pos_x+2, pos_y+11), module, PwmClock::BPMDEC, 0.0, 9.0, 0.0));
-	addParam(ParamWidget::create<Rogan1PSWhiteSnapped>(Vec(pos_x + 44, pos_y+5), module, PwmClock::BPM, 20.0, 220.0, 120.0));
-
-	pos_y = 100+ 2*37;
-	pos_x = 186;
-	addInput(Port::create<PJ301GPort>(Vec(pos_x, pos_y), Port::INPUT, module, PwmClock::OFFON_IN));
-	addParam(ParamWidget::create<NKK2>(Vec(pos_x - 46, pos_y - 8), module, PwmClock::OFFON, 0.0, 1.0, 0.0));
-	addChild(ModuleLightWidget::create<SmallLight<RedLight>>(Vec(pos_x - 20, pos_y-20), module, PwmClock::ACTIVE));
-
-	pos_y += 2 * 37;
-	addParam(ParamWidget::create<Rogan1PSRed>(Vec(pos_x - 50, pos_y-11), module, PwmClock::SWING, SWING_MINVALUE, SWING_MAXVALUE, SWING_MINVALUE));
-	addInput(Port::create<PJ301GPort>(Vec(pos_x, pos_y), Port::INPUT, module, PwmClock::SWING_IN));
-
-	pos_y += 2 * 37;
-	addParam(ParamWidget::create<Rogan1PSGreen>(Vec(pos_x-50, pos_y-11 ), module, PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5));
-	addInput(Port::create<PJ301GPort>(Vec(pos_x, pos_y), Port::INPUT, module, PwmClock::PWM_IN));
 }
 
 void PwmClockWidget::SetBpm(float bpm_integer)

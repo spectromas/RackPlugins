@@ -36,43 +36,153 @@ extern Plugin *plugin;
 #define DIGITAL_EXT
 #endif
 
-struct PJ301YPort : SVGPort
+struct _davies1900base : Davies1900hKnob 
 {
-	PJ301YPort()
+	_davies1900base(const char *res) 
 	{
-		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301Y.svg"));
+		setSVG(SVG::load(assetPlugin(plugin, res)));
+	}
+
+	void randomize() override
+	{
+		if(snap)
+			setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		else
+			Davies1900hKnob::randomize();
+	}
+};
+
+struct Davies1900hFixWhiteKnob : _davies1900base 
+{
+	Davies1900hFixWhiteKnob() : _davies1900base("res/Davies1900hWhite.svg") {}
+};
+
+struct Davies1900hFixBlackKnob : _davies1900base 
+{
+	Davies1900hFixBlackKnob() : _davies1900base("res/Davies1900hBlack.svg") {}
+};
+
+struct Davies1900hFixRedKnob : _davies1900base 
+{
+	Davies1900hFixRedKnob() : _davies1900base("res/Davies1900hRed.svg") {}
+};
+
+struct Davies1900hFixWhiteKnobSmall : _davies1900base
+{
+	Davies1900hFixWhiteKnobSmall() : _davies1900base("res/Davies1900hWhiteSmall.svg") {}
+};
+
+struct WhiteLight : GrayModuleLightWidget
+{
+	WhiteLight()
+	{
+		addBaseColor(COLOR_WHITE);
+	}
+};
+
+struct _ioPort : SVGPort
+{
+	_ioPort(const char *res)
+	{
+		background->svg = SVG::load(assetPlugin(plugin, res));
 		background->wrap();
 		box.size = background->box.size;
 	}
 };
 
-struct PJ301GPort : SVGPort
+struct PJ301YPort : _ioPort 
 {
-	PJ301GPort()
-	{
-		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301G.svg"));
-		background->wrap();
-		box.size = background->box.size;
+	PJ301YPort() : _ioPort("res/PJ301Y.svg") {}
+};
+
+struct PJ301BPort : _ioPort
+{
+	PJ301BPort() : _ioPort("res/PJ301B.svg") {}
+};
+
+struct PJ301GPort : _ioPort
+{
+	PJ301GPort() : _ioPort("res/PJ301G.svg") {}
+};
+struct PJ301GRPort : _ioPort
+{
+	PJ301GRPort() : _ioPort("res/PJ301GR.svg") {}
+};
+
+struct PJ301RPort : _ioPort
+{
+	PJ301RPort() : _ioPort("res/PJ301R.svg") {}
+};
+
+struct PJ301WPort : _ioPort
+{
+	PJ301WPort() : _ioPort("res/PJ301W.svg") {}
+};
+
+struct PJ301OPort : _ioPort
+{
+	PJ301OPort() : _ioPort("res/PJ301O.svg") {}
+};
+
+struct PJ301BLUPort : _ioPort
+{
+	PJ301BLUPort() : _ioPort("res/PJ301BLU.svg") {}
+};
+
+struct CL1362YPort : _ioPort
+{
+	CL1362YPort() : _ioPort("res/CL1362Y.svg") {}
+};
+
+struct CL1362GPort : _ioPort
+{
+	CL1362GPort() : _ioPort("res/CL1362G.svg") {}
+};
+
+struct CL1362RPort : _ioPort
+{
+	CL1362RPort() : _ioPort("res/CL1362R.svg") {}
+};
+
+struct CL1362WPort : _ioPort
+{
+	CL1362WPort() : _ioPort("res/CL1362W.svg") {}
+};
+
+struct BefacoPushBig : SVGSwitch, MomentarySwitch {
+	BefacoPushBig() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoPush_0big.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoPush_1big.svg")));
 	}
 };
 
-struct PJ301RPort : SVGPort
-{
-	PJ301RPort()
+struct CKSSFix : SVGSwitch, ToggleSwitch {
+	CKSSFix() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSS_1.svg")));
+	}
+	void randomize() override
 	{
-		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301R.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
 	}
 };
 
-struct PJ301WPort : SVGPort
-{
-	PJ301WPort()
+struct CKSSThreeFix : SVGSwitch, ToggleSwitch {
+	CKSSThreeFix() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_1.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/CKSSThree_2.svg")));
+	}
+	void randomize() override
 	{
-		background->svg = SVG::load(assetPlugin(plugin, "res/PJ301W.svg"));
-		background->wrap();
-		box.size = background->box.size;
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+	}
+};
+
+struct TL1105Sw : SVGSwitch, ToggleSwitch {
+	TL1105Sw() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/TL1105_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/TL1105_1.svg")));
 	}
 };
 
@@ -125,14 +235,17 @@ struct SchmittTrigger2
 	}
 };
 
-struct NKK2 : NKK
+struct NKK2 : SVGSwitch, ToggleSwitch
 {
+	NKK2() {
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_1.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/NKK_2.svg")));
+	}
+
 	void randomize() override
 	{
-		if(randomUniform() >= 0.5)
-			setValue(1.0);
-		else
-			setValue(0.0);
+		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
 	}
 };
 
@@ -148,61 +261,20 @@ struct BefacoSnappedSwitch : SVGSwitch, ToggleSwitch
 
 	BefacoSnappedSwitch()
 	{
-		addFrame(SVG::load(assetGlobal("res/ComponentLibrary/BefacoSwitch_0.svg")));
-		addFrame(SVG::load(assetGlobal("res/ComponentLibrary/BefacoSwitch_2.svg")));
-	}
-};
-
-struct Rogan1PSWhiteSnapped : Rogan1PSWhite
-{
-	Rogan1PSWhiteSnapped() { snap = true; }
-	void randomize() override {}
-};
-
-struct Rogan1PSWhiteSnappedSmall : Rogan
-{
-	Rogan1PSWhiteSnappedSmall()
-	{
-		setSVG(SVG::load(assetPlugin(plugin, "res/Rogan2PSWhiteSmall.svg")));
-	}
-};
-
-struct NKK3 : NKK
-{
-	void randomize() override
-	{
-		setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue)));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoSwitch_0.svg")));
+		addFrame(SVG::load(assetPlugin(plugin, "res/BefacoSwitch_2.svg")));
 	}
 };
 
 
-struct CKSS2 : CKSS
-{
-	void randomize() override
-	{
-		if(randomUniform() >= 0.5)
-			setValue(1.0);
-		else
-			setValue(0.0);
-	}
-};
-
-struct BefacoSnappedTinyKnob : BefacoTinyKnob
-{
-	BefacoSnappedTinyKnob() : BefacoTinyKnob()
-	{
-		snap = true;
-	}
-	void randomize() override { setValue(roundf(rescale(randomUniform(), 0.0, 1.0, minValue, maxValue))); }
-};
 
 struct VerticalSwitch : SVGFader 
 {
 	VerticalSwitch()
 	{
 		snap = true;
-		maxHandlePos = Vec(-4, 0);
-		minHandlePos = Vec(-4, 37);
+		maxHandlePos = Vec(-mm2px(2.3-2.3/2.0), 0);
+		minHandlePos = Vec(-mm2px(2.3-2.3/2.0),mm2px(13-2.8));
 		background->svg = SVG::load(assetPlugin(plugin, "res/counterSwitchShort.svg"));
 		background->wrap();
 		background->box.pos = Vec(0, 0);
@@ -235,8 +307,11 @@ private:
 class SequencerWidget : public ModuleWidget
 {
 protected:
-	SequencerWidget(Module *module) : ModuleWidget(module)
-	{}
+	SequencerWidget(Module *module) : ModuleWidget(module) 	{}
+	float yncscape(float y, float height)
+	{
+		return RACK_GRID_HEIGHT - mm2px(y + height);
+	}
 	int getParamIndex(int index)
 	{
 		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramId == index; });

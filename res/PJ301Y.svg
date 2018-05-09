@@ -15,7 +15,7 @@
    version="1.1"
    id="svg15246"
    sodipodi:docname="PJ301Y.svg"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
+   inkscape:version="0.92.3 (2405546, 2018-03-11)">
   <defs
      id="defs15240">
     <clipPath
@@ -147,7 +147,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="11.2"
-     inkscape:cx="0.53980871"
+     inkscape:cx="-2.8976913"
      inkscape:cy="5.9688197"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -170,7 +170,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -180,15 +180,10 @@
      id="layer1"
      transform="translate(-88.611154,-119.19859)">
     <path
-       inkscape:connector-curvature="0"
-       id="path7255"
-       d="m 92.788964,127.42922 c -2.235179,0 -4.05281,-1.81762 -4.05281,-4.05282 0,-2.23516 1.817631,-4.05281 4.05281,-4.05281 2.235176,0 4.05281,1.81765 4.05281,4.05281 0,2.2352 -1.817634,4.05282 -4.05281,4.05282"
-       style="fill:#d6d600;fill-opacity:1;fill-rule:nonzero;stroke:#caca35;stroke-width:0.25;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path7261"
-       d="m 92.788964,126.29511 c -1.609548,0 -2.918685,-1.30916 -2.918685,-2.91871 0,-1.60954 1.309137,-2.91867 2.918685,-2.91867 1.609549,0 2.918682,1.30913 2.918682,2.91867 0,1.60955 -1.309133,2.91871 -2.918682,2.91871"
-       style="fill:#d6d600;fill-opacity:1;fill-rule:nonzero;stroke:#caca35;stroke-width:0.25;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+       style="fill:#ffff00;fill-opacity:1;fill-rule:nonzero;stroke:#ffe680;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="M 15.791016 0.47265625 C 7.343095 0.47265625 0.47265625 7.3431668 0.47265625 15.791016 C 0.47265625 24.239016 7.343095 31.107422 15.791016 31.107422 C 24.238925 31.107422 31.107422 24.239016 31.107422 15.791016 C 31.107422 7.3431668 24.238925 0.47265625 15.791016 0.47265625 z M 15.791016 4.7597656 C 21.87435 4.7597656 26.822266 9.7077148 26.822266 15.791016 C 26.822266 21.874354 21.87435 26.822266 15.791016 26.822266 C 9.7076846 26.822266 4.7597656 21.874354 4.7597656 15.791016 C 4.7597656 9.7077148 9.7076846 4.7597656 15.791016 4.7597656 z "
+       transform="matrix(0.26458333,0,0,0.26458333,88.611154,119.19859)"
+       id="path7255" />
     <path
        inkscape:connector-curvature="0"
        id="path7265"
