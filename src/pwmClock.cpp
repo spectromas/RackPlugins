@@ -1,5 +1,7 @@
 #include "pwmClock.hpp"
 
+#define BPM_MINVALUE (10)
+#define BPM_MAXVALUE (300)
 #define PWM_MINVALUE (0.05)
 #define PWM_MAXVALUE (0.95)
 #define SWING_MINVALUE (0.0)
@@ -26,11 +28,44 @@ void PwmClock::load()
 	updateBpm();
 }
 
+void PwmClock::updateBpm()
+{
+	bool updated = false;
+	float new_bpm;
+	if(inputs[EXT_BPM].active)
+		new_bpm = rescale(inputs[EXT_BPM].value, LVL_OFF, LVL_ON, BPM_MINVALUE, BPM_MAXVALUE);
+	else
+		new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
+
+	if(bpm != new_bpm)
+	{
+		updated = true;
+		bpm = new_bpm;
+		duration[0] = 240.0 / bpm;	// 1/1
+		duration[1] = duration[0] + duration[0] / 2.0;
+		duration[2] = 2.0* duration[0] / 3.0;
+
+		for(int k = 1; k < 7; k++)
+		{
+			duration[3 * k] = duration[3 * (k - 1)] / 2.0;
+			duration[3 * k + 1] = duration[3 * (k - 1) + 1] / 2.0;
+			duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
+		}
+	}
+	float new_swing = getSwing();
+	if(updated || new_swing != swing)
+	{
+		swing = new_swing;
+		for(int k = 0; k < OUT_SOCKETS; k++)
+			swingAmt[k] = duration[k] + duration[k] * swing;
+	}
+}
+
 void PwmClock::process_keys()
 {
 	if(btnup.process(params[BPM_INC].value))
 	{
-		if(bpm_integer < 220.0)
+		if(bpm_integer < BPM_MAXVALUE)
 			bpm_integer += 1;
 		pWidget->SetBpm(bpm_integer);
 	}
@@ -124,9 +159,10 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 	ParamWidget *pw = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(50.364), yncscape(100.245, 8)), module, PwmClock::BPMDEC, 0.0, 9.0, 0.0);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
-	pw = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(62.528), yncscape(99.483, 9.525)), module, PwmClock::BPM, 20.0, 220.0, 120.0);
+	pw = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(62.528), yncscape(99.483, 9.525)), module, PwmClock::BPM, BPM_MINVALUE, BPM_MAXVALUE, 120.0);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
+	addInput(Port::create<PJ301BPort>(Vec(mm2px(50.326), yncscape(86.857, 8.255)), Port::INPUT, module, PwmClock::EXT_BPM));
 	addInput(Port::create<PJ301YPort>(Vec(mm2px(63.162), yncscape(86.857, 8.255)), Port::INPUT, module, PwmClock::RESET));
 
 	addParam(ParamWidget::create<NKK2>(Vec(mm2px(49.040), yncscape(64.997, 9.488)), module, PwmClock::OFFON, 0.0, 1.0, 0.0));

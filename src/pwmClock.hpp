@@ -83,6 +83,7 @@ struct PwmClock : Module
 	enum InputIds
 	{
 		RESET,
+		EXT_BPM,
 		PWM_IN,
 		SWING_IN,
 		OFFON_IN,
@@ -144,33 +145,8 @@ private:
 	SchmittTrigger2 resetTrigger;
 
 	void process_keys();
-	void updateBpm()
-	{
-		bool updated = false;
-		float new_bpm = (roundf(params[BPMDEC].value) + 10 * bpm_integer) / 10.0;
-		if(bpm != new_bpm)
-		{
-			updated = true;
-			bpm = new_bpm;
-			duration[0] = 240.0 / bpm;	// 1/1
-			duration[1] = duration[0] + duration[0] / 2.0;
-			duration[2] = 2.0* duration[0] / 3.0;
-
-			for(int k = 1; k < 7; k++)
-			{
-				duration[3 * k] = duration[3 * (k - 1)] / 2.0;
-				duration[3 * k + 1] = duration[3 * (k - 1) + 1] / 2.0;
-				duration[3 * k + 2] = duration[3 * (k - 1) + 2] / 2.0;
-			}
-		}
-		float new_swing = getSwing();
-		if(updated || new_swing != swing)
-		{
-			swing = new_swing;
-			for(int k = 0; k < OUT_SOCKETS; k++)
-				swingAmt[k] = duration[k] + duration[k] * swing;
-		}
-	}
+	void updateBpm();
+	
 	float getDuration(int n)
 	{
 		return odd_beat[n] ? swingAmt[n] : duration[n];
