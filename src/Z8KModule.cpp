@@ -34,8 +34,17 @@ void Z8K::load()
 
 void Z8K::step()
 {
+	bool activeSteps[16];
+	for(int k = 0; k < 16; k++)
+		activeSteps[k] = false;
+
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		seq[k].Step();
+		activeSteps[seq[k].Step()] = true;
+
+	for(int k = 0; k < 16; k++)
+	{
+		outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
+	}
 
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
@@ -144,11 +153,13 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 
 			if(r == 3)
 				addOutput(Port::create<PJ301GPort>(Vec(mm2px(52.168+ dist_h * c), yncscape(2.685, 8.255)), Port::OUTPUT, module, Z8K::CV_A + c));
+
+			addOutput(Port::create<PJ301WPort>(Vec(mm2px(57.362 + dist_h * c), yncscape(73.320 + dist_v * r, 8.255)), Port::OUTPUT, module, Z8K::ACTIVE_STEP + n));
 		}
 		addOutput(Port::create<PJ301GPort>(Vec(mm2px(161.154), yncscape(82.210+r*dist_v, 8.255)), Port::OUTPUT, module, Z8K::CV_1 + r));
 	}
 
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(mm2px(17.160), yncscape(107.889, 3.867), &module->connected));
+	addChild(new DigitalLed(mm2px(161.770), yncscape(6.879, 7.074), &module->connected));
 	#endif
 }
