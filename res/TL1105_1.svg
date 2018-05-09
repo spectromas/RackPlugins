@@ -14,7 +14,7 @@
    viewBox="0 0 8.2550001 8.2550002"
    version="1.1"
    id="svg12484"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="TL1105_1.svg">
   <defs
      id="defs12478" />
@@ -25,11 +25,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="44.8"
-     inkscape:cx="-5.9475849"
-     inkscape:cy="8.0360204"
+     inkscape:zoom="11.2"
+     inkscape:cx="2.2530085"
+     inkscape:cy="-1.4863362"
      inkscape:document-units="mm"
-     inkscape:current-layer="g12476"
+     inkscape:current-layer="layer1"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -89,5 +89,11 @@
          rx="18.858429"
          ry="18.861204" />
     </g>
+    <circle
+       style="opacity:1;fill:#ff0000;fill-opacity:1;stroke:#800000;stroke-width:0.28760749;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       id="path1388"
+       cx="160.0975"
+       cy="114.97846"
+       r="1.0586963" />
   </g>
 </svg>

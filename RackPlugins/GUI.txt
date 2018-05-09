@@ -8,10 +8,11 @@ smalllight: 2.176
 mediumlight: 3.176
 
 clockin: CL1362RPort [Red]
+clockout: CL1362OPort [ORANGE]
 reset: CL1362YPort [yellow]
 cv: CL1362GPort [green]
 cv_in: PJ301GRPort [gray]
 gate: CL1362WPort [white]
 modin:  CL1362BPort [black]
-clockout: CL1362OPort [ORANGE]
+
 trigger:  CL1362BLUPort  [BLU]
