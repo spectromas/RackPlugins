@@ -47,6 +47,7 @@ struct Mplex : Module
 
 	Mplex() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
 	{		
+		load();
 	}
 
 	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
