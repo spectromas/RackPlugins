@@ -1,12 +1,12 @@
 #include "common.hpp"
 #include "boole.hpp"
 
-void Boole::step()
+void Boole::process(const ProcessArgs &args)
 {
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
 		int index = 2 * k;
-		if(inputs[IN_1 + index].active && (k == 0 || inputs[IN_1 + index - 1].active))
+		if(inputs[IN_1 + index].isConnected() && (k == 0 || inputs[IN_1 + index - 1].isConnected()))
 		{
 			bool o = process(k, index);
 			if(k > 0 && params[INVERT_1 + k - 1].value > 0)
@@ -25,15 +25,15 @@ bool Boole::process(int num_op, int index)
 	bool x;
 	if(num_op == 0)	// not?
 	{
-		x = inputs[IN_1].normalize(0.0) > params[THRESH_1 ].value;
+		x = inputs[IN_1].getNormalVoltage(0.0) > params[THRESH_1 ].value;
 		lights[LED_1].value = x ? 5.0 : 0.0;
 		return !x;
 	} else
 	{
-		x = inputs[IN_1 + index-1].normalize(0.0) > params[THRESH_1 + index-1].value;
+		x = inputs[IN_1 + index-1].getNormalVoltage(0.0) > params[THRESH_1 + index-1].value;
 		lights[LED_1 + index - 1].value = x ? 5.0 : 0.0;
 	}
-	bool y = inputs[IN_1 + index].normalize(0.0) > params[THRESH_1 + index].value;
+	bool y = inputs[IN_1 + index].getNormalVoltage(0.0) > params[THRESH_1 + index].value;
 	lights[LED_1 + index].value = y ? 5.0 : 0.0;
 		
 	switch(num_op)
@@ -47,21 +47,22 @@ bool Boole::process(int num_op, int index)
 	return false;
 }
 
-BooleWidget::BooleWidget(Boole *module) : ModuleWidget(module)
+BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 {
+	setModule(module);
 	box.size = Vec(14* RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		SVGPanel *panel = new SVGPanel();
+		SvgPanel *panel = new SvgPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/boole.svg")));		
+		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/boole.svg")));		
 		addChild(panel);
 	}
 
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float in_x = mm2px(5.170);
 	float in_led_x = mm2px(15.778);
 	float out_led_x = mm2px(53.878);
@@ -84,9 +85,9 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget(module)
 			index--;
 
 		// X
-		addInput(Port::create<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), Port::INPUT, module, Boole::IN_1 + index));
-		addParam(ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0)), module, Boole::THRESH_1 + index, 0.0, 10.0, 0.0));
-		addChild(ModuleLightWidget::create<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1+index));
+		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_1 + index));
+		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0)), module, Boole::THRESH_1 + index));
+		addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1+index));
 
 		// Y
 		if(k > 0)
@@ -95,21 +96,21 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget(module)
 			y += sub_dy;
 			ypot += sub_dy;
 			yled += sub_dy;
-			addInput(Port::create<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), Port::INPUT, module, Boole::IN_1 + index));
-			addParam(ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0) ), module, Boole::THRESH_1 + index, 0.0, 10.0, 0.0));
-			addChild(ModuleLightWidget::create<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1 + index ));
+			addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_1 + index));
+			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0) ), module, Boole::THRESH_1 + index));
+			addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1 + index ));
 		}
 		
 		// OUT
-		addOutput(Port::create<PJ301WPort>(Vec(out_x, yncscape(yout, 8.255)), Port::OUTPUT, module, Boole::OUT_1+k));
-		addChild(ModuleLightWidget::create<SmallLight<WhiteLight>>(Vec(out_led_x, yncscape(yled_out, 2.176)), module, Boole::LED_1 + k+ 2 * NUM_BOOL_OP-1));
+		addOutput(createOutput<PJ301WPort>(Vec(out_x, yncscape(yout, 8.255)), module, Boole::OUT_1+k));
+		addChild(createLight<SmallLight<WhiteLight>>(Vec(out_led_x, yncscape(yled_out, 2.176)), module, Boole::LED_1 + k+ 2 * NUM_BOOL_OP-1));
 		if(k == 0)
 		{
 			yled_out -= 20.731;
 			yout -= 20.731;
 		} else
 		{
-			addParam(ParamWidget::create<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k - 1, 0.0, 1.0, 0.0));
+			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k - 1));
 			yled_out += out_dy;
 			yout += out_dy;
 			yinv += out_dy;

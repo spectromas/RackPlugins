@@ -22,7 +22,7 @@ void Spiralone::load()
 		sequencer[k].Reset(k, this);
 }
 
-void Spiralone::step()
+void Spiralone::process(const ProcessArgs &args)
 {
 	if(masterReset.process(params[M_RESET].value))
 	{
@@ -57,22 +57,22 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	char name[60];
 	#endif
 
-	color[0] = COLOR_RED;
-	color[1] = COLOR_WHITE;
-	color[2] = COLOR_BLUE;
-	color[3] = COLOR_YELLOW;
-	color[4] = COLOR_GREEN;
+	color[0] = componentlibrary::SCHEME_RED;
+	color[1] = componentlibrary::SCHEME_WHITE;
+	color[2] = componentlibrary::SCHEME_BLUE;
+	color[3] = componentlibrary::SCHEME_YELLOW;
+	color[4] = componentlibrary::SCHEME_GREEN;
 
 	box.size = Vec(51 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SVGPanel *panel = new SVGPanel();
+	SvgPanel *panel = new SvgPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/SpiraloneModule.svg")));
+	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/SpiraloneModule.svg")));
 
 	addChild(panel);
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	float step = 2 * M_PI / TOTAL_STEPS;
 	float angle = M_PI / 2.0;
@@ -84,11 +84,14 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 		float center_y = 64.250;
 		float center_x = 66.894;
 	
-		ParamWidget *pctrl = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(center_x-4.0+r*cx), yncscape(center_y-4.0 +r*cy, 8.0)), module, Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0);
+		ParamWidget *pctrl = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(center_x-4.0+r*cx), yncscape(center_y-4.0 +r*cy, 8.0)), module, Spiralone::VOLTAGE_1 + k);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Knob%i", k + 1);
-		oscControl *oc = new oscControl(name);
-		module->oscDrv->Add(oc, pctrl);
+		if(module != NULL)
+		{
+			sprintf(name, "/Knob%i", k + 1);
+			oscControl *oc = new oscControl(name);
+			module->oscDrv->Add(oc, pctrl);
+		}
 		#endif
 		addParam(pctrl);
 		
@@ -99,9 +102,12 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 			r -= 6;
 			ModuleLightWidget *plight = createLed(s, Vec(mm2px(center_x-1.088+ r*cx), yncscape(center_y-1.088 + r*cy, 2.176)), module, Spiralone::LED_SEQUENCE_1 + n);
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/Led%i_%i", s+1, n + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, plight);
+			if(module != NULL)
+			{
+				sprintf(name, "/Led%i_%i", s+1, n + 1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, plight);
+			}
 			#endif
 			addChild(plight);
 
@@ -111,9 +117,10 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 		angle += step;
 	}
 
-	addParam(ParamWidget::create<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET, 0.0, 1.0, 0.0));
+	addParam(createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET));
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
+	if(module != NULL)
+		addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
 	#endif
 }
 
@@ -125,58 +132,73 @@ void SpiraloneWidget::createSequencer(int seq)
 
 	float dist_v = -25.206;
 	
-	addInput(Port::create<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::CLOCK_1 + seq));
-	addInput(Port::create<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), Port::INPUT, module, Spiralone::RESET_1 + seq));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), module, Spiralone::CLOCK_1 + seq));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), module, Spiralone::RESET_1 + seq));
 
-	ParamWidget *pwdg = ParamWidget::create<BefacoSnappedSwitch>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 7.883)), module, Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
+	ParamWidget *pwdg = createParam<BefacoSnappedSwitch>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 7.883)), module, Spiralone::MODE_1 + seq);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	int color_launchpad[NUM_SEQUENCERS][2];
-	color_launchpad[0][0] = 11; color_launchpad[0][1] = 5;
-	color_launchpad[1][0] = 1; color_launchpad[1][1] = 3;
-	color_launchpad[2][0] = 47; color_launchpad[2][1] = 37;
-	color_launchpad[3][0] = 15; color_launchpad[3][1] = 12;
-	color_launchpad[4][0] = 19; color_launchpad[4][1] = 21;
-	LaunchpadRadio *sw = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(0, seq), 2, LaunchpadLed::Color(color_launchpad[seq][0]), LaunchpadLed::Color(color_launchpad[seq][1]));
-	((Spiralone *)module)->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{	
+		int color_launchpad[NUM_SEQUENCERS][2];
+		color_launchpad[0][0] = 11; color_launchpad[0][1] = 5;
+		color_launchpad[1][0] = 1; color_launchpad[1][1] = 3;
+		color_launchpad[2][0] = 47; color_launchpad[2][1] = 37;
+		color_launchpad[3][0] = 15; color_launchpad[3][1] = 12;
+		color_launchpad[4][0] = 19; color_launchpad[4][1] = 21;
+		LaunchpadRadio *sw = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(0, seq), 2, LaunchpadLed::Color(color_launchpad[seq][0]), LaunchpadLed::Color(color_launchpad[seq][1]));
+		((Spiralone *)module)->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Mode%i", seq + 1);
-	oscControl *oc = new oscControl(name);
-	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Mode%i", seq + 1);
+		oscControl *oc = new oscControl(name);
+		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS);
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Lenght%i", seq + 1);
-	oc = new oscControl(name);
-	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Lenght%i", seq + 1);
+		oc = new oscControl(name);
+		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(181.649), yncscape(104.395 + dist_v*seq, 8.0)), Port::INPUT, module, Spiralone::INLENGHT_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(181.649), yncscape(104.395 + dist_v*seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
 
-	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0);
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Stride%i", seq + 1);
-	oc = new oscControl(name);
-	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Stride%i", seq + 1);
+		oc = new oscControl(name);
+		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(201.913), yncscape(104.395 + dist_v*seq, 8.255)), Port::INPUT, module, Spiralone::INSTRIDE_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(201.913), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::INSTRIDE_1 + seq));
 
-	pwdg = ParamWidget::create<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(215.954), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0);
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(215.954), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::XPOSE_1 + seq);
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Transpose%i", seq + 1);
-	oc = new oscControl(name);
-	((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Transpose%i", seq + 1);
+		oc = new oscControl(name);
+		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 	addParam(pwdg);
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v*seq, 8.255)), Port::INPUT, module, Spiralone::INXPOSE_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::INXPOSE_1 + seq));
 
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::CV_1 + seq));
-	addOutput(Port::create<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), Port::OUTPUT, module, Spiralone::GATE_1 + seq));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), module, Spiralone::CV_1 + seq));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::GATE_1 + seq));
 }
 
 ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, int firstLightId, bool big)

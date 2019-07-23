@@ -9,9 +9,9 @@ void Klee::on_loaded()
 	load();
 }
 
-void Klee::step()
+void Klee::process(const ProcessArgs &args)
 {
-	float deltaTime = 1.0 / engineGetSampleRate();
+	float deltaTime = 1.0 / args.sampleRate;
 
 	if(loadTrigger.process(params[LOAD_PARAM].value + inputs[LOAD_INPUT].value))
 	{
@@ -207,100 +207,124 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#endif
 
 	#ifdef LAUNCHPAD
-	int numLaunchpads = module->drv->GetNumLaunchpads();
+	int numLaunchpads = module != NULL ? module->drv->GetNumLaunchpads() : 0;
 	#ifdef DEBUG
 	info("%i launchpad found", numLaunchpads);
 	#endif
 	#endif
 	box.size = Vec(48 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SVGPanel *panel = new SVGPanel();
+	SvgPanel *panel = new SvgPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/KleeModule.svg")));
+	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/KleeModule.svg")));
 	addChild(panel);
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
 	const float switch_dstx = 22.203 - 11.229;
 	for(int k = 0; k < 8; k++)
 	{
 		// Load switches
-		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadSwitch *sw = new LaunchpadSwitch(0, 0, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Color(11), LaunchpadLed::Color(5));
-			module->drv->Add(sw, pwdg);
-		} else
-		{
-			LaunchpadSwitch *sw = new LaunchpadSwitch(0, ILaunchpadPro::RC2Key(2, k), LaunchpadLed::Color(11), LaunchpadLed::Color(5));
-			module->drv->Add(sw, pwdg);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadSwitch *sw = new LaunchpadSwitch(0, 0, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Color(11), LaunchpadLed::Color(5));
+				module->drv->Add(sw, pwdg);
+			} else
+			{
+				LaunchpadSwitch *sw = new LaunchpadSwitch(0, ILaunchpadPro::RC2Key(2, k), LaunchpadLed::Color(11), LaunchpadLed::Color(5));
+				module->drv->Add(sw, pwdg);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Load%i", k+1);
-		oscControl *oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Load%i", k+1);
+			oscControl *oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
+		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadSwitch *sw = new LaunchpadSwitch(1, 0, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Color(19), LaunchpadLed::Color(17));
-			module->drv->Add(sw, pwdg);
-		} else
-		{
-			LaunchpadSwitch *sw = new LaunchpadSwitch(0, ILaunchpadPro::RC2Key(3, k), LaunchpadLed::Color(19), LaunchpadLed::Color(17));
-			module->drv->Add(sw, pwdg);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadSwitch *sw = new LaunchpadSwitch(1, 0, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Color(19), LaunchpadLed::Color(17));
+				module->drv->Add(sw, pwdg);
+			} else
+			{
+				LaunchpadSwitch *sw = new LaunchpadSwitch(0, ILaunchpadPro::RC2Key(3, k), LaunchpadLed::Color(19), LaunchpadLed::Color(17));
+				module->drv->Add(sw, pwdg);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Load%i", k + 9);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Load%i", k + 9);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
 		// BUS switches
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 11.229), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
+		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 11.229), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadRadio *radio = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(7), LaunchpadLed::Color(5));
-			module->drv->Add(radio, pwdg);
-		} else
-		{
-			LaunchpadThree *three = new LaunchpadThree(0, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Color(7), LaunchpadLed::Color(6), LaunchpadLed::Color(5));
-			module->drv->Add(three, pwdg);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadRadio *radio = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(7), LaunchpadLed::Color(5));
+				module->drv->Add(radio, pwdg);
+			} else
+			{
+				LaunchpadThree *three = new LaunchpadThree(0, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Color(7), LaunchpadLed::Color(6), LaunchpadLed::Color(5));
+				module->drv->Add(three, pwdg);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Bus%i", k + 1);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Bus%i", k + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
-		pwdg = ParamWidget::create<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
+		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k + 8);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadRadio *radio = new LaunchpadRadio(1, 0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(17), LaunchpadLed::Color(19));
-			module->drv->Add(radio, pwdg);
-		} else
-		{
-			LaunchpadThree *three = new LaunchpadThree(0, ILaunchpadPro::RC2Key(7, k), LaunchpadLed::Color(17), LaunchpadLed::Color(18), LaunchpadLed::Color(19));
-			module->drv->Add(three, pwdg);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadRadio *radio = new LaunchpadRadio(1, 0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(17), LaunchpadLed::Color(19));
+				module->drv->Add(radio, pwdg);
+			} else
+			{
+				LaunchpadThree *three = new LaunchpadThree(0, ILaunchpadPro::RC2Key(7, k), LaunchpadLed::Color(17), LaunchpadLed::Color(18), LaunchpadLed::Color(19));
+				module->drv->Add(three, pwdg);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Bus%i", k + 9);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Bus%i", k + 9);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 	}
 
@@ -308,145 +332,202 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	float dist_v = 60.582 - 76.986;
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
+		ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
-		LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, 4 + k), LaunchpadLed::Color(11), LaunchpadLed::Color(52));
-		module->drv->Add(sw, pwdg);
+		if(module != NULL)
+		{
+			LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, 4 + k), LaunchpadLed::Color(11), LaunchpadLed::Color(52));
+			module->drv->Add(sw, pwdg);
+		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Merge%i", k + 1);
-		oscControl *oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Merge%i", k + 1);
+			oscControl *oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
-		ModuleLightWidget *plight = ModuleLightWidget::create<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k*dist_v, 5.179)), module, Klee::LED_BUS + k);
+		ModuleLightWidget *plight = createLight<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k*dist_v, 5.179)), module, Klee::LED_BUS + k);
 		addChild(plight);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/BusLed%i", k + 1);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, plight);
+		if(module != NULL)
+		{
+			sprintf(name, "/BusLed%i", k + 1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+		}
 		#endif
 
-		addOutput(Port::create<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986+k*dist_v, 8.255)), Port::OUTPUT, module, Klee::TRIG_OUT + k));
-		addOutput(Port::create<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986+k*dist_v, 8.255)), Port::OUTPUT, module, Klee::GATE_OUT + k));
+		addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986+k*dist_v, 8.255)), module, Klee::TRIG_OUT + k));
+		addOutput(createOutput<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986+k*dist_v, 8.255)), module, Klee::GATE_OUT + k));
 	}
-	ParamWidget *pwdg = ParamWidget::create<CKSSFix>(Vec(mm2px(172.113), yncscape(61.520, 5.460)), module, Klee::BUS2_MODE, 0.0, 1.0, 0.0);
+	ParamWidget *pwdg = createParam<CKSSFix>(Vec(mm2px(172.113), yncscape(61.520, 5.460)), module, Klee::BUS2_MODE);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::STOP_CLIP, LaunchpadLed::Color(55), LaunchpadLed::Color(57));
-	module->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{
+		LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::STOP_CLIP, LaunchpadLed::Color(55), LaunchpadLed::Color(57));
+		module->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Bus2Mode");
-	oscControl *oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Bus2Mode");
+		oscControl *oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
 	//load
-	pwdg = ParamWidget::create<BefacoPushBig>(Vec(mm2px(25.360), yncscape(76.686,8.999)), module, Klee::LOAD_PARAM, 0.0, 1.0, 0.0);
+	pwdg = createParam<BefacoPushBig>(Vec(mm2px(25.360), yncscape(76.686,8.999)), module, Klee::LOAD_PARAM);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	LaunchpadMomentary *mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD, LaunchpadLed::Color(1), LaunchpadLed::Color(43));
-	module->drv->Add(mom, pwdg);
+	if(module != NULL)
+	{
+		LaunchpadMomentary *mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD, LaunchpadLed::Color(1), LaunchpadLed::Color(43));
+		module->drv->Add(mom, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Load");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Load");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(9.218), yncscape(77.058, 8.255)), Port::INPUT, module, Klee::LOAD_INPUT));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(9.218), yncscape(77.058, 8.255)), module, Klee::LOAD_INPUT));
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
-	module->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{
+		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
+		module->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Bus1Load");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Bus1Load");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
 	//step
-	pwdg = ParamWidget::create<BefacoPushBig>(Vec(mm2px(25.360), yncscape(24.737, 8.999)), module, Klee::STEP_PARAM, 0.0, 1.0, 0.0);
+	pwdg = createParam<BefacoPushBig>(Vec(mm2px(25.360), yncscape(24.737, 8.999)), module, Klee::STEP_PARAM);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::CLICK, LaunchpadLed::Color(1), LaunchpadLed::Color(9));
-	module->drv->Add(mom, pwdg);
+	if(module != NULL)
+	{
+		mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::CLICK, LaunchpadLed::Color(1), LaunchpadLed::Color(9));
+		module->drv->Add(mom, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Step");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Step");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	addInput(Port::create<PJ301RPort>(Vec(mm2px(9.218), yncscape(25.109, 8.255)), Port::INPUT, module, Klee::EXT_CLOCK_INPUT));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(9.218), yncscape(25.109, 8.255)), module, Klee::EXT_CLOCK_INPUT));
 
 	// CV Out
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(213.360), yncscape(113.612, 8.255)), Port::OUTPUT, module, Klee::CV_A));
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(230.822), yncscape(113.612, 8.255)), Port::OUTPUT, module, Klee::CV_B));
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), Port::OUTPUT, module, Klee::CV_A__B));
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), Port::OUTPUT, module, Klee::CV_AB));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(113.612, 8.255)), module, Klee::CV_A));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(113.612, 8.255)), module, Klee::CV_B));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(213.360), yncscape(97.207, 8.255)), module, Klee::CV_A__B));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), module, Klee::CV_AB));
 
 	// mode
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16, 0.0, 1.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
 	addParam(pwdg);     // 2x8 1x16
 	#ifdef LAUNCHPAD
-	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-	module->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{
+		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
+		module->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Mode");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Mode");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT, 0.0, 1.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT);
 	addParam(pwdg);     // rnd/pattern
 	#ifdef LAUNCHPAD
-	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-	module->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{
+		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
+		module->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Random");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Random");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV, 0.0, 1.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV);
 	addParam(pwdg);     // norm /B inverted
 	#ifdef LAUNCHPAD
-	sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-	module->drv->Add(sw, pwdg);
+	if(module != NULL)
+	{
+		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
+		module->drv->Add(sw, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Invert");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Invert");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
 	// CV Range
-	pwdg = ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(24.474,9.525)), module, Klee::RANGE, 0.0001, 5.0, 1.0);
+	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(24.474,9.525)), module, Klee::RANGE);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Range");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Range");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), Port::INPUT, module, Klee::RANGE_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::RANGE_IN));
 
 	// RND Threshold
-	pwdg = ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(9.228, 9.525)), module, Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
+	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(9.228, 9.525)), module, Klee::RND_THRESHOLD);
 	addParam(pwdg);     // rnd threshold
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/RndTH");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/RndTH");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
-	addInput(Port::create<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), Port::INPUT, module, Klee::RND_THRES_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};
@@ -457,63 +538,82 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	float led_y_inf[8] = {58.245, 48.700, 41.045, 36.797, 36.797, 41.045, 48.700, 58.245};
 	for(int k = 0; k < 8; k++)
 	{
-		pwdg = ParamWidget::create<Davies1900hFixRedKnob>(Vec(mm2px(pot_x[k]), yncscape(pot_y_sup[k], 9.525)), module, Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
+		pwdg = createParam<Davies1900hFixRedKnob>(Vec(mm2px(pot_x[k]), yncscape(pot_y_sup[k], 9.525)), module, Klee::PITCH_KNOB + k);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Knob%i", k+1);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Knob%i", k+1);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
-		ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<RedLight>>(Vec(mm2px(led_x[k]), yncscape(led_y_sup[k], 3.176)), module, Klee::LED_PITCH + k);
+		ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(mm2px(led_x[k]), yncscape(led_y_sup[k], 3.176)), module, Klee::LED_PITCH + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadLight *ld1 = new LaunchpadLight(0, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
-			module->drv->Add(ld1, plight);
-		} else
-		{
-			LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
-			module->drv->Add(ld1, plight);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadLight *ld1 = new LaunchpadLight(0, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
+				module->drv->Add(ld1, plight);
+			} else
+			{
+				LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));
+				module->drv->Add(ld1, plight);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Ledbpm_integer");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, plight);
+		if(module != NULL)
+		{
+			sprintf(name, "/Ledbpm_integer");
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+		}
 		#endif
 
-		pwdg = ParamWidget::create<Davies1900hFixWhiteKnob>(Vec(mm2px(pot_x[7-k]), yncscape(pot_y_inf[k], 9.525)), module, Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
+		pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(pot_x[7-k]), yncscape(pot_y_inf[k], 9.525)), module, Klee::PITCH_KNOB + 8 + k);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Knob%i", k + 9);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		if(module != NULL)
+		{
+			sprintf(name, "/Knob%i", k + 9);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, pwdg);
+		}
 		#endif
 
-		plight = ModuleLightWidget::create<MediumLight<WhiteLight>>(Vec(mm2px(led_x[7-k]), yncscape(led_y_inf[k], 3.176)), module, Klee::LED_PITCH + k + 8);
+		plight = createLight<MediumLight<WhiteLight>>(Vec(mm2px(led_x[7-k]), yncscape(led_y_inf[k], 3.176)), module, Klee::LED_PITCH + k + 8);
 		addChild(plight);
 		#ifdef LAUNCHPAD
-		if(numLaunchpads > 1)
+		if(module != NULL)
 		{
-			LaunchpadLight *ld1 = new LaunchpadLight(1, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(21));
-			module->drv->Add(ld1, plight);
-		} else
-		{
-			LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Off(), LaunchpadLed::Color(21));
-			module->drv->Add(ld1, plight);
+			if(numLaunchpads > 1)
+			{
+				LaunchpadLight *ld1 = new LaunchpadLight(1, launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(0, k), LaunchpadLed::Off(), LaunchpadLed::Color(21));
+				module->drv->Add(ld1, plight);
+			} else
+			{
+				LaunchpadLight *ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(1, k), LaunchpadLed::Off(), LaunchpadLed::Color(21));
+				module->drv->Add(ld1, plight);
+			}
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
-		sprintf(name, "/Led%i", k + 9);
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, plight);
+		if(module != NULL)
+		{
+			sprintf(name, "/Led%i", k + 9);
+			oc = new oscControl(name);
+			module->oscDrv->Add(oc, plight);
+		}
 		#endif
 	}
 
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(mm2px(104.205), yncscape(115.806, 3.867), &module->connected));
+	if(module != NULL)
+		addChild(new DigitalLed(mm2px(104.205), yncscape(115.806, 3.867), &module->connected));
 	#endif
 }
 
@@ -537,7 +637,7 @@ void KleeWidget::onMenu(int action)
 	{
 		int index = getParamIndex(Klee::RANGE);
 		if(index >= 0)
-			params[index]->setValue(1.0);
+			params[index]->paramQuantity->setValue(1.0);
 	}
 	break;
 	}

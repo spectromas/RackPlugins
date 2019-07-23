@@ -35,29 +35,30 @@ struct BefacoSlidePotFix : SVGSlider
 	
 		maxHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), -mm2px(5.09852 / 2.0)).plus(margin);
 		minHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), mm2px(27.51667 - 5.09852 / 2.0)).plus(margin);
-		setSVGs(SVG::load(assetPlugin(plugin, "res/BefacoSlidePot.svg")), SVG::load(assetPlugin(plugin, "res/BefacoSlidePotHandle.svg")));
+		setBackgroundSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePot.svg")));
+		setHandleSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePotHandle.svg")));	
 		background->box.pos = margin;
 		box.size = background->box.size.plus(margin.mult(2));
 	}
 };
 
 
-struct CounterSwitch : SVGFader
+struct CounterSwitch : SvgSlider
 {
 	CounterSwitch()
 	{
 		snap = true;
 		maxHandlePos = Vec(-mm2px(2.3-2.3/2.0), 0);
 		minHandlePos = Vec(-mm2px(2.3-2.3/2.0), mm2px(24-2.8));
-		background->svg = SVG::load(assetPlugin(plugin, "res/counterSwitchPot.svg"));
+		background->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/counterSwitchPot.svg"));
 		background->wrap();
 		background->box.pos = Vec(0, 0);
 		box.size = background->box.size;
-		handle->svg = SVG::load(assetPlugin(plugin, "res/counterSwitchPotHandle.svg"));
+		handle->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/counterSwitchPotHandle.svg"));
 		handle->wrap();
 	}
 
-	void randomize() override { setValue(roundf(randomUniform() * maxValue)); }
+	void randomize() override { paramQuantity->setValue(roundf(random::uniform() * paramQuantity->getMaxValue())); }
 };
 
 struct RunModeDisplay : TransparentWidget
@@ -67,38 +68,42 @@ struct RunModeDisplay : TransparentWidget
 
 	RunModeDisplay()
 	{
-		font = Font::load(assetPlugin(plugin, "res/Segment7Standard.ttf"));
+		mode = NULL;
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
 	}
 
-	void draw(NVGcontext *vg) override
+	void draw(const DrawArgs &args) override
 	{
-		// Background
-		NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
-		NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
-		nvgBeginPath(vg);
-		nvgRoundedRect(vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
-		nvgFillColor(vg, backgroundColor);
-		nvgFill(vg);
-		nvgStrokeWidth(vg, 1.0);
-		nvgStrokeColor(vg, borderColor);
-		nvgStroke(vg);
-		// text
-		nvgFontSize(vg, 18);
-		nvgFontFaceId(vg, font->handle);
-		nvgTextLetterSpacing(vg, 2.5);
+		if(mode != NULL)
+		{
+			// Background
+			NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
+			NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
+			nvgBeginPath(args.vg);
+			nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
+			nvgFillColor(args.vg, backgroundColor);
+			nvgFill(args.vg);
+			nvgStrokeWidth(args.vg, 1.0);
+			nvgStrokeColor(args.vg, borderColor);
+			nvgStroke(args.vg);
+			// text
+			nvgFontSize(args.vg, 18);
+			nvgFontFaceId(args.vg, font->handle);
+			nvgTextLetterSpacing(args.vg, 2.5);
 
-		Vec textPos = Vec(2, 18);
-		NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
-		nvgFillColor(vg, nvgTransRGBA(textColor, 16));
-		nvgText(vg, textPos.x, textPos.y, "~~", NULL);
+			Vec textPos = Vec(2, 18);
+			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
+			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+			nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
 
-		textColor = nvgRGB(0xda, 0xe9, 0x29);
-		nvgFillColor(vg, nvgTransRGBA(textColor, 16));
-		nvgText(vg, textPos.x, textPos.y, "\\\\", NULL);
+			textColor = nvgRGB(0xda, 0xe9, 0x29);
+			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+			nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
 
-		textColor = nvgRGB(0xf0, 0x00, 0x00);
-		nvgFillColor(vg, textColor);
-		nvgText(vg, textPos.x, textPos.y, run_modes[int(std::round(*mode))], NULL);
+			textColor = nvgRGB(0xf0, 0x00, 0x00);
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, run_modes[int(std::round(*mode))], NULL);
+		}
 	}
 
 private:
@@ -149,8 +154,24 @@ struct M581 : Module
 		NUM_LIGHTS
 	};
 
-	M581() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	M581() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		for(int k = 0; k < 8; k++)
+		{
+			configParam(M581::STEP_ENABLE + k, 0.0, 2.0, 1.0);
+			configParam(M581::GATE_SWITCH + k, 0.0, 3.0, 2.0);
+			configParam(M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
+			configParam(M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);		
+		}
+
+		configParam(M581::GATE_TIME, 0.005, 1.0, 0.25);
+		configParam(M581::SLIDE_TIME, 0.005, 2.0, 0.5);
+		configParam(M581::MAXVOLTS, 0.0, 1.0, 1.0);
+		configParam(M581::STEP_DIV, 0.0, 3.0, 0.0);
+		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);	
+		configParam(M581::RUN_MODE, 0.0, 4.0, 0.0);
+
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene2, 3);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
@@ -176,12 +197,12 @@ struct M581 : Module
 	}
 	#endif
 
-	void step() override;
-	void reset() override { load(); }
-	void randomize() override { load(); }
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
+	void onRandomize() override { load(); }
 
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 
@@ -221,6 +242,6 @@ private:
 	void beginNewStep();
 	void showCurStep(int cur_step, int sub_div);
 	bool any();
-	SchmittTrigger clockTrigger;
-	SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger clockTrigger;
+	dsp::SchmittTrigger resetTrigger;
 };

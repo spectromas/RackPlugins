@@ -2,10 +2,12 @@
 build/*
 dist/*
 RackPlugins/.vs/*
+RackPlugins/_ReSharper.Caches/*
 *.log
 *.opensdf
 *.suo
 *.sdf
 *.suo
 *.db
+*.vcxproj.user
 RackPlugins/RackPlugins.VC.VC.opendb

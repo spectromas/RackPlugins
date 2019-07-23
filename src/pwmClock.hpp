@@ -1,21 +1,29 @@
 #pragma once
 #include "common.hpp"
+#define BPM_MINVALUE (10)
+#define BPM_MAXVALUE (300)
+#define PWM_MINVALUE (0.05)
+#define PWM_MAXVALUE (0.95)
+#define SWING_MINVALUE (0.0)
+#define SWING_MAXVALUE (0.5)
 
-struct UPSWITCH : SVGSwitch, MomentarySwitch
+struct UPSWITCH : SvgSwitch
 {
 	UPSWITCH()
 	{
-		addFrame(SVG::load(assetPlugin(plugin, "res/upswitch_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/upswitch_1.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_1.svg")));
 	}
 };
 
-struct DNSWITCH : SVGSwitch, MomentarySwitch
+struct DNSWITCH : SvgSwitch
 {
 	DNSWITCH()
 	{
-		addFrame(SVG::load(assetPlugin(plugin, "res/dnswitch_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/dnswitch_1.svg")));
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_1.svg")));
 	}
 };
 
@@ -23,7 +31,7 @@ struct Rogan1PSRedSmall : Rogan
 {
 	Rogan1PSRedSmall()
 	{
-		setSVG(SVG::load(assetPlugin(plugin, "res/Rogan2PSRedSmall.svg")));
+		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Rogan2PSRedSmall.svg")));
 	}
 };
 
@@ -40,7 +48,7 @@ struct SA_TIMER	//sample accurate version
 {
 	float Reset()
 	{
-		prevTime = curTime = engineGetSampleTime();
+		prevTime = curTime = APP->engine->getSampleTime();
 		return Begin();
 	}
 
@@ -55,7 +63,7 @@ struct SA_TIMER	//sample accurate version
 
 	float Step()
 	{
-		curTime += engineGetSampleTime();
+		curTime += APP->engine->getSampleTime();
 		float deltaTime = curTime - prevTime;
 		prevTime = curTime;
 		totalPulseTime += deltaTime;
@@ -102,14 +110,22 @@ struct PwmClock : Module
 		NUM_LIGHTS
 	};
 
-	PwmClock() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	PwmClock() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(PwmClock::BPM_INC, 0.0, 1.0, 0.0);
+		configParam(PwmClock::BPM_DEC, 0.0, 1.0, 0.0);
+		configParam(PwmClock::BPMDEC, 0.0, 9.0, 0.0);
+		configParam(PwmClock::BPM, BPM_MINVALUE, BPM_MAXVALUE, 120.0);
+		configParam(PwmClock::OFFON, 0.0, 1.0, 0.0);
+		configParam(PwmClock::SWING, SWING_MINVALUE, SWING_MAXVALUE, SWING_MINVALUE);
+		configParam(PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5);
 
 		on_loaded();
 	}
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
-	json_t *toJson() override
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 		json_t *bpmJson = json_integer((int)bpm_integer);
@@ -117,7 +133,7 @@ struct PwmClock : Module
 		return rootJ;
 	}
 
-	void fromJson(json_t *rootJ) override
+	void dataFromJson(json_t *rootJ) override
 	{
 		json_t *bpmJson = json_object_get(rootJ, "bpm_integer");
 		if(bpmJson)
@@ -125,20 +141,20 @@ struct PwmClock : Module
 		on_loaded();
 	}
 
-	void reset() override
+	void onReset() override
 	{
 		bpm_integer = 120;
 
 		load();
 	}
-	void randomize() override {}
+	void onRandomize() override {}
 	void setWidget(PwmClockWidget *pwdg) { pWidget = pwdg; }
 	float bpm;
 	float swing;
 
 private:
-	SchmittTrigger btnup;
-	SchmittTrigger btndwn;
+	dsp::SchmittTrigger btnup;
+	dsp::SchmittTrigger btndwn;
 	PwmClockWidget *pWidget;
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;

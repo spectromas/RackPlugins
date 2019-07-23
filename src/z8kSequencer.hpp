@@ -44,8 +44,8 @@ public:
 	}
 
 private:
-	SchmittTrigger clockTrigger;
-	SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger clockTrigger;
+	dsp::SchmittTrigger resetTrigger;
 	Input *pReset;
 	Input *pDirection;
 	Input *pClock;

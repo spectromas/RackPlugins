@@ -117,17 +117,17 @@ protected:
 	virtual void draw(launchpadDriver *drv) override
 	{
 		float v = getValue();
-		float inv_v = pBindedParam->maxValue - v + pBindedParam->minValue;
+		float inv_v = pBindedParam->paramQuantity->maxValue - v + pBindedParam->paramQuantity->minValue;
 		LaunchpadLed led;
 		led.status = ButtonColorType::RGB;
-		led.r_color = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescale(v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_key, led);
 
-		led.r_color = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.r_color, m_onColor.r_color));
-		led.g = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.g, m_onColor.g));
-		led.b = (int)roundf(rescale(inv_v, pBindedParam->minValue, pBindedParam->maxValue, m_offColor.b, m_onColor.b));
+		led.r_color = (int)roundf(rescale(inv_v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.r_color, m_onColor.r_color));
+		led.g = (int)roundf(rescale(inv_v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.g, m_onColor.g));
+		led.b = (int)roundf(rescale(inv_v, pBindedParam->paramQuantity->minValue, pBindedParam->paramQuantity->maxValue, m_offColor.b, m_onColor.b));
 		drv->drive_led(m_lpNumber, m_secondKey, led);
 	}
 	virtual bool intersect(LaunchpadKey key) override { return key == m_key || key == m_secondKey; }
@@ -139,11 +139,11 @@ protected:
 			break;
 		case LaunchpadKeyStatus::keyChannelPressure:
 		case LaunchpadKeyStatus::keyPressure:
-			float delta = sensitivity * (pBindedParam->maxValue - pBindedParam->minValue);
+			float delta = sensitivity * (pBindedParam->paramQuantity->maxValue - pBindedParam->paramQuantity->minValue);
 			if(msg.param0 < 100)
 				delta /= 16.0;
 			
-			float v = pBindedParam->value;
+			float v = pBindedParam->paramQuantity->getValue();
 			if(msg.key == m_key)
 				v += delta;
 			else

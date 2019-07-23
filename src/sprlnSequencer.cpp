@@ -53,8 +53,8 @@ void spiraloneSequencer::Reset(int seq, Spiralone *pSpir)
 
 int spiraloneSequencer::getInput(int seq, Spiralone *pSpir, int input_id, int knob_id, float minValue, float maxValue)
 {
-	float normalized_in = AccessInput(pSpir, seq, input_id)->active ? rescale(AccessInput(pSpir, seq, input_id)->value, 0.0, 5.0, 0.0, maxValue) : 0.0;
-	float v = clamp(normalized_in + AccessParam(pSpir, seq, knob_id), minValue, maxValue);
+	float getNormalVoltaged_in = AccessInput(pSpir, seq, input_id)->active ? rescale(AccessInput(pSpir, seq, input_id)->value, 0.0, 5.0, 0.0, maxValue) : 0.0;
+	float v = clamp(getNormalVoltaged_in + AccessParam(pSpir, seq, knob_id), minValue, maxValue);
 	return (int)roundf(v);
 }
 

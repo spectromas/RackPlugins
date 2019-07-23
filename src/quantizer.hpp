@@ -4,7 +4,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 #define NUM_QUANTIZERS  (6)
 
@@ -41,10 +41,13 @@ struct Quantizer : Module
 	{
 		NUM_LIGHTS
 	};
-	Quantizer() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Quantizer() : Module()
 	{		
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		for(int k = 0; k < NUM_QUANTIZERS; k++)
+			configParam(Quantizer::TRANSP_1+k, 0.0, 5.0, 0.0);
 	}
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
 private:
 	float quantize_out(Input &in, float transpose);

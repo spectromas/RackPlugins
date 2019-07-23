@@ -13,372 +13,1021 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Header Files\dsp">
-      <UniqueIdentifier>{861a69ca-c92b-4f13-9137-acbc9506c4fd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\util">
-      <UniqueIdentifier>{8bb64577-05b7-42ec-abcc-49e6af3c2511}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source Files\app">
-      <UniqueIdentifier>{e2470a18-10cc-4314-9087-4b6fd111d380}</UniqueIdentifier>
+      <UniqueIdentifier>{cfd1d79f-f19b-4f95-a8f4-0e01a3914661}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\core">
-      <UniqueIdentifier>{a2080796-1d5a-4857-b328-5d889d42ad99}</UniqueIdentifier>
+      <UniqueIdentifier>{66ee12da-cce3-4cd9-8bc7-cfbf2583f033}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\dsp">
-      <UniqueIdentifier>{7d6454b9-65ef-4701-951e-397573d1d265}</UniqueIdentifier>
+      <UniqueIdentifier>{1cc8e693-1f84-47c6-a6e4-ae471160f643}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\engine">
+      <UniqueIdentifier>{43ddb1cf-6271-4a39-b6ef-7d7112fa5034}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\plugin">
+      <UniqueIdentifier>{7683fccd-e430-41b3-afbf-dd66864e0c77}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\ui">
-      <UniqueIdentifier>{3e61e116-7124-4955-8a26-c2f235b9b774}</UniqueIdentifier>
+      <UniqueIdentifier>{59924dac-8dda-4289-a613-a52263e095bc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\util">
-      <UniqueIdentifier>{63c5b77d-4169-4a63-b6c2-69aa4c2e3505}</UniqueIdentifier>
+    <Filter Include="Source Files\widget">
+      <UniqueIdentifier>{1b2fdb41-19c3-489b-88bd-25535926a5ca}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\widgets">
-      <UniqueIdentifier>{4657e596-d210-4edc-91ae-d193787ead97}</UniqueIdentifier>
+    <Filter Include="Header Files\widget">
+      <UniqueIdentifier>{f8f34cd1-a2a2-4202-a864-2445e329ad88}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\ui">
+      <UniqueIdentifier>{235705af-d9bc-4221-868c-cb2d08880390}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\simd">
+      <UniqueIdentifier>{3c9d583d-fc15-424b-a19a-f7ea8751f0e8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\plugin">
+      <UniqueIdentifier>{131e0e1a-8b6b-4717-8386-5904ee1e3288}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\engine">
+      <UniqueIdentifier>{16bf8c29-ec5f-4bfd-8660-bbc5d3e5216a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\dsp">
+      <UniqueIdentifier>{e66dcd82-15b9-40cf-a008-f379559e5e11}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\app">
+      <UniqueIdentifier>{af50636e-9af6-4b4f-af23-fc7bbd0f84d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\icons">
+      <UniqueIdentifier>{b7da0a04-70bc-43ca-891c-ad7de8729416}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\fonts">
+      <UniqueIdentifier>{3e5c08e7-a919-4bf5-aa57-77ee92a8942f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Core">
+      <UniqueIdentifier>{d9002b08-b6e0-41e1-8f89-2cf8a8cd78d6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\ComponentLibrary">
+      <UniqueIdentifier>{cc99d626-3ced-4286-8746-ed27c41873b1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\Rack\src\widgets\Widget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\window.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\widgets.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\updater.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\ZoomWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\ui.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\FramebufferWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\system.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\QuantityWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\svg.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\SpriteWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\string.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\SVGWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\settings.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\widgets\TransformWidget.cpp">
-      <Filter>Source Files\widgets</Filter>
+    <ClCompile Include="..\..\..\..\src\rtmidi.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\util\request.cpp">
-      <Filter>Source Files\util</Filter>
+    <ClCompile Include="..\..\..\..\src\random.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\util\string.cpp">
-      <Filter>Source Files\util</Filter>
+    <ClCompile Include="..\..\..\..\src\plugin.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\util\system.cpp">
-      <Filter>Source Files\util</Filter>
+    <ClCompile Include="..\..\..\..\src\patch.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\util\logger.cpp">
-      <Filter>Source Files\util</Filter>
+    <ClCompile Include="..\..\..\..\src\network.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\util\random.cpp">
-      <Filter>Source Files\util</Filter>
+    <ClCompile Include="..\..\..\..\src\midi.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Label.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\main.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\layouts.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\logger.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\List.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\keyboard.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Menu.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\history.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuItem.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\gamepad.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuLabel.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\event.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuOverlay.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\dep.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\PasswordField.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\color.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\ProgressBar.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\bridge.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\RadioButton.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\audio.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Scene.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\asset.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\ScrollWidget.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Slider.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\Quantity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\TextField.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\common.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Tooltip.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\Switch.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\ui.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\SvgSwitch.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\WindowWidget.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\SvgSlider.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\Button.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\SvgScrew.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\ui\ChoiceButton.cpp">
-      <Filter>Source Files\ui</Filter>
+    <ClCompile Include="..\..\..\..\src\app\SvgPort.cpp">
+      <Filter>Source Files\app</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\dsp\minblep.cpp">
+    <ClCompile Include="..\..\..\..\src\app\SvgPanel.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\SvgKnob.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\SvgButton.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\Scene.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\RackWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\RackScrollWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\RackRail.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\PortWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\ParamWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\MultiLightWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\ModuleWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\ModuleLightWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\ModuleBrowser.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\MidiWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\MenuBar.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\LightWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\LedDisplay.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\Knob.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\CircularShadow.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\CableWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\app\AudioWidget.cpp">
+      <Filter>Source Files\app</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\plugin.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\Notes.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\MIDI_Map.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\MIDI_Gate.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\MIDI_CV.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\MIDI_CC.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\CV_MIDI.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\CV_Gate.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\CV_CC.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\Blank.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\core\AudioInterface.cpp">
+      <Filter>Source Files\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\..\src\dsp\minblep.cpp">
       <Filter>Source Files\dsp</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDIToCVInterface.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\engine\Port.cpp">
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDITriggerToCVInterface.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\engine\ParamQuantity.cpp">
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\Notes.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\engine\Module.cpp">
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\QuadMIDIToCVInterface.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\engine\Engine.cpp">
+      <Filter>Source Files\engine</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\AudioInterface.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\plugin\Plugin.cpp">
+      <Filter>Source Files\plugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\Blank.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\plugin\Model.cpp">
+      <Filter>Source Files\plugin</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\Core.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\Tooltip.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDICCToCVInterface.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\TextField.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\MidiClockToCV.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\Slider.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\Core\MidiIO.cpp">
-      <Filter>Source Files\core</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\SequentialLayout.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\LightWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\ScrollWidget.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\MidiWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\ScrollBar.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleBrowser.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\RadioButton.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleLightWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\ProgressBar.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\PasswordField.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\MultiLightWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MenuSeparator.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\Panel.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MenuOverlay.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\ParamWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MenuLabel.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\PluginManagerWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MenuItem.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\Port.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MenuEntry.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\RackRail.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\Menu.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\RackScene.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\MarginLayout.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\RackScrollWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\List.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\RackWidget.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\Label.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SpriteKnob.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\IconButton.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGFader.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\ChoiceButton.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGKnob.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\ui\Button.cpp">
+      <Filter>Source Files\ui</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGPanel.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\widget\ZoomWidget.cpp">
+      <Filter>Source Files\widget</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGPort.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\widget\Widget.cpp">
+      <Filter>Source Files\widget</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGScrew.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\widget\SvgWidget.cpp">
+      <Filter>Source Files\widget</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\SVGSwitch.cpp">
-      <Filter>Source Files\app</Filter>
+    <ClCompile Include="..\..\..\..\src\widget\OpenGlWidget.cpp">
+      <Filter>Source Files\widget</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\Toolbar.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\WireContainer.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\WireWidget.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\app.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\AudioWidget.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\CircularShadow.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\Knob.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\app\LedDisplay.cpp">
-      <Filter>Source Files\app</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\plugin.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\settings.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\tags.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\window.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\asset.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\audio.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\engine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\Rack\src\midi.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="..\..\..\..\src\widget\FramebufferWidget.cpp">
+      <Filter>Source Files\widget</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\Rack\src\Core\MidiIO.hpp">
+    <ClInclude Include="..\..\..\..\src\core\plugin.hpp">
       <Filter>Source Files\core</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\src\Core\Core.hpp">
-      <Filter>Source Files\core</Filter>
+    <ClInclude Include="..\..\..\..\include\window.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\decimator.hpp">
+    <ClInclude Include="..\..\..\..\include\updater.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\system.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\svg.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\string.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\settings.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\rtmidi.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\rack0.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\rack.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\plugin.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\patch.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\network.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\midi.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\math.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\logger.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\keyboard.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\history.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\helpers.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\gamepad.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\force_link_glibc_2.23.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\event.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\componentlibrary.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\common.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\color.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\bridgeprotocol.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\bridge.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\audio.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\asset.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\Quantity.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\ZoomWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\Widget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\TransparentWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\TransformWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\SvgWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\OpenGlWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\OpaqueWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\widget\FramebufferWidget.hpp">
+      <Filter>Header Files\widget</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\common.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\TooltipOverlay.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\Tooltip.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\TextField.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\Slider.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\SequentialLayout.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\ScrollWidget.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\ScrollBar.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\RadioButton.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\ProgressBar.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\PasswordField.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MenuSeparator.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MenuOverlay.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MenuLabel.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MenuItem.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MenuEntry.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\Menu.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\MarginLayout.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\List.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\Label.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\IconButton.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\ChoiceButton.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\ui\Button.hpp">
+      <Filter>Header Files\ui</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\simd\vector.hpp">
+      <Filter>Header Files\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\simd\sse_mathfun.h">
+      <Filter>Header Files\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\simd\functions.hpp">
+      <Filter>Header Files\simd</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\plugin\callbacks.hpp">
+      <Filter>Header Files\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\plugin\Plugin.hpp">
+      <Filter>Header Files\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\plugin\Model.hpp">
+      <Filter>Header Files\plugin</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Port.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\ParamQuantity.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\ParamHandle.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Param.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Module.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Light.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Engine.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\engine\Cable.hpp">
+      <Filter>Header Files\engine</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\dsp\window.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\digital.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\vumeter.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\fft.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\ringbuffer.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\filter.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\resampler.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\fir.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\ode.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\frame.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\minblep.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\functions.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\midi.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\minblep.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\fir.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\ode.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\filter.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\ringbuffer.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\fft.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\samplerate.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\digital.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\dsp\vumeter.hpp">
+    <ClInclude Include="..\..\..\..\include\dsp\common.hpp">
       <Filter>Header Files\dsp</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\util\math.hpp">
-      <Filter>Header Files\util</Filter>
+    <ClInclude Include="..\..\..\..\include\app\common.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\util\request.hpp">
-      <Filter>Header Files\util</Filter>
+    <ClInclude Include="..\..\..\..\include\app\Switch.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\util\color.hpp">
-      <Filter>Header Files\util</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgSwitch.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\util\common.hpp">
-      <Filter>Header Files\util</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgSlider.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\asset.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgScrew.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\audio.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgPort.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\componentlibrary.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgPanel.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\engine.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgKnob.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\events.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SvgButton.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\midi.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\SliderKnob.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\plugin.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\Scene.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\rack.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\RackWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\settings.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\RackScrollWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\tags.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\RackRail.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\ui.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\PortWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\widgets.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\ParamWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\window.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\MultiLightWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Rack\include\app.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="..\..\..\..\include\app\ModuleWidget.hpp">
+      <Filter>Header Files\app</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\ModuleLightWidget.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\ModuleBrowser.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\MidiWidget.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\MenuBar.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\LightWidget.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\LedDisplay.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\Knob.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\CircularShadow.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\CableWidget.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\..\include\app\AudioWidget.hpp">
+      <Filter>Header Files\app</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\res\icons\noun_468341_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_31859_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_305536_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_1745061_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_146097_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_1343816_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_1343811_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_1240789_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\icons\noun_1084369_cc.svg">
+      <Filter>Resource Files\icons</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\AudioInterface.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\AudioInterface16.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\CV-CC.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\CV-Gate.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\CV-MIDI.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\MIDI-CC.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\MIDI-CV.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\MIDI-Gate.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\MIDI-Map.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\Core\Notes.svg">
+      <Filter>Resource Files\Core</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\ADAT.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoBigKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoPush_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoPush_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSlidePot.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSlidePotHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_2.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoTinyKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKD6_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKD6_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSS_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSS_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_2.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\CL1362.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hBlack.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeBlack.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDBezel.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDButton.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSlider.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderBlueHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderGreenHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderRedHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderWhiteHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderYellowHandle.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\MIDI_DIN.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_2.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\PB61303.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\PJ301M.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\PJ3410.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\RackBusboard.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2SGray.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSBlue.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSGreen.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSRed.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan5PSGray.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan6PSWhite.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundBlackKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundHugeBlackKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundLargeBlackKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundSmallBlackKnob.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\ScrewBlack.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\ScrewSilver.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\SynthTechAlco.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\SynthTechAlco_cap.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105_0.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105_1.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\Trimpot.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+    <None Include="..\..\..\..\res\ComponentLibrary\USB-B.svg">
+      <Filter>Resource Files\ComponentLibrary</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\res\fonts\DejaVuSans.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
+    <Font Include="..\..\..\..\res\fonts\ShareTechMono-Regular.ttf">
+      <Filter>Resource Files\fonts</Filter>
+    </Font>
   </ItemGroup>
 </Project>

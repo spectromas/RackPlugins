@@ -4,7 +4,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 struct Burst;
 struct BurstWidget : SequencerWidget
@@ -48,14 +48,21 @@ struct Burst : Module
 		NUM_LIGHTS = LEDOUT_1 + NUM_BURST_PORTS
 	};
 
-	Burst() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Burst() : Module()
 	{		
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(Burst::MODE, 0.0, 2.0, 0.0);
+		configParam(Burst::MODE_INVERT, 0.0, 1.0, 0.0);
+		configParam(Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0);
+		configParam(Burst::EVENT_COUNT, 0.0, 23.0, 0.0);	
+		configParam(Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF);
+		configParam(Burst::TRIGGER, 0.0, 1.0, 0.0);
 	}
 
-	void step() override;
-	void reset() override { load(); }
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 		return rootJ;
@@ -74,8 +81,8 @@ private:
 
 private:
 	SchmittTrigger2 clock;
-	SchmittTrigger trigger;
-	SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger trigger;
+	dsp::SchmittTrigger resetTrigger;
 	bool active;
 	bool trigger_pending;
 	enum MODE

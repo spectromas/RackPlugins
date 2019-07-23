@@ -9,7 +9,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 struct OscTest;
 struct OscTestWidget : ModuleWidget
@@ -40,8 +40,12 @@ struct OscTest : Module
 		LED1,
 		NUM_LIGHTS
 	};
-	OscTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	OscTest() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(OscTest::POT1, 0.0, 1.0, 0.0);
+		configParam(OscTest::BTN1, 0.0, 1.0, 0.0);
+
 		connected = 0;
 		drv = new OSCDriver(this, 8);
 		lasttime = clock();
@@ -50,7 +54,7 @@ struct OscTest : Module
 	{
 		delete drv;
 	}
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
 	OSCDriver *drv;
 	float connected;

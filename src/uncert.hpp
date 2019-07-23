@@ -4,7 +4,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 struct Uncertain;
 struct UncertainWidget : SequencerWidget
@@ -53,14 +53,19 @@ struct Uncertain : Module
 		NUM_LIGHTS 
 	};
 
-	Uncertain() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Uncertain() : Module()
 	{		
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(Uncertain::FLUCT_AMT, Uncertain::MIN_VOLTAGE, Uncertain::MAX_VOLTAGE, Uncertain::MIN_VOLTAGE);
+		configParam(Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0);
+		configParam(Uncertain::STORED_AMT, Uncertain::MIN_VOLTAGE + 2.5, Uncertain::MAX_VOLTAGE - 2.5, 5.0);
+		configParam(Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0);
 	}
 
-	void step() override;
-	void reset() override { load(); }
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 		return rootJ;

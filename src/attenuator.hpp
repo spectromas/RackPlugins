@@ -4,7 +4,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 #define NUM_ATTENUATORS  (6)
 
@@ -40,8 +40,16 @@ struct Attenuator : Module
 	{
 		NUM_LIGHTS
 	};
-	Attenuator() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
-	{		
+	Attenuator() : Module()
+	{	
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		//	void configParam(int paramId, float minValue, float maxValue, float defaultValue, std::string label = "", std::string unit = "", float displayBase = 0.f, float displayMultiplier = 1.f, float displayOffset = 0.f) {
+
+		for(int k = 0; k < NUM_ATTENUATORS; k++)
+		{
+			configParam(Attenuator::ATT_1+k, 0.0, 1.0, 1.0);
+		}
+
 	}
-	void step() override;
+	void process(const ProcessArgs &args) override;
 };

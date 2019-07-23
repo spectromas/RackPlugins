@@ -1,0 +1,106 @@
+{
+  "slug": "TheXOR",
+  "name": "TheXOR",
+  "version": "1.0.0",
+  "license": "proprietary",
+  "brand": "TheXOR",
+  "author": "The XOR",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "",
+  "manualUrl": "",
+  "sourceUrl": "",
+  "donateUrl": "",
+  "modules": [
+    {
+      "slug": "Klee",
+      "name": "Klee",
+      "description": "Klee Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "M581",
+      "name": "M581",
+      "description": "581 Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Z8K",
+      "name": "Z8K",
+      "description": "Z8000 Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Renato",
+      "name": "Renato",
+      "description": "Renato Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Spiralone",
+      "name": "Spiralone",
+      "description": "Spiral Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
+      "slug": "Burst",
+      "name": "Burst",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "Uncertain",
+      "name": "Uncertain",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "PWMClock",
+      "name": "PWMClock",
+      "description": "PWM Clock Generator",
+      "tags": [
+        "Clock generator"
+      ]
+    },
+    {
+      "slug": "Quantizer",
+      "name": "Quantizer",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "Attenuator",
+      "name": "Attenuator",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "Boole",
+      "name": "Boole",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "XSwitch",
+      "name": "XSwitch",
+      "description": "",
+      "tags": []
+    },
+    {
+      "slug": "Mplex",
+      "name": "Mplex",
+      "description": "MUltiplexer",
+      "tags": []
+    }
+  ]
+}

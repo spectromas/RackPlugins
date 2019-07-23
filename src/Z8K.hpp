@@ -71,8 +71,17 @@ struct Z8K : Module
 		NUM_SEQUENCERS
 	};
 
-	Z8K() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Z8K() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		for(int r = 0; r < 4; r++)
+		{
+			for(int c = 0; c < 4; c++)
+			{
+				int n = c + r * 4;
+				configParam(Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.5);
+			}
+		}
 		/*
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene4, 1);
@@ -96,11 +105,11 @@ struct Z8K : Module
 	}
 	#endif
 
-	void step() override;
-	void reset() override { load(); }
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
 
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 		return rootJ;

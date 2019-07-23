@@ -51,7 +51,7 @@ private:
 				pk->dirty = true;				
 			} else
 			{
-				SVGFader *pk1 = (SVGFader *)dynamic_cast<SVGFader *>(pBindedParam);
+				SvgSlider *pk1 = (SvgSlider *)dynamic_cast<SvgSlider *>(pBindedParam);
 				if(pk1 != NULL)
 				{
 					pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;

@@ -66,8 +66,23 @@ struct Renato : Module
 		NUM_LIGHTS = LED_1 + 16
 	};
 
-	Renato() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Renato() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
+		configParam(Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
+		configParam(Renato::SEEKSLEEP, 0.0, 1.0, 0.0);
+		for(int r = 0; r < 4; r++)
+		{
+			for(int c = 0; c < 4; c++)
+			{
+				int n = c + r * 4;
+				configParam(Renato::ACCESS_1 + n, 0.0, 1.0, 1.0);
+				configParam(Renato::GATEX_1 + n, 0.0, 1.0, 1.0);
+				configParam(Renato::GATEY_1 + n, 0.0, 1.0, 1.0);
+				configParam(Renato::VOLTAGE_1 + n, 0.005, 6.0, 1.0);	
+			}
+		}
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene3, 2);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
@@ -91,11 +106,11 @@ struct Renato : Module
 	}
 	#endif
 
-	void step() override;
-	void reset() override { load(); }
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
 
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 		return rootJ;
@@ -116,11 +131,11 @@ struct Renato : Module
 private:
 	float getStatus(int pid, int iid)
 	{
-		return inputs[iid].normalize(0.0) + params[pid].value;
+		return inputs[iid].getNormalVoltage(0.0) + params[pid].value;
 	}
 
 private:
-	SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger resetTrigger;
 	void on_loaded();
 	void load();
 	void led(int n) { for(int k = 0; k < 16; k++) lights[LED_1 + k].value = k == n ? 10.0 : 0.0; }

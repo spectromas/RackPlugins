@@ -18,35 +18,361 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\src\app.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\AudioWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\CableWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\CircularShadow.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\common.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\Knob.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\LedDisplay.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\LightWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\MenuBar.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\MidiWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\ModuleBrowser.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\ModuleLightWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\ModuleWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\MultiLightWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\ParamWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\PortWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\RackRail.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\RackScrollWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\RackWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\Scene.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgButton.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgKnob.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgPanel.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgPort.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgScrew.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgSlider.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\SvgSwitch.cpp" />
+    <ClCompile Include="..\..\..\..\src\app\Switch.cpp" />
+    <ClCompile Include="..\..\..\..\src\asset.cpp" />
+    <ClCompile Include="..\..\..\..\src\audio.cpp" />
+    <ClCompile Include="..\..\..\..\src\bridge.cpp" />
+    <ClCompile Include="..\..\..\..\src\color.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\AudioInterface.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\Blank.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\CV_CC.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\CV_Gate.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\CV_MIDI.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\MIDI_CC.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\MIDI_CV.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\MIDI_Gate.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\MIDI_Map.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\Notes.cpp" />
+    <ClCompile Include="..\..\..\..\src\core\plugin.cpp" />
+    <ClCompile Include="..\..\..\..\src\dep.cpp" />
+    <ClCompile Include="..\..\..\..\src\dsp\minblep.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Engine.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Module.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\ParamQuantity.cpp" />
+    <ClCompile Include="..\..\..\..\src\engine\Port.cpp" />
+    <ClCompile Include="..\..\..\..\src\event.cpp" />
+    <ClCompile Include="..\..\..\..\src\gamepad.cpp" />
+    <ClCompile Include="..\..\..\..\src\history.cpp" />
+    <ClCompile Include="..\..\..\..\src\keyboard.cpp" />
+    <ClCompile Include="..\..\..\..\src\logger.cpp" />
+    <ClCompile Include="..\..\..\..\src\main.cpp" />
+    <ClCompile Include="..\..\..\..\src\midi.cpp" />
+    <ClCompile Include="..\..\..\..\src\network.cpp" />
+    <ClCompile Include="..\..\..\..\src\patch.cpp" />
+    <ClCompile Include="..\..\..\..\src\plugin.cpp" />
+    <ClCompile Include="..\..\..\..\src\plugin\Model.cpp" />
+    <ClCompile Include="..\..\..\..\src\plugin\Plugin.cpp" />
+    <ClCompile Include="..\..\..\..\src\Quantity.cpp" />
+    <ClCompile Include="..\..\..\..\src\random.cpp" />
+    <ClCompile Include="..\..\..\..\src\rtmidi.cpp" />
+    <ClCompile Include="..\..\..\..\src\settings.cpp" />
+    <ClCompile Include="..\..\..\..\src\string.cpp" />
+    <ClCompile Include="..\..\..\..\src\svg.cpp" />
+    <ClCompile Include="..\..\..\..\src\system.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\Button.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\ChoiceButton.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\IconButton.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\Label.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\List.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MarginLayout.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\Menu.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MenuEntry.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MenuItem.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MenuLabel.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MenuOverlay.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\MenuSeparator.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\PasswordField.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\ProgressBar.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\RadioButton.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\ScrollBar.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\ScrollWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\SequentialLayout.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\Slider.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\TextField.cpp" />
+    <ClCompile Include="..\..\..\..\src\ui\Tooltip.cpp" />
+    <ClCompile Include="..\..\..\..\src\updater.cpp" />
+    <ClCompile Include="..\..\..\..\src\widget\FramebufferWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\widget\OpenGlWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\widget\SvgWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\widget\Widget.cpp" />
+    <ClCompile Include="..\..\..\..\src\widget\ZoomWidget.cpp" />
+    <ClCompile Include="..\..\..\..\src\window.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\include\app.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\AudioWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\CableWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\CircularShadow.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\common.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\Knob.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\LedDisplay.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\LightWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\MenuBar.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\MidiWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\ModuleBrowser.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\ModuleLightWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\ModuleWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\MultiLightWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\ParamWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\PortWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\RackRail.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\RackScrollWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\RackWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\Scene.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SliderKnob.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgButton.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgKnob.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgPanel.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgPort.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgScrew.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgSlider.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\SvgSwitch.hpp" />
+    <ClInclude Include="..\..\..\..\include\app\Switch.hpp" />
+    <ClInclude Include="..\..\..\..\include\asset.hpp" />
+    <ClInclude Include="..\..\..\..\include\audio.hpp" />
+    <ClInclude Include="..\..\..\..\include\bridge.hpp" />
+    <ClInclude Include="..\..\..\..\include\bridgeprotocol.hpp" />
+    <ClInclude Include="..\..\..\..\include\color.hpp" />
+    <ClInclude Include="..\..\..\..\include\common.hpp" />
+    <ClInclude Include="..\..\..\..\include\componentlibrary.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\common.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\digital.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\fft.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\filter.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\fir.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\midi.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\minblep.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\ode.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\resampler.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\ringbuffer.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\vumeter.hpp" />
+    <ClInclude Include="..\..\..\..\include\dsp\window.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Cable.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Engine.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Light.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Module.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Param.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\ParamHandle.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\ParamQuantity.hpp" />
+    <ClInclude Include="..\..\..\..\include\engine\Port.hpp" />
+    <ClInclude Include="..\..\..\..\include\event.hpp" />
+    <ClInclude Include="..\..\..\..\include\force_link_glibc_2.23.h" />
+    <ClInclude Include="..\..\..\..\include\gamepad.hpp" />
+    <ClInclude Include="..\..\..\..\include\helpers.hpp" />
+    <ClInclude Include="..\..\..\..\include\history.hpp" />
+    <ClInclude Include="..\..\..\..\include\keyboard.hpp" />
+    <ClInclude Include="..\..\..\..\include\logger.hpp" />
+    <ClInclude Include="..\..\..\..\include\math.hpp" />
+    <ClInclude Include="..\..\..\..\include\midi.hpp" />
+    <ClInclude Include="..\..\..\..\include\network.hpp" />
+    <ClInclude Include="..\..\..\..\include\patch.hpp" />
+    <ClInclude Include="..\..\..\..\include\plugin.hpp" />
+    <ClInclude Include="..\..\..\..\include\plugin\callbacks.hpp" />
+    <ClInclude Include="..\..\..\..\include\plugin\Model.hpp" />
+    <ClInclude Include="..\..\..\..\include\plugin\Plugin.hpp" />
+    <ClInclude Include="..\..\..\..\include\Quantity.hpp" />
+    <ClInclude Include="..\..\..\..\include\rack.hpp" />
+    <ClInclude Include="..\..\..\..\include\rack0.hpp" />
+    <ClInclude Include="..\..\..\..\include\random.hpp" />
+    <ClInclude Include="..\..\..\..\include\rtmidi.hpp" />
+    <ClInclude Include="..\..\..\..\include\settings.hpp" />
+    <ClInclude Include="..\..\..\..\include\simd\functions.hpp" />
+    <ClInclude Include="..\..\..\..\include\simd\sse_mathfun.h" />
+    <ClInclude Include="..\..\..\..\include\simd\vector.hpp" />
+    <ClInclude Include="..\..\..\..\include\string.hpp" />
+    <ClInclude Include="..\..\..\..\include\svg.hpp" />
+    <ClInclude Include="..\..\..\..\include\system.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\Button.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\ChoiceButton.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\common.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\IconButton.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\Label.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\List.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MarginLayout.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\Menu.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MenuEntry.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MenuItem.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MenuLabel.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MenuOverlay.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\MenuSeparator.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\PasswordField.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\ProgressBar.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\RadioButton.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\ScrollBar.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\ScrollWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\SequentialLayout.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\Slider.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\TextField.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\Tooltip.hpp" />
+    <ClInclude Include="..\..\..\..\include\ui\TooltipOverlay.hpp" />
+    <ClInclude Include="..\..\..\..\include\updater.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\FramebufferWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\OpaqueWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\OpenGlWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\SvgWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\TransformWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\TransparentWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\Widget.hpp" />
+    <ClInclude Include="..\..\..\..\include\widget\ZoomWidget.hpp" />
+    <ClInclude Include="..\..\..\..\include\window.hpp" />
+    <ClInclude Include="..\..\..\..\src\core\plugin.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\..\res\ComponentLibrary\ADAT.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoBigKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoPush_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoPush_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSlidePot.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSlidePotHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoSwitch_2.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\BefacoTinyKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKD6_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKD6_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSSThree_2.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSS_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CKSS_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\CL1362.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hBlack.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeBlack.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hLargeWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Davies1900hWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDBezel.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDButton.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSlider.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderBlueHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderGreenHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderRedHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderWhiteHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\LEDSliderYellowHandle.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\MIDI_DIN.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\NKK_2.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\PB61303.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\PJ301M.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\PJ3410.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\RackBusboard.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PSWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan1PWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PSWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2PWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan2SGray.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSBlue.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSGreen.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSRed.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PSWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan3PWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan5PSGray.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Rogan6PSWhite.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundBlackKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundHugeBlackKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundLargeBlackKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\RoundSmallBlackKnob.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\ScrewBlack.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\ScrewSilver.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\SynthTechAlco.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\SynthTechAlco_cap.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105_0.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\TL1105_1.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\Trimpot.svg" />
+    <None Include="..\..\..\..\res\ComponentLibrary\USB-B.svg" />
+    <None Include="..\..\..\..\res\Core\AudioInterface.svg" />
+    <None Include="..\..\..\..\res\Core\AudioInterface16.svg" />
+    <None Include="..\..\..\..\res\Core\CV-CC.svg" />
+    <None Include="..\..\..\..\res\Core\CV-Gate.svg" />
+    <None Include="..\..\..\..\res\Core\CV-MIDI.svg" />
+    <None Include="..\..\..\..\res\Core\MIDI-CC.svg" />
+    <None Include="..\..\..\..\res\Core\MIDI-CV.svg" />
+    <None Include="..\..\..\..\res\Core\MIDI-Gate.svg" />
+    <None Include="..\..\..\..\res\Core\MIDI-Map.svg" />
+    <None Include="..\..\..\..\res\Core\Notes.svg" />
+    <None Include="..\..\..\..\res\icons\noun_1084369_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_1240789_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_1343811_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_1343816_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_146097_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_1745061_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_305536_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_31859_cc.svg" />
+    <None Include="..\..\..\..\res\icons\noun_468341_cc.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\..\res\fonts\DejaVuSans.ttf" />
+    <Font Include="..\..\..\..\res\fonts\ShareTechMono-Regular.ttf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{419E6FB8-7771-4D87-92B8-387D872E79BE}</ProjectGuid>
     <RootNamespace>Rack</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -117,123 +443,6 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\Rack\src\app\app.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\AudioWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\CircularShadow.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\Knob.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\LedDisplay.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\LightWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\MidiWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleBrowser.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleLightWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\ModuleWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\MultiLightWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\Panel.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\ParamWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\PluginManagerWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\Port.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\RackRail.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\RackScene.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\RackScrollWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\RackWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SpriteKnob.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGFader.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGKnob.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGPanel.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGPort.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGScrew.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\SVGSwitch.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\Toolbar.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\WireContainer.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\app\WireWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\asset.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\audio.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\AudioInterface.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\Blank.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\Core.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDICCToCVInterface.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\MidiClockToCV.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\MidiIO.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDIToCVInterface.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\MIDITriggerToCVInterface.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\Notes.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\Core\QuadMIDIToCVInterface.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\dsp\minblep.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\engine.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\main.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\midi.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\plugin.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\settings.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\tags.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Button.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\ChoiceButton.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Label.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\layouts.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\List.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Menu.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuItem.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuLabel.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\MenuOverlay.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\PasswordField.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\ProgressBar.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\RadioButton.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Scene.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\ScrollWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Slider.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\TextField.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\Tooltip.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\ui.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\ui\WindowWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\util\logger.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\util\random.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\util\request.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\util\string.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\util\system.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\FramebufferWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\QuantityWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\SpriteWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\SVGWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\TransformWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\Widget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\widgets.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\widgets\ZoomWidget.cpp" />
-    <ClCompile Include="..\..\..\Rack\src\window.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\Rack\include\app.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\asset.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\audio.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\componentlibrary.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\decimator.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\digital.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\fft.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\filter.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\fir.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\frame.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\functions.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\minblep.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\ode.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\ringbuffer.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\samplerate.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\dsp\vumeter.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\engine.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\events.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\midi.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\plugin.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\rack.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\settings.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\tags.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\ui.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\util\color.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\util\common.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\util\math.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\util\request.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\widgets.hpp" />
-    <ClInclude Include="..\..\..\Rack\include\window.hpp" />
-    <ClInclude Include="..\..\..\Rack\src\Core\Core.hpp" />
-    <ClInclude Include="..\..\..\Rack\src\Core\MidiIO.hpp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

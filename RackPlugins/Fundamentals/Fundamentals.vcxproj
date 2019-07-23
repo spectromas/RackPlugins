@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{1D1B2134-767E-4679-88A0-114FD94EC2E4}</ProjectGuid>
+    <RootNamespace>Fundamentals</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Fundamental\src\8vert.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\ADSR.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Delay.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\LFO.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Merge.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Mutes.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Octave.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\plugin.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Scope.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\SEQ3.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\SequentialSwitch.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Split.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Sum.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Unity.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\VCA.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\VCF.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\VCMixer.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\VCO.cpp" />
+    <ClCompile Include="..\..\..\Fundamental\src\Viz.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Fundamental\src\plugin.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Fundamental\res\8vert.svg" />
+    <None Include="..\..\..\Fundamental\res\ADSR.svg" />
+    <None Include="..\..\..\Fundamental\res\Delay.svg" />
+    <None Include="..\..\..\Fundamental\res\LFO-1.svg" />
+    <None Include="..\..\..\Fundamental\res\LFO-2.svg" />
+    <None Include="..\..\..\Fundamental\res\Merge.svg" />
+    <None Include="..\..\..\Fundamental\res\Mutes.svg" />
+    <None Include="..\..\..\Fundamental\res\Octave.svg" />
+    <None Include="..\..\..\Fundamental\res\Scope.svg" />
+    <None Include="..\..\..\Fundamental\res\SEQ3.svg" />
+    <None Include="..\..\..\Fundamental\res\SequentialSwitch1.svg" />
+    <None Include="..\..\..\Fundamental\res\SequentialSwitch2.svg" />
+    <None Include="..\..\..\Fundamental\res\Split.svg" />
+    <None Include="..\..\..\Fundamental\res\Sum.svg" />
+    <None Include="..\..\..\Fundamental\res\Unity.svg" />
+    <None Include="..\..\..\Fundamental\res\VCA-1.svg" />
+    <None Include="..\..\..\Fundamental\res\VCA.svg" />
+    <None Include="..\..\..\Fundamental\res\VCF.svg" />
+    <None Include="..\..\..\Fundamental\res\VCMixer.svg" />
+    <None Include="..\..\..\Fundamental\res\VCO-1.svg" />
+    <None Include="..\..\..\Fundamental\res\VCO-2.svg" />
+    <None Include="..\..\..\Fundamental\res\Viz.svg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\Fundamental\res\nunito\Nunito-Bold.ttf" />
+    <Font Include="..\..\..\Fundamental\res\sudo\Sudo.ttf" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

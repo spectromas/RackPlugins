@@ -6,7 +6,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 
 struct Mplex;
@@ -45,23 +45,27 @@ struct Mplex : Module
 		NUM_LIGHTS = LED_1 + NUM_MPLEX_INPUTS
 	};
 
-	Mplex() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Mplex() : Module()
 	{		
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(Mplex::BTUP, 0.0, 1.0, 0.0);
+		configParam(Mplex::BTDN, 0.0, 1.0, 0.0);
+
 		load();
 	}
 
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 
 		return rootJ;
 	}
-	void step() override;
-	void reset() override { load(); }
-	void randomize() override 
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
+	void onRandomize() override 
 	{
-		set_output((int)roundf(rescale(randomUniform(), 0.0, 1.0, 0, NUM_MPLEX_INPUTS)));
+		set_output((int)roundf(rescale(random::uniform(), 0.0, 1.0, 0, NUM_MPLEX_INPUTS)));
 	}
 
 private:
@@ -70,6 +74,6 @@ private:
 	void set_output(int n);
 
 	int cur_sel;
-	SchmittTrigger upTrigger;
-	SchmittTrigger dnTrigger;
+	dsp::SchmittTrigger upTrigger;
+	dsp::SchmittTrigger dnTrigger;
 };

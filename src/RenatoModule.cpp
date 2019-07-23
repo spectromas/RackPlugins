@@ -18,7 +18,7 @@ void Renato::load()
 	seqY.Reset();
 }
 
-void Renato::step()
+void Renato::process(const ProcessArgs &args)
 {
 	if(resetTrigger.process(inputs[RESET].value))
 	{
@@ -95,72 +95,96 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#endif
 
 	box.size = Vec(39 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SVGPanel *panel = new SVGPanel();
+	SvgPanel *panel = new SvgPanel();
 	panel->box.size = box.size;
-	panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/RenatoModule.svg")));
+	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/RenatoModule.svg")));
 	addChild(panel);
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
-	addInput(Port::create<PJ301RPort>(Vec(mm2px(7.899), yncscape(115.267,8.255)), Port::INPUT, module, Renato::XCLK));
-	addInput(Port::create<PJ301RPort>(Vec(mm2px(28.687), yncscape(115.267,8.255)), Port::INPUT, module, Renato::YCLK));
-	addInput(Port::create<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), Port::INPUT, module, Renato::RESET));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(7.899), yncscape(115.267,8.255)), module, Renato::XCLK));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(28.687), yncscape(115.267,8.255)), module, Renato::YCLK));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), module, Renato::RESET));
 	
 	// page 0 (SESSION)
-	ParamWidget *pwdg = ParamWidget::create<NKK2>(Vec(mm2px(71.102), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
+	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(71.102), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_X);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 1), 3, LaunchpadLed::Color(47), LaunchpadLed::Color(32));
-	module->drv->Add(radio, pwdg);
+	if(module != NULL)
+	{
+		LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 1), 3, LaunchpadLed::Color(47), LaunchpadLed::Color(32));
+		module->drv->Add(radio, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/ModeX");
-	oscControl *oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/ModeX");
+		oscControl *oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(94.827), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(94.827), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_Y);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 3), 3, LaunchpadLed::Color(19), LaunchpadLed::Color(21));
-	module->drv->Add(radio, pwdg);
+	if(module != NULL)
+	{
+		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 3), 3, LaunchpadLed::Color(19), LaunchpadLed::Color(21));
+		module->drv->Add(radio, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/ModeY");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/ModeY");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	pwdg = ParamWidget::create<NKK2>(Vec(mm2px(118.551), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP, 0.0, 1.0, 0.0);
+	pwdg = createParam<NKK2>(Vec(mm2px(118.551), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 5), 2, LaunchpadLed::Color(51), LaunchpadLed::Color(52));
-	module->drv->Add(radio, pwdg);
+	if(module != NULL)
+	{
+		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 5), 2, LaunchpadLed::Color(51), LaunchpadLed::Color(52));
+		module->drv->Add(radio, pwdg);
+	}
 	#endif
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/Seek");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, pwdg);
+	if(module != NULL)
+	{
+		sprintf(name, "/Seek");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, pwdg);
+	}
 	#endif
 
-	addOutput(Port::create<PJ301GPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::CV));
-	addOutput(Port::create<PJ301WPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::XGATE));
-	ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(157.888), yncscape(112.637, 3.176)), module, Renato::LED_GATEX);
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), module, Renato::CV));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), module, Renato::XGATE));
+	ModuleLightWidget *plight = createLight<MediumLight<GreenLight>>(Vec(mm2px(157.888), yncscape(112.637, 3.176)), module, Renato::LED_GATEX);
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/LedGX");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, plight);
+	if(module != NULL)
+	{
+		sprintf(name, "/LedGX");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, plight);
+	}
 	#endif
 	addChild(plight);
 
-	addOutput(Port::create<PJ301WPort>(Vec(mm2px(171.033), yncscape(115.267, 8.255)), Port::OUTPUT, module, Renato::YGATE));
-	plight = ModuleLightWidget::create<MediumLight<GreenLight>>(Vec(mm2px(168.403), yncscape(112.637, 3.176)), module, Renato::LED_GATEY);
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(171.033), yncscape(115.267, 8.255)), module, Renato::YGATE));
+	plight = createLight<MediumLight<GreenLight>>(Vec(mm2px(168.403), yncscape(112.637, 3.176)), module, Renato::LED_GATEY);
 	#ifdef OSCTEST_MODULE
-	sprintf(name, "/LedGY");
-	oc = new oscControl(name);
-	module->oscDrv->Add(oc, plight);
+	if(module != NULL)
+	{
+		sprintf(name, "/LedGY");
+		oc = new oscControl(name);
+		module->oscDrv->Add(oc, plight);
+	}
 	#endif
 	addChild(plight);
 
@@ -180,70 +204,98 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			addInput(Port::create<PJ301BPort>(Vec(mm2px(x_sup[0]+c* groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), Port::INPUT, module, Renato::ACCESS_IN1+n));
-			addInput(Port::create<PJ301BPort>(Vec(mm2px(x_sup[1] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), Port::INPUT, module, Renato::GATEX_IN1 + n));
-			addInput(Port::create<PJ301BPort>(Vec(mm2px(x_sup[2] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), Port::INPUT, module, Renato::GATEY_IN1 + n));
-			addOutput(Port::create<PJ301WPort>(Vec(mm2px(x_sup[3] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), Port::OUTPUT, module, Renato::CV_OUTSTEP1 + n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[0]+c* groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::ACCESS_IN1+n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[1] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::GATEX_IN1 + n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[2] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::GATEY_IN1 + n));
+			addOutput(createOutput<PJ301WPort>(Vec(mm2px(x_sup[3] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::CV_OUTSTEP1 + n));
 
-			ParamWidget *pwdg = ParamWidget::create<TL1105Sw>(Vec(mm2px(x_inf[0]+c*groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::ACCESS_1 + n, 0.0, 1.0, 1.0);
+			ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[0]+c*groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::ACCESS_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
-			LaunchpadSwitch *pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c), LaunchpadLed::Off(), LaunchpadLed::Color(17));
-			module->drv->Add(pswitch, pwdg);
+			if(module != NULL)
+			{
+				LaunchpadSwitch *pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c), LaunchpadLed::Off(), LaunchpadLed::Color(17));
+				module->drv->Add(pswitch, pwdg);
+			}
 			#endif
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/Access%i", n + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			if(module != NULL)
+			{
+				sprintf(name, "/Access%i", n + 1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, pwdg);
+			}
 			#endif
 
-			pwdg = ParamWidget::create<TL1105Sw>(Vec(mm2px(x_inf[1] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEX_1 + n, 0.0, 1.0, 1.0);
+			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[1] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEX_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
-			pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(52));
-			module->drv->Add(pswitch, pwdg);
+			if(module != NULL)
+			{
+				pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(52));
+				module->drv->Add(pswitch, pwdg);
+			}
 			#endif
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/GateX%i", n + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			if(module != NULL)
+			{
+				sprintf(name, "/GateX%i", n + 1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, pwdg);
+			}
 			#endif
 
-			pwdg = ParamWidget::create<TL1105Sw>(Vec(mm2px(x_inf[2] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEY_1 + n, 0.0, 1.0, 1.0);
+			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[2] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEY_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
-			pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(62));
-			module->drv->Add(pswitch, pwdg);
+			if(module != NULL)
+			{
+				pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(62));
+				module->drv->Add(pswitch, pwdg);
+			}
 			#endif
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/GateY%i", n + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			if(module != NULL)
+			{
+				sprintf(name, "/GateY%i", n + 1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, pwdg);
+			}
 			#endif
 			
-			pwdg = ParamWidget::create<Davies1900hFixBlackKnob>(Vec(mm2px(x_inf[3] + c * groupdist_h), yncscape(y_pot + r * groupdist_v, 9.525)), module, Renato::VOLTAGE_1 + n, 0.005, 6.0, 1.0);
+			pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(x_inf[3] + c * groupdist_h), yncscape(y_pot + r * groupdist_v, 9.525)), module, Renato::VOLTAGE_1 + n);
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/Knob%i", n+1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			if(module != NULL)
+			{
+				sprintf(name, "/Knob%i", n+1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, pwdg);
+			}
 			#endif
 			addParam(pwdg);
 
-			ModuleLightWidget *plight = ModuleLightWidget::create<MediumLight<RedLight>>(Vec(mm2px(x_led + c * groupdist_h), yncscape(y_led+r*groupdist_v, 3.176)), module, Renato::LED_1 + n);
+			ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(mm2px(x_led + c * groupdist_h), yncscape(y_led+r*groupdist_v, 3.176)), module, Renato::LED_1 + n);
 			addChild(plight);
 			#ifdef LAUNCHPAD
-			LaunchpadLight *ld1 = new LaunchpadLight(1, ILaunchpadPro::RC2Key(r, c), LaunchpadLed::Off(), LaunchpadLed::Color(4));
-			module->drv->Add(ld1, plight);
+			if(module != NULL)
+			{
+				LaunchpadLight *ld1 = new LaunchpadLight(1, ILaunchpadPro::RC2Key(r, c), LaunchpadLed::Off(), LaunchpadLed::Color(4));
+				module->drv->Add(ld1, plight);
+			}
 			#endif
 			#ifdef OSCTEST_MODULE
-			sprintf(name, "/Led%i", n + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, plight);
+			if(module != NULL)
+			{
+				sprintf(name, "/Led%i", n + 1);
+				oc = new oscControl(name);
+				module->oscDrv->Add(oc, plight);
+			}
 			#endif
 		}
 	}
 	
 	#ifdef DIGITAL_EXT
-	addChild(new DigitalLed(mm2px(50.616), yncscape(112.094, 3.867), &module->connected));
+	if(module != NULL)
+		addChild(new DigitalLed(mm2px(50.616), yncscape(112.094, 3.867), &module->connected));
 	#endif
 }

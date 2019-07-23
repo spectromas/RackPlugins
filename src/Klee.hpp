@@ -70,8 +70,38 @@ struct Klee : Module
 		NUM_LIGHTS
 	};
 
-	Klee() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	Klee() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+	
+		for(int k = 0; k < 8; k++)
+		{
+			configParam(Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
+			configParam(Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
+			configParam(Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
+			configParam(Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);	
+		}
+
+		for(int k = 0; k < 3; k++)
+		{
+			configParam(Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);	
+		}
+	
+		configParam(Klee::BUS2_MODE, 0.0, 1.0, 0.0);
+		configParam(Klee::LOAD_PARAM, 0.0, 1.0, 0.0);
+		configParam(Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
+		configParam(Klee::STEP_PARAM, 0.0, 1.0, 0.0);
+		configParam(Klee::X28_X16, 0.0, 1.0, 0.0);
+		configParam(Klee::RND_PAT, 0.0, 1.0, 0.0);
+		configParam(Klee::B_INV, 0.0, 1.0, 0.0);
+		configParam(Klee::RANGE, 0.0001, 5.0, 1.0);
+		configParam(Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
+
+		for(int k = 0; k < 8; k++)
+		{
+			configParam(Klee::PITCH_KNOB + k, 0.0, 1.0, 0.125);
+			configParam(Klee::PITCH_KNOB + 8 + k, 0.0, 1.0, 0.125);
+		}
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene1, 1);
 		#endif
@@ -94,16 +124,16 @@ struct Klee : Module
 	}
 	#endif
 
-	void fromJson(json_t *root) override { Module::fromJson(root); on_loaded(); }
-	json_t *toJson() override
+	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
 
 		return rootJ;
 	}
-	void step() override;
-	void reset() override { load(); }
-	void randomize() override { load(); }
+	void process(const ProcessArgs &args) override;
+	void onReset() override { load(); }
+	void onRandomize() override { load(); }
 
 	#ifdef DIGITAL_EXT
 	float connected;
@@ -128,9 +158,9 @@ private:
 	void check_triggers(float deltaTime);
 	bool isSwitchOn(int ptr);
 	int getValue3(int k);
-	SchmittTrigger loadTrigger;
+	dsp::SchmittTrigger loadTrigger;
 	SchmittTrigger2 clockTrigger;
-	PulseGenerator triggers[3];
+	dsp::PulseGenerator triggers[3];
 
 	union
 	{

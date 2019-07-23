@@ -1,11 +1,11 @@
 #include "common.hpp"
 #include "switch.hpp"
 
-void Switch::step()
+void XSwitch::process(const ProcessArgs &args)
 {
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
-		if(outputs[OUT_1 + k].active && inputs[IN_1 + k].active)
+		if(outputs[OUT_1 + k].isConnected() && inputs[IN_1 + k].isConnected())
 		{
 			if(getSwitch(k))
 			{
@@ -22,21 +22,22 @@ void Switch::step()
 	}
 }
 
-SwitchWidget::SwitchWidget(Switch *module) : ModuleWidget(module)
+SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 {
+	setModule(module);
 	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		SVGPanel *panel = new SVGPanel();
+		SvgPanel *panel = new SvgPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/modules/Switch.svg")));		
+		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Switch.svg")));		
 		addChild(panel);
 	}
 
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(Widget::create<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(Widget::create<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float in_x = mm2px(2.500);
 	float mod_x = mm2px(17.306);
 	float sw_x = mm2px(25.027);
@@ -50,11 +51,11 @@ SwitchWidget::SwitchWidget(Switch *module) : ModuleWidget(module)
 	
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
-		addInput(Port::create<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), Port::INPUT, module, Switch::IN_1 + k));
-		addInput(Port::create<PJ301BPort>(Vec(mod_x, yncscape(y1, 8.255)), Port::INPUT, module, Switch::MOD_1 + k));
-		addParam(ParamWidget::create<NKK2>(Vec(sw_x, yncscape(ysw, 7.336)), module, Switch::SW_1+k, 0.0, 1.0, 0.0));
-		addChild(ModuleLightWidget::create<SmallLight<RedLight>>(Vec(led_x, yncscape(yled, 2.176)), module, Switch::LED_1 + k ));
-		addOutput(Port::create<PJ301GPort>(Vec(out_x, yncscape(y, 8.255)), Port::OUTPUT, module, Switch::OUT_1+k));
+		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, XSwitch::IN_1 + k));
+		addInput(createInput<PJ301BPort>(Vec(mod_x, yncscape(y1, 8.255)), module, XSwitch::MOD_1 + k));
+		addParam(createParam<NKK2>(Vec(sw_x, yncscape(ysw, 7.336)), module, XSwitch::SW_1+k));
+		addChild(createLight<SmallLight<RedLight>>(Vec(led_x, yncscape(yled, 2.176)), module, XSwitch::LED_1 + k ));
+		addOutput(createOutput<PJ301GPort>(Vec(out_x, yncscape(y, 8.255)), module, XSwitch::OUT_1+k));
 		y += delta_y;
 		y1 += delta_y;
 		ysw += delta_y;

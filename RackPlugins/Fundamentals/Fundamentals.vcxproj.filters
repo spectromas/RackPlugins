@@ -1,0 +1,163 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Resource Files\sudo">
+      <UniqueIdentifier>{1e8359f2-ce60-49f8-b176-ff054146d672}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\nunito">
+      <UniqueIdentifier>{dc02e551-7751-4131-ab24-f61b29dce4bc}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\Fundamental\src\8vert.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\ADSR.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Delay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\LFO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Merge.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Mutes.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Octave.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\plugin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Scope.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\SEQ3.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\SequentialSwitch.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Split.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Sum.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Unity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\VCA.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\VCF.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\VCMixer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\VCO.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\Fundamental\src\Viz.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\Fundamental\src\plugin.hpp">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\Fundamental\res\8vert.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\ADSR.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Delay.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\LFO-1.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\LFO-2.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Merge.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Mutes.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Octave.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Scope.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\SEQ3.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\SequentialSwitch1.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\SequentialSwitch2.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Split.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Sum.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Unity.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCA.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCA-1.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCF.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCMixer.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCO-1.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\VCO-2.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="..\..\..\Fundamental\res\Viz.svg">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="..\..\..\Fundamental\res\sudo\Sudo.ttf">
+      <Filter>Resource Files\sudo</Filter>
+    </Font>
+    <Font Include="..\..\..\Fundamental\res\nunito\Nunito-Bold.ttf">
+      <Filter>Resource Files\nunito</Filter>
+    </Font>
+  </ItemGroup>
+</Project>

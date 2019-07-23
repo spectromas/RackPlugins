@@ -8,7 +8,7 @@
 // module widgets
 ////////////////////
 using namespace rack;
-extern Plugin *plugin;
+extern Plugin *pluginInstance;
 
 struct LaunchpadTest;
 struct LaunchpadTestWidget : ModuleWidget
@@ -16,10 +16,10 @@ struct LaunchpadTestWidget : ModuleWidget
 	LaunchpadTestWidget(LaunchpadTest * module);
 };
 
-struct PatternBtn : SVGSwitch, ToggleSwitch {
+struct PatternBtn : SvgSwitch {
 	PatternBtn() {
-		addFrame(SVG::load(assetPlugin(plugin, "res/Patternbtn_0.svg")));
-		addFrame(SVG::load(assetPlugin(plugin, "res/Patternbtn_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_1.svg")));
 	}
 };
 
@@ -49,8 +49,13 @@ struct LaunchpadTest : Module
 		LP_CONNECTED,
 		NUM_LIGHTS
 	};
-	LaunchpadTest() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS)
+	LaunchpadTest() : Module()
 	{
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		configParam(LaunchpadTest::BTN, 0.0, 1.0, 0.0);
+		configParam(LaunchpadTest::KNOB, 0.0, 5.0, 0.25);
+		configParam(LaunchpadTest::SW, 0.0, 2.0, 1.0);
+
 		v_in = 0;
 		drv = new LaunchpadBindingDriver(this, Scene8, 1);
 	}
@@ -58,7 +63,7 @@ struct LaunchpadTest : Module
 	{
 		delete drv;
 	}
-	void step() override;
+	void process(const ProcessArgs &args) override;
 
 	LaunchpadBindingDriver *drv;
 	float v_in;

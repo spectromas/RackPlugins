@@ -21,43 +21,39 @@
 #include "oscTestModule.hpp"
 #endif 
 
-// The plugin-wide instance of the Plugin class
-Plugin *plugin;
+// The pluginInstance-wide instance of the Plugin class
+Plugin *pluginInstance;
 
 void init(rack::Plugin *p)
 {
-	plugin = p;
-	// This is the unique identifier for your plugin
-	p->slug = "TheXOR";
-#ifdef VERSION
-	p->version = TOSTRING(VERSION);
-#endif
-	p->website = "https://github.com/The-XOR/VCV-Sequencers";
-	p->manual = "https://github.com/The-XOR/VCV-Sequencers/blob/master/README.md";
+	pluginInstance = p;
+	
+	p->pluginUrl = "https://github.com/The-XOR/VCV-Sequencers";
+	p->manualUrl = "https://github.com/The-XOR/VCV-Sequencers/blob/master/README.md";
 
 	// For each module, specify the ModuleWidget subclass, manufacturer slug (for saving in patches), manufacturer human-readable name, module slug, and module name
-	p->addModel(Model::create<Klee, KleeWidget>("TheXOR", "Klee", "Klee Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<M581, M581Widget>("TheXOR", "M581", "581 Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<Z8K, Z8KWidget>("TheXOR", "Z8K", "Z8K Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<Renato, RenatoWidget>("TheXOR", "Renato", "Renato Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<Spiralone, SpiraloneWidget>("TheXOR", "Spiralone", "Spiralone Sequencer", SEQUENCER_TAG));
-	p->addModel(Model::create<Burst, BurstWidget>("TheXOR", "Burst", "Burst", SEQUENCER_TAG));
-	p->addModel(Model::create<Uncertain, UncertainWidget>("TheXOR", "Uncertain", "Uncertain", RANDOM_TAG));
-	p->addModel(Model::create<PwmClock, PwmClockWidget>("TheXOR", "PWMClock", "PWM Clock", CLOCK_TAG));
-	p->addModel(Model::create<Quantizer, QuantizerWidget>("TheXOR", "Quantizer", "Quantizer", QUANTIZER_TAG));
-	p->addModel(Model::create<Attenuator, AttenuatorWidget>("TheXOR", "Attenuator", "Attenuator", ATTENUATOR_TAG));
-	p->addModel(Model::create<Boole, BooleWidget>("TheXOR", "Boole", "Boole", LOGIC_TAG));
-	p->addModel(Model::create<Switch, SwitchWidget>("TheXOR", "Switch", "Switch", SWITCH_TAG));
-	p->addModel(Model::create<Mplex, MplexWidget>("TheXOR", "Mplex", "Mplex", SWITCH_TAG));
+	p->addModel(createModel<Klee, KleeWidget>("Klee"));
+	p->addModel(createModel<M581, M581Widget>("M581"));
+	p->addModel(createModel<Z8K, Z8KWidget>("Z8K"));
+	p->addModel(createModel<Renato, RenatoWidget>("Renato"));
+	p->addModel(createModel<Spiralone, SpiraloneWidget>("Spiralone"));
+	p->addModel(createModel<Burst, BurstWidget>("Burst"));
+	p->addModel(createModel<Uncertain, UncertainWidget>("Uncertain"));
+	p->addModel(createModel<PwmClock, PwmClockWidget>("PWMClock"));
+	p->addModel(createModel<Quantizer, QuantizerWidget>("Quantizer"));
+	p->addModel(createModel<Attenuator, AttenuatorWidget>("Attenuator"));
+	p->addModel(createModel<XSwitch, SwitchWidget>("XSwitch"));
+	p->addModel(createModel<Boole, BooleWidget>("Boole"));
+	p->addModel(createModel<Mplex, MplexWidget>("Mplex"));
 
 #ifdef LPTEST_MODULE
-	p->addModel(Model::create<LaunchpadTest, LaunchpadTestWidget>("TheXOR", "LaunchpadTest", "Launchpad Test", DIGITAL_TAG));
+	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
 #endif
 
 #ifdef OSCTEST_MODULE
-	p->addModel(Model::create<OscTest, OscTestWidget>("TheXOR", "OSCTest", "OSC Test", DIGITAL_TAG));
+	p->addModel(createModel<OscTest, OscTestWidget>("OSCTest"));
 #endif
 
-	// Any other plugin initialization may go here.
+	// Any other pluginInstance initialization may go here.
 	// As an alternative, consider lazy-loading assets and lookup tables when your module is created to reduce startup times of Rack.
 }
