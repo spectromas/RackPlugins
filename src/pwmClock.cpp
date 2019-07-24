@@ -78,7 +78,22 @@ void PwmClock::process(const ProcessArgs &args)
 	bpm_integer = roundf(params[BPM].value);
 	updateBpm();
 
-	if((params[OFFON].value + inputs[OFFON_IN].value) > 0.5)
+	dsp::SchmittTrigger onTrigger;
+	dsp::SchmittTrigger offTrigger;
+	
+	double offonin = (inputs[OFF_IN].isConnected() || inputs[ON_IN].isConnected()) ? 0.0 : inputs[OFFON_IN].value;
+	if (offTrigger.process(inputs[OFF_IN].value))
+	{
+		paramQuantities[OFFON]->setValue(0.0);
+		params[OFFON].setValue(0.0);
+	}
+	else if (onTrigger.process(inputs[ON_IN].value))
+	{
+		paramQuantities[OFFON]->setValue(1.0);
+		params[OFFON].setValue(1.0);
+	}
+
+	if((params[OFFON].value + offonin) > 0.5)
 	{
 		lights[ACTIVE].value = LVL_ON;
 		if(resetTrigger.process(inputs[RESET].value))
@@ -163,7 +178,10 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 
 	addParam(createParam<NKK1>(Vec(mm2px(49.040), yncscape(64.997, 9.488)), module, PwmClock::OFFON));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(59.141), yncscape(67.715, 2.176)), module, PwmClock::ACTIVE));
+	
 	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(64.675, 8.255)), module, PwmClock::OFFON_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(21.633), yncscape(86.857, 8.255)), module, PwmClock::OFF_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(35.392), yncscape(86.857, 8.255)), module, PwmClock::ON_IN));
 
 	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(48.511), yncscape(42.040, 9.525)), module, PwmClock::SWING));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(42.675, 8.255)), module, PwmClock::SWING_IN));

@@ -95,6 +95,8 @@ struct PwmClock : Module
 		PWM_IN,
 		SWING_IN,
 		OFFON_IN,
+		OFF_IN,
+		ON_IN,
 		NUM_INPUTS
 	};
 
@@ -159,6 +161,8 @@ private:
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;
 	SchmittTrigger2 resetTrigger;
+	dsp::SchmittTrigger onTrigger;
+	dsp::SchmittTrigger offTrigger;
 
 	void process_keys();
 	void updateBpm();
