@@ -229,6 +229,19 @@ struct SchmittTrigger2
 	}
 };
 
+struct NKK1 : app::SvgSwitch 
+{
+	NKK1() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_2.svg")));
+	}
+
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
 struct NKK2 : app::SvgSwitch 
 {
 	NKK2() {

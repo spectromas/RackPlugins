@@ -176,6 +176,9 @@
     <None Include="..\..\makefile_lp">
       <Filter>makefile</Filter>
     </None>
+    <None Include="..\..\plugin.json">
+      <Filter>Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
@@ -186,6 +189,9 @@
     </Filter>
     <Filter Include="makefile">
       <UniqueIdentifier>{304b5b48-b31c-45eb-8946-c09bbba21d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Files">
+      <UniqueIdentifier>{6ab433ba-d5a6-4523-8fd7-1446a28613e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

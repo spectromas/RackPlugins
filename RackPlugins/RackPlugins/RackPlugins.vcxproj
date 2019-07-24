@@ -103,6 +103,7 @@
     <None Include="..\..\makefile_digital" />
     <None Include="..\..\makefile_lp" />
     <None Include="..\..\makefile_osc" />
+    <None Include="..\..\plugin.json" />
     <None Include="..\..\res\Burst.svg" />
     <None Include="..\..\res\counterSwitchPot.svg" />
     <None Include="..\..\res\counterSwitchPotHandle.svg" />

@@ -145,7 +145,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	}
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(mm2px(118.551), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
+	pwdg = createParam<NKK1>(Vec(mm2px(118.551), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)

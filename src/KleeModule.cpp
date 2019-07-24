@@ -226,7 +226,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	for(int k = 0; k < 8; k++)
 	{
 		// Load switches
-		ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k);
+		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -251,7 +251,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		}
 		#endif
 
-		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8);
+		pwdg = createParam<NKK1>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -332,7 +332,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	float dist_v = 60.582 - 76.986;
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k);
+		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -403,7 +403,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(9.218), yncscape(77.058, 8.255)), module, Klee::LOAD_INPUT));
 
-	pwdg = createParam<NKK2>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD);
+	pwdg = createParam<NKK1>(Vec(mm2px(25.627), yncscape(91.395 + nkk_offs, 7.336)), module, Klee::BUS1_LOAD);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -449,7 +449,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(230.822), yncscape(97.207, 8.255)), module, Klee::CV_AB));
 
 	// mode
-	pwdg = createParam<NKK2>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
+	pwdg = createParam<NKK1>(Vec(mm2px(68.915), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::X28_X16);
 	addParam(pwdg);     // 2x8 1x16
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -467,7 +467,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	}
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT);
+	pwdg = createParam<NKK1>(Vec(mm2px(97.459), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::RND_PAT);
 	addParam(pwdg);     // rnd/pattern
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -485,7 +485,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	}
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV);
+	pwdg = createParam<NKK1>(Vec(mm2px(126.004), yncscape(60.582 + nkk_offs, 7.336)), module, Klee::B_INV);
 	addParam(pwdg);     // norm /B inverted
 	#ifdef LAUNCHPAD
 	if(module != NULL)

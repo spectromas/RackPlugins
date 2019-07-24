@@ -9,7 +9,7 @@
   "authorUrl": "",
   "pluginUrl": "",
   "manualUrl": "",
-  "sourceUrl": "",
+  "sourceUrl": "https://github.com/The-XOR/RackPlugins",
   "donateUrl": "",
   "modules": [
     {
@@ -56,13 +56,17 @@
       "slug": "Burst",
       "name": "Burst",
       "description": "",
-      "tags": []
+      "tags": [
+        "Utility"
+      ]
     },
     {
       "slug": "Uncertain",
       "name": "Uncertain",
       "description": "",
-      "tags": []
+      "tags": [
+        "Random"
+      ]
     },
     {
       "slug": "PWMClock",
@@ -76,31 +80,41 @@
       "slug": "Quantizer",
       "name": "Quantizer",
       "description": "",
-      "tags": []
+      "tags": [
+        "Quantizer"
+      ]
     },
     {
       "slug": "Attenuator",
       "name": "Attenuator",
       "description": "",
-      "tags": []
+      "tags": [
+        "Attenuator"
+      ]
     },
     {
       "slug": "Boole",
       "name": "Boole",
       "description": "",
-      "tags": []
+      "tags": [
+        "Logic"
+      ]
     },
     {
       "slug": "XSwitch",
       "name": "XSwitch",
       "description": "",
-      "tags": []
+      "tags": [
+        "Switch"
+      ]
     },
     {
       "slug": "Mplex",
       "name": "Mplex",
-      "description": "MUltiplexer",
-      "tags": []
+      "description": "Multiplexer",
+      "tags": [
+        "Switch"
+      ]
     }
   ]
 }

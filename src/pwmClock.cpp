@@ -161,7 +161,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 	addInput(createInput<PJ301BPort>(Vec(mm2px(50.326), yncscape(86.857, 8.255)), module, PwmClock::EXT_BPM));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(63.162), yncscape(86.857, 8.255)), module, PwmClock::RESET));
 
-	addParam(createParam<NKK2>(Vec(mm2px(49.040), yncscape(64.997, 9.488)), module, PwmClock::OFFON));
+	addParam(createParam<NKK1>(Vec(mm2px(49.040), yncscape(64.997, 9.488)), module, PwmClock::OFFON));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(59.141), yncscape(67.715, 2.176)), module, PwmClock::ACTIVE));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(64.675, 8.255)), module, PwmClock::OFFON_IN));
 

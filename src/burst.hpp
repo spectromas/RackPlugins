@@ -57,6 +57,7 @@ struct Burst : Module
 		configParam(Burst::EVENT_COUNT, 0.0, 23.0, 0.0);	
 		configParam(Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF);
 		configParam(Burst::TRIGGER, 0.0, 1.0, 0.0);
+		onReset();
 	}
 
 	void process(const ProcessArgs &args) override;
