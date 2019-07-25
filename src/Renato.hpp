@@ -91,7 +91,7 @@ struct Renato : Module
 		#ifdef OSCTEST_MODULE
 		oscDrv = new OSCDriver(this, 3);
 		#endif
-		on_loaded();
+		onReset();
 	}
 
 	#ifdef DIGITAL_EXT
@@ -117,6 +117,7 @@ struct Renato : Module
 	}
 	bool _accessX(int p) { return _access(xy(p, seqY.Position())); }
 	bool _accessY(int p) { return _access(xy(seqX.Position(), p)); }
+	int last_n;
 
 	#ifdef DIGITAL_EXT
 	float connected;
@@ -138,7 +139,7 @@ private:
 	dsp::SchmittTrigger resetTrigger;
 	void on_loaded();
 	void load();
-	void led(int n) { for(int k = 0; k < 16; k++) lights[LED_1 + k].value = k == n ? 10.0 : 0.0; }
+	void led(int n);
 	int xy(int x, int y) { return 4 * y + x; }
 	bool _access(int n) { return getStatus(ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
 	bool _gateX(int n) { return  getStatus(GATEX_1 + n, GATEX_IN1 + n) > 0; }

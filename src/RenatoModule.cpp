@@ -4,6 +4,18 @@
 
 bool Access(Renato *pr, bool is_x, int p) { return is_x ? pr->_accessX(p) : pr->_accessY(p); }
 
+void Renato::led(int l) 
+{
+	for(int r = 0; r < 4; r++)
+	{
+		for(int c = 0; c < 4; c++)
+		{
+			int n = c + r * 4;
+			lights[LED_1 + n].value = l == n ? 10.0 : 0.0; 
+		}
+	}
+}
+
 void Renato::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -16,8 +28,8 @@ void Renato::load()
 {
 	seqX.Reset();
 	seqY.Reset();
+	last_n = -1;
 }
-
 void Renato::process(const ProcessArgs &args)
 {
 	if(resetTrigger.process(inputs[RESET].value))
@@ -30,8 +42,10 @@ void Renato::process(const ProcessArgs &args)
 		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
 		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
-		if(_access(n))
+		
+		if(_access(n) && last_n != n)
 		{
+			last_n = n;
 			bool on = false;
 			if(_gateX(n))
 			{
@@ -194,7 +208,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	float x_sup[4] = {7.899, 18.293, 28.687, 39.330};
 	float x_inf[4] = {7.899, 18.293, 28.687, 38.695};
 	float x_led = 46.981;
-	float y_led = 14.445;
+	float y_led = 97.848;
 	float y_sup = 100.419;
 	float y_inf = 90.196;
 	float y_pot = 89.561;
