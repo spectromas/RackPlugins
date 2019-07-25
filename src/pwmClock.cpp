@@ -78,19 +78,19 @@ void PwmClock::process(const ProcessArgs &args)
 	bpm_integer = roundf(params[BPM].value);
 	updateBpm();
 
-	dsp::SchmittTrigger onTrigger;
-	dsp::SchmittTrigger offTrigger;
-	
 	double offonin = (inputs[OFF_IN].isConnected() || inputs[ON_IN].isConnected()) ? 0.0 : inputs[OFFON_IN].value;
+	
 	if (offTrigger.process(inputs[OFF_IN].value))
 	{
-		paramQuantities[OFFON]->setValue(0.0);
-		params[OFFON].setValue(0.0);
+		DEBUG("processing OFF trigger");
+		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
+		pWidget->params[OFFON]->paramQuantity->setValue(0.0);		
 	}
 	else if (onTrigger.process(inputs[ON_IN].value))
 	{
-		paramQuantities[OFFON]->setValue(1.0);
-		params[OFFON].setValue(1.0);
+		DEBUG("processing ON trigger");
+		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
+		pWidget->params[OFFON]->paramQuantity->setValue(1.0);
 	}
 
 	if((params[OFFON].value + offonin) > 0.5)

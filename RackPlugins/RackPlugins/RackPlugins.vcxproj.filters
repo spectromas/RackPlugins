@@ -19,6 +19,7 @@
     <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\switch.cpp" />
     <ClCompile Include="..\..\src\mplex.cpp" />
+    <ClCompile Include="..\..\src\demplex.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -108,6 +109,9 @@
     <ClInclude Include="..\..\src\mplex.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\demplex.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\counterSwitchPot.svg">
@@ -178,6 +182,9 @@
     </None>
     <None Include="..\..\plugin.json">
       <Filter>Files</Filter>
+    </None>
+    <None Include="..\..\res\modules\dmplex.svg">
+      <Filter>res</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>

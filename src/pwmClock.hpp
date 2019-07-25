@@ -161,8 +161,8 @@ private:
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;
 	SchmittTrigger2 resetTrigger;
-	dsp::SchmittTrigger onTrigger;
-	dsp::SchmittTrigger offTrigger;
+	SchmittTrigger2 onTrigger;
+	SchmittTrigger2 offTrigger;
 
 	void process_keys();
 	void updateBpm();

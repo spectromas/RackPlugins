@@ -22,7 +22,13 @@ void Mplex::set_output(int n)
 
 void Mplex::process(const ProcessArgs &args)
 {
-	if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
+	if(reset.process(inputs[RESET].value))
+	{
+		set_output(0);
+	} else if(random.process(inputs[RANDOM].value))
+	{
+		set_output(getRand(NUM_MPLEX_INPUTS));
+	} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
 	{
 		if(++cur_sel >= NUM_MPLEX_INPUTS)
 			cur_sel = 0;
@@ -58,6 +64,9 @@ MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(71.230, 8.255)), module, Mplex::INUP));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(49.014, 8.255)), module, Mplex::INDN));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(40.045), yncscape(60.122, 8.255)), module, Mplex::OUT_1));
+
+	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(95.529,8.255)), module, Mplex::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(27.716, 8.255)), module, Mplex::RANDOM));
 
 	float y = 105.068;
 	float x = 3.558;

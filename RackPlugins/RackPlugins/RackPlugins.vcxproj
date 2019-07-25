@@ -59,6 +59,7 @@
     <ClInclude Include="..\..\src\attenuator.hpp" />
     <ClInclude Include="..\..\src\burst.hpp" />
     <ClInclude Include="..\..\src\common.hpp" />
+    <ClInclude Include="..\..\src\demplex.hpp" />
     <ClInclude Include="..\..\src\Klee.hpp" />
     <ClInclude Include="..\..\src\boole.hpp" />
     <ClInclude Include="..\..\src\lpTestModule.hpp" />
@@ -81,6 +82,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\src\attenuator.cpp" />
     <ClCompile Include="..\..\src\burst.cpp" />
+    <ClCompile Include="..\..\src\demplex.cpp" />
     <ClCompile Include="..\..\src\KleeModule.cpp" />
     <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
@@ -112,6 +114,7 @@
     <None Include="..\..\res\digitalLed_on.svg" />
     <None Include="..\..\res\KleeModule.svg" />
     <None Include="..\..\res\M581Module.svg" />
+    <None Include="..\..\res\modules\dmplex.svg" />
     <None Include="..\..\res\Patternbtn_0.svg" />
     <None Include="..\..\res\Patternbtn_1.svg" />
     <None Include="..\..\res\PJ301G.svg" />

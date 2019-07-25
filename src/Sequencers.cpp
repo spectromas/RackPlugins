@@ -11,6 +11,7 @@
 #include "attenuator.hpp"
 #include "boole.hpp"
 #include "mplex.hpp"
+#include "demplex.hpp"
 #include "switch.hpp"
 
 #ifdef LPTEST_MODULE
@@ -45,6 +46,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<XSwitch, SwitchWidget>("XSwitch"));
 	p->addModel(createModel<Boole, BooleWidget>("Boole"));
 	p->addModel(createModel<Mplex, MplexWidget>("Mplex"));
+	p->addModel(createModel<Dmplex, DmplexWidget>("Dmplex"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
