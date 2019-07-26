@@ -35,6 +35,26 @@ extern Plugin *pluginInstance;
 #define DIGITAL_EXT
 #endif
 
+struct UPSWITCH : SvgSwitch
+{
+	UPSWITCH()
+	{
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_1.svg")));
+	}
+};
+
+struct DNSWITCH : SvgSwitch
+{
+	DNSWITCH()
+	{
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_1.svg")));
+	}
+};
+
 struct _davies1900base : Davies1900hKnob 
 {
 	_davies1900base(const char *res) 

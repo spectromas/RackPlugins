@@ -62,15 +62,17 @@ void PwmClock::process_keys()
 		if(btnup.process(params[BPM_INC].value))
 		{
 			if(bpm_integer < BPM_MAXVALUE)
+			{
 				bpm_integer += 1;
-			pWidget->SetBpm(bpm_integer);
-		}
-
-		if(btndwn.process(params[BPM_DEC].value))
+				pWidget->SetBpm(bpm_integer);
+			}
+		} else if(btndwn.process(params[BPM_DEC].value))
 		{
-			if(bpm_integer > 0)
+			if(bpm_integer > BPM_MINVALUE)
+			{
 				bpm_integer -= 1;
-			pWidget->SetBpm(bpm_integer);
+				pWidget->SetBpm(bpm_integer);
+			}
 		}
 	}
 }

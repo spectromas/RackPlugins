@@ -7,26 +7,6 @@
 #define SWING_MINVALUE (0.0)
 #define SWING_MAXVALUE (0.5)
 
-struct UPSWITCH : SvgSwitch
-{
-	UPSWITCH()
-	{
-		momentary = true;
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_1.svg")));
-	}
-};
-
-struct DNSWITCH : SvgSwitch
-{
-	DNSWITCH()
-	{
-		momentary = true;
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_1.svg")));
-	}
-};
-
 struct Rogan1PSRedSmall : Rogan
 {
 	Rogan1PSRedSmall()

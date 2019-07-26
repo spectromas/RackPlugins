@@ -109,6 +109,14 @@
       ]
     },
     {
+      "slug": "Counter",
+      "name": "Counter",
+      "description": "",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
       "slug": "Mplex",
       "name": "Mplex",
       "description": "Multiplexer",

@@ -13,6 +13,7 @@
 #include "mplex.hpp"
 #include "demplex.hpp"
 #include "switch.hpp"
+#include "counter.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -47,6 +48,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<Boole, BooleWidget>("Boole"));
 	p->addModel(createModel<Mplex, MplexWidget>("Mplex"));
 	p->addModel(createModel<Dmplex, DmplexWidget>("Dmplex"));
+	p->addModel(createModel<Counter, CounterWidget>("Counter"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
