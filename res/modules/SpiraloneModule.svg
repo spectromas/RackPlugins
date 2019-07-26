@@ -15,7 +15,7 @@
    viewBox="0 0 259.08 128.50002"
    version="1.1"
    id="svg8"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
    sodipodi:docname="SpiraloneModule.svg">
   <defs
      id="defs2">
@@ -3101,9 +3101,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.6954657"
-     inkscape:cx="186.58579"
-     inkscape:cy="393.58161"
+     inkscape:zoom="0.98353702"
+     inkscape:cx="152.62969"
+     inkscape:cy="314.90056"
      inkscape:document-units="mm"
      inkscape:current-layer="layer3"
      showgrid="false"
@@ -3114,8 +3114,8 @@
      inkscape:snap-bbox-edge-midpoints="true"
      inkscape:window-width="757"
      inkscape:window-height="405"
-     inkscape:window-x="-94"
-     inkscape:window-y="180"
+     inkscape:window-x="2690"
+     inkscape:window-y="115"
      inkscape:window-maximized="0"
      showguides="true"
      inkscape:guide-bbox="true"
@@ -3155,8 +3155,7 @@
      id="layer5"
      inkscape:label="logo"
      style="display:inline"
-     transform="translate(0,27.958346)"
-     sodipodi:insensitive="true">
+     transform="translate(0,27.958346)">
     <g
        style="display:inline"
        id="g1293"
@@ -3264,17 +3263,17 @@
          style="clip-rule:evenodd;fill:#000000;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision">
         <polygon
            style="fill:#000000;stroke:#000000;stroke-width:0.0762"
-           points="200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 "
+           points="178.747,101.794 200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 "
            class="fil2 str0"
            id="_196665264-8" />
         <polygon
            style="fill:#000000;stroke:#ffffff;stroke-width:0.0762"
-           points="200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 "
+           points="178.747,228.666 200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 "
            class="fil0 str2"
            id="_196665048-5" />
         <polygon
            style="fill:#000000;stroke:#ff0000;stroke-width:0.0762"
-           points="200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 "
+           points="178.747,165.23 200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 "
            class="fil1 str1"
            id="_196666392-1" />
       </g>
@@ -9218,6 +9217,22 @@
              inkscape:connector-curvature="0" />
         </g>
       </g>
+    </g>
+    <g
+       inkscape:label="Layer 1"
+       id="g2715"
+       transform="translate(-25.894778,-58.597202)">
+      <path
+         inkscape:connector-curvature="0"
+         style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:#800000;stroke-width:0.56692916;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+         d="m 15.791016,0.47265625 c -8.447921,0 -15.31835975,6.87051055 -15.31835975,15.31835975 0,8.448 6.87043875,15.316406 15.31835975,15.316406 8.447909,0 15.316406,-6.868406 15.316406,-15.316406 0,-8.4478492 -6.868497,-15.31835975 -15.316406,-15.31835975 z m 0,4.28710935 c 6.083334,0 11.03125,4.9479492 11.03125,11.0312504 0,6.083338 -4.947916,11.03125 -11.03125,11.03125 -6.0833314,0 -11.0312504,-4.947912 -11.0312504,-11.03125 0,-6.0833012 4.947919,-11.0312504 11.0312504,-11.0312504 z"
+         transform="matrix(0.26458333,0,0,0.26458333,88.611154,119.19859)"
+         id="path2711" />
+      <path
+         inkscape:connector-curvature="0"
+         id="path2713"
+         d="m 94.588681,123.3764 c 0,0.99357 -0.806153,1.79974 -1.799717,1.79974 -0.993567,0 -1.79972,-0.80617 -1.79972,-1.79974 0,-0.99356 0.806153,-1.79969 1.79972,-1.79969 0.993564,0 1.799717,0.80613 1.799717,1.79969"
+         style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277775" />
     </g>
   </g>
 </svg>

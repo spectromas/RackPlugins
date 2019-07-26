@@ -3,7 +3,7 @@
 #include "M581.hpp"
 #include "Z8K.hpp"
 #include "Renato.hpp"
-#include "Spiralone.hpp"
+#include "SpiraloneModule.hpp"
 #include "pwmClock.hpp"
 #include "quantizer.hpp"
 #include "burst.hpp"

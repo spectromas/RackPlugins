@@ -52,7 +52,11 @@ QuantizerWidget::QuantizerWidget(Quantizer *module) : ModuleWidget()
 	for(int k = 0; k < NUM_QUANTIZERS; k++)
 	{
 		addInput(createInput<PJ301GRPort>(Vec(in_x, y), module, Quantizer::IN_1 + k));
-		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, ypot+1), module, Quantizer::TRANSP_1+k));
+		if( k < (NUM_QUANTIZERS/2))
+			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, ypot+1), module, Quantizer::TRANSP_1+k));
+		else
+			addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(pot_x, ypot+1), module, Quantizer::TRANSP_1+k));
+		
 		addInput(createInput<PJ301BPort>(Vec(mod_x, mod_y), module, Quantizer::TRNSPIN_1 + k));
 		addOutput(createOutput<PJ301GPort>(Vec(out_x, y), module, Quantizer::OUT_1+k));
 		y += delta_y;

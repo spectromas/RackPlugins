@@ -28,7 +28,6 @@ void Renato::load()
 {
 	seqX.Reset();
 	seqY.Reset();
-	last_n = -1;
 }
 void Renato::process(const ProcessArgs &args)
 {
@@ -43,9 +42,8 @@ void Renato::process(const ProcessArgs &args)
 		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
 		
-		if(_access(n) && last_n != n)
+		if(_access(n) )
 		{
-			last_n = n;
 			bool on = false;
 			if(_gateX(n))
 			{

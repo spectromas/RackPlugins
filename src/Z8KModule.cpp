@@ -38,6 +38,9 @@ void Z8K::process(const ProcessArgs &args)
 	for(int k = 0; k < 16; k++)
 		activeSteps[k] = false;
 
+	if(randomizeTrigger.process(inputs[RANDOMIZE].value))
+		pWidget->std_randomize(VOLTAGE_1,VOLTAGE_1+16);
+
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
 		activeSteps[seq[k].Step()] = true;
 
@@ -65,7 +68,10 @@ void Z8K::process(const ProcessArgs &args)
 }
 
 Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
-{
+{	
+	if(module != NULL)
+		module->setWidget(this);
+
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
@@ -105,6 +111,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 	addInput(createInput<PJ301BPort> (Vec(mm2px(14.318), yncscape(2.685, 8.255)), module, Z8K::DIR_HORIZ ));
 	addInput(createInput<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), module, Z8K::CLOCK_HORIZ));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), module, Z8K::CV_HORIZ));
+
+	addInput(createInput<PJ301BPort> (Vec(mm2px(24.183), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
 
 	for(int r = 0; r < 4; r++)
 	{

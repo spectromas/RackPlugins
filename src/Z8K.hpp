@@ -40,6 +40,8 @@ struct Z8K : Module
 		CLOCK_VERT = CLOCK_A + 4,
 		CLOCK_HORIZ,
 
+		RANDOMIZE,
+
 		NUM_INPUTS
 	};
 
@@ -73,6 +75,7 @@ struct Z8K : Module
 
 	Z8K() : Module()
 	{
+		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int r = 0; r < 4; r++)
 		{
@@ -107,6 +110,7 @@ struct Z8K : Module
 
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
+	void setWidget(Z8KWidget *pwdg) { pWidget = pwdg; }
 
 	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
 	json_t *dataToJson() override
@@ -129,4 +133,6 @@ private:
 	void on_loaded();
 	void load();
 	z8kSequencer seq[10];
+	dsp::SchmittTrigger randomizeTrigger;
+	Z8KWidget *pWidget;
 };

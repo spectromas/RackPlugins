@@ -114,6 +114,7 @@ struct PwmClock : Module
 
 	PwmClock() : Module()
 	{
+		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(PwmClock::BPM_INC, 0.0, 1.0, 0.0);
 		configParam(PwmClock::BPM_DEC, 0.0, 1.0, 0.0);

@@ -57,18 +57,21 @@ void PwmClock::updateBpm()
 
 void PwmClock::process_keys()
 {
-	if(btnup.process(params[BPM_INC].value))
+	if(pWidget != NULL)
 	{
-		if(bpm_integer < BPM_MAXVALUE)
-			bpm_integer += 1;
-		pWidget->SetBpm(bpm_integer);
-	}
+		if(btnup.process(params[BPM_INC].value))
+		{
+			if(bpm_integer < BPM_MAXVALUE)
+				bpm_integer += 1;
+			pWidget->SetBpm(bpm_integer);
+		}
 
-	if(btndwn.process(params[BPM_DEC].value))
-	{
-		if(bpm_integer > 0)
-			bpm_integer -= 1;
-		pWidget->SetBpm(bpm_integer);
+		if(btndwn.process(params[BPM_DEC].value))
+		{
+			if(bpm_integer > 0)
+				bpm_integer -= 1;
+			pWidget->SetBpm(bpm_integer);
+		}
 	}
 }
 
@@ -80,17 +83,15 @@ void PwmClock::process(const ProcessArgs &args)
 
 	double offonin = (inputs[OFF_IN].isConnected() || inputs[ON_IN].isConnected()) ? 0.0 : inputs[OFFON_IN].value;
 	
-	if (offTrigger.process(inputs[OFF_IN].value))
+	if(pWidget != NULL)
 	{
-		DEBUG("processing OFF trigger");
-		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
-		pWidget->params[OFFON]->paramQuantity->setValue(0.0);		
-	}
-	else if (onTrigger.process(inputs[ON_IN].value))
-	{
-		DEBUG("processing ON trigger");
-		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
-		pWidget->params[OFFON]->paramQuantity->setValue(1.0);
+		if (offTrigger.process(inputs[OFF_IN].value))
+		{
+			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
+		} else if (onTrigger.process(inputs[ON_IN].value))
+		{
+			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
+		}
 	}
 
 	if((params[OFFON].value + offonin) > 0.5)

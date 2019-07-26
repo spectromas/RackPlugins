@@ -9,14 +9,12 @@
 #define NUM_SEQUENCERS (5)
 #define TOTAL_STEPS (32)
 #include "sprlnSequencer.hpp"
-#include "SpiraloneModule.hpp"
 
 
 ////////////////////
 // module widgets
 ////////////////////
 
-struct Spiralone;
 struct SpiraloneWidget : SequencerWidget
 {
 public:

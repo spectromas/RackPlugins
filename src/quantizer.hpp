@@ -45,7 +45,10 @@ struct Quantizer : Module
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < NUM_QUANTIZERS; k++)
-			configParam(Quantizer::TRANSP_1+k, 0.0, 5.0, 0.0);
+		{
+			int rng = k < (NUM_QUANTIZERS/2) ? 5.0 : 10.0;
+			configParam(Quantizer::TRANSP_1+k, -rng, rng, 0.0);
+		}
 	}
 	void process(const ProcessArgs &args) override;
 

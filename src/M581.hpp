@@ -136,7 +136,10 @@ struct M581 : Module
 	{
 		CLOCK,
 		RESET,
-		NUM_INPUTS
+		RANDOMIZE_CV,
+		RANDOMIZE_REPS
+		
+		,NUM_INPUTS
 	};
 
 	enum OutputIds
@@ -150,12 +153,13 @@ struct M581 : Module
 	{
 		LED_STEP,
 		LED_SUBDIV = LED_STEP + 8,
-		temp = LED_SUBDIV + 8,
-		NUM_LIGHTS
+		NUM_LIGHTS = LED_SUBDIV + 8
 	};
 
 	M581() : Module()
 	{
+		pWidget = NULL;
+
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < 8; k++)
 		{
@@ -200,7 +204,8 @@ struct M581 : Module
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
-
+	void setWidget(M581Widget *pwdg) { pWidget = pwdg; }
+	
 	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
 	json_t *dataToJson() override
 	{
@@ -235,6 +240,7 @@ private:
 	TIMER Timer;
 	STEP_COUNTER stepCounter;
 	ParamGetter getter;
+	M581Widget *pWidget;
 
 	void _reset();
 	void on_loaded();
@@ -244,4 +250,6 @@ private:
 	bool any();
 	dsp::SchmittTrigger clockTrigger;
 	dsp::SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger rndCVTrigger;
+	dsp::SchmittTrigger rndRepsTrigger;
 };

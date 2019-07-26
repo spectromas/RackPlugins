@@ -71,6 +71,10 @@ struct Davies1900hFixWhiteKnobSmall : _davies1900base
 	Davies1900hFixWhiteKnobSmall() : _davies1900base("res/Davies1900hWhiteSmall.svg") {}
 };
 
+struct Davies1900hFixRedKnobSmall : _davies1900base
+{
+	Davies1900hFixRedKnobSmall() : _davies1900base("res/Davies1900hRedSmall.svg") {}
+};
 
 
 struct _ioPort : SvgPort
@@ -294,7 +298,7 @@ struct VerticalSwitch : SvgSlider
 
 };
 
-template<class T> struct SeqMenuItem : MenuItem
+template<class T> struct SeqMenuItem : ui::MenuItem
 {
 public:
 	SeqMenuItem(const char *title, T *pW, int act)
@@ -313,6 +317,19 @@ private:
 
 class SequencerWidget : public ModuleWidget
 {
+public:
+	void std_randomize(int first_index, int last_index)
+	{
+		for(int k = first_index; k < last_index; k++)
+		{
+			int index = getParamIndex(k);
+			if(index >= 0)
+			{
+				params[index]->randomize();
+			}
+		}
+	}
+
 protected:
 	SequencerWidget(Module *module) : ModuleWidget() 	
 	{
@@ -331,22 +348,10 @@ protected:
 		return -1;
 	}
 
-	void std_randomize(int first_index, int last_index)
-	{
-		for(int k = first_index; k < last_index; k++)
-		{
-			int index = getParamIndex(k);
-			if(index >= 0)
-			{
-				params[index]->randomize();
-			}
-		}
-	}
-
 	void appendContextMenu(ui::Menu *menu) override
 	{
-		MenuLabel *spacerLabel = new MenuLabel();
-		menu->addChild(spacerLabel);
+		menu->addChild(createMenuLabel("*** A la carte ***"));
+		addContextMenu(menu);
 	}
 
 	virtual Menu *addContextMenu(Menu *menu) { return menu; }

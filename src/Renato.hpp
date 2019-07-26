@@ -117,7 +117,6 @@ struct Renato : Module
 	}
 	bool _accessX(int p) { return _access(xy(p, seqY.Position())); }
 	bool _accessY(int p) { return _access(xy(seqX.Position(), p)); }
-	int last_n;
 
 	#ifdef DIGITAL_EXT
 	float connected;

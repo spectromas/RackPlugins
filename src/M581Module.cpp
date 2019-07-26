@@ -34,6 +34,13 @@ void M581::process(const ProcessArgs &args)
 		_reset();
 	} else
 	{
+		if(pWidget != NULL)
+		{
+			if(rndCVTrigger.process(inputs[RANDOMIZE_CV].value))
+				pWidget->std_randomize(STEP_NOTES,STEP_NOTES+8);
+			if(rndRepsTrigger.process(inputs[RANDOMIZE_REPS].value))
+				pWidget->std_randomize(COUNTER_SWITCH,COUNTER_SWITCH+8);
+		}
 		Timer.Step();
 
 		if(clockTrigger.process(inputs[CLOCK].value) && any())
@@ -100,6 +107,8 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
+	if(module != NULL)
+		module->setWidget(this);
 
 	box.size = Vec(29 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	SvgPanel *panel = new SvgPanel();
@@ -214,7 +223,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 
 		// subdiv leds (all pages)
 		const float dv = 3.029;
-		plight = createLight<TinyLight<RedLight>>(Vec(mm2px(11.642), yncscape(82.953-k*dv+0.272, 1.088)), module, M581::LED_SUBDIV + k);
+		plight = createLight<TinyLight<RedLight>>(Vec(mm2px(11.642), yncscape(61.75+k*dv+0.272, 1.088)), module, M581::LED_SUBDIV + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -285,6 +294,8 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)), module, M581::RESET));
 	
+	addInput(createInput<PJ301BPort>(Vec(mm2px(105.987), yncscape(113.902, 8.255)), module, M581::RANDOMIZE_CV));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(105.987), yncscape(77.113, 8.255)), module, M581::RANDOMIZE_REPS));
 
 	// OUTPUTS
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(113.864), yncscape(7.228, 8.255)), module, M581::CV));
@@ -346,7 +357,7 @@ bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENA
 bool ParamGetter::IsSlide(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 1.0; }
 int ParamGetter::GateMode(int numstep) { return std::round(pModule->params[M581::GATE_SWITCH + numstep].value); }
 int ParamGetter::PulseCount(int numstep) { return std::round(pModule->params[M581::COUNTER_SWITCH + numstep].value); }
-float ParamGetter::Note(int numstep) { return pModule->params[M581::STEP_NOTES + numstep].value * (pModule->params[M581::MAXVOLTS].value > 0 ? 5.0 : 3.0); }
+float ParamGetter::Note(int numstep) { return pModule->params[M581::STEP_NOTES + numstep].value * (pModule->params[M581::MAXVOLTS].value > 0 ? 7.0 : 3.0); }
 int ParamGetter::RunMode() { return std::round(pModule->params[M581::RUN_MODE].value); }
 int ParamGetter::NumSteps() { return std::round(pModule->params[M581::NUM_STEPS].value); }
 float ParamGetter::SlideTime() { return pModule->params[M581::SLIDE_TIME].value; }

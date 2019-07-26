@@ -1,4 +1,5 @@
 #pragma once
+#include "Spiralone.hpp"
 
 struct Spiralone : Module
 {
@@ -15,6 +16,7 @@ struct Spiralone : Module
 
 	enum InputIds
 	{
+		RANDOMIZONE,
 		RESET_1,
 		INLENGHT_1 = RESET_1 + NUM_SEQUENCERS,
 		INSTRIDE_1 = INLENGHT_1 + NUM_SEQUENCERS,
@@ -38,6 +40,7 @@ struct Spiralone : Module
 
 	Spiralone() : Module()
 	{
+		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < TOTAL_STEPS; k++)
 			configParam(Spiralone::VOLTAGE_1 + k, 0.0, 6.0, 1.0);
@@ -73,7 +76,8 @@ struct Spiralone : Module
 
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
-
+	void setWidget(SpiraloneWidget *pwdg) { pWidget = pwdg; }
+	
 	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
 	json_t *dataToJson() override
 	{
@@ -94,7 +98,10 @@ struct Spiralone : Module
 private:
 	void on_loaded();
 	void load();
+	void randrandrand();
 
+	SpiraloneWidget *pWidget;
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];
 	dsp::SchmittTrigger masterReset;
+	dsp::SchmittTrigger rndTrigger;
 };

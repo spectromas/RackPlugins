@@ -1,4 +1,3 @@
-#include "Spiralone.hpp"
 #include "SpiraloneModule.hpp"
 #include <math.h>
 
@@ -29,6 +28,12 @@ void Spiralone::process(const ProcessArgs &args)
 		load();
 	} else
 	{
+		if(pWidget != NULL)
+		{
+			if(rndTrigger.process(inputs[RANDOMIZONE].value))
+				randrandrand();
+		}
+
 		for(int k = 0; k < NUM_SEQUENCERS; k++)
 			sequencer[k].Step(k, this);
 	}
@@ -51,8 +56,38 @@ void Spiralone::process(const ProcessArgs &args)
 	#endif
 }
 
+void Spiralone::randrandrand()
+{
+	int action = int(random::uniform() * 5);
+	switch(action)
+	{
+	case 0:
+		pWidget->std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
+		break;
+
+	case 1:
+		pWidget->std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
+		break;
+
+	case 2:
+		pWidget->std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
+		break;
+
+	case 3:
+		pWidget->std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
+		break;
+
+	case 4:
+		pWidget->std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
+		break;
+	}
+}
+
 SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 {
+	if(module != NULL)
+		module->setWidget(this);
+
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
@@ -118,6 +153,8 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	}
 
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
+
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
