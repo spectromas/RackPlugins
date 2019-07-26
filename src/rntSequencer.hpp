@@ -68,7 +68,7 @@ public:
 			led->value = output->value = LVL_OFF;
 		}
 
-		return clk == 1;
+		return (output->value == LVL_ON);
 	}
 
 private:

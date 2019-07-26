@@ -16,6 +16,18 @@ void Renato::led(int l)
 	}
 }
 
+void Renato::setOut(int l, bool on)
+{
+	for (int r = 0; r < 4; r++)
+	{
+		for (int c = 0; c < 4; c++)
+		{
+			int n = c + r * 4;
+			lights[LED_1 + n].value = l == n ? 10.0 : 0.0;
+			outputs[CV_OUTSTEP1 + n].value = (on && l == n) ? LVL_ON : LVL_OFF;
+		}
+	}
+}
 void Renato::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -58,7 +70,7 @@ void Renato::process(const ProcessArgs &args)
 			}
 
 			outputs[CV].value = params[VOLTAGE_1 + n].value;
-			outputs[CV_OUTSTEP1 + n].value = on ? LVL_ON : LVL_OFF;
+			setOut(n, on);
 			led(n);
 		}
 	}

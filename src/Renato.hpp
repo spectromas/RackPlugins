@@ -139,6 +139,7 @@ private:
 	void on_loaded();
 	void load();
 	void led(int n);
+	void setOut(int n, bool on);
 	int xy(int x, int y) { return 4 * y + x; }
 	bool _access(int n) { return getStatus(ACCESS_1 + n, ACCESS_IN1 + n) > 0; }
 	bool _gateX(int n) { return  getStatus(GATEX_1 + n, GATEX_IN1 + n) > 0; }
