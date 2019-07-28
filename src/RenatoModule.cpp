@@ -49,6 +49,15 @@ void Renato::process(const ProcessArgs &args)
 		seqY.Reset();
 	} else
 	{
+		if (pWidget != NULL)
+		{
+			if (accessRndTrigger.process(inputs[ACCESS_RND].value))
+				pWidget->std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16);
+			if (gatexRndTrigger.process(inputs[GATEX_RND].value))
+				pWidget->std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16);
+			if (gateyRndTrigger.process(inputs[GATEY_RND].value))
+				pWidget->std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16);
+		}
 		bool seek_mode = params[SEEKSLEEP].value > 0;
 		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
 		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
@@ -114,6 +123,9 @@ void RenatoWidget::onMenu(int action)
 
 RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 {
+	if (module != NULL)
+		module->setWidget(this);
+
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
@@ -128,9 +140,13 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 	addChild(createWidget<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
 
-	addInput(createInput<PJ301RPort>(Vec(mm2px(7.899), yncscape(115.267,8.255)), module, Renato::XCLK));
-	addInput(createInput<PJ301RPort>(Vec(mm2px(28.687), yncscape(115.267,8.255)), module, Renato::YCLK));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(39.330), yncscape(115.267,8.255)), module, Renato::XCLK));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(55.242), yncscape(115.267,8.255)), module, Renato::YCLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), module, Renato::RESET));
+
+	addInput(createInput<PJ301BPort>(Vec(mm2px(7.899), yncscape(115.267, 8.255)), module, Renato::ACCESS_RND));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(18.293), yncscape(115.267, 8.255)), module, Renato::GATEX_RND));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(28.687), yncscape(115.267, 8.255)), module, Renato::GATEY_RND));
 	
 	// page 0 (SESSION)
 	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(71.102), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_X);
@@ -320,6 +336,6 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
-		addChild(new DigitalLed(mm2px(50.616), yncscape(112.094, 3.867), &module->connected));
+		addChild(new DigitalLed(mm2px(107.531), yncscape(117.461, 3.867), &module->connected));
 	#endif
 }

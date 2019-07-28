@@ -48,7 +48,10 @@ struct Renato : Module
 		ACCESS_IN1,
 		GATEX_IN1 = ACCESS_IN1 + 16,
 		GATEY_IN1 = GATEX_IN1 + 16,
-		NUM_INPUTS = GATEY_IN1+16
+		ACCESS_RND = GATEY_IN1+16,
+		GATEX_RND,
+		GATEY_RND,
+		NUM_INPUTS
 	};
 
 	enum OutputIds
@@ -65,9 +68,11 @@ struct Renato : Module
 		LED_1,
 		NUM_LIGHTS = LED_1 + 16
 	};
-
+	
+	void setWidget(RenatoWidget *pwdg) { pWidget = pwdg; }
 	Renato() : Module()
 	{
+		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
 		configParam(Renato::COUNTMODE_X, 0.0, 2.0, 0.0);
@@ -135,7 +140,11 @@ private:
 	}
 
 private:
+	RenatoWidget *pWidget;
 	dsp::SchmittTrigger resetTrigger;
+	dsp::SchmittTrigger accessRndTrigger;
+	dsp::SchmittTrigger gatexRndTrigger;
+	dsp::SchmittTrigger gateyRndTrigger;
 	void on_loaded();
 	void load();
 	void led(int n);
