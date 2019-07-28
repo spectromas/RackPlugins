@@ -18,18 +18,56 @@
 struct SpiraloneWidget : SequencerWidget
 {
 public:
+	enum MENUACTIONS
+	{
+		RANDOMIZE_PITCH = 0x01,
+		RANDOMIZE_LEN = 0x02,
+		RANDOMIZE_STRIDE = 0x04,
+		RANDOMIZE_XPOSE = 0x08,
+		RANDOMIZE_MODE = 0x10,
+		RANDOMIZE_LAQUALUNQUE = 0x20
+	};
+
 	SpiraloneWidget(Spiralone *module);
 	Menu *addContextMenu(Menu *menu) override;
 	void onMenu(int action);
 
-private:
-	enum MENUACTIONS
-	{
-		RANDOMIZE_PITCH,
-		RANDOMIZE_LEN,
-		RANDOMIZE_STRIDE,
-		RANDOMIZE_XPOSE
+	struct RandomizeSubItemItem : MenuItem {
+		RandomizeSubItemItem(Module *spir, const char *title, int action);
+	
+		int randomizeDest;
+		Spiralone *spiro;
+		void onAction(const event::Action &e) override;
 	};
+
+	struct RandomizeItem : ui::MenuItem
+	{
+	public:
+		RandomizeItem(Module *sp)
+		{
+			spiro = sp;
+			text = "It's a Mess!";
+			rightText = RIGHT_ARROW;
+		};
+		Menu *createChildMenu() override
+		{
+			Menu *sub_menu = new Menu;
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Length", RANDOMIZE_LEN));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Stride", RANDOMIZE_STRIDE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Transpose", RANDOMIZE_XPOSE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Mode", RANDOMIZE_MODE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "What do I know?", RANDOMIZE_LAQUALUNQUE));
+			return sub_menu;
+		}
+
+	private:
+		Module *spiro;
+	};
+private:
+
+	
+	
 	void createSequencer(int seq);
 	ModuleLightWidget *createLed(int seq, Vec pos, Module *module, int firstLightId, bool big = false);
 	NVGcolor color[NUM_SEQUENCERS];

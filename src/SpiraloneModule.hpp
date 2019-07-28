@@ -40,6 +40,7 @@ struct Spiralone : Module
 
 	Spiralone() : Module()
 	{
+		theRandomizer = 0;
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < TOTAL_STEPS; k++)
@@ -78,12 +79,22 @@ struct Spiralone : Module
 	void onReset() override { load(); }
 	void setWidget(SpiraloneWidget *pwdg) { pWidget = pwdg; }
 	
-	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	void dataFromJson(json_t *root) override 
+	{ 
+		Module::dataFromJson(root); 
+		json_t *rndJson = json_object_get(root, "theRandomizer");
+		if (rndJson)
+			theRandomizer = json_integer_value(rndJson);
+		on_loaded(); 
+	}
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
+		json_t *rndJson = json_integer(theRandomizer);
+		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
+	int theRandomizer;
 
 	#ifdef DIGITAL_EXT
 	float connected;
@@ -99,6 +110,7 @@ private:
 	void on_loaded();
 	void load();
 	void randrandrand();
+	void randrandrand(int action);
 
 	SpiraloneWidget *pWidget;
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];

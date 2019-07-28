@@ -58,28 +58,50 @@ void Spiralone::process(const ProcessArgs &args)
 
 void Spiralone::randrandrand()
 {
-	int action = int(random::uniform() * 5);
-	switch(action)
+	if (theRandomizer & SpiraloneWidget::RANDOMIZE_PITCH)
+		randrandrand(0);
+
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_LEN)
+		randrandrand(1);
+
+	if (theRandomizer & SpiraloneWidget::RANDOMIZE_STRIDE)
+		randrandrand(2);
+
+	if (theRandomizer & SpiraloneWidget::RANDOMIZE_XPOSE)
+		randrandrand(3);
+
+	if (theRandomizer & SpiraloneWidget::RANDOMIZE_MODE)
+		randrandrand(4);
+
+	if (theRandomizer & SpiraloneWidget::RANDOMIZE_LAQUALUNQUE)
 	{
-	case 0:
-		pWidget->std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
-		break;
+		randrandrand(int(random::uniform() * 5));
+	}
+}
 
-	case 1:
-		pWidget->std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
-		break;
+void Spiralone::randrandrand(int action)
+{
+	switch (action)
+	{
+		case 0:
+			pWidget->std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
+			break;
 
-	case 2:
-		pWidget->std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
-		break;
+		case 1:
+			pWidget->std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
+			break;
 
-	case 3:
-		pWidget->std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
-		break;
+		case 2:
+			pWidget->std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
+			break;
 
-	case 4:
-		pWidget->std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
-		break;
+		case 3:
+			pWidget->std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
+			break;
+
+		case 4:
+			pWidget->std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
+			break;
 	}
 }
 
@@ -255,10 +277,14 @@ ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, 
 
 Menu *SpiraloneWidget::addContextMenu(Menu *menu)
 {
+	menu->addChild(new RandomizeItem(module));
+
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Length", this, RANDOMIZE_LEN));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Stride", this, RANDOMIZE_STRIDE));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Transpose", this, RANDOMIZE_XPOSE));
+	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Mode", this, RANDOMIZE_MODE));
+
 	return menu;
 }
 
@@ -281,5 +307,22 @@ void SpiraloneWidget::onMenu(int action)
 	case RANDOMIZE_XPOSE:
 		std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
 		break;
+
+	case RANDOMIZE_MODE:
+		std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
+		break;
 	}
+}
+
+SpiraloneWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *spir, const char *title, int action)
+{
+	spiro = (Spiralone *)spir;
+	text = title;
+	randomizeDest = action;
+	rightText = CHECKMARK((spiro->theRandomizer & randomizeDest) != 0);
+}
+
+void SpiraloneWidget::RandomizeSubItemItem::onAction(const event::Action &e)
+{
+	spiro->theRandomizer ^= randomizeDest;
 }
