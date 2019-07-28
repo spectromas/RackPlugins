@@ -48,7 +48,7 @@ struct Spiralone : Module
 		configParam(Spiralone::M_RESET, 0.0, 1.0, 0.0);
 		for(int seq = 0; seq < NUM_SEQUENCERS; seq++)
 		{
-			configParam(Spiralone::MODE_1 + seq, 0.0, 1.0, 0.0);
+			configParam(Spiralone::MODE_1 + seq, 0.0, 2.0, 0.0);
 			configParam(Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS);
 			configParam(Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0);
 			configParam(Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0);

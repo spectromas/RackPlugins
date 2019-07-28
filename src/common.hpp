@@ -297,7 +297,20 @@ struct BefacoSnappedSwitch : app::SvgSwitch
 	}
 };
 
+struct BefacoSnappedSwitch3 : app::SvgSwitch
+{
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
 
+	BefacoSnappedSwitch3()
+	{
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_2.svg")));
+	}
+};
 
 struct VerticalSwitch : SvgSlider 
 {

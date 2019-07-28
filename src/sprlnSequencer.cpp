@@ -28,9 +28,15 @@ void spiraloneSequencer::Step(int seq, Spiralone *pSpir)
 				curPos += stride;
 				break;
 
-			case 1: // bwd
+			case 2: // bwd
 				curPos -= stride;
 				break;
+
+			case 1: //a gradire
+				if(random::uniform() > 0.5)
+					curPos += stride;
+				else
+					curPos -= stride;
 			}
 			if(curPos < 0)
 				curPos = numSteps + curPos;
