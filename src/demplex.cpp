@@ -20,24 +20,47 @@ void Dmplex::set_output(int n)
 	}
 }
 
+void Dmplex::process_keys()
+{
+	if(outInc.process(params[OUTPUT_INC].value))
+	{
+		int n = roundf(num_outputs_f);
+		if(n < NUM_DEMULTIPLEX_OUTPUTS)
+		{
+			n += 1;
+			num_outputs_f = n;
+		}
+	} else if(outDec.process(params[OUTPUT_DEC].value))
+	{
+		int n = roundf(num_outputs_f);
+		if(n > 1)
+		{
+			n -= 1;
+			num_outputs_f = n;
+		}
+	}
+}
 
 void Dmplex::process(const ProcessArgs &args)
 {
+	process_keys();
+	int num_outputs = roundf(num_outputs_f);
+
 	if(reset.process(inputs[RESET].value))
 	{
 		set_output( 0);
 	} else if(random.process(inputs[RANDOM].value))
 	{
-		set_output(getRand(NUM_DEMULTIPLEX_OUTPUTS));
+		set_output(getRand(num_outputs_f));
 	} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
 	{
-		if(++cur_sel >= NUM_DEMULTIPLEX_OUTPUTS)
+		if(++cur_sel >= num_outputs)
 			cur_sel = 0;
 		set_output(cur_sel);
 	} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
 	{
 		if(--cur_sel < 0)
-			cur_sel = NUM_DEMULTIPLEX_OUTPUTS-1;
+			cur_sel = num_outputs-1;
 		set_output(cur_sel);
 	}
 
@@ -47,6 +70,7 @@ void Dmplex::process(const ProcessArgs &args)
 DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 {
 	setModule(module);
+
 	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
@@ -69,6 +93,16 @@ DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 
 	addInput(createInput<PJ301YPort>(Vec(mm2px(3.558), yncscape(92.529,8.255)), module, Dmplex::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(27.716, 8.255)), module, Dmplex::RANDOM));
+
+	addParam(createParam<UPSWITCH>(Vec(mm2px(3.127), yncscape(10.727,4.115)), module, Dmplex::OUTPUT_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(3.127), yncscape(5.926, 4.115)), module, Dmplex::OUTPUT_DEC));
+
+	SigDisplayWidget *display = new SigDisplayWidget(1, 0);
+	display->box.size = Vec(15, 22);
+	display->box.pos = Vec(mm2px(8.495), yncscape(6.439, px2mm(display->box.size.y)));
+	if(module != NULL)
+		display->value = &module->num_outputs_f;
+	addChild(display);
 
 	float y = 105.068;
 	float x = 40.045;

@@ -463,15 +463,15 @@ public:
 				to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
 
 			Vec textPos = Vec(3, 17);
-
+			
 			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
 			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-			nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
+			//nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
 
 			textColor = nvgRGB(0xda, 0xe9, 0x29);
 			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-			nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
-
+			//nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
+			
 			textColor = nvgRGB(0xf0, 0x00, 0x00);
 			nvgFillColor(args.vg, textColor);
 			nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
@@ -512,3 +512,7 @@ private:
 	float totalPulseTime;
 	float stopwatch;
 };
+
+	inline float px2mm(float px) {
+		return px * (MM_PER_IN / SVG_DPI );
+	}

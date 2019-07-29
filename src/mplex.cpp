@@ -20,23 +20,47 @@ void Mplex::set_output(int n)
 	}
 }
 
+void Mplex::process_keys()
+{
+	if(outInc.process(params[OUTPUT_INC].value))
+	{
+		int n = roundf(num_inputs_f);
+		if(n < NUM_MPLEX_INPUTS)
+		{
+			n += 1;
+			num_inputs_f = n;
+		}
+	} else if(outDec.process(params[OUTPUT_DEC].value))
+	{
+		int n = roundf(num_inputs_f);
+		if(n > 1)
+		{
+			n -= 1;
+			num_inputs_f = n;
+		}
+	}
+}
+
 void Mplex::process(const ProcessArgs &args)
 {
+	process_keys();
+	int num_inputs = roundf(num_inputs_f);
+
 	if(reset.process(inputs[RESET].value))
 	{
 		set_output(0);
 	} else if(random.process(inputs[RANDOM].value))
 	{
-		set_output(getRand(NUM_MPLEX_INPUTS));
+		set_output(getRand(num_inputs_f));
 	} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
 	{
-		if(++cur_sel >= NUM_MPLEX_INPUTS)
+		if(++cur_sel >= num_inputs)
 			cur_sel = 0;
 		set_output(cur_sel);
 	} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
 	{
 		if(--cur_sel < 0)
-			cur_sel = NUM_MPLEX_INPUTS-1;
+			cur_sel = num_inputs-1;
 		set_output(cur_sel);
 	}
 
@@ -67,6 +91,16 @@ MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 
 	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(95.529,8.255)), module, Mplex::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(27.716, 8.255)), module, Mplex::RANDOM));
+
+	addParam(createParam<UPSWITCH>(Vec(mm2px(36.932), yncscape(8.814,4.115)), module, Mplex::OUTPUT_INC));
+	addParam(createParam<DNSWITCH>(Vec(mm2px(36.932), yncscape(4.025, 4.115)), module, Mplex::OUTPUT_DEC));
+
+	SigDisplayWidget *display = new SigDisplayWidget(1, 0);
+	display->box.size = Vec(15, 22);
+	display->box.pos = Vec(mm2px(42.319), yncscape(4.539, px2mm(display->box.size.y)));
+	if(module != NULL)
+		display->value = &module->num_inputs_f;
+	addChild(display);
 
 	float y = 105.068;
 	float x = 3.558;
