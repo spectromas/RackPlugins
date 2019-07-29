@@ -9,7 +9,7 @@ void Boole::process(const ProcessArgs &args)
 		if(inputs[IN_1 + index].isConnected() && (k == 0 || inputs[IN_1 + index - 1].isConnected()))
 		{
 			bool o = process(k, index);
-			if(k > 0 && params[INVERT_1 + k - 1].value > 0)
+			if(params[INVERT_1 + k].value > 0)
 				o = !o;
 			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = o ? 5.0 : 0.0;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
@@ -106,11 +106,12 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		addChild(createLight<SmallLight<WhiteLight>>(Vec(out_led_x, yncscape(yled_out, 2.176)), module, Boole::LED_1 + k+ 2 * NUM_BOOL_OP-1));
 		if(k == 0)
 		{
+			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(118.714, 5.460)), module, Boole::INVERT_1 + k));
 			yled_out -= 20.731;
 			yout -= 20.731;
 		} else
 		{
-			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k - 1));
+			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k));
 			yled_out += out_dy;
 			yout += out_dy;
 			yinv += out_dy;

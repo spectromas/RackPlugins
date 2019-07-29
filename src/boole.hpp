@@ -23,7 +23,7 @@ struct Boole : Module
 	enum ParamIds
 	{
 		INVERT_1,
-		THRESH_1 = INVERT_1 + NUM_BOOL_OP - 1,
+		THRESH_1 = INVERT_1 + NUM_BOOL_OP,
 		NUM_PARAMS = THRESH_1 + 2* NUM_BOOL_OP-1
 	};
 	enum InputIds
@@ -51,12 +51,12 @@ struct Boole : Module
 			if(k > 0)
 				index--;
 
+			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
 			configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0);
 			if(k > 0)
 			{
 				index++;
 				configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0);
-				configParam(Boole::INVERT_1 + k - 1, 0.0, 1.0, 0.0);
 			}
 		}
 	}
