@@ -3,22 +3,24 @@
 
 void XSwitch::process(const ProcessArgs &args)
 {
+	const float NOT_FOUND = -1000.0;
+	float last_value = NOT_FOUND;
 	for(int k = 0; k < NUM_SWITCHES; k++)
 	{
-		if(outputs[OUT_1 + k].isConnected() && inputs[IN_1 + k].isConnected())
+		if(inputs[IN_1 + k].isConnected())
+			last_value = inputs[IN_1 + k].value;
+
+		if(last_value != NOT_FOUND)
 		{
-			if(getSwitch(k))
+			if(outputs[OUT_1 + k].isConnected() && getSwitch(k))
 			{
-				lights[LED_1 + k].value = 5;;
-				outputs[OUT_1 + k].value = inputs[IN_1 + k].value;
-			} else
-			{
-				lights[LED_1 + k].value = outputs[OUT_1 + k].value = 0;
+				lights[LED_1 + k].value = 10;
+				outputs[OUT_1 + k].value = last_value;
+				continue;
 			}
-		} else
-		{
-			lights[LED_1 + k].value = outputs[OUT_1 + k].value = 0;
 		}
+
+		lights[LED_1 + k].value = outputs[OUT_1 + k].value = 0;
 	}
 }
 

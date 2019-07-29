@@ -85,11 +85,12 @@
       ]
     },
     {
-      "slug": "Attenuator",
-      "name": "Attenuator",
+      "slug": "AttAmp",
+      "name": "AttAmp",
       "description": "",
       "tags": [
-        "Attenuator"
+        "Attenuator",
+        "Amplifier"
       ]
     },
     {

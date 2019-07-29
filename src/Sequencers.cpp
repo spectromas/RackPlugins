@@ -43,7 +43,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<Uncertain, UncertainWidget>("Uncertain"));
 	p->addModel(createModel<PwmClock, PwmClockWidget>("PWMClock"));
 	p->addModel(createModel<Quantizer, QuantizerWidget>("Quantizer"));
-	p->addModel(createModel<Attenuator, AttenuatorWidget>("Attenuator"));
+	p->addModel(createModel<Attenuator, AttenuatorWidget>("AttAmp"));
 	p->addModel(createModel<XSwitch, SwitchWidget>("XSwitch"));
 	p->addModel(createModel<Boole, BooleWidget>("Boole"));
 	p->addModel(createModel<Mplex, MplexWidget>("Mplex"));

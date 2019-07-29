@@ -47,7 +47,7 @@ struct Attenuator : Module
 
 		for(int k = 0; k < NUM_ATTENUATORS; k++)
 		{
-			configParam(Attenuator::ATT_1+k, 0.0, 1.0, 1.0);
+			configParam(Attenuator::ATT_1+k, 0.0, 2.0, 1.0);
 		}
 
 	}
