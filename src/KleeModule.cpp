@@ -1,12 +1,46 @@
 #include "Klee.hpp"
 
-
 void Klee::on_loaded()
 {
 	#ifdef DIGITAL_EXT
 	connected = 0;
 	#endif
 	load();
+}
+ 
+void Klee::randrandrand()
+{
+	if (theRandomizer & KleeWidget::RANDOMIZE_PITCH)
+		randrandrand(0);
+
+	if(theRandomizer & KleeWidget::RANDOMIZE_BUS)
+		randrandrand(1);
+
+	if (theRandomizer & KleeWidget::RANDOMIZE_LOAD)
+		randrandrand(2);
+
+	if (theRandomizer & KleeWidget::RANDOMIZE_LAQUALUNQUE)
+	{
+		randrandrand(int(random::uniform() * 3));
+	}
+}
+
+void Klee::randrandrand(int action)
+{
+	switch (action)
+	{	
+		case 0:
+			pWidget->std_randomize(Klee::PITCH_KNOB, Klee::PITCH_KNOB + 16);
+			break;
+
+		case 1:
+			pWidget->std_randomize(Klee::GROUPBUS, Klee::GROUPBUS + 16); ;
+			break;
+
+		case 2:
+			pWidget->std_randomize(Klee::LOAD_BUS, Klee::LOAD_BUS + 16); 
+			break;
+	}
 }
 
 void Klee::process(const ProcessArgs &args)
@@ -16,6 +50,10 @@ void Klee::process(const ProcessArgs &args)
 	if(loadTrigger.process(params[LOAD_PARAM].value + inputs[LOAD_INPUT].value))
 	{
 		load();
+	} else if(rndTrigger.process(inputs[RANDOMIZONE].value))
+	{
+		if(pWidget != NULL)
+			randrandrand();
 	}
 
 	int clk = clockTrigger.process(inputs[EXT_CLOCK_INPUT].value + params[STEP_PARAM].value); // 1=rise, -1=fall
@@ -201,11 +239,14 @@ bool Klee::chance()
 
 KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 {
+	if(module != NULL)
+		module->setWidget(this);
+
 	float nkk_offs = 2.3;
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
-
+	
 	#ifdef LAUNCHPAD
 	int numLaunchpads = module != NULL ? module->drv->GetNumLaunchpads() : 0;
 	#ifdef DEBUG
@@ -516,6 +557,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#endif
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::RANGE_IN));
 
+	addInput(createInput<PJ301HPort>(Vec(mm2px(184.466), yncscape(25.109,8.255)), module, Klee::RANDOMIZONE));
+
 	// RND Threshold
 	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(9.228, 9.525)), module, Klee::RND_THRESHOLD);
 	addParam(pwdg);     // rnd threshold
@@ -619,6 +662,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 
 Menu *KleeWidget::addContextMenu(Menu *menu)
 {
+	menu->addChild(new RandomizeItem(module));
+	 
 	menu->addChild(new SeqMenuItem<KleeWidget>("Range -> 1V", this, SET_RANGE_1V));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Bus", this, RANDOMIZE_BUS));
@@ -641,4 +686,17 @@ void KleeWidget::onMenu(int action)
 	}
 	break;
 	}
+}
+
+KleeWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *k, const char *title, int action)
+{
+	kl = (Klee *)k;
+	text = title;
+	randomizeDest = action;
+	rightText = CHECKMARK((kl->theRandomizer & randomizeDest) != 0);
+}
+
+void KleeWidget::RandomizeSubItemItem::onAction(const event::Action &e)
+{
+	kl->theRandomizer ^= randomizeDest;
 }

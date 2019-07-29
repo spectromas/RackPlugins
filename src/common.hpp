@@ -107,6 +107,11 @@ struct _ioPort : SvgPort
 	}
 };
 
+struct PJ301HPort : _ioPort
+{
+	PJ301HPort() : _ioPort("res/PJ301H.svg") {}
+};
+
 struct PJ301YPort : _ioPort 
 {
 	PJ301YPort() : _ioPort("res/PJ301Y.svg") {}

@@ -46,18 +46,18 @@ public:
 		RandomizeItem(Module *sp)
 		{
 			spiro = sp;
-			text = "It's a Mess!";
+			text = "Force the hand of chance";
 			rightText = RIGHT_ARROW;
 		};
 		Menu *createChildMenu() override
 		{
 			Menu *sub_menu = new Menu;
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Pitch", RANDOMIZE_PITCH));
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Length", RANDOMIZE_LEN));
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Stride", RANDOMIZE_STRIDE));
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Transpose", RANDOMIZE_XPOSE));
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Mess with Mode", RANDOMIZE_MODE));
-			sub_menu->addChild(new RandomizeSubItemItem(spiro, "What do I know?", RANDOMIZE_LAQUALUNQUE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Length", RANDOMIZE_LEN));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Stride", RANDOMIZE_STRIDE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Transpose", RANDOMIZE_XPOSE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Mode", RANDOMIZE_MODE));
+			sub_menu->addChild(new RandomizeSubItemItem(spiro, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}
 

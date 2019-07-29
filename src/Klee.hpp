@@ -5,14 +5,46 @@
 struct Klee;
 struct KleeWidget : SequencerWidget
 {
-private:
+public:
 	enum MENUACTIONS
 	{
-		RANDOMIZE_BUS,
-		RANDOMIZE_PITCH,
-		RANDOMIZE_LOAD,
+		RANDOMIZE_BUS = 0x01,
+		RANDOMIZE_PITCH = 0x02,
+		RANDOMIZE_LOAD = 0x04,
+		RANDOMIZE_LAQUALUNQUE = 0x08,
 		SET_RANGE_1V
 	};
+	struct RandomizeSubItemItem : MenuItem {
+		RandomizeSubItemItem(Module *k, const char *title, int action);
+	
+		int randomizeDest;
+		Klee *kl;
+		void onAction(const event::Action &e) override;
+	};
+
+	struct RandomizeItem : ui::MenuItem
+	{
+	public:
+		RandomizeItem(Module *k)
+		{
+			kl = k;
+			text = "Force the hand of chance";
+			rightText = RIGHT_ARROW;
+		};
+		Menu *createChildMenu() override
+		{
+			Menu *sub_menu = new Menu;
+			sub_menu->addChild(new RandomizeSubItemItem(kl, "Ov Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(kl, "Ov Bus", RANDOMIZE_BUS));
+			sub_menu->addChild(new RandomizeSubItemItem(kl, "Ov Load", RANDOMIZE_LOAD));
+			sub_menu->addChild(new RandomizeSubItemItem(kl, "Ov Power", RANDOMIZE_LAQUALUNQUE));
+			return sub_menu;
+		}
+
+	private:
+		Module *kl;
+	};
+private:	
 	Menu *addContextMenu(Menu *menu) override;
 
 public:
@@ -46,6 +78,7 @@ struct Klee : Module
 		EXT_CLOCK_INPUT,
 		RND_THRES_IN,
 		RANGE_IN,
+		RANDOMIZONE,
 		NUM_INPUTS
 	};
 
@@ -72,6 +105,9 @@ struct Klee : Module
 
 	Klee() : Module()
 	{
+		pWidget = NULL;
+		theRandomizer = 0;
+
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 	
 		for(int k = 0; k < 8; k++)
@@ -123,12 +159,22 @@ struct Klee : Module
 		#endif
 	}
 	#endif
+	
+	void setWidget(KleeWidget *pwdg) { pWidget = pwdg; }
 
-	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	void dataFromJson(json_t *root) override 
+	{ 
+		Module::dataFromJson(root); 
+		json_t *rndJson = json_object_get(root, "theRandomizer");
+		if (rndJson)
+			theRandomizer = json_integer_value(rndJson);
+		on_loaded(); 
+	}
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
-
+		json_t *rndJson = json_integer(theRandomizer);
+		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
 	void process(const ProcessArgs &args) override;
@@ -144,8 +190,10 @@ struct Klee : Module
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv;
 	#endif
+	int theRandomizer;
 
 private:
+	KleeWidget *pWidget;
 	const float pulseTime = 0.002;      //2msec trigger
 	void showValues();
 	void sr_rotate();
@@ -154,6 +202,8 @@ private:
 	void update_bus();
 	void load();
 	void on_loaded();
+	void randrandrand();
+	void randrandrand(int action);
 	void populate_outputs();
 	void check_triggers(float deltaTime);
 	bool isSwitchOn(int ptr);
@@ -161,6 +211,7 @@ private:
 	dsp::SchmittTrigger loadTrigger;
 	SchmittTrigger2 clockTrigger;
 	dsp::PulseGenerator triggers[3];
+	dsp::SchmittTrigger rndTrigger;
 
 	union
 	{

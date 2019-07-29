@@ -175,7 +175,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	}
 
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
