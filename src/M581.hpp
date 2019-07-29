@@ -11,14 +11,49 @@
 struct M581;
 struct M581Widget : SequencerWidget
 {
-private:
+public:
 	enum MENUACTIONS
 	{
-		RANDOMIZE_PITCH,
-		RANDOMIZE_COUNTER,
-		RANDOMIZE_MODE,
-		RANDOMIZE_ENABLE
+		RANDOMIZE_PITCH = 0x01,
+		RANDOMIZE_COUNTER = 0x02,
+		RANDOMIZE_MODE = 0x04,
+		RANDOMIZE_ENABLE = 0x08,
+		RANDOMIZE_LAQUALUNQUE = 0x10,
 	};
+
+	struct RandomizeSubItemItem : MenuItem {
+		RandomizeSubItemItem(Module *m, const char *title, int action);
+	
+		int randomizeDest;
+		M581 *md;
+		void onAction(const event::Action &e) override;
+	};
+
+	struct RandomizeItem : ui::MenuItem
+	{
+	public:
+		RandomizeItem(Module *m)
+		{
+			md = m;
+			text = "Force the hand of chance";
+			rightText = RIGHT_ARROW;
+		};
+		Menu *createChildMenu() override
+		{
+			Menu *sub_menu = new Menu;
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Count", RANDOMIZE_COUNTER));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Mode", RANDOMIZE_MODE));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov En/Dis", RANDOMIZE_ENABLE));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
+			return sub_menu;
+		}
+
+	private:
+		Module *md;
+	};
+
+private:
 	Menu *addContextMenu(Menu *menu) override;
 
 public:
@@ -136,10 +171,9 @@ struct M581 : Module
 	{
 		CLOCK,
 		RESET,
-		RANDOMIZE_CV,
-		RANDOMIZE_REPS
+		RANDOMIZONE,
 		
-		,NUM_INPUTS
+		NUM_INPUTS
 	};
 
 	enum OutputIds
@@ -159,6 +193,7 @@ struct M581 : Module
 	M581() : Module()
 	{
 		pWidget = NULL;
+		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < 8; k++)
@@ -206,11 +241,19 @@ struct M581 : Module
 	void onRandomize() override { load(); }
 	void setWidget(M581Widget *pwdg) { pWidget = pwdg; }
 	
-	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	void dataFromJson(json_t *root) override 
+	{ 
+		Module::dataFromJson(root); 
+		json_t *rndJson = json_object_get(root, "theRandomizer");
+		if (rndJson)
+			theRandomizer = json_integer_value(rndJson);
+		on_loaded(); 
+	}
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
-
+		json_t *rndJson = json_integer(theRandomizer);
+		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
 
@@ -233,6 +276,7 @@ struct M581 : Module
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv;
 	#endif
+	int theRandomizer;
 
 private:
 	CV_LINE cvControl;
@@ -242,6 +286,8 @@ private:
 	ParamGetter getter;
 	M581Widget *pWidget;
 
+	void randrandrand();
+	void randrandrand(int action);
 	void _reset();
 	void on_loaded();
 	void load();
@@ -250,6 +296,5 @@ private:
 	bool any();
 	dsp::SchmittTrigger clockTrigger;
 	dsp::SchmittTrigger resetTrigger;
-	dsp::SchmittTrigger rndCVTrigger;
-	dsp::SchmittTrigger rndRepsTrigger;
+	dsp::SchmittTrigger rndTrigger;
 };

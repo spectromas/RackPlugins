@@ -1,7 +1,6 @@
 #include "M581.hpp"
 #include <sstream>
 
-
 void M581::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -27,20 +26,58 @@ void M581::_reset()
 	showCurStep(0, 0);
 }
 
+void M581::randrandrand()
+{
+	if (theRandomizer & M581Widget::RANDOMIZE_PITCH)
+		randrandrand(0);
+
+	if(theRandomizer & M581Widget::RANDOMIZE_COUNTER)
+		randrandrand(1);
+
+	if (theRandomizer & M581Widget::RANDOMIZE_MODE)
+		randrandrand(2);
+
+	if (theRandomizer & M581Widget::RANDOMIZE_ENABLE)
+		randrandrand(3);
+
+	if (theRandomizer & M581Widget::RANDOMIZE_LAQUALUNQUE)
+	{
+		randrandrand(int(random::uniform() * 4));
+	}
+}
+
+void M581::randrandrand(int action)
+{
+	switch (action)
+	{	
+		case 0:
+			pWidget->std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); 
+			break;
+
+		case 1:
+			pWidget->std_randomize(M581::COUNTER_SWITCH, M581::COUNTER_SWITCH + 8);
+			break;
+
+		case 2:
+			pWidget->std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8);
+			break;
+
+		case 3:
+			pWidget->std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); 
+			break;
+	}
+}
+
 void M581::process(const ProcessArgs &args)
 {
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		_reset();
-	} else
+	} else if(rndTrigger.process(inputs[RANDOMIZONE].value))
 	{
 		if(pWidget != NULL)
-		{
-			if(rndCVTrigger.process(inputs[RANDOMIZE_CV].value))
-				pWidget->std_randomize(STEP_NOTES,STEP_NOTES+8);
-			if(rndRepsTrigger.process(inputs[RANDOMIZE_REPS].value))
-				pWidget->std_randomize(COUNTER_SWITCH,COUNTER_SWITCH+8);
-		}
+			randrandrand();
+
 		Timer.Step();
 
 		if(clockTrigger.process(inputs[CLOCK].value) && any())
@@ -294,8 +331,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)), module, M581::RESET));
 	
-	addInput(createInput<PJ301BPort>(Vec(mm2px(105.987), yncscape(113.902, 8.255)), module, M581::RANDOMIZE_CV));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(105.987), yncscape(77.113, 8.255)), module, M581::RANDOMIZE_REPS));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(106.516), yncscape(114.960, 8.255)), module, M581::RANDOMIZONE));
 
 	// OUTPUTS
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(113.864), yncscape(7.228, 8.255)), module, M581::CV));
@@ -335,6 +371,8 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 
 Menu *M581Widget::addContextMenu(Menu *menu)
 {
+	menu->addChild(new RandomizeItem(module));
+
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Counters", this, RANDOMIZE_COUNTER));
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Modes", this, RANDOMIZE_MODE));
@@ -351,6 +389,19 @@ void M581Widget::onMenu(int action)
 	case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8); break;
 	case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); break;
 	}
+}
+
+M581Widget::RandomizeSubItemItem::RandomizeSubItemItem(Module *m, const char *title, int action)
+{
+	md = (M581 *)m;
+	text = title;
+	randomizeDest = action;
+	rightText = CHECKMARK((md->theRandomizer & randomizeDest) != 0);
+}
+
+void M581Widget::RandomizeSubItemItem::onAction(const event::Action &e)
+{
+	md->theRandomizer ^= randomizeDest;
 }
 
 bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 0.0; }
