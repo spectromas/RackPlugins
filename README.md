@@ -1,5 +1,5 @@
 # The XOR
-Plugins for your joy. Starting from this version (0.6.2), all inputs and outputs are
+All inputs and outputs are
 color-coded as in this figure:
 
 ![legend](/res/png/legenda.png?raw=true "legend")
@@ -77,8 +77,8 @@ Circuit breaker
 
 ![Switch](/res/png/switch.png?raw=true "Switch")
 
-# Mplex
-Multiplexer
+# Mplex + Dplex
+Multiplexer & Demultiplexer
 
 ![Mplex](/res/png/mplex.png?raw=true "Mplex")
 
