@@ -8,22 +8,25 @@ void Quantizer::process(const ProcessArgs &args)
 		for(int k = 0; k < PORT_MAX_CHANNELS; k++)
 		{
 			float v = inputs[IN_1].getVoltage(k);
-			if(v >= 0)
-			{
-				float octave = round(v);	// 1v/octave
-				float semitone = quantize(v, octave);
-				outputs[OUT_1].setVoltage(semitone+octave, k); 
-				outputs[OUT_NOTRANSPOSE].setVoltage(semitone, k);
-			}
+			int octave = int(v);	// 1v/octave
+			float semitone = quantize(v, octave);
+			outputs[OUT_1].setVoltage(semitone+octave, k); 
+			outputs[OUT_NOTRANSPOSE].setVoltage(semitone, k);
 		}
 	}
 }
 
-float Quantizer::quantize(float v, float octave)
+float Quantizer::quantize(float v, int octave)
 {
-	float semitone = (round((v - octave)*12.0)) / 12.0;
-	auto nearest = std::lower_bound(currentScale.begin(), currentScale.end(), semitone);
-	return *nearest;
+	float semitone = fabs(v - octave);
+	float nearest = -2.0;
+	for (std::vector<float>::iterator it = currentScale.begin(); it != currentScale.end(); ++it)
+	{
+		if (fabs(semitone - *it) < fabs(semitone - nearest))
+			nearest = *it;
+	}
+
+	return nearest;
 }
 
 void Quantizer::calcScale()
@@ -37,6 +40,7 @@ void Quantizer::calcScale()
 void Quantizer::on_loaded()
 {
 	load();
+	calcScale();
 }
 
 void Quantizer::load()

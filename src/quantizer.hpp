@@ -111,7 +111,7 @@ private:
 	int scale;
 	int root;
 
-	float quantize(float v, float octave);
+	float quantize(float v, int octave);
 	void on_loaded();
 	void load();
 	void calcScale();
