@@ -94,6 +94,7 @@
     <ClCompile Include="..\..\src\oscTestModule.cpp" />
     <ClCompile Include="..\..\src\pwmClock.cpp" />
     <ClCompile Include="..\..\src\quantizer.cpp" />
+    <ClCompile Include="..\..\src\quantizerTypes.cpp" />
     <ClCompile Include="..\..\src\RenatoModule.cpp" />
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />

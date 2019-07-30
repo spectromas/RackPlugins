@@ -83,28 +83,29 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 	addParam(createParam<DNSWITCH>(Vec(mm2px(2.281), yncscape(99.788, 4.115)), module, Counter::COUNTER_DEC));
 
 	SigDisplayWidget *display = new SigDisplayWidget(3, 0);
-	display->box.pos = Vec(mm2px(9), RACK_GRID_HEIGHT-mm2px(108));
 	display->box.size = Vec(30+16, 24);
+	display->box.pos = Vec(mm2px(7.734), yncscape(100.07, px2mm(display->box.size.y)));
+
 	if(module != NULL)
 		display->value = &module->counter_f;
 	addChild(display);
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
-	displayCtr->box.pos = Vec(mm2px(9), RACK_GRID_HEIGHT-mm2px(98));
 	displayCtr->box.size = Vec(30+16, 24);
+	displayCtr->box.pos = Vec(mm2px(12.418), yncscape(60.075, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;
 	addChild(displayCtr);
 
-	ParamWidget *pw = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(39.018), yncscape(99.483, 9.525)), module, Counter::COUNTER);
+	ParamWidget *pw = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(28.0435), yncscape(99.483, 9.525)), module, Counter::COUNTER);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.238), yncscape(12.664, 8.255)), module, Counter::IN_1));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(20.972), yncscape(27.229, 8.255)), module, Counter::RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(16.516), yncscape(28.287, 8.255)), module, Counter::RESET));
 	
-	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(34.767), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
+	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(25.242), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
 
-	addOutput(createOutput<PJ301OPort>(Vec(mm2px(38.789), yncscape(12.664, 8.255)), module, Counter::OUT_1));
+	addOutput(createOutput<PJ301OPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
 }
 
 void CounterWidget::SetCounter(int n)

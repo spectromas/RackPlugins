@@ -21,6 +21,7 @@
     <ClCompile Include="..\..\src\mplex.cpp" />
     <ClCompile Include="..\..\src\demplex.cpp" />
     <ClCompile Include="..\..\src\counter.cpp" />
+    <ClCompile Include="..\..\src\quantizerTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
