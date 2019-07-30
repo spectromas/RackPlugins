@@ -47,11 +47,8 @@ with controllable PWM
 
 ![pwmClockGen](/res/png/pwmclockgen.png?raw=true "pwmClockGen")
 
-# multiQuantizer
-The CV outputs of all the sequencers are not quantized, so a Quantizer is handy, expecially
-if it is modulable...
-
-![multiQuantizer](/res/png/quantizer.png?raw=true "multiQuantizer")
+# quantizer
+Polyphonically in scale
 
 # Uncertain
 Unstable voltages
