@@ -70,9 +70,6 @@ struct Quantizer : Module
 	{		
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);		
-		inputs[IN_1].setChannels(PORT_MAX_CHANNELS);
-		outputs[OUT_1].setChannels(PORT_MAX_CHANNELS);
-		outputs[OUT_NOTRANSPOSE].setChannels(PORT_MAX_CHANNELS);		
 		initializeScale();
 		root = 0;
 		SetScale(0);
