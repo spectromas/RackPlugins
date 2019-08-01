@@ -44,7 +44,7 @@ struct Counter : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Counter::COUNTER_INC, 0.0, 1.0, 0.0);
 		configParam(Counter::COUNTER_DEC, 0.0, 1.0, 0.0);
-		configParam(Counter::COUNTER, COUNTER_MINVALUE, COUNTER_MAXVALUE, COUNTER_MINVALUE);
+		configParam(Counter::COUNTER, COUNTER_MINVALUE, COUNTER_MAXVALUE, COUNTER_MINVALUE, "Counter", "#");
 
 		on_loaded();
 	}

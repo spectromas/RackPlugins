@@ -83,7 +83,7 @@ struct Z8K : Module
 			for(int c = 0; c < 4; c++)
 			{
 				int n = c + r * 4;
-				configParam(Z8K::VOLTAGE_1 + n, 0.0, 7.0, 1.0);
+				configParam(Z8K::VOLTAGE_1 + n, 0.0, 7.0, 1.0, "Voltage", "V");
 			}
 		}
 		/*

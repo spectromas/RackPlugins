@@ -49,6 +49,7 @@ SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 	float y1 = 98.387;
 	float yled = 114.949;
 	float ysw = 105.667;
+	float yinv = 99.785;
 	float delta_y = 79.394 - 101.567;
 	
 	for(int k = 0; k < NUM_SWITCHES; k++)
@@ -56,12 +57,14 @@ SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, XSwitch::IN_1 + k));
 		addInput(createInput<PJ301BPort>(Vec(mod_x, yncscape(y1, 8.255)), module, XSwitch::MOD_1 + k));
 		addParam(createParam<NKK1>(Vec(sw_x, yncscape(ysw, 7.336)), module, XSwitch::SW_1+k));
+		addParam(createParam<CKSSFix>(Vec(mm2px(34.098), yncscape(yinv, 5.460)), module, XSwitch::INV_1+k));
 		addChild(createLight<SmallLight<RedLight>>(Vec(led_x, yncscape(yled, 2.176)), module, XSwitch::LED_1 + k ));
 		addOutput(createOutput<PJ301GPort>(Vec(out_x, yncscape(y, 8.255)), module, XSwitch::OUT_1+k));
 		y += delta_y;
 		y1 += delta_y;
 		ysw += delta_y;
 		yled += delta_y;
+		yinv += delta_y;
 	}
 }
 

@@ -52,11 +52,11 @@ struct Boole : Module
 				index--;
 
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
-			configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0);
+			configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0, "Threshold", "V");
 			if(k > 0)
 			{
 				index++;
-				configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0);
+				configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0, "Threshold", "V");
 			}
 		}
 	}

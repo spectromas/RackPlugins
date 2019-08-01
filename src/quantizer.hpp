@@ -295,8 +295,21 @@ private:
 
 struct midyQuantWidget : ModuleWidget
 {
+	enum MENUACTIONS
+	{
+		MIDIPANIC
+	};
+
 	midyQuantWidget(midyQuant *module);
-	
+	void appendContextMenu(ui::Menu *menu) override
+	{
+		menu->addChild(createMenuLabel("*** A la carte ***"));
+		addContextMenu(menu);
+	}
+	void onMenu(int action);
+private:	
+	Menu *addContextMenu(Menu *menu) ;
+
 private:
 	qtzrDisplay *display;
 	qtzrMidiDisplay *midiDisplay;
@@ -317,6 +330,7 @@ struct midyQuant : Module, quantizeModule
 		CV,
 		GATE,
 		VEL,
+		RESET,
 		NUM_INPUTS
 	};
 	enum OutputIds
@@ -366,4 +380,5 @@ private:
 	void load() {}
 	midyQuantWidget *pWidget;
 	SchmittTrigger2 gate;
+	dsp::SchmittTrigger resetTrigger;
 };

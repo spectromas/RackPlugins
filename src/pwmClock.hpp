@@ -99,10 +99,10 @@ struct PwmClock : Module
 		configParam(PwmClock::BPM_INC, 0.0, 1.0, 0.0);
 		configParam(PwmClock::BPM_DEC, 0.0, 1.0, 0.0);
 		configParam(PwmClock::BPMDEC, 0.0, 9.0, 0.0);
-		configParam(PwmClock::BPM, BPM_MINVALUE, BPM_MAXVALUE, 120.0);
+		configParam(PwmClock::BPM, BPM_MINVALUE, BPM_MAXVALUE, 120.0, "BPM","Beats per minute");
 		configParam(PwmClock::OFFON, 0.0, 1.0, 0.0);
-		configParam(PwmClock::SWING, SWING_MINVALUE, SWING_MAXVALUE, SWING_MINVALUE);
-		configParam(PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5);
+		configParam(PwmClock::SWING, SWING_MINVALUE, SWING_MAXVALUE, SWING_MINVALUE, "Swing", "%", 0, 100);
+		configParam(PwmClock::PWM, PWM_MINVALUE, PWM_MAXVALUE, 0.5, "Duty cycle", "%", 0, 100);
 
 		on_loaded();
 	}

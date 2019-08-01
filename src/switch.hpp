@@ -24,7 +24,8 @@ struct XSwitch : Module
 	enum ParamIds
 	{
 		SW_1,
-		NUM_PARAMS = SW_1 + NUM_SWITCHES
+		INV_1 = SW_1 + NUM_SWITCHES,
+		NUM_PARAMS = INV_1 + NUM_SWITCHES
 	};
 	enum InputIds
 	{
@@ -51,9 +52,11 @@ struct XSwitch : Module
 	void process(const ProcessArgs &args) override;
 
 private:
-
 	bool getSwitch(int n)
 	{
-		return (inputs[MOD_1 + n].getNormalVoltage(0.0) + params[SW_1 + n].value) > 0.5;
+		if(params[INV_1 + n].value > 0.5)
+			return (inputs[MOD_1 + n].getNormalVoltage(0.0) + params[SW_1 + n].value) <= 0.5;
+		else
+			return (inputs[MOD_1 + n].getNormalVoltage(0.0) + params[SW_1 + n].value) > 0.5;
 	}
 };

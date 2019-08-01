@@ -3,7 +3,10 @@
 
 void midyQuant::process(const ProcessArgs &args)
 {
-	if(inputs[CV].isConnected())
+	if(resetTrigger.process(inputs[RESET].value))
+	{
+		midiOutput.reset();
+	} else if(inputs[CV].isConnected())
 	{
 		int clk = gate.process(inputs[GATE].value); // 1=rise, -1=fall
 		if(clk != 0)
@@ -23,6 +26,22 @@ void midyQuant::on_loaded()
 	load();
 	calcScale();
 }
+
+Menu *midyQuantWidget::addContextMenu(Menu *menu)
+{
+	menu->addChild(new SeqMenuItem<midyQuantWidget>("MIDI Panic", this, MIDIPANIC));
+	return menu;
+}
+
+void midyQuantWidget::onMenu(int action)
+{
+	switch(action)
+	{
+	case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
+	break;
+	}
+}
+
 
 midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 {
@@ -60,5 +79,6 @@ midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 	addInput(createInput<PJ301GPort>(Vec(mm2px(2.669), yncscape(9.432, 8.255)), module, midyQuant::CV));
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(15.928), yncscape(9.432, 8.255)), module, midyQuant::GATE));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(29.686), yncscape(9.432, 8.255)), module, midyQuant::VEL));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(15.928), yncscape(29.540, 8.255)), module, midyQuant::RESET));
 }
 

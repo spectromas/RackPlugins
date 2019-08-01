@@ -53,9 +53,9 @@ struct Burst : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Burst::MODE, 0.0, 2.0, 0.0);
 		configParam(Burst::MODE_INVERT, 0.0, 1.0, 0.0);
-		configParam(Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0);
-		configParam(Burst::EVENT_COUNT, 0.0, 23.0, 0.0);	
-		configParam(Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF);
+		configParam(Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0, "Span", "#");
+		configParam(Burst::EVENT_COUNT, 0.0, 23.0, 0.0, "Event Counter", "#", 0, 1, 1);
+		configParam(Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
 		configParam(Burst::TRIGGER, 0.0, 1.0, 0.0);
 		onReset();
 	}

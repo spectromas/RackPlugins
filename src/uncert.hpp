@@ -56,10 +56,10 @@ struct Uncertain : Module
 	Uncertain() : Module()
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(Uncertain::FLUCT_AMT, Uncertain::MIN_VOLTAGE, Uncertain::MAX_VOLTAGE, Uncertain::MIN_VOLTAGE);
-		configParam(Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0);
-		configParam(Uncertain::STORED_AMT, Uncertain::MIN_VOLTAGE + 2.5, Uncertain::MAX_VOLTAGE - 2.5, 5.0);
-		configParam(Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0);
+		configParam(Uncertain::FLUCT_AMT, Uncertain::MIN_VOLTAGE, Uncertain::MAX_VOLTAGE, Uncertain::MIN_VOLTAGE, "Fluctuate", "V");
+		configParam(Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0, "Quantized Amount", "V", 0, 1, 1);
+		configParam(Uncertain::STORED_AMT, Uncertain::MIN_VOLTAGE + 2.5, Uncertain::MAX_VOLTAGE - 2.5, 5.0, "Stored Amount", "V");
+		configParam(Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0, "Sigma", "#");
 	}
 
 	void process(const ProcessArgs &args) override;
