@@ -3,9 +3,9 @@
 
 struct scaleRootChoiceItem : ui::MenuItem 
 {
-	Quantizer *pquantizer;
+	quantizeModule *pquantizer;
 	int root_n;
-	scaleRootChoiceItem(Quantizer *p, int n)
+	scaleRootChoiceItem(quantizeModule *p, int n)
 	{
 		pquantizer = p;
 		root_n = n;
@@ -20,7 +20,7 @@ struct scaleRootChoiceItem : ui::MenuItem
 
 struct scaleRootChoice : LedDisplayChoice 
 {
-	Quantizer *pquantizer;
+	quantizeModule *pquantizer;
 	void onAction(const event::Action &e) override 
 	{
 		if (pquantizer != NULL)
@@ -44,9 +44,9 @@ struct scaleRootChoice : LedDisplayChoice
 
 struct scaleChoiceItem : ui::MenuItem 
 {
-	Quantizer *pquantizer;
+	quantizeModule *pquantizer;
 	int scale_n;
-	scaleChoiceItem(Quantizer *p, int n,const std::vector<QScale> &scaleList)
+	scaleChoiceItem(quantizeModule *p, int n,const std::vector<QScale> &scaleList)
 	{
 		pquantizer = p;
 		scale_n = n;
@@ -61,7 +61,7 @@ struct scaleChoiceItem : ui::MenuItem
 
 struct ScaleChoice : LedDisplayChoice 
 {
-	Quantizer *pquantizer;
+	quantizeModule *pquantizer;
 	void onAction(const event::Action &e) override 
 	{
 		if (pquantizer != NULL)
@@ -91,7 +91,7 @@ qtzrDisplay::qtzrDisplay()
 	separator = NULL;
 }
 
-void qtzrDisplay::CreateInterface(Quantizer *module)
+void qtzrDisplay::CreateInterface(quantizeModule *module)
 {
 	clearChildren();
 
@@ -111,4 +111,178 @@ void qtzrDisplay::CreateInterface(Quantizer *module)
 	rootChoice->pquantizer = module;
 	addChild(rootChoice);
 	scaleChoice->color = rootChoice->color = nvgRGB(0xff, 0xff, 0xff);
+}
+
+struct midiQtzDriverItem : ui::MenuItem 
+{
+	midi::Port *port = NULL;
+	int driverId;
+	void onAction(const event::Action &e) override 
+	{
+		port->setDriverId(driverId);
+	}
+};
+
+struct midiQtzDriverChoice : LedDisplayChoice 
+{
+	midi::Port *port = NULL;
+	void onAction(const event::Action &e) override 
+	{
+		if (port != NULL)
+		{
+			ui::Menu *menu = createMenu();
+			menu->addChild(createMenuLabel("MIDI driver"));
+			for (int driverId : port->getDriverIds()) 
+			{
+				midiQtzDriverItem *item = new midiQtzDriverItem;
+				item->port = port;
+				item->driverId = driverId;
+				item->text = port->getDriverName(driverId);
+				item->rightText = CHECKMARK(item->driverId == port->driverId);
+				menu->addChild(item);
+			}
+		}
+	}
+
+	void step() override 
+	{
+		if(port == NULL)
+		{
+			color.a = 0.5f;
+			text = "(No driver)";
+		} else
+		{
+			text = port->getDriverName(port->driverId);
+			color.a = 1.f;
+		}
+	}
+};
+
+struct midiQtzDeviceItem : ui::MenuItem 
+{
+	midi::Port *port = NULL;
+	int deviceId;
+	void onAction(const event::Action &e) override 
+	{
+		port->setDeviceId(deviceId);
+	}
+};
+
+struct midiQtzDeviceChoice : LedDisplayChoice
+{
+	midi::Port *port = NULL;
+	void onAction(const event::Action &e) override 
+	{
+		if (port != NULL)
+		{
+			ui::Menu *menu = createMenu();
+			menu->addChild(createMenuLabel("MIDI device"));
+			{
+				midiQtzDeviceItem *item = new midiQtzDeviceItem;
+				item->port = port;
+				item->deviceId = -1;
+				item->text = "(No device)";
+				item->rightText = CHECKMARK(item->deviceId == port->deviceId);
+				menu->addChild(item);
+			}
+			for (int deviceId : port->getDeviceIds()) 
+			{
+				midiQtzDeviceItem *item = new midiQtzDeviceItem;
+				item->port = port;
+				item->deviceId = deviceId;
+				item->text = port->getDeviceName(deviceId);
+				item->rightText = CHECKMARK(item->deviceId == port->deviceId);
+				menu->addChild(item);
+			}
+		}
+	}
+
+	void step() override 
+	{
+		if(port ==NULL)
+		{
+			text = "(No device)";
+			color.a = 0.5f;
+		} else 
+		{
+			color.a = 1.f;
+			text = port->getDeviceName(port->deviceId);
+		}
+	}
+};
+
+struct midiQtzChannelItem : ui::MenuItem 
+{
+	midi::Port *port = NULL;
+	int channel;
+	void onAction(const event::Action &e) override 
+	{
+		port->channel = channel;
+	}
+};
+
+struct midiQtzChannelChoice : LedDisplayChoice 
+{
+	midi::Port *port = NULL;
+	void onAction(const event::Action &e) override 
+	{
+		if (port != NULL)
+		{
+			ui::Menu *menu = createMenu();
+			menu->addChild(createMenuLabel("MIDI channel"));
+			for (int channel : port->getChannels()) 
+			{
+				midiQtzChannelItem *item = new midiQtzChannelItem;
+				item->port = port;
+				item->channel = channel;
+				item->text = port->getChannelName(channel);
+				item->rightText = CHECKMARK(item->channel == port->channel);
+				menu->addChild(item);
+			}
+		}
+	}
+	void step() override 
+	{
+		text = port ? port->getChannelName(port->channel) : "Channel 1";
+	}
+};
+
+qtzrMidiDisplay::qtzrMidiDisplay()
+{
+	driverChoice = NULL;
+	deviceChoice = NULL;
+	driverSeparator = NULL;
+	deviceSeparator = NULL;
+	channelChoice = NULL;
+}
+
+void qtzrMidiDisplay::CreateInterface(midyQuant *module)
+{
+	clearChildren();
+	math::Vec pos;
+
+	driverChoice = createWidget<midiQtzDriverChoice>(pos);
+	driverChoice->box.size.x = box.size.x;
+	driverChoice->port = &module->midiOutput;
+	addChild(driverChoice);
+	pos = driverChoice->box.getBottomLeft();
+	
+	driverSeparator = createWidget<LedDisplaySeparator>(pos);
+	driverSeparator->box.size.x = box.size.x;
+	addChild(driverSeparator);
+
+	deviceChoice = createWidget<midiQtzDeviceChoice>(pos);
+	deviceChoice->box.size.x = box.size.x;
+	deviceChoice->port = &module->midiOutput;
+	addChild(deviceChoice);
+	pos = deviceChoice->box.getBottomLeft();
+
+	deviceSeparator = createWidget<LedDisplaySeparator>(pos);
+	deviceSeparator->box.size.x = box.size.x;
+	addChild(deviceSeparator);
+
+	channelChoice = createWidget<midiQtzChannelChoice>(pos);
+	channelChoice->box.size.x = box.size.x;
+	channelChoice->port = &module->midiOutput;
+	addChild(channelChoice);
 }

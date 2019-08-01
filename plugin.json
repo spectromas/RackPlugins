@@ -1,7 +1,7 @@
 {
   "slug": "TheXOR",
   "name": "TheXOR",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "license": "proprietary",
   "brand": "TheXOR",
   "author": "The XOR",
@@ -82,6 +82,14 @@
       "description": "",
       "tags": [
         "Quantizer"
+      ]
+    },
+    {
+      "slug": "midyQuant",
+      "name": "midyQuant",
+      "description": "",
+      "tags": [
+        "MIDI Output"
       ]
     },
     {

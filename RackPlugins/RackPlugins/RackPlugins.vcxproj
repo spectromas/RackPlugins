@@ -89,6 +89,7 @@
     <ClCompile Include="..\..\src\boole.cpp" />
     <ClCompile Include="..\..\src\lpTestModule.cpp" />
     <ClCompile Include="..\..\src\M581Module.cpp" />
+    <ClCompile Include="..\..\src\midyQuant.cpp" />
     <ClCompile Include="..\..\src\mplex.cpp" />
     <ClCompile Include="..\..\src\oscImplementation.cpp" />
     <ClCompile Include="..\..\src\oscTestModule.cpp" />

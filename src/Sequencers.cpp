@@ -49,6 +49,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<Mplex, MplexWidget>("Mplex"));
 	p->addModel(createModel<Dmplex, DmplexWidget>("Dmplex"));
 	p->addModel(createModel<Counter, CounterWidget>("Counter"));
+	p->addModel(createModel<midyQuant, midyQuantWidget>("midyQuant"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));
