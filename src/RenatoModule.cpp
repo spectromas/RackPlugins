@@ -172,8 +172,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 3), 3, LaunchpadLed::Color(19), LaunchpadLed::Color(21));
-		module->drv->Add(radio, pwdg);
+		module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 3), 3, LaunchpadLed::Color(19), LaunchpadLed::Color(21)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE
@@ -190,8 +189,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 5), 2, LaunchpadLed::Color(51), LaunchpadLed::Color(52));
-		module->drv->Add(radio, pwdg);
+		module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(2, 5), 2, LaunchpadLed::Color(51), LaunchpadLed::Color(52)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE
@@ -272,8 +270,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			#ifdef LAUNCHPAD
 			if(module != NULL)
 			{
-				pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(52));
-				module->drv->Add(pswitch, pwdg);
+				module->drv->Add(new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(52)), pwdg);
 			}
 			#endif
 			#ifdef OSCTEST_MODULE
@@ -290,8 +287,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			#ifdef LAUNCHPAD
 			if(module != NULL)
 			{
-				pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(62));
-				module->drv->Add(pswitch, pwdg);
+				module->drv->Add(new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r, c + 4), LaunchpadLed::Off(), LaunchpadLed::Color(62)), pwdg);
 			}
 			#endif
 			#ifdef OSCTEST_MODULE

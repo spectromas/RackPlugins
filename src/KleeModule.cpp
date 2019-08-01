@@ -250,7 +250,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	int numLaunchpads = module != NULL ? module->drv->GetNumLaunchpads() : 0;
 	#ifdef DEBUG
-	info("%i launchpad found", numLaunchpads);
+	INFO("%i launchpad found", numLaunchpads);
 	#endif
 	#endif
 	box.size = Vec(48 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
@@ -449,7 +449,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
+		LaunchpadSwitch *sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::RECORD_ARM, LaunchpadLed::Color(31), LaunchpadLed::Color(33));
 		module->drv->Add(sw, pwdg);
 	}
 	#endif
@@ -468,8 +468,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		mom = new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::CLICK, LaunchpadLed::Color(1), LaunchpadLed::Color(9));
-		module->drv->Add(mom, pwdg);
+		module->drv->Add(new LaunchpadMomentary(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::CLICK, LaunchpadLed::Color(1), LaunchpadLed::Color(9)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE
@@ -495,8 +494,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-		module->drv->Add(sw, pwdg);
+		module->drv->Add(new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::TRACK_SELECT, LaunchpadLed::Color(1), LaunchpadLed::Color(62)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE
@@ -513,8 +511,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-		module->drv->Add(sw, pwdg);
+		module->drv->Add(new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::MUTE, LaunchpadLed::Color(1), LaunchpadLed::Color(62)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE
@@ -531,8 +528,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	#ifdef LAUNCHPAD
 	if(module != NULL)
 	{
-		sw = new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(62));
-		module->drv->Add(sw, pwdg);
+		module->drv->Add(new LaunchpadSwitch(ALL_LAUNCHPADS, launchpadDriver::ALL_PAGES, LaunchpadKey::SOLO, LaunchpadLed::Color(1), LaunchpadLed::Color(62)), pwdg);
 	}
 	#endif
 	#ifdef OSCTEST_MODULE

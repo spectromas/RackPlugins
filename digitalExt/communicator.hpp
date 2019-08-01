@@ -83,7 +83,7 @@ private:
 		void WriteChunk(LaunchpadMessage *_msg)
 		{
 #ifdef DEBUG
-			info("send message %i; tx size is %i", _msg->cmd, sizeof(_launchpadMessage));
+			INFO("send message %i; tx size is %i", _msg->cmd, sizeof(_launchpadMessage));
 #endif
 			_launchpadMessage msg;
 			msg.FromMessage(_msg);
@@ -227,34 +227,34 @@ private:
 
 		int b_l = BUFFER_SIZE * sizeof(_launchpadMessage) + circBuffer::bufferOverhead();
 #ifdef DEBUG
-		info("Open file mapping");
+		INFO("Open file mapping");
 #endif
 		hMapFile = OpenFileMapping(FILE_MAP_READ | FILE_MAP_WRITE, TRUE, "launchpad_mem");
 		if(hMapFile != NULL)
 		{
 #ifdef DEBUG
-			info("file mapping opened");
+			INFO("file mapping opened");
 #endif
 			void *p = MapViewOfFile(hMapFile, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, 2 * b_l + sizeof(uint32_t)/*flag SERVER_POS*/);
 #ifdef DEBUG
-			info("MapViewOfFile success");
+			INFO("MapViewOfFile success");
 #endif
 			syncMutex = OpenMutex(MUTEX_ALL_ACCESS, FALSE, "launchpad_mtx");
 #ifdef DEBUG
-			if(syncMutex != NULL) info("mutex OK"); else info("*** no mutexxxxxxx!!!!!! ****");
+			if(syncMutex != NULL) INFO("mutex OK"); else INFO("*** no mutexxxxxxx!!!!!! ****");
 #endif
 
 
 			wrBuffer = new circBuffer(b_l, p, START_OF_BUFFER);
 			rdBuffer = new circBuffer(b_l, p, START_OF_BUFFER + b_l);
 #ifdef DEBUG
-			info("circBuffer created");
+			INFO("circBuffer created");
 #endif
 
 			pmemory = p;
 			pCommonMemory = (uint32_t *)p;
 #ifdef DEBUG
-			info("Opened OK");
+			INFO("Opened OK");
 #endif
 		}
 	}
@@ -268,7 +268,7 @@ private:
 			if(server == 0)
 			{
 #ifdef DEBUG
-				info("*** connection lost ***");
+				INFO("*** connection lost ***");
 #endif
 				deinit();
 			} else

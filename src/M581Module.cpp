@@ -73,9 +73,9 @@ void M581::process(const ProcessArgs &args)
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		_reset();
-	} else if(rndTrigger.process(inputs[RANDOMIZONE].value))
+	} else
 	{
-		if(pWidget != NULL)
+		if(pWidget != NULL && rndTrigger.process(inputs[RANDOMIZONE].value))
 			randrandrand();
 
 		Timer.Step();
@@ -167,8 +167,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		#ifdef LAUNCHPAD
 		if(module != NULL)
 		{
-			LaunchpadRadio *radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(43), LaunchpadLed::Color(32));
-			module->drv->Add(radio, pwdg);
+			module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(5, k), 3, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -186,8 +185,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		#ifdef LAUNCHPAD
 		if(module != NULL)
 		{
-			radio = new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(11), LaunchpadLed::Color(17));
-			module->drv->Add(radio, pwdg);
+			module->drv->Add(new LaunchpadRadio(0, ILaunchpadPro::RC2Key(1, k), 4, LaunchpadLed::Color(11), LaunchpadLed::Color(17)), pwdg);
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -203,13 +201,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		// step notes
 		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k*dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
 		addParam(pwdg);
-		#ifdef LAUNCHPAD
-		if(module != NULL)
-		{
-			LaunchpadKnob *pknob = new LaunchpadKnob(1, ILaunchpadPro::RC2Key(6, k), LaunchpadLed::Rgb(10, 0, 0), LaunchpadLed::Rgb(63, 63, 63));
-			module->drv->Add(pknob, pwdg);
-		}
-		#endif
+	
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
@@ -226,8 +218,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		#ifdef LAUNCHPAD
 		if(module != NULL)
 		{
-			radio = new LaunchpadRadio(2, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(1), LaunchpadLed::Color(58));
-			module->drv->Add(radio, pwdg);
+			module->drv->Add(new LaunchpadRadio(1, ILaunchpadPro::RC2Key(0, k), 8, LaunchpadLed::Color(1), LaunchpadLed::Color(58)), pwdg);
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -265,8 +256,8 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		#ifdef LAUNCHPAD
 		if(module != NULL)
 		{
-			ld1 = new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(5));   // colonna PLAY
-			module->drv->Add(ld1, plight);
+			// colonna PLAY
+			module->drv->Add(new LaunchpadLight(launchpadDriver::ALL_PAGES, ILaunchpadPro::RC2Key(8, k), LaunchpadLed::Off(), LaunchpadLed::Color(5)), plight);
 		}
 		#endif
 		#ifdef OSCTEST_MODULE
@@ -306,6 +297,13 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	// volt fondo scala
 	pwdg = createParam<CKSSFix>(Vec(mm2px(7.066), yncscape(114.224, 5.460)), module, M581::MAXVOLTS);
 	addParam(pwdg);
+	#ifdef LAUNCHPAD
+	if (module != NULL)
+	{
+		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(6, 0), 2, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
+	}
+	#endif
+
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
@@ -318,6 +316,13 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	// step div
 	pwdg = createParam<VerticalSwitch>(Vec(mm2px(123.494), yncscape(75.482, 13.2)), module, M581::STEP_DIV);
 	addParam(pwdg);
+#ifdef LAUNCHPAD
+	if (module != NULL)
+	{
+		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(4, 3), 4, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
+	}
+#endif
+
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{

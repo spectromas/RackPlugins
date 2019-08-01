@@ -174,7 +174,14 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 		angle += step;
 	}
 
-	addParam(createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET));
+	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET);
+	addParam(pwdg);
+	#ifdef LAUNCHPAD
+	if (module != NULL)
+	{
+		module->drv->Add(new LaunchpadMomentary(0, ILaunchpadPro::RC2Key(0, 7), LaunchpadLed::Color(63), LaunchpadLed::Color(62)), pwdg);
+	}
+#endif
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
 
 	#ifdef DIGITAL_EXT
@@ -205,7 +212,7 @@ void SpiraloneWidget::createSequencer(int seq)
 		color_launchpad[2][0] = 47; color_launchpad[2][1] = 37;
 		color_launchpad[3][0] = 15; color_launchpad[3][1] = 12;
 		color_launchpad[4][0] = 19; color_launchpad[4][1] = 21;
-		LaunchpadRadio *sw = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(0, seq), 2, LaunchpadLed::Color(color_launchpad[seq][0]), LaunchpadLed::Color(color_launchpad[seq][1]));
+		LaunchpadRadio *sw = new LaunchpadRadio(0, 0, ILaunchpadPro::RC2Key(0, seq), 3, LaunchpadLed::Color(color_launchpad[seq][0]), LaunchpadLed::Color(color_launchpad[seq][1]));
 		((Spiralone *)module)->drv->Add(sw, pwdg);
 	}
 	#endif

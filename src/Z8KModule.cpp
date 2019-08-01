@@ -53,12 +53,6 @@ void Z8K::process(const ProcessArgs &args)
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
-	/*#ifdef LAUNCHPAD
-	if(drv->Connected())
-		dig_connected = true;
-	drv->ProcessLaunchpad();
-	#endif*/
-
 	#if defined(OSCTEST_MODULE)
 	if(oscDrv->Connected())
 		dig_connected = true;

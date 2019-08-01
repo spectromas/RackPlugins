@@ -71,7 +71,7 @@ LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget()
 	addOutput(createOutput<PJ301GPort>(Vec(150, y), module, LaunchpadTest::SW_OUT));
 
 #ifdef DEBUG
-	info("RDY");
+	INFO("RDY");
 #endif
 		
 }

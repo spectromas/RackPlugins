@@ -417,7 +417,7 @@ protected:
 				{
 					pModule->params[pBindedParam->paramQuantity->paramId].value = v;
 					pBindedParam->paramQuantity->setValue(v);
-					pk->dirtyValue = v;
+					pk->dirtyValue = 1+v;
 				} else
 				{
 					SvgSlider *pk1 = (SvgSlider *)dynamic_cast<SvgSlider *>(pBindedParam);
@@ -425,7 +425,7 @@ protected:
 					{
 						pModule->params[pBindedParam->paramQuantity->paramId].setValue(v);
 						pBindedParam->paramQuantity->setValue(v);
-						pk->dirtyValue = v;
+						pk1->dirtyValue = 1+v;
 					} else
 						pBindedParam->paramQuantity->setValue(v);
 				}
@@ -470,7 +470,7 @@ public:
 		int id = ctrl->ID();
 		m_bindings[id] = ctrl;
 #ifdef DEBUG
-		info("binded param %i ", id);
+		INFO("binded param %i ", id);
 #endif
 
 	}
@@ -481,7 +481,7 @@ public:
 		int id = ctrl->ID();
 		m_bindings[0x8000 | id] = ctrl;
 #ifdef DEBUG
-		info("binded light %i ", 0x8000 | id);
+		INFO("binded light %i ", 0x8000 | id);
 #endif
 	}
 
@@ -529,7 +529,7 @@ private:
 			{
 				int page = isAutoPageKey(&msg);
 #ifdef DEBUG
-				info("MSG: from LP=%i %i scene=%i ispage=%i key=%i", msg.lpNumber, msg.cmd, msg.currentScene, page, msg.key);
+				INFO("MSG: from LP=%i %i scene=%i ispage=%i key=%i", msg.lpNumber, msg.cmd, msg.currentScene, page, msg.key);
 #endif
 				if(page >= 0 && msg.status == LaunchpadKeyStatus::keyDown && !msg.shiftDown)
 				{
@@ -540,7 +540,7 @@ private:
 				} else if(msg.cmd == LaunchpadCommand::SETSCENE)
 				{
 #ifdef DEBUG
-					info("MSG: set scene=%i myscene=%i", msg.param1, myScene);
+					INFO("MSG: set scene=%i myscene=%i", msg.param1, myScene);
 #endif
 					if(myScene == msg.param1)
 					{
@@ -553,7 +553,7 @@ private:
 						if(it->second->Intersect(msg.lpNumber, GetPage(), msg.key, msg.shiftDown))
 						{
 #ifdef DEBUG
-							info("MSG: lp#=%i page=%i, key=%i shift=%i detected: %i", msg.lpNumber, GetPage(), msg.key, msg.shiftDown, it->first);
+							INFO("MSG: lp#=%i page=%i, key=%i shift=%i detected: %i", msg.lpNumber, GetPage(), msg.key, msg.shiftDown, it->first);
 #endif
 							it->second->onLaunchpadKey(pModule, msg);
 						}
