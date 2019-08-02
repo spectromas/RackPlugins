@@ -24,7 +24,8 @@ struct Boole : Module
 	{
 		INVERT_1,
 		THRESH_1 = INVERT_1 + NUM_BOOL_OP,
-		NUM_PARAMS = THRESH_1 + 2* NUM_BOOL_OP-1
+		HIZ= THRESH_1 + 2* NUM_BOOL_OP-1,
+		NUM_PARAMS,
 	};
 	enum InputIds
 	{
@@ -39,7 +40,8 @@ struct Boole : Module
 	enum LightIds
 	{
 		LED_1,
-		NUM_LIGHTS = LED_1 + 3* NUM_BOOL_OP-1
+		LED_HIZ = LED_1 + 3* NUM_BOOL_OP-1,
+		NUM_LIGHTS 
 	};
 
 	Boole() : Module()
@@ -52,16 +54,18 @@ struct Boole : Module
 				index--;
 
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
-			configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0, "Threshold", "V");
+			configParam(Boole::THRESH_1 + index, 0.0, THRESHOLD_MAX, 0.0, "Threshold", "V");
 			if(k > 0)
 			{
 				index++;
-				configParam(Boole::THRESH_1 + index, 0.0, 10.0, 0.0, "Threshold", "V");
+				configParam(Boole::THRESH_1 + index, 0.0, THRESHOLD_MAX, 0.0, "Threshold", "V");
 			}
 		}
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
-	bool process(int num_op, int index);
+	bool process(int num_op, int index, bool hiz);
+	float getVoltage(int index, bool hiz);
+	const float THRESHOLD_MAX = 10.0;
 };

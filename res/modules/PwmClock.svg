@@ -15,7 +15,7 @@
    version="1.1"
    id="svg4541"
    sodipodi:docname="PwmClock.svg"
-   inkscape:version="0.92.4 (5da689c313, 2019-01-14)">
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)">
   <defs
      id="defs4535">
     <inkscape:path-effect
@@ -1091,18 +1091,18 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.4315976"
-     inkscape:cx="153.12982"
+     inkscape:cx="86.301328"
      inkscape:cy="219.06316"
      inkscape:document-units="mm"
-     inkscape:current-layer="g4358"
+     inkscape:current-layer="g1122"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1827"
+     inkscape:window-width="1920"
      inkscape:window-height="1057"
-     inkscape:window-x="85"
+     inkscape:window-x="1912"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      inkscape:showpageshadow="true"
@@ -1287,16 +1287,15 @@
          style="display:inline;fill:none;stroke:#ffffff;stroke-width:0.28222227px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
          sodipodi:nodetypes="ccccc" />
     </g>
-    <path
-       style="fill:#ff0000;stroke:#ff0000;stroke-width:0.99021882;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="M 11.036762,41.128714 H 43.920169"
-       id="path4684"
-       inkscape:connector-curvature="0" />
-    <path
-       inkscape:connector-curvature="0"
-       id="path10308"
-       d="M 11.036762,48.413663 H 43.920169"
-       style="fill:#ff0000;stroke:#ff0000;stroke-width:0.99021882;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+    <rect
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:0.4480128;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0"
+       id="rect2693"
+       width="39.235531"
+       height="10.510697"
+       x="7.8606997"
+       y="39.496727"
+       rx="1.1359614"
+       ry="1.0666674" />
   </g>
   <g
      inkscape:groupmode="layer"

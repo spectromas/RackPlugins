@@ -1091,7 +1091,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4142136"
-     inkscape:cx="164.27099"
+     inkscape:cx="49.366141"
      inkscape:cy="262.89055"
      inkscape:document-units="mm"
      inkscape:current-layer="layer3"
@@ -1141,12 +1141,11 @@
      inkscape:groupmode="layer"
      id="layer5"
      inkscape:label="logo"
-     style="display:inline"
-     sodipodi:insensitive="true">
+     style="display:inline">
     <g
        style="display:inline"
        id="g1293"
-       transform="matrix(0.79199994,0,0,0.79199994,-4.0748352,37.87415)">
+       transform="matrix(0.79199994,0,0,0.79199994,-4.0748352,43.51859)">
       <g
          transform="matrix(0.26666672,0,0,0.26666672,4.2542977,1.457816)"
          id="g922"
@@ -1250,17 +1249,17 @@
          style="clip-rule:evenodd;fill:#000000;fill-rule:evenodd;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision">
         <polygon
            style="fill:#000000;stroke:#000000;stroke-width:0.0762"
-           points="207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 "
+           points="200.556,101.754 200.556,75.7262 207.953,75.7262 189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 "
            class="fil2 str0"
            id="_196665264" />
         <polygon
            style="fill:#000000;stroke:#ffffff;stroke-width:0.0762"
-           points="207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 "
+           points="200.556,228.625 200.556,202.598 207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 "
            class="fil0 str2"
            id="_196665048" />
         <polygon
            style="fill:#000000;stroke:#ff0000;stroke-width:0.0762"
-           points="207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 200.556,165.189 200.556,139.162 "
+           points="200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 178.747,165.23 "
            class="fil1 str1"
            id="_196666392" />
       </g>
@@ -1568,7 +1567,7 @@
        x="8.2494173"
        y="21.418114" />
     <rect
-       y="64.079834"
+       y="38.679787"
        x="13.245872"
        height="8.9070044"
        width="16.857592"

@@ -84,7 +84,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 
 	SigDisplayWidget *display = new SigDisplayWidget(3, 0);
 	display->box.size = Vec(30+16, 24);
-	display->box.pos = Vec(mm2px(7.734), yncscape(100.07, px2mm(display->box.size.y)));
+	display->box.pos = Vec(mm2px(7.934), yncscape(100.07, px2mm(display->box.size.y)));
 
 	if(module != NULL)
 		display->value = &module->counter_f;
@@ -92,7 +92,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
 	displayCtr->box.size = Vec(30+16, 24);
-	displayCtr->box.pos = Vec(mm2px(12.418), yncscape(60.075, px2mm(display->box.size.y)));
+	displayCtr->box.pos = Vec(mm2px(12.418), yncscape(83.887, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;
 	addChild(displayCtr);

@@ -190,6 +190,17 @@ struct CKSSFix : app::SvgSwitch  {
 	}
 };
 
+struct CKSSFixH : app::SvgSwitch  {
+	CKSSFixH() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_0H.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_1H.svg")));
+	}
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
 struct CKSSThreeFix : app::SvgSwitch  {
 	CKSSThreeFix() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSSThree_0.svg")));

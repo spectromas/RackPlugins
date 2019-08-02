@@ -3,37 +3,46 @@
 
 void Boole::process(const ProcessArgs &args)
 {
+	bool hiz = params[HIZ].value > 0.1;
+	lights[LED_HIZ].value = hiz ? 5.0 : 0.0;
+
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
 		int index = 2 * k;
-		if(inputs[IN_1 + index].isConnected() && (k == 0 || inputs[IN_1 + index - 1].isConnected()))
+		if(outputs[OUT_1 + k].isConnected())
 		{
-			bool o = process(k, index);
-			if(params[INVERT_1 + k].value > 0)
+			bool o = process(k, index, hiz);
+			if(params[INVERT_1 + k].value > 0.1)
 				o = !o;
 			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = o ? 5.0 : 0.0;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
 		} else
-		{
-			outputs[OUT_1 + k].value = lights[LED_1 + k + 2 * NUM_BOOL_OP - 1].value = LVL_OFF;
-		}
+			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = 0.0;
 	}
 }
 
-bool Boole::process(int num_op, int index)
+float Boole::getVoltage(int index, bool hiz)
+{
+	if(hiz && !inputs[index].isConnected())
+		return random::uniform() * 2.5;
+	else
+		return inputs[index].getNormalVoltage(0.0);
+}
+
+bool Boole::process(int num_op, int index, bool hiz)
 {
 	bool x;
 	if(num_op == 0)	// not?
 	{
-		x = inputs[IN_1].getNormalVoltage(0.0) > params[THRESH_1 ].value;
+		x = getVoltage(IN_1, hiz) > params[THRESH_1 ].value;
 		lights[LED_1].value = x ? 5.0 : 0.0;
 		return !x;
 	} else
 	{
-		x = inputs[IN_1 + index-1].getNormalVoltage(0.0) > params[THRESH_1 + index-1].value;
+		x = getVoltage(IN_1 + index-1, hiz) > params[THRESH_1 + index-1].value;
 		lights[LED_1 + index - 1].value = x ? 5.0 : 0.0;
 	}
-	bool y = inputs[IN_1 + index].getNormalVoltage(0.0) > params[THRESH_1 + index].value;
+	bool y = getVoltage(IN_1 + index, hiz) > params[THRESH_1 + index].value;
 	lights[LED_1 + index].value = y ? 5.0 : 0.0;
 		
 	switch(num_op)
@@ -121,5 +130,8 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		ypot += delta_y;
 		yled += delta_y;
 	}
+
+	addParam(createParam<CKSSFixH>(Vec(mm2px(47.847), yncscape(2.136, 3.704)), module, Boole::HIZ));
+	addChild(createLight<SmallLight<YellowLight>>(Vec(mm2px(54.166), yncscape(2.7, 2.176)), module, Boole::LED_HIZ ));
 }
 
