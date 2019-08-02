@@ -146,8 +146,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/Knob%i", k + 1);
-			oscControl *oc = new oscControl(name);
-			module->oscDrv->Add(oc, pctrl);
+			module->oscDrv->Add(new oscControl(name), pctrl);
 		}
 		#endif
 		addParam(pctrl);
@@ -162,8 +161,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/Led%i_%i", s+1, n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 			addChild(plight);
@@ -181,7 +179,13 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	{
 		module->drv->Add(new LaunchpadMomentary(0, ILaunchpadPro::RC2Key(0, 7), LaunchpadLed::Color(63), LaunchpadLed::Color(62)), pwdg);
 	}
-#endif
+	#endif
+	#ifdef OSCTEST_MODULE
+	if(module != NULL)
+	{
+		module->oscDrv->Add(new oscControl("/Reset"), pwdg);
+	}
+	#endif
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
 
 	#ifdef DIGITAL_EXT
@@ -220,8 +224,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	if(module != NULL)
 	{
 		sprintf(name, "/Mode%i", seq + 1);
-		oscControl *oc = new oscControl(name);
-		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+		((Spiralone *)module)->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
 
@@ -231,8 +234,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	if(module != NULL)
 	{
 		sprintf(name, "/Lenght%i", seq + 1);
-		oc = new oscControl(name);
-		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+		((Spiralone *)module)->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
 	addParam(pwdg);
@@ -244,8 +246,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	if(module != NULL)
 	{
 		sprintf(name, "/Stride%i", seq + 1);
-		oc = new oscControl(name);
-		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+		((Spiralone *)module)->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
 	addParam(pwdg);
@@ -256,8 +257,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	if(module != NULL)
 	{
 		sprintf(name, "/Transpose%i", seq + 1);
-		oc = new oscControl(name);
-		((Spiralone *)module)->oscDrv->Add(oc, pwdg);
+		((Spiralone *)module)->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
 	addParam(pwdg);

@@ -132,8 +132,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/LedR%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 			addChild(plight);
@@ -143,8 +142,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/LedC%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 			addChild(plight);
@@ -154,8 +152,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/LedV%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 			addChild(plight);
@@ -165,8 +162,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/LedH%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 			addChild(plight);

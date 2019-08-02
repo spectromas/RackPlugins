@@ -174,8 +174,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/Enable%i", k + 1);
-			oscControl *oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
 
@@ -192,8 +191,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/GateMode%i", k + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
 
@@ -206,8 +204,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/Knob%i", k + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
 
@@ -225,8 +222,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/Count%i", k + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, pwdg);
+			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
 
@@ -244,8 +240,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/Led%i", k + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, plight);
+			module->oscDrv->Add(new oscControl(name), plight);
 		}
 		#endif
 
@@ -264,8 +259,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		if(module != NULL)
 		{
 			sprintf(name, "/SubLed%i", k + 1);
-			oc = new oscControl(name);
-			module->oscDrv->Add(oc, plight);
+			module->oscDrv->Add(new oscControl(name), plight);
 		}
 		#endif
 	}
@@ -275,9 +269,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/GateTime");
-		oscControl *oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/GateTime"), pwdg);
 	}
 	#endif
 	addParam(pwdg);    // in sec
@@ -288,9 +280,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/SlideTime");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/SlideTime"), pwdg);
 	}
 	#endif
 
@@ -307,28 +297,23 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/Voltage");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/Voltage"), pwdg);
 	}
 	#endif
 
 	// step div
 	pwdg = createParam<VerticalSwitch>(Vec(mm2px(123.494), yncscape(75.482, 13.2)), module, M581::STEP_DIV);
 	addParam(pwdg);
-#ifdef LAUNCHPAD
+	#ifdef LAUNCHPAD
 	if (module != NULL)
 	{
 		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(4, 3), 4, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
 	}
-#endif
-
+	#endif
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/StepDiv");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/StepDiv"), pwdg);
 	}
 	#endif
 
@@ -367,6 +352,18 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	addParam(pwdg);
+	#ifdef LAUNCHPAD
+	if (module != NULL)
+	{
+		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(6, 1), 5, LaunchpadLed::Color(11), LaunchpadLed::Color(14)), pwdg);
+	}
+	#endif
+	#ifdef OSCTEST_MODULE
+	if(module != NULL)
+	{
+		module->oscDrv->Add(new oscControl("/RunMode"), pwdg);
+	}
+	#endif
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)

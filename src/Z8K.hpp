@@ -123,11 +123,8 @@ struct Z8K : Module
 	#ifdef DIGITAL_EXT
 	float connected;
 	#endif
-	/*#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
-	#endif*/
 	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv;
+	OSCDriver *oscDrv = NULL;
 	#endif
 
 private:

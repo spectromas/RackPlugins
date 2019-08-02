@@ -20,7 +20,7 @@ public:
 	}
 	bool DetectGUIChanges() { return getValue() != m_lastDrawnValue; }
 
-	int ID() { return is_light ? pBindedLight->firstLightId : pBindedParam->paramId; }
+	int ID() { return is_light ? pBindedLight->firstLightId : pBindedParam->paramQuantity->paramId; }
 	void bindWidget(ModuleLightWidget *p) { pBindedLight = p; is_light = true; }
 	void bindWidget(ParamWidget *p) { pBindedParam = p; }
 
@@ -35,29 +35,31 @@ public:
 	}
 
 private:
-	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->value; }	
+	float getValue() { return is_light ? pBindedLight->module->lights[pBindedLight->firstLightId].getBrightness() : pBindedParam->paramQuantity->getValue(); }	
 	void setValue(Module *pModule, float v)
 	{		
 		if(is_light)
 			pBindedLight->module->lights[pBindedLight->firstLightId].value = v;
 		else
 		{
-			v = rescale(v, 0.0, 1.0, pBindedParam->minValue, pBindedParam->maxValue);
+			v = rescale(v, 0.0, 1.0, pBindedParam->paramQuantity->getMinValue(), pBindedParam->paramQuantity->getMaxValue());
 
-			SVGKnob *pk = (SVGKnob *)dynamic_cast<SVGKnob *>(pBindedParam);
+			SvgKnob *pk = (SvgKnob *)dynamic_cast<SvgKnob *>(pBindedParam);
 			if(pk != NULL)
 			{
-				pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
-				pk->dirty = true;				
+				pModule->params[pBindedParam->paramQuantity->paramId].value = v;
+				pBindedParam->paramQuantity->setValue(v);
+				pk->dirtyValue = 1+v;
 			} else
 			{
 				SvgSlider *pk1 = (SvgSlider *)dynamic_cast<SvgSlider *>(pBindedParam);
 				if(pk1 != NULL)
 				{
-					pModule->params[pBindedParam->paramId].value = pBindedParam->value = v;
-					pk1->dirty = true;
+					pModule->params[pBindedParam->paramQuantity->paramId].setValue(v);
+					pBindedParam->paramQuantity->setValue(v);
+					pk1->dirtyValue = 1+v;
 				} else
-					pBindedParam->setValue(v);
+					pBindedParam->paramQuantity->setValue(v);
 			}
 		}
 		m_lastDrawnValue = v;

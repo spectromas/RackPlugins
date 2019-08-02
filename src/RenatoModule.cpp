@@ -161,9 +161,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/ModeX");
-		oscControl *oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/ModeX"), pwdg);
 	}
 	#endif
 
@@ -178,9 +176,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/ModeY");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/ModeY"), pwdg);
 	}
 	#endif
 
@@ -195,9 +191,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/Seek");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, pwdg);
+		module->oscDrv->Add(new oscControl("/Seek"), pwdg);
 	}
 	#endif
 
@@ -207,9 +201,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/LedGX");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, plight);
+		module->oscDrv->Add(new oscControl("/LedGX"), plight);
 	}
 	#endif
 	addChild(plight);
@@ -219,9 +211,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
-		sprintf(name, "/LedGY");
-		oc = new oscControl(name);
-		module->oscDrv->Add(oc, plight);
+		module->oscDrv->Add(new oscControl("/LedGY"), plight);
 	}
 	#endif
 	addChild(plight);
@@ -252,16 +242,14 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			#ifdef LAUNCHPAD
 			if(module != NULL)
 			{
-				LaunchpadSwitch *pswitch = new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c), LaunchpadLed::Off(), LaunchpadLed::Color(17));
-				module->drv->Add(pswitch, pwdg);
+				module->drv->Add(new LaunchpadSwitch(1, ILaunchpadPro::RC2Key(r + 4, c), LaunchpadLed::Off(), LaunchpadLed::Color(17)), pwdg);
 			}
 			#endif
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{
 				sprintf(name, "/Access%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, pwdg);
+				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
 
@@ -277,8 +265,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/GateX%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, pwdg);
+				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
 
@@ -294,8 +281,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/GateY%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, pwdg);
+				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
 			
@@ -304,8 +290,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/Knob%i", n+1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, pwdg);
+				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
 			addParam(pwdg);
@@ -323,8 +308,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			if(module != NULL)
 			{
 				sprintf(name, "/Led%i", n + 1);
-				oc = new oscControl(name);
-				module->oscDrv->Add(oc, plight);
+				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
 		}

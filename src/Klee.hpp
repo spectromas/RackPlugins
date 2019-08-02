@@ -185,10 +185,10 @@ struct Klee : Module
 	float connected;
 	#endif
 	#ifdef LAUNCHPAD
-	LaunchpadBindingDriver *drv;
+	LaunchpadBindingDriver *drv = NULL;
 	#endif
 	#if defined(OSCTEST_MODULE)
-	OSCDriver *oscDrv;
+	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
 

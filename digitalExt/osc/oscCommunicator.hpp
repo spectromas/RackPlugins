@@ -116,21 +116,21 @@ private:
 		if(hMapFile != NULL)
 		{
 #ifdef DEBUG
-			info("file mapping opened, buff size = %i", b_l);
+			INFO("file mapping opened, buff size = %i", b_l);
 #endif
 			void *p = MapViewOfFile(hMapFile, FILE_MAP_READ | FILE_MAP_WRITE, 0, 0, rawsize);
 #ifdef DEBUG
 			if(p == NULL)
-				info("MapViewOfFile failed");
+				INFO("MapViewOfFile failed");
 			else
-				info("MapViewOfFile success, my scene is %i", m_myScene);
+				INFO("MapViewOfFile success, my scene is %i", m_myScene);
 #endif
 			if(p != NULL)
 			{
 				int offset = b_l * 2 * (m_myScene - 1);
 #ifdef DEBUG
-				info("wrBuffer[%i] @ offset = %i", m_myScene - 1, START_OF_BUFFER + offset);
-				info("rdBuffer[%i] @ offset = %i", m_myScene - 1, START_OF_BUFFER + b_l + offset);
+				INFO("wrBuffer[%i] @ offset = %i", m_myScene - 1, START_OF_BUFFER + offset);
+				INFO("rdBuffer[%i] @ offset = %i", m_myScene - 1, START_OF_BUFFER + b_l + offset);
 #endif
 				wrBuffer = new oscCircBuffer(b_l, p, START_OF_BUFFER + offset);
 				rdBuffer = new oscCircBuffer(b_l, p, START_OF_BUFFER + b_l + offset);
@@ -138,7 +138,7 @@ private:
 			pmemory = p;
 			pCommonMemory = (uint32_t *)p;
 #ifdef DEBUG
-			info("Opened OK");
+			INFO("Opened OK");
 #endif
 		}
 	}
@@ -152,7 +152,7 @@ private:
 			if(server == 0)
 			{
 #ifdef DEBUG
-				info("*** connection lost ***");
+				INFO("*** connection lost ***");
 #endif
 				deinit();
 			} else

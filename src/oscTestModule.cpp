@@ -19,7 +19,7 @@ OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget()
 	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
-		LightPanel *panel = new LightPanel();
+		SvgPanel *panel = new SvgPanel();
 		panel->box.size = box.size;
 		addChild(panel);
 	}
@@ -34,15 +34,13 @@ OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget()
 	ParamWidget *pctrl = createParam<Davies1900hBlackKnob>(Vec(20, 70), module, OscTest::POT1);
 	if(module != NULL)
 	{
-		oscControl *oc = new oscControl("/Knob1");
-		module->drv->Add(oc, pctrl);
+		module->drv->Add(new oscControl("/Knob1"), pctrl);
 	}
 	addParam(pctrl);     // rnd threshold
 	ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(60, 70), module, OscTest::LED1);
 	if(module != NULL)
 	{
-		oc = new oscControl("/Led1");
-		module->drv->Add(oc, plight);
+		module->drv->Add(new oscControl("/Led1"), plight);
 	}
 	addChild(plight);
 	
@@ -50,8 +48,7 @@ OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget()
 	pctrl = createParam<CKSS>(Vec(20, 20), module, OscTest::BTN1);
 	if(module != NULL)
 	{
-		oc = new oscControl("/Switch1");
-		module->drv->Add(oc, pctrl);
+		module->drv->Add(new oscControl("/Switch1"), pctrl);
 	}
 	addParam(pctrl);
 }

@@ -108,7 +108,7 @@ private:
 				if(msg.scene == m_scene && it->second->Intersect(msg.address))
 				{
 #ifdef DEBUG
-					info("MSG: scene=%i, address= %s", msg.scene, msg.address);
+					INFO("MSG: scene=%i, address= %s", msg.scene, msg.address);
 #endif
 					it->second->onOscMsg(pModule, msg);
 					break;
