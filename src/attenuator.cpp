@@ -6,8 +6,15 @@ void Attenuator::process(const ProcessArgs &args)
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
 		if(outputs[OUT_1 + k].isConnected())
-			outputs[OUT_1 + k].value = (inputs[IN_1 + k].value * params[ATT_1 + k].value)+params[OFFS_1 + k].value;
+			outputs[OUT_1 + k].value = (inputs[IN_1 + k].getVoltage() * params[ATT_1 + k].value)+params[OFFS_1 + k].value;
 	}
+
+	for(int k = 0; k < NUM_VLIMITERS; k++)
+	{
+		if(outputs[OUT_1 + k+NUM_ATTENUATORS].isConnected())
+			outputs[OUT_1 + k+NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k+NUM_ATTENUATORS].getVoltage(), params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
+	}
+
 }
 
 AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
@@ -26,9 +33,9 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	float y = yncscape(105.460, 8.255);
-	float ypot = yncscape(105.588, 8.0);
-	float delta_y = mm2px(114.0/NUM_ATTENUATORS);
+	float y = yncscape(104.285, 8.255);
+	float ypot = yncscape(104.413, 8.0);
+	float delta_y = mm2px(16.285);
 	
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
@@ -36,6 +43,18 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(11.558), ypot), module, Attenuator::OFFS_1+k));
 		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(21.612), ypot), module, Attenuator::ATT_1+k));
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1+k));
+		y += delta_y;
+		ypot += delta_y;
+	}
+	y += delta_y/2;
+	ypot += delta_y/2;
+
+	for(int k = 0; k < NUM_VLIMITERS; k++)
+	{
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(1.432), y), module, Attenuator::IN_1 + k+NUM_ATTENUATORS));
+		addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(11.558), ypot), module, Attenuator::LIM1_MIN+k));
+		addParam(createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(21.612), ypot), module, Attenuator::LIM1_MAX+k));
+		addOutput(createOutput<PJ301GPort>(Vec(mm2px(30.953), y), module, Attenuator::OUT_1+k+NUM_ATTENUATORS));
 		y += delta_y;
 		ypot += delta_y;
 	}

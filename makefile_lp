@@ -1,3 +1,4 @@
+# LAUNCHPAD-ENABLED compile script
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS += 
 CFLAGS +=
