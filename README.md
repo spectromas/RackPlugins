@@ -1,6 +1,5 @@
-# The XOR
-Plugins for your joy. Starting from this version (0.6.2), all inputs and outputs are
-color-coded as in this figure:
+# The XOR - Provisionally Entitled The Singing Version Uno
+All inputs and outputs are color-coded as in this figure:
 
 ![legend](/res/png/legenda.png?raw=true "legend")
 
