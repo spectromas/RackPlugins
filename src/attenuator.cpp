@@ -11,8 +11,12 @@ void Attenuator::process(const ProcessArgs &args)
 
 	for(int k = 0; k < NUM_VLIMITERS; k++)
 	{
-		if(outputs[OUT_1 + k+NUM_ATTENUATORS].isConnected())
-			outputs[OUT_1 + k+NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k+NUM_ATTENUATORS].getVoltage(), params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
+		if (outputs[OUT_1 + k + NUM_ATTENUATORS].isConnected())
+		{
+			float mi = std::min(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
+			float ma = std::max(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
+			outputs[OUT_1 + k + NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), mi, ma);
+		}
 	}
 
 }

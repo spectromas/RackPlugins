@@ -49,6 +49,7 @@ struct Boole : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < NUM_BOOL_OP; k++)
 		{
+			hiccup[k] = 0;
 			int index = 2 * k;
 			if(k > 0)
 				index--;
@@ -66,6 +67,7 @@ struct Boole : Module
 
 private:
 	bool process(int num_op, int index, bool hiz);
-	float getVoltage(int index, bool hiz);
+	float getVoltage(int index, int num_op, bool hiz);
 	const float THRESHOLD_MAX = 10.0;
+	unsigned char hiccup[NUM_BOOL_OP];
 };

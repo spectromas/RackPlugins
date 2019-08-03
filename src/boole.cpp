@@ -14,18 +14,33 @@ void Boole::process(const ProcessArgs &args)
 			bool o = process(k, index, hiz);
 			if(params[INVERT_1 + k].value > 0.1)
 				o = !o;
-			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = o ? 5.0 : 0.0;
+			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = o ? 5.0 : 0.0;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
 		} else
-			lights[LED_1+k+ 2 * NUM_BOOL_OP-1].value = 0.0;
+			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = 0.0;
 	}
 }
 
-float Boole::getVoltage(int index, bool hiz)
+float Boole::getVoltage(int index, int num_op, bool hiz)
 {
-	if(hiz && !inputs[index].isConnected())
-		return random::uniform() * 2.5;
-	else
+	if (hiz && !inputs[index].isConnected())
+	{
+		if(++hiccup[num_op] == 0)
+		{
+			float n = random::normal();
+			if (n > 2.1)
+				return random::uniform() * 9.2;
+			else if (n > 2.0)
+				return random::uniform() * 7.0;
+			else if (n > 1.0)
+				return random::uniform() * 5.0;
+			else if (n > 0.5)
+				return random::uniform() * 2.5;
+			else if (n < -1.0)
+				return random::uniform() * 1.0;
+		}
+		return 0;
+	} else
 		return inputs[index].getNormalVoltage(0.0);
 }
 
@@ -34,15 +49,15 @@ bool Boole::process(int num_op, int index, bool hiz)
 	bool x;
 	if(num_op == 0)	// not?
 	{
-		x = getVoltage(IN_1, hiz) > params[THRESH_1 ].value;
+		x = getVoltage(IN_1, num_op, hiz) > params[THRESH_1 ].value;
 		lights[LED_1].value = x ? 5.0 : 0.0;
 		return !x;
 	} else
 	{
-		x = getVoltage(IN_1 + index-1, hiz) > params[THRESH_1 + index-1].value;
+		x = getVoltage(IN_1 + index-1, num_op, hiz) > params[THRESH_1 + index-1].value;
 		lights[LED_1 + index - 1].value = x ? 5.0 : 0.0;
 	}
-	bool y = getVoltage(IN_1 + index, hiz) > params[THRESH_1 + index].value;
+	bool y = getVoltage(IN_1 + index, num_op, hiz) > params[THRESH_1 + index].value;
 	lights[LED_1 + index].value = y ? 5.0 : 0.0;
 		
 	switch(num_op)
@@ -132,6 +147,6 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 	}
 
 	addParam(createParam<CKSSFixH>(Vec(mm2px(47.847), yncscape(2.136, 3.704)), module, Boole::HIZ));
-	addChild(createLight<SmallLight<YellowLight>>(Vec(mm2px(54.166), yncscape(2.7, 2.176)), module, Boole::LED_HIZ ));
+	addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(54.166), yncscape(2.7, 2.176)), module, Boole::LED_HIZ ));
 }
 
