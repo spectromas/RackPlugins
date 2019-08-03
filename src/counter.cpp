@@ -1,4 +1,4 @@
-#include "Counter.hpp"
+#include "counter.hpp"
 
 void Counter::on_loaded()
 {
