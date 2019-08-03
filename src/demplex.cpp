@@ -1,5 +1,5 @@
 #include "common.hpp"
-#include "Demplex.hpp"
+#include "demplex.hpp"
 
 void Dmplex::on_loaded()
 {
