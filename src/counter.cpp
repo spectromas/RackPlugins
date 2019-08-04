@@ -65,7 +65,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 {
 	if(module != NULL)
 		module->setWidget(this);
-	box.size = Vec(10* RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	box.size = Vec(8* RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 	{
 		SvgPanel *panel = new SvgPanel();
 		panel->box.size = box.size;

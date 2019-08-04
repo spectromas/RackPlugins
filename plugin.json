@@ -1,145 +1,146 @@
 {
-  "slug": "TheXOR",
-  "name": "TheXOR",
-  "version": "1.0.1",
-  "license": "proprietary",
-  "brand": "TheXOR",
-  "author": "The XOR",
-  "authorEmail": "",
-  "authorUrl": "",
-  "pluginUrl": "",
-  "manualUrl": "",
-  "sourceUrl": "https://github.com/The-XOR/RackPlugins",
-  "donateUrl": "",
-  "modules": [
-    {
-      "slug": "Klee",
-      "name": "Klee",
-      "description": "Klee Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "M581",
-      "name": "M581",
-      "description": "581 Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "Z8K",
-      "name": "Z8K",
-      "description": "Z8000 Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "Renato",
-      "name": "Renato",
-      "description": "Renato Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "Spiralone",
-      "name": "Spiralone",
-      "description": "Spiral Sequencer",
-      "tags": [
-        "Sequencer"
-      ]
-    },
-    {
-      "slug": "Burst",
-      "name": "Burst",
-      "description": "",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "Uncertain",
-      "name": "Uncertain",
-      "description": "",
-      "tags": [
-        "Random"
-      ]
-    },
-    {
-      "slug": "PWMClock",
-      "name": "PWMClock",
-      "description": "PWM Clock Generator",
-      "tags": [
-        "Clock generator"
-      ]
-    },
-    {
-      "slug": "Quantizer",
-      "name": "Quantizer",
-      "description": "",
-      "tags": [
-        "Quantizer"
-      ]
-    },
-    {
-      "slug": "midyQuant",
-      "name": "midyQuant",
-      "description": "",
-      "tags": [
-        "MIDI Output"
-      ]
-    },
-    {
-      "slug": "AttAmp",
-      "name": "AttAmp",
-      "description": "",
-      "tags": [
-        "Attenuator",
-        "Amplifier"
-      ]
-    },
-    {
-      "slug": "Boole",
-      "name": "Boole",
-      "description": "",
-      "tags": [
-        "Logic"
-      ]
-    },
-    {
-      "slug": "XSwitch",
-      "name": "XSwitch",
-      "description": "",
-      "tags": [
-        "Switch"
-      ]
-    },
-    {
-      "slug": "Counter",
-      "name": "Counter",
-      "description": "",
-      "tags": [
-        "Utility"
-      ]
-    },
-    {
-      "slug": "Mplex",
-      "name": "Mplex",
-      "description": "Multiplexer",
-      "tags": [
-        "Switch"
-      ]
-    },
-    {
-      "slug": "Dmplex",
-      "name": "Dmplex",
-      "description": "Demultiplexer",
-      "tags": [
-        "Switch"
-      ]
-    }
-  ]
+	"slug": "TheXOR",
+	"name": "TheXOR",
+	"version": "1.0.1",
+	"license": "CC0-1.0",
+	"brand": "TheXOR",
+	"author": "The XOR",
+	"authorEmail": "",
+	"authorUrl": "",
+	"pluginUrl": "",
+	"manualUrl": "",
+	"sourceUrl": "https://github.com/The-XOR/RackPlugins",
+	"donateUrl": "",
+	"modules": [
+		{
+			"slug": "Klee",
+			"name": "Klee",
+			"description": "Klee Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
+			"slug": "M581",
+			"name": "M581",
+			"description": "581 Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
+			"slug": "Z8K",
+			"name": "Z8K",
+			"description": "Z8000 Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
+			"slug": "Renato",
+			"name": "Renato",
+			"description": "Renato Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
+			"slug": "Spiralone",
+			"name": "Spiralone",
+			"description": "Spiral Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
+			"slug": "Burst",
+			"name": "Burst",
+			"description": "",
+			"tags": [
+				"Utility"
+			]
+		},
+		{
+			"slug": "Uncertain",
+			"name": "Uncertain",
+			"description": "",
+			"tags": [
+				"Random"
+			]
+		},
+		{
+			"slug": "PWMClock",
+			"name": "PWMClock",
+			"description": "PWM Clock Generator",
+			"tags": [
+				"Clock generator"
+			]
+		},
+		{
+			"slug": "Quantizer",
+			"name": "Quantizer",
+			"description": "",
+			"tags": [
+				"Quantizer"
+			]
+		},
+		{
+			"slug": "midyQuant",
+			"name": "midyQuant",
+			"description": "",
+			"tags": [
+				"Quantizer",
+				"MIDI"
+			]
+		},
+		{
+			"slug": "AttAmp",
+			"name": "AttAmp",
+			"description": "",
+			"tags": [
+				"Attenuator",
+				"Amplifier"
+			]
+		},
+		{
+			"slug": "Boole",
+			"name": "Boole",
+			"description": "",
+			"tags": [
+				"Logic"
+			]
+		},
+		{
+			"slug": "XSwitch",
+			"name": "XSwitch",
+			"description": "",
+			"tags": [
+				"Switch"
+			]
+		},
+		{
+			"slug": "Counter",
+			"name": "Counter",
+			"description": "",
+			"tags": [
+				"Utility"
+			]
+		},
+		{
+			"slug": "Mplex",
+			"name": "Mplex",
+			"description": "Multiplexer",
+			"tags": [
+				"Switch"
+			]
+		},
+		{
+			"slug": "Dmplex",
+			"name": "Dmplex",
+			"description": "Demultiplexer",
+			"tags": [
+				"Switch"
+			]
+		}
+	]
 }
