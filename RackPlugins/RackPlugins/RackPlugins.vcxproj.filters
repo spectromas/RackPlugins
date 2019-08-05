@@ -202,6 +202,9 @@
     <None Include="..\..\res\modules\bene.svg">
       <Filter>res</Filter>
     </None>
+    <None Include="..\..\README.md">
+      <Filter>Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="include">
