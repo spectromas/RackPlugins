@@ -194,7 +194,7 @@ struct Klee : Module
 
 private:
 	KleeWidget *pWidget;
-	const float pulseTime = 0.002;      //2msec trigger
+	const float pulseTime = 0.1;      //2msec trigger
 	void showValues();
 	void sr_rotate();
 	bool chance();

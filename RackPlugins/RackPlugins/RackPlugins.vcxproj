@@ -16,7 +16,6 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v142</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
@@ -75,6 +74,7 @@
     <ClInclude Include="..\..\src\Spiralone.hpp" />
     <ClInclude Include="..\..\src\SpiraloneModule.hpp" />
     <ClInclude Include="..\..\src\sprlnSequencer.hpp" />
+    <ClInclude Include="..\..\src\nag.hpp" />
     <ClInclude Include="..\..\src\switch.hpp" />
     <ClInclude Include="..\..\src\uncert.hpp" />
     <ClInclude Include="..\..\src\Z8K.hpp" />
@@ -100,6 +100,7 @@
     <ClCompile Include="..\..\src\Sequencers.cpp" />
     <ClCompile Include="..\..\src\SpiraloneModule.cpp" />
     <ClCompile Include="..\..\src\sprlnSequencer.cpp" />
+    <ClCompile Include="..\..\src\nag.cpp" />
     <ClCompile Include="..\..\src\switch.cpp" />
     <ClCompile Include="..\..\src\uncert.cpp" />
     <ClCompile Include="..\..\src\Z8KModule.cpp" />
@@ -118,6 +119,7 @@
     <None Include="..\..\res\digitalLed_on.svg" />
     <None Include="..\..\res\KleeModule.svg" />
     <None Include="..\..\res\M581Module.svg" />
+    <None Include="..\..\res\modules\bene.svg" />
     <None Include="..\..\res\modules\Counter.svg" />
     <None Include="..\..\res\modules\dmplex.svg" />
     <None Include="..\..\res\Patternbtn_0.svg" />

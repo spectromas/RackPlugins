@@ -91,6 +91,11 @@ struct Davies1900hFixWhiteKnobSmall : _davies1900base
 	Davies1900hFixWhiteKnobSmall() : _davies1900base("res/Davies1900hWhiteSmall.svg") {}
 };
 
+struct Davies1900hFixBlackKnobSmall : _davies1900base
+{
+	Davies1900hFixBlackKnobSmall() : _davies1900base("res/Davies1900hBlackSmall.svg") {}
+};
+
 struct Davies1900hFixRedKnobSmall : _davies1900base
 {
 	Davies1900hFixRedKnobSmall() : _davies1900base("res/Davies1900hRedSmall.svg") {}

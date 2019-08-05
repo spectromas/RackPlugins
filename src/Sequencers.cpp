@@ -14,6 +14,7 @@
 #include "demplex.hpp"
 #include "switch.hpp"
 #include "counter.hpp"
+#include "nag.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -50,6 +51,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<Dmplex, DmplexWidget>("Dmplex"));
 	p->addModel(createModel<Counter, CounterWidget>("Counter"));
 	p->addModel(createModel<midyQuant, midyQuantWidget>("midyQuant"));
+	p->addModel(createModel<nag, nagWidget>("nag"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

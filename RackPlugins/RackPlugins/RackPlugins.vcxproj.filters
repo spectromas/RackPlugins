@@ -23,6 +23,7 @@
     <ClCompile Include="..\..\src\counter.cpp" />
     <ClCompile Include="..\..\src\quantizerTypes.cpp" />
     <ClCompile Include="..\..\src\midyQuant.cpp" />
+    <ClCompile Include="..\..\src\nag.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -118,6 +119,9 @@
     <ClInclude Include="..\..\src\counter.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\nag.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\counterSwitchPot.svg">
@@ -193,6 +197,9 @@
       <Filter>res</Filter>
     </None>
     <None Include="..\..\res\modules\Counter.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\modules\bene.svg">
       <Filter>res</Filter>
     </None>
   </ItemGroup>
