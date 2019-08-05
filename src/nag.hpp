@@ -202,7 +202,7 @@ struct nag : Module
 
 		configParam(DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK, MIN_DEGXCLOCK, "Degress x clock", "#");
 		theCounter = 0;
-		degreesXclock = counterRemaining = 1;
+		counterRemaining = 1;
 		#ifdef OSCTEST_MODULE
 		oscDrv = new OSCDriver(this, 6);
 		#endif
@@ -259,5 +259,4 @@ private:
 	SchmittTrigger2 clockTrig;
 	int theCounter;
 	int counterRemaining;
-	int degreesXclock;
 };

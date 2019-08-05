@@ -34,10 +34,11 @@ struct nagDisplay : OpenGlWidget
 		glLoadIdentity();
 		glRotatef(90.0f, 0.0f, 0.0f, 1.0f); //90 degree around x axis
 		glOrtho(-1.0, 1, -1.0, 1, -1.0, 1.0);
-		glLineWidth(width);
 
+		
 		// orologio
 		glBegin(GL_LINE_LOOP);
+		glLineWidth(2*width);
 		glColor3f(dg.r, dg.g, dg.b); //colore quadrante
 
 		for (int i = 0; i <= NUM_STEPS; i++) 
@@ -48,12 +49,13 @@ struct nagDisplay : OpenGlWidget
 			glVertex2f(x, y);
 		}
 		glEnd();
-
+		
 		// lancettona
+		glLineWidth(width);
 		float angle = (2 * M_PI * pmodule->getClock() / NUM_STEPS);
 		
-		glColor3f(dg.r, dg.g, dg.b); //colore lancetta
 		glBegin(GL_LINES);
+		glColor3f(dg.r, dg.g, dg.b); //colore lancetta
 		glVertex2f(0, 0);
 		glVertex2f(cos(angle), sin(angle));
 		glEnd();
@@ -108,7 +110,7 @@ void nag::reset()
 		sequencer[k].reset();
 	}
 	theCounter = 0;
-	degreesXclock = counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
+	counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
 }
 
 void nag::updateNags()
@@ -138,13 +140,10 @@ void nag::process(const ProcessArgs &args)
 		}
 
 		updateNags();
-		int degxclock = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
-		if (degxclock != degreesXclock)
-			counterRemaining = degreesXclock = degxclock;
-
+		
 		int clk = clockTrig.process(inputs[CLOCK].value); // 1=rise, -1=fall
 		if (clk == 1)
-			counterRemaining = degreesXclock;
+			counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
 
 		sclocca();
 	}
@@ -256,7 +255,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(185.932), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
 	}
 	
-	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(52.188), yncscape(12.631, 8.0)), module, nag::DEGXCLK);
+	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(40.702), yncscape(12.631, 8.0)), module, nag::DEGXCLK);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
@@ -266,9 +265,10 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 	}
 	#endif
 
-	addInput(createInput<PJ301YPort>(Vec(mm2px(39.516), yncscape(37.2818, 8.255)), module, nag::RESET));
-	addInput(createInput<PJ301RPort>(Vec(mm2px(39.516), yncscape(24.892, 8.255)), module, nag::CLOCK));
-	addInput(createInput<PJ301GRPort>(Vec(mm2px(39.516), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
+	addInput(createInput<PJ301YPort>( Vec(mm2px(55.235), yncscape(37.2818, 8.255)), module, nag::RESET));
+	addInput(createInput<PJ301RPort>( Vec(mm2px(55.235), yncscape(24.892, 8.255)), module, nag::CLOCK));
+	addInput(createInput<PJ301GRPort>(Vec(mm2px(55.235), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
+
 	addInput(createInput<PJ301HPort>(Vec(mm2px(16.841), yncscape(24.892, 8.255)), module, nag::RANDOMIZONE));
 
 	if (module != NULL)
