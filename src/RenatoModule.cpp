@@ -220,11 +220,11 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	float groupdist_h = 47.343;
 	float groupdist_v = -27.8;
 	float x_sup[4] = {7.899, 18.293, 28.687, 39.330};
-	float x_inf[4] = {7.899, 18.293, 28.687, 38.695};
+	float x_inf[4] = {9.788, 20.182, 30.576, 38.695};
 	float x_led = 46.981;
 	float y_led = 97.848;
 	float y_sup = 100.419;
-	float y_inf = 90.196;
+	float y_inf = 92.021;
 	float y_pot = 89.561;
 
 	for(int r = 0; r < 4; r++)
@@ -237,7 +237,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[2] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::GATEY_IN1 + n));
 			addOutput(createOutput<PJ301WPort>(Vec(mm2px(x_sup[3] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::CV_OUTSTEP1 + n));
 
-			ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[0]+c*groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::ACCESS_1 + n);
+			ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[0]+c*groupdist_h), yncscape(y_inf + r * groupdist_v, 6.607)), module, Renato::ACCESS_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
 			if(module != NULL)
@@ -253,7 +253,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			}
 			#endif
 
-			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[1] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEX_1 + n);
+			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[1] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 6.607)), module, Renato::GATEX_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
 			if(module != NULL)
@@ -269,7 +269,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			}
 			#endif
 
-			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[2] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 8.255)), module, Renato::GATEY_1 + n);
+			pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[2] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 6.607)), module, Renato::GATEY_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
 			if(module != NULL)
@@ -285,7 +285,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 			}
 			#endif
 			
-			pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(x_inf[3] + c * groupdist_h), yncscape(y_pot + r * groupdist_v, 9.525)), module, Renato::VOLTAGE_1 + n);
+			pwdg = createParam<Davies1900hFixRedKnob>(Vec(mm2px(x_inf[3] + c * groupdist_h), yncscape(y_pot + r * groupdist_v, 9.525)), module, Renato::VOLTAGE_1 + n);
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{

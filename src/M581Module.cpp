@@ -349,7 +349,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		display->mode = module->getAddress(0);
 	}
 	addChild(display);
-	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
+	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	addParam(pwdg);
 	#ifdef LAUNCHPAD

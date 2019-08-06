@@ -36,13 +36,13 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 44,
+      "leftModuleId": 40,
       "rightModuleId": 45,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        40,
+        18,
         1
       ]
     },
@@ -163,7 +163,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        63,
+        41,
         1
       ]
     },
@@ -568,7 +568,7 @@
         },
         {
           "id": 39,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 40,
@@ -652,7 +652,7 @@
         }
       ],
       "leftModuleId": 32,
-      "rightModuleId": 40,
+      "rightModuleId": 37,
       "data": {
         "theRandomizer": 0
       },
@@ -821,11 +821,12 @@
         }
       ],
       "leftModuleId": 27,
+      "rightModuleId": 43,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        103,
+        81,
         1
       ]
     },
@@ -867,13 +868,13 @@
       "version": "1.0.3",
       "model": "Quantizer",
       "params": [],
-      "leftModuleId": 40,
+      "leftModuleId": 33,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        126,
+        114,
         0
       ]
     },
@@ -1155,7 +1156,7 @@
       "rightModuleId": 39,
       "data": {},
       "pos": [
-        0,
+        2,
         2
       ]
     },
@@ -1379,12 +1380,12 @@
         }
       ],
       "leftModuleId": 38,
-      "rightModuleId": 43,
+      "rightModuleId": 41,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        39,
+        41,
         2
       ]
     },
@@ -1411,12 +1412,11 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 33,
-      "rightModuleId": 37,
+      "rightModuleId": 26,
       "data": {},
       "pos": [
-        114,
-        0
+        6,
+        1
       ]
     },
     {
@@ -1490,10 +1490,10 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 43,
+      "leftModuleId": 39,
       "data": {},
       "pos": [
-        100,
+        92,
         2
       ]
     },
@@ -1544,130 +1544,9 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 39,
-      "rightModuleId": 41,
+      "leftModuleId": 34,
       "pos": [
-        90,
-        2
-      ]
-    },
-    {
-      "id": 44,
-      "plugin": "TheXOR",
-      "version": "1.0.3",
-      "model": "nag",
-      "params": [
-        {
-          "id": 0,
-          "value": 1.0
-        },
-        {
-          "id": 1,
-          "value": 0.0
-        },
-        {
-          "id": 2,
-          "value": 0.0
-        },
-        {
-          "id": 3,
-          "value": 0.0
-        },
-        {
-          "id": 4,
-          "value": 0.0
-        },
-        {
-          "id": 5,
-          "value": 0.0
-        },
-        {
-          "id": 6,
-          "value": 0.0
-        },
-        {
-          "id": 7,
-          "value": 1.0
-        },
-        {
-          "id": 8,
-          "value": 1.0
-        },
-        {
-          "id": 9,
-          "value": 1.0
-        },
-        {
-          "id": 10,
-          "value": 1.0
-        },
-        {
-          "id": 11,
-          "value": 1.0
-        },
-        {
-          "id": 12,
-          "value": 1.0
-        },
-        {
-          "id": 13,
-          "value": 0.0
-        },
-        {
-          "id": 14,
-          "value": 0.0
-        },
-        {
-          "id": 15,
-          "value": 0.0
-        },
-        {
-          "id": 16,
-          "value": 0.0
-        },
-        {
-          "id": 17,
-          "value": 0.0
-        },
-        {
-          "id": 18,
-          "value": 0.0
-        },
-        {
-          "id": 19,
-          "value": 0.0
-        },
-        {
-          "id": 20,
-          "value": 0.0
-        },
-        {
-          "id": 21,
-          "value": 0.0
-        },
-        {
-          "id": 22,
-          "value": 0.0
-        },
-        {
-          "id": 23,
-          "value": 0.0
-        },
-        {
-          "id": 24,
-          "value": 0.0
-        },
-        {
-          "id": 25,
-          "value": 0.0
-        }
-      ],
-      "rightModuleId": 26,
-      "data": {
-        "theRandomizer": 0
-      },
-      "pos": [
-        0,
+        110,
         1
       ]
     },
@@ -1688,7 +1567,7 @@
         }
       },
       "pos": [
-        55,
+        33,
         1
       ]
     }
