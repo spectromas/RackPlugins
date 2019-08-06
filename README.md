@@ -7,8 +7,12 @@ all input and output ports are color-coded as in figure:
 
 common characteristics:
 - no user manuals, and they will never be
-- ugly interface because a) i am not able and b) i am not interested in
+- ugly interface because a) i am not able and b) i am not interested in 
 - totally, miserably, hopelessy free. 
+
+this new version implements a new revision of the motherboard. the new bipolar transistors
+allow negative voltages to flow, resulting in an wider range (0V to 10V or -10V to 10V).
+the previous patches may sound different due to this new design. 
 
 # klee
 a rather complete klee sequencer, with some enhancements...
