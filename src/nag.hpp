@@ -167,7 +167,8 @@ struct nag : Module
 		VERTEX_1 = ENABLE_1 + NUM_NAGS,
 		ROTATE_1 = VERTEX_1 + NUM_NAGS,
 		SKEW_1 = ROTATE_1 + NUM_NAGS,
-		NUM_PARAMS = SKEW_1 + NUM_NAGS
+		DEGMODE = SKEW_1 + NUM_NAGS,
+		NUM_PARAMS
 	};
 	enum InputIds
 	{
@@ -189,7 +190,8 @@ struct nag : Module
 	{
 		LED_1,
 		ON_1= LED_1 +NUM_NAGS,
-		NUM_LIGHTS = ON_1 + NUM_NAGS
+		LED_DEGMODE = ON_1 + NUM_NAGS,
+		NUM_LIGHTS 
 	};
 
 	nag() : Module()
@@ -253,7 +255,7 @@ private:
 	int getInput(int index, int input_id, int knob_id, float mi, float ma);
 	void reset();
 	void updateNags(float dt);
-	void sclocca(float dt);
+	void sclocca(bool dm, float dt);
 	void randrandrand(int action);
 	void randrandrand();
 	void on_loaded();

@@ -149,7 +149,9 @@ void nag::process(const ProcessArgs &args)
 			if (rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
-		
+		bool dm = params[DEGMODE].value > 0.1;
+		lights[LED_DEGMODE].value = dm ? 5.0 : 0.0;
+
 		float deltaTime = 1.0 / args.sampleRate;
 		updateNags(deltaTime);
 
@@ -158,7 +160,7 @@ void nag::process(const ProcessArgs &args)
 		{
 			counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
 		}
-		sclocca(deltaTime);
+		sclocca(dm, deltaTime);
 	}
 #ifdef DIGITAL_EXT
 	bool dig_connected = false;
@@ -172,12 +174,20 @@ void nag::process(const ProcessArgs &args)
 #endif
 }
 
-void nag::sclocca(float dt)
-{
+void nag::sclocca(bool dm, float dt)
+{	
 	if(counterRemaining > 0)
 	{
-		counterRemaining--;
-		theCounter = (theCounter + 1) % NUM_STEPS;
+		if (!dm)
+		{
+			counterRemaining--;
+			theCounter = (theCounter + 1) % NUM_STEPS;
+		}
+		else
+		{
+			theCounter = (theCounter + counterRemaining) % NUM_STEPS;
+			counterRemaining = 0;
+		}
 		for (int k = 0; k < NUM_NAGS; k++)
 		{
 			outputs[OUT_1 + k].value = sequencer[k].bang(theCounter, dt) ? LVL_ON : LVL_OFF;
@@ -283,6 +293,8 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(55.235), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(16.841), yncscape(24.892, 8.255)), module, nag::RANDOMIZONE));
+	addParam(createParam<CKSSFixH>(Vec(mm2px(49.115), yncscape(5.359, 3.704)), module, nag::DEGMODE));
+	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(58.152), yncscape(6.123, 2.176)), module, nag::LED_DEGMODE));
 
 	if (module != NULL)
 	{
