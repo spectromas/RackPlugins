@@ -14,7 +14,7 @@
    viewBox="0 0 9.5249996 9.5249995"
    version="1.1"
    id="svg16908"
-   inkscape:version="0.92.3 (2405546, 2018-03-11)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="Davies1900hWhite.svg">
   <defs
      id="defs16902">
@@ -35,10 +35,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="-138.16244"
-     inkscape:cy="8.8255993"
+     inkscape:cx="-94.170095"
+     inkscape:cy="8.8204068"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g6455"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -58,7 +58,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -66,25 +66,26 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-231.61419,-123.05105)">
+     transform="translate(-231.61419,-123.05105)"
+     style="display:inline">
     <g
        id="g2004"
        transform="matrix(0.2645804,0,0,-0.2645804,-126.59926,753.88997)"
-       style="stroke-width:1.33334816">
+       style="display:inline;stroke-width:1.33334816">
       <g
          transform="translate(1389.8926,2366.2998)"
          id="g6455"
-         style="stroke-width:1.33334816">
+         style="display:inline;stroke-width:1.33334816">
         <path
            inkscape:connector-curvature="0"
            id="path6457"
-           style="fill:#d6d6d6;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.33334816"
+           style="display:inline;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:1.33334816"
            d="m 0,0 c 0,-9.941 -8.059,-18 -18,-18 -9.941,0 -18,8.059 -18,18 0,9.941 8.059,18 18,18 C -8.059,18 0,9.941 0,0" />
       </g>
       <g
          transform="translate(1389.791,2368.2021)"
          id="g6459"
-         style="stroke-width:1.33334816">
+         style="display:inline;stroke-width:1.33334816">
         <path
            inkscape:connector-curvature="0"
            id="path6461"

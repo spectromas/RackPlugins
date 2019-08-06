@@ -7,14 +7,6 @@
 #define SWING_MINVALUE (0.0)
 #define SWING_MAXVALUE (0.5)
 
-struct Rogan1PSRedSmall : Rogan
-{
-	Rogan1PSRedSmall()
-	{
-		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Rogan2PSRedSmall.svg")));
-	}
-};
-
 #define OUT_SOCKETS (21)
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget

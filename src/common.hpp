@@ -305,38 +305,6 @@ struct NKK2 : app::SvgSwitch
 	}
 };
 
-struct BefacoSnappedSwitch : app::SvgSwitch 
-{
-	void randomize() override
-	{
-		if(random::uniform() >= 0.5)
-			paramQuantity->setValue(1.0);
-		else
-			paramQuantity->setValue(0.0);
-	}
-
-	BefacoSnappedSwitch()
-	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_2.svg")));
-	}
-};
-
-struct BefacoSnappedSwitch3 : app::SvgSwitch
-{
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-
-	BefacoSnappedSwitch3()
-	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_1.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_2.svg")));
-	}
-};
-
 struct VerticalSwitch : SvgSlider 
 {
 	VerticalSwitch()
@@ -529,10 +497,5 @@ private:
 	float stopwatch;
 };
 
-	inline float px2mm(float px) {
-		return px * (MM_PER_IN / SVG_DPI );
-	}
-	inline float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
+inline float px2mm(float px) {return px * (MM_PER_IN / SVG_DPI ); }
+inline float yncscape(float y, float height) {	return RACK_GRID_HEIGHT - mm2px(y + height);}
