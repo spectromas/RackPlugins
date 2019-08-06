@@ -5,8 +5,12 @@
 #include <sstream>
 #include <iomanip>
 
-#define LVL_ON    (10.0)
-#define LVL_OFF   (0.0)
+#define LVL_MIN   (-10.0f)
+#define LVL_MAX   (10.0f)
+#define LVL_OFF   (0.0f)
+#define LVL_ON    (10.0f)
+#define LED_OFF    (0.0f)
+#define LED_ON    (5.0f)
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -389,11 +393,7 @@ protected:
 	{
 		setModule(module);
 	}
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
-
+	
 	int getParamIndex(int index)
 	{
 		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramQuantity->paramId == index; });
@@ -531,4 +531,8 @@ private:
 
 	inline float px2mm(float px) {
 		return px * (MM_PER_IN / SVG_DPI );
+	}
+	inline float yncscape(float y, float height)
+	{
+		return RACK_GRID_HEIGHT - mm2px(y + height);
 	}

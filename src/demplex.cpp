@@ -49,21 +49,30 @@ void Dmplex::process(const ProcessArgs &args)
 	if(reset.process(inputs[RESET].value))
 	{
 		set_output( 0);
-	} else if(random.process(inputs[RANDOM].value))
-	{
-		set_output(getRand(num_outputs_f));
-	} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
-	{
-		if(++cur_sel >= num_outputs)
-			cur_sel = 0;
-		set_output(cur_sel);
-	} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
-	{
-		if(--cur_sel < 0)
-			cur_sel = num_outputs-1;
-		set_output(cur_sel);
 	}
-
+	else if (inputs[CV].isConnected())
+	{
+		cur_sel = (int)roundf(rescale(clamp(inputs[CV].getNormalVoltage(0.0), LVL_OFF, LVL_ON), LVL_OFF, LVL_ON, 0, num_outputs-1));
+		set_output(cur_sel);
+	} else
+	{ 
+		if (random.process(inputs[RANDOM].value))
+		{
+			set_output(getRand(num_outputs_f));
+		}
+		else if (upTrigger.process(params[BTDN].value + inputs[INDN].value))
+		{
+			if (++cur_sel >= num_outputs)
+				cur_sel = 0;
+			set_output(cur_sel);
+		}
+		else if (dnTrigger.process(params[BTUP].value + inputs[INUP].value))
+		{
+			if (--cur_sel < 0)
+				cur_sel = num_outputs - 1;
+			set_output(cur_sel);
+		}
+	}
 	outputs[OUT_1+cur_sel].value = inputs[IN_1].value;
 }
 
@@ -91,8 +100,9 @@ DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 	
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(3.558), yncscape(60.122, 8.255)), module, Dmplex::IN_1));
 
-	addInput(createInput<PJ301YPort>(Vec(mm2px(3.558), yncscape(92.529,8.255)), module, Dmplex::RESET));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(27.716, 8.255)), module, Dmplex::RANDOM));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(3.558), yncscape(108.243,8.255)), module, Dmplex::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(96.422, 8.255)), module, Dmplex::RANDOM));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(3.558), yncscape(19.939, 8.255)), module, Dmplex::CV));
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(3.127), yncscape(10.727,4.115)), module, Dmplex::OUTPUT_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(3.127), yncscape(5.926, 4.115)), module, Dmplex::OUTPUT_DEC));

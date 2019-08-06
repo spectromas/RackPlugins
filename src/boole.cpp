@@ -4,7 +4,7 @@
 void Boole::process(const ProcessArgs &args)
 {
 	bool hiz = params[HIZ].value > 0.1;
-	lights[LED_HIZ].value = hiz ? 5.0 : 0.0;
+	lights[LED_HIZ].value = hiz ? LED_ON : LED_OFF;
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
@@ -14,7 +14,7 @@ void Boole::process(const ProcessArgs &args)
 			bool o = process(k, index, hiz);
 			if(params[INVERT_1 + k].value > 0.1)
 				o = !o;
-			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = o ? 5.0 : 0.0;
+			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = o ? LED_ON : LED_OFF;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
 		} else
 			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = 0.0;
@@ -50,15 +50,15 @@ bool Boole::process(int num_op, int index, bool hiz)
 	if(num_op == 0)	// not?
 	{
 		x = getVoltage(IN_1, num_op, hiz) > params[THRESH_1 ].value;
-		lights[LED_1].value = x ? 5.0 : 0.0;
+		lights[LED_1].value = x ? LED_ON : LED_OFF;
 		return !x;
 	} else
 	{
 		x = getVoltage(IN_1 + index-1, num_op, hiz) > params[THRESH_1 + index-1].value;
-		lights[LED_1 + index - 1].value = x ? 5.0 : 0.0;
+		lights[LED_1 + index - 1].value = x ? LED_ON : LED_OFF;
 	}
 	bool y = getVoltage(IN_1 + index, num_op, hiz) > params[THRESH_1 + index].value;
-	lights[LED_1 + index].value = y ? 5.0 : 0.0;
+	lights[LED_1 + index].value = y ? LED_ON : LED_OFF;
 		
 	switch(num_op)
 	{	

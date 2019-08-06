@@ -59,14 +59,7 @@ struct nagWidget : SequencerWidget
 		}
 	private:
 		Module *ng;
-
 	};
-
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct NagSeq 
@@ -196,8 +189,10 @@ struct nag : Module
 
 	nag() : Module()
 	{		
-		theRandomizer = 0;
 		pWidget = NULL;
+		counterRemaining = 0;
+		theCounter = 0;
+		theRandomizer = 0;
 		const NVGcolor SCHEME_CYAN2 = nvgRGB(0x32, 0x26, 0x4f);
 		const NVGcolor SCHEME_BLUE2 = nvgRGB(0x19, 0xd2, 0xff);
 		NVGcolor colors[NUM_NAGS] = { SCHEME_RED, SCHEME_CYAN2, SCHEME_BLUE2,SCHEME_GREEN, SCHEME_PURPLE,SCHEME_YELLOW };
@@ -212,8 +207,6 @@ struct nag : Module
 		}
 
 		configParam(DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK, MIN_DEGXCLOCK, "Degress x clock", "#");
-		theCounter = 0;
-		counterRemaining = 1;
 		#ifdef OSCTEST_MODULE
 		oscDrv = new OSCDriver(this, 6);
 		#endif

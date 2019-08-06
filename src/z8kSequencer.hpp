@@ -37,9 +37,17 @@ public:
 
 		pOutput->value = sequence[curStep]->value + transpose;
 		for(int k = 0; k < numSteps; k++)
-			leds[k]->value = k == curStep ? 10.0 : 0;
+			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 
 		return chain[curStep];
+	}
+
+	z8kSequencer()
+	{
+		pReset = NULL;
+		pDirection = NULL;
+		pClock = NULL;
+		pOutput = NULL;
 	}
 
 private:

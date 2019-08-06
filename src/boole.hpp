@@ -11,11 +11,6 @@ struct Boole;
 struct BooleWidget : ModuleWidget
 {
 	BooleWidget(Boole * module);
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct Boole : Module
@@ -55,11 +50,11 @@ struct Boole : Module
 				index--;
 
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
-			configParam(Boole::THRESH_1 + index, 0.0, THRESHOLD_MAX, 0.0, "Threshold", "V");
+			configParam(Boole::THRESH_1 + index, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
 			if(k > 0)
 			{
 				index++;
-				configParam(Boole::THRESH_1 + index, 0.0, THRESHOLD_MAX, 0.0, "Threshold", "V");
+				configParam(Boole::THRESH_1 + index, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
 			}
 		}
 	}
@@ -68,6 +63,5 @@ struct Boole : Module
 private:
 	bool process(int num_op, int index, bool hiz);
 	float getVoltage(int index, int num_op, bool hiz);
-	const float THRESHOLD_MAX = 10.0;
 	unsigned char hiccup[NUM_BOOL_OP];
 };

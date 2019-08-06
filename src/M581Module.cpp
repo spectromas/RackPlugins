@@ -123,8 +123,8 @@ void M581::showCurStep(int cur_step, int sub_div)
 	int sled = sub_div;
 	for(int k = 0; k < 8; k++)
 	{
-		lights[LED_STEP + k].value = k == lled ? 1.0 : 0.0;
-		lights[LED_SUBDIV + k].value = k == sled ? 1.0 : 0.0;
+		lights[LED_STEP + k].value = k == lled ? LED_ON : LED_OFF;
+		lights[LED_SUBDIV + k].value = k == sled ? LED_ON : LED_OFF;
 	}
 }
 
@@ -285,7 +285,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#endif
 
 	// volt fondo scala
-	pwdg = createParam<CKSSFix>(Vec(mm2px(7.066), yncscape(114.224, 5.460)), module, M581::MAXVOLTS);
+	pwdg = createParam<CKSSFix>(Vec(mm2px(5.489), yncscape(114.224, 5.460)), module, M581::MAXVOLTS);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if (module != NULL)
@@ -410,7 +410,7 @@ bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENA
 bool ParamGetter::IsSlide(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 1.0; }
 int ParamGetter::GateMode(int numstep) { return std::round(pModule->params[M581::GATE_SWITCH + numstep].value); }
 int ParamGetter::PulseCount(int numstep) { return std::round(pModule->params[M581::COUNTER_SWITCH + numstep].value); }
-float ParamGetter::Note(int numstep) { return pModule->params[M581::STEP_NOTES + numstep].value * (pModule->params[M581::MAXVOLTS].value > 0 ? 7.0 : 3.0); }
+float ParamGetter::Note(int numstep) { return clamp(pModule->params[M581::STEP_NOTES + numstep].value * (pModule->params[M581::MAXVOLTS].value > 0 ? LVL_ON : LVL_ON/2), LVL_OFF, LVL_ON); }
 int ParamGetter::RunMode() { return std::round(pModule->params[M581::RUN_MODE].value); }
 int ParamGetter::NumSteps() { return std::round(pModule->params[M581::NUM_STEPS].value); }
 float ParamGetter::SlideTime() { return pModule->params[M581::SLIDE_TIME].value; }

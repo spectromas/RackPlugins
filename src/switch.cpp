@@ -14,13 +14,14 @@ void XSwitch::process(const ProcessArgs &args)
 		{
 			if(outputs[OUT_1 + k].isConnected() && getSwitch(k))
 			{
-				lights[LED_1 + k].value = 10;
+				lights[LED_1 + k].value = LED_ON;
 				outputs[OUT_1 + k].value = last_value;
 				continue;
 			}
 		}
 
-		lights[LED_1 + k].value = outputs[OUT_1 + k].value = 0;
+		lights[LED_1 + k].value = LED_OFF;
+		outputs[OUT_1 + k].value = LVL_OFF;
 	}
 }
 

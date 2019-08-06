@@ -183,17 +183,17 @@ void Klee::populate_outputs()
 		if(shiftRegister.B[k])
 			b += params[PITCH_KNOB + k + 8].value*mult;
 	}
-	outputs[CV_A].value = a;
-	outputs[CV_B].value = b;
-	outputs[CV_AB].value = a + b;
-	outputs[CV_A__B].value = a - b;
+	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
+	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
+	outputs[CV_AB].value = clamp(a + b, LVL_MIN, LVL_MAX);
+	outputs[CV_A__B].value = clamp(a - b, LVL_MIN, LVL_MAX);
 }
 
 void Klee::showValues()
 {
 	for(int k = 0; k < 16; k++)
 	{
-		lights[LED_PITCH + k].value = shiftRegister.P[k] ? 1.0 : 0;
+		lights[LED_PITCH + k].value = shiftRegister.P[k] ? LED_ON : LED_OFF;
 	}
 
 	for(int k = 0; k < 3; k++)

@@ -8,6 +8,7 @@ all input and output ports are color-coded as in figure:
 common characteristics:
 - no user manuals, and they will never be
 - ugly interface because a) i am not able and b) i am not interested in
+- totally, miserably, hopelessy free. 
 
 # klee
 a rather complete klee sequencer, with some enhancements...

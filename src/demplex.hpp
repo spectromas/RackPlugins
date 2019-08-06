@@ -13,11 +13,6 @@ struct Dmplex;
 struct DmplexWidget : ModuleWidget
 {
 	DmplexWidget(Dmplex * module);
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct Dmplex : Module
@@ -35,6 +30,7 @@ struct Dmplex : Module
 		RESET,
 		RANDOM,
 		IN_1,		
+		CV,
 		NUM_INPUTS 
 	};
 	enum OutputIds

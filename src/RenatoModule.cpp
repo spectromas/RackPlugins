@@ -11,7 +11,7 @@ void Renato::led(int l)
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			lights[LED_1 + n].value = l == n ? 10.0 : 0.0; 
+			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF; 
 		}
 	}
 }
@@ -23,7 +23,7 @@ void Renato::setOut(int l, bool on)
 		for (int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			lights[LED_1 + n].value = l == n ? 10.0 : 0.0;
+			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF;
 			outputs[CV_OUTSTEP1 + n].value = (on && l == n) ? LVL_ON : LVL_OFF;
 		}
 	}

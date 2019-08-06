@@ -62,10 +62,12 @@ public:
 	{
 		if(clk == 1)  // rise
 		{
-			led->value = output->value = LVL_ON;
+			led->value = LED_ON;
+			output->value = LVL_ON;
 		} else if(clk == -1) // fall
 		{
-			led->value = output->value = LVL_OFF;
+			led->value = LED_OFF;
+			output->value = LVL_OFF;
 		}
 
 		return (output->value == LVL_ON);

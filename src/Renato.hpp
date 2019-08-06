@@ -85,7 +85,7 @@ struct Renato : Module
 				configParam(Renato::ACCESS_1 + n, 0.0, 1.0, 1.0);
 				configParam(Renato::GATEX_1 + n, 0.0, 1.0, 1.0);
 				configParam(Renato::GATEY_1 + n, 0.0, 1.0, 1.0);
-				configParam(Renato::VOLTAGE_1 + n, 0.0, 7.0, 1.0, "Voltage", "V");	
+				configParam(Renato::VOLTAGE_1 + n, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
 			}
 		}
 		#ifdef LAUNCHPAD

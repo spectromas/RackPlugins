@@ -130,7 +130,7 @@ struct Klee : Module
 		configParam(Klee::X28_X16, 0.0, 1.0, 0.0);
 		configParam(Klee::RND_PAT, 0.0, 1.0, 0.0);
 		configParam(Klee::B_INV, 0.0, 1.0, 0.0);
-		configParam(Klee::RANGE, 0.0001, 5.0, 1.0);
+		configParam(Klee::RANGE, 0.0001, LVL_MAX, 1.0);
 		configParam(Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
 
 		for(int k = 0; k < 8; k++)

@@ -29,10 +29,10 @@ void Uncertain::out_quantized(int clk)
 {
 	if(clk == 1)
 	{
-		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0)+1;
+		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, LVL_OFF, LVL_ON)+1;
 		outputs[OUT_QUANTIZED_N1].value = roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position));		// 1V
 		float n2= roundf(rescale(random::uniform(), 0.0, 1.0, 1.0, 2 << position));
-		outputs[OUT_QUANTIZED_2N].value = clamp(Uncertain::SEMITONE*n2, 0.0, 10.0);
+		outputs[OUT_QUANTIZED_2N].value = clamp(Uncertain::SEMITONE*n2, LVL_OFF, LVL_ON);
 	}
 }
 
@@ -40,25 +40,25 @@ void Uncertain::out_stored(int clk)
 {
 	if(clk == 1)
 	{
-		outputs[OUT_STORED_RND].value = clamp(roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, 1000.0)) * MIN_VOLTAGE, 0.0,10.0);
+		outputs[OUT_STORED_RND].value = clamp(roundf(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, LVL_ON)), LVL_OFF, LVL_ON);
 		outputs[OUT_STORED_BELL].value = rndGaussianVoltage();
 	}
 }
 
 float Uncertain::rndGaussianVoltage()
 {
-	float mu = getFloat(STORED_AMT, IN_STORED, MIN_VOLTAGE, MAX_VOLTAGE);
+	float mu = getFloat(STORED_AMT, IN_STORED, LVL_OFF, LVL_MAX);
 	float sigma = getFloat(CURVEAMP_AMT, IN_CURVEAMP, 0.01, 2.0);
 	float u1 = 1.0 - random::uniform();
 	float u2 = 1.0 - random::uniform();
 	float randStdNormal = sqrtf(-2.0 * logf(u1)) * sinf(2.0 * M_PI * u2); //random normal(0,1)
-	return clamp(mu + sigma * randStdNormal, MIN_VOLTAGE, MAX_VOLTAGE);
+	return clamp(mu + sigma * randStdNormal, LVL_OFF, LVL_MAX);
 }
 
 float Uncertain::rndFluctVoltage() 
 { 
-	float vmax = getFloat(FLUCT_AMT, IN_FLUCT, MIN_VOLTAGE, MAX_VOLTAGE);
-	return clamp(rescale(random::uniform(), 0.0, 1.0, MIN_VOLTAGE, vmax), MIN_VOLTAGE, MAX_VOLTAGE);
+	float vmax = getFloat(FLUCT_AMT, IN_FLUCT, LVL_OFF, LVL_MAX);
+	return clamp(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, vmax), LVL_OFF, LVL_MAX);
 }
 
 void Uncertain::out_fluct(int clk)
@@ -95,7 +95,7 @@ void Uncertain::out_fluct(int clk)
 			{
 				clock_t elapsed = clock() - fluctParams.tStart;
 				float v = fluctParams.vA + fluctParams.deltaV * elapsed;
-				outputs[OUT_FLUCT].value = clamp(v, MIN_VOLTAGE, MAX_VOLTAGE);
+				outputs[OUT_FLUCT].value = clamp(v, LVL_OFF, LVL_MAX);
 			}
 		}
 		break;
@@ -104,7 +104,7 @@ void Uncertain::out_fluct(int clk)
 
 float Uncertain::getFloat(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
 {
-	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, 0.0, 5.0, minValue, maxValue) : 0.0;
+	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
 	return clamp(offs + params[p_id].value, minValue, maxValue);
 }
 

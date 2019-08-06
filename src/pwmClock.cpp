@@ -132,13 +132,13 @@ void PwmClock::process(const ProcessArgs &args)
 
 float PwmClock::getPwm()
 {
-	float offs = inputs[PWM_IN].isConnected() ? rescale(inputs[PWM_IN].value, 0.0, 5.0, PWM_MINVALUE, PWM_MAXVALUE) : 0.0;
+	float offs = inputs[PWM_IN].isConnected() ? rescale(inputs[PWM_IN].value, LVL_OFF, LVL_ON, PWM_MINVALUE, PWM_MAXVALUE) : 0.0;
 	return clamp(offs + params[PWM].value, PWM_MINVALUE, PWM_MAXVALUE);
 }
 
 float PwmClock::getSwing()
 {
-	float offs = inputs[SWING_IN].isConnected() ? rescale(inputs[SWING_IN].value, 0.0, 5.0, SWING_MINVALUE, SWING_MAXVALUE) : 0.0;
+	float offs = inputs[SWING_IN].isConnected() ? rescale(inputs[SWING_IN].value, LVL_OFF, LVL_ON, SWING_MINVALUE, SWING_MAXVALUE) : 0.0;
 	return clamp(offs + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE);
 }
 

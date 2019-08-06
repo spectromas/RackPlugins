@@ -53,7 +53,7 @@ struct LaunchpadTest : Module
 	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(LaunchpadTest::BTN, 0.0, 1.0, 0.0);
-		configParam(LaunchpadTest::KNOB, 0.0, 5.0, 0.25);
+		configParam(LaunchpadTest::KNOB, LVL_OFF, LVL_ON, 0.25);
 		configParam(LaunchpadTest::SW, 0.0, 2.0, 1.0);
 
 		v_in = 0;

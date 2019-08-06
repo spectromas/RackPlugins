@@ -19,22 +19,20 @@ struct nagDisplay : OpenGlWidget
 			return;
 		
 		NVGcolor dg = SCHEME_LIGHT_GRAY;
-		float width = 2.6;
+		float width = 1.6;
 		glViewport(0.0, 0.0, fbSize.x, fbSize.y);
 		glClearColor(0.2, 0.2, 0.2, 1.0);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+		
 		glEnable(GL_BLEND);
 		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 		glEnable(GL_LINE_SMOOTH);
-		glEnable(GL_POLYGON_SMOOTH);
 		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		glHint(GL_POLYGON_SMOOTH_HINT, GL_NICEST);
-
+		
 		glMatrixMode(GL_PROJECTION);
 		glLoadIdentity();
 		glRotatef(90.0f, 0.0f, 0.0f, 1.0f); //90 degree around x axis
 		glOrtho(-1.0, 1, -1.0, 1, -1.0, 1.0);
-
 		
 		// orologio
 		//glLineWidth(2*width);
@@ -68,7 +66,7 @@ struct nagDisplay : OpenGlWidget
 			{
 				if (pseq->Highlight(0))
 				{					
-					glLineWidth(2.0* width);
+					glLineWidth(1.3 * width);
 					glColor3f(pseq->mycolor.r, pseq->mycolor.g, pseq->mycolor.b);
 				} else
 				{
@@ -76,6 +74,7 @@ struct nagDisplay : OpenGlWidget
 					//glColor3f(dg.r, dg.g, dg.b);
 					glColor3f(pseq->mycolor.r/2, pseq->mycolor.g/2, pseq->mycolor.b/2);
 				}
+
 				if (pseq->numVertici == 1)
 				{
 					glBegin(GL_LINES);
@@ -129,8 +128,8 @@ void nag::updateNags(float dt)
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
 		sequencer[k].enabled = params[ENABLE_1 + k].value > 0.5;
-		lights[LED_1 + k].value = sequencer[k].enabled ? 5.0 : 0.0;
-		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? 5.0 : 0.0;
+		lights[LED_1 + k].value = sequencer[k].enabled ? LED_ON : LED_OFF;
+		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? LED_ON : LED_OFF;
 		sequencer[k].set(getInput(k, INVERTEX_1, VERTEX_1, MIN_VERTICES, MAX_VERTICES));
 		sequencer[k].rotate(getInput(k, INROTATE_1, ROTATE_1, MIN_ROTATE, MAX_ROTATE));
 		sequencer[k].skew(getInput(k, INSKEW_1, SKEW_1, MIN_SKEW, MAX_SKEW));
@@ -149,8 +148,9 @@ void nag::process(const ProcessArgs &args)
 			if (rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
-		bool dm = params[DEGMODE].value > 0.1;
-		lights[LED_DEGMODE].value = dm ? 5.0 : 0.0;
+		int degclk = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
+		bool dm = degclk > 1 && params[DEGMODE].value > 0.1;
+		lights[LED_DEGMODE].value = dm ? LED_ON : LED_OFF;
 
 		float deltaTime = 1.0 / args.sampleRate;
 		updateNags(deltaTime);
@@ -158,7 +158,7 @@ void nag::process(const ProcessArgs &args)
 		int clk = clockTrig.process(inputs[CLOCK].value); // 1=rise, -1=fall
 		if (clk == 1)
 		{
-			counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
+			counterRemaining = degclk;
 		}
 		sclocca(dm, deltaTime);
 	}
@@ -198,7 +198,7 @@ void nag::sclocca(bool dm, float dt)
 int nag::getInput(int index, int input_id, int knob_id, float mi, float ma)
 {
 	if (inputs[input_id + index].isConnected())
-		return (int)roundf(rescale(clamp(inputs[input_id + index].getNormalVoltage(0.0), 0.0, 5.0), 0.0, 5.0, mi, ma));
+		return (int)roundf(rescale(clamp(inputs[input_id + index].getNormalVoltage(0.0), LVL_OFF, LVL_ON), LVL_OFF, LVL_ON, mi, ma));
 	
 	return (int)roundf(params[knob_id + index].value);
 }
