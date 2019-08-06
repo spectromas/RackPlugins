@@ -76,11 +76,21 @@ struct nagDisplay : OpenGlWidget
 					//glColor3f(dg.r, dg.g, dg.b);
 					glColor3f(pseq->mycolor.r/2, pseq->mycolor.g/2, pseq->mycolor.b/2);
 				}
-				glBegin(GL_LINE_LOOP);
-				for (int j = 0; j < pseq->numVertici; j++)
+				if (pseq->numVertici == 1)
 				{
-					float rad = pseq->sequence[j] * M_PI / 180.0;
+					glBegin(GL_LINES);
+					glVertex3f(0, 0, 0);
+					float rad = pseq->sequence[0] * M_PI / 180.0;
 					glVertex3f(cos(rad), sin(rad), 0);
+				}
+				else
+				{
+					glBegin(GL_LINE_LOOP);
+					for (int j = 0; j < pseq->numVertici; j++)
+					{
+						float rad = pseq->sequence[j] * M_PI / 180.0;
+						glVertex3f(cos(rad), sin(rad), 0);
+					}
 				}
 				glEnd();
 			}

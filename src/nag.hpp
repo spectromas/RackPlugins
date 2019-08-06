@@ -4,7 +4,7 @@ using namespace rack;
 extern Plugin *pluginInstance;
 #define NUM_NAGS (6)
 #define NUM_STEPS (360)
-#define MIN_VERTICES 2
+#define MIN_VERTICES 1
 #define MAX_VERTICES 32
 #define MIN_ROTATE 0
 #define MAX_ROTATE (NUM_STEPS-1)
@@ -50,7 +50,7 @@ struct nagWidget : SequencerWidget
 		Menu *createChildMenu() override
 		{
 			Menu *sub_menu = new Menu;
-			sub_menu->addChild(new RandomizeSubItemItem(ng, "Ov Light", RANDOMIZE_OFFON));
+			sub_menu->addChild(new RandomizeSubItemItem(ng, "Ov Sin (and cos)", RANDOMIZE_OFFON));
 			sub_menu->addChild(new RandomizeSubItemItem(ng, "Ov Numbers", RANDOMIZE_VERTICES));
 			sub_menu->addChild(new RandomizeSubItemItem(ng, "Ov Rotation", RANDOMIZE_ROTATION));
 			sub_menu->addChild(new RandomizeSubItemItem(ng, "Ov Skew", RANDOMIZE_SKEW));
