@@ -37,9 +37,10 @@ struct nagDisplay : OpenGlWidget
 
 		
 		// orologio
-		glBegin(GL_LINE_LOOP);
-		glLineWidth(2*width);
-		glColor3f(dg.r, dg.g, dg.b); //colore quadrante
+		//glLineWidth(2*width);
+		glColor3f(0, 0, 0);
+		glBegin(GL_TRIANGLE_FAN);
+		glVertex2f(0, 0);
 
 		for (int i = 0; i <= NUM_STEPS; i++) 
 		{
@@ -65,7 +66,7 @@ struct nagDisplay : OpenGlWidget
 			NagSeq *pseq = &(pmodule->sequencer[k]);
 			if (pseq->enabled)
 			{
-				if (pseq->Highlight())
+				if (pseq->Highlight(0))
 				{					
 					glLineWidth(2.0* width);
 					glColor3f(pseq->mycolor.r, pseq->mycolor.g, pseq->mycolor.b);
@@ -110,16 +111,16 @@ void nag::reset()
 		sequencer[k].reset();
 	}
 	theCounter = 0;
-	counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
+	counterRemaining = 0;
 }
 
-void nag::updateNags()
+void nag::updateNags(float dt)
 {
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
 		sequencer[k].enabled = params[ENABLE_1 + k].value > 0.5;
 		lights[LED_1 + k].value = sequencer[k].enabled ? 5.0 : 0.0;
-		lights[ON_1 + k].value = sequencer[k].Highlight() ? 5.0 : 0.0;
+		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? 5.0 : 0.0;
 		sequencer[k].set(getInput(k, INVERTEX_1, VERTEX_1, MIN_VERTICES, MAX_VERTICES));
 		sequencer[k].rotate(getInput(k, INROTATE_1, ROTATE_1, MIN_ROTATE, MAX_ROTATE));
 		sequencer[k].skew(getInput(k, INSKEW_1, SKEW_1, MIN_SKEW, MAX_SKEW));
@@ -138,14 +139,16 @@ void nag::process(const ProcessArgs &args)
 			if (rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
-
-		updateNags();
 		
+		float deltaTime = 1.0 / args.sampleRate;
+		updateNags(deltaTime);
+
 		int clk = clockTrig.process(inputs[CLOCK].value); // 1=rise, -1=fall
 		if (clk == 1)
+		{
 			counterRemaining = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
-
-		sclocca();
+		}
+		sclocca(deltaTime);
 	}
 #ifdef DIGITAL_EXT
 	bool dig_connected = false;
@@ -159,7 +162,7 @@ void nag::process(const ProcessArgs &args)
 #endif
 }
 
-void nag::sclocca()
+void nag::sclocca(float dt)
 {
 	if(counterRemaining > 0)
 	{
@@ -167,7 +170,7 @@ void nag::sclocca()
 		theCounter = (theCounter + 1) % NUM_STEPS;
 		for (int k = 0; k < NUM_NAGS; k++)
 		{
-			outputs[OUT_1 + k].value = sequencer[k].bang(getClock()) ? LVL_ON : LVL_OFF;
+			outputs[OUT_1 + k].value = sequencer[k].bang(theCounter, dt) ? LVL_ON : LVL_OFF;
 		}
 	}
 }

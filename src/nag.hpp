@@ -71,24 +71,29 @@ private:
 
 struct NagSeq 
 {
+private:
+	dsp::PulseGenerator banged;
+	const float PULSE_TIME = 0.05;
+
+public:
 	int numVertici;
 	int rotation;
 	int skewFactor;
 	bool enabled;
-	bool banged;
 	NVGcolor mycolor;
 	std::vector<int> sequence;
 
 	void init(NVGcolor color)
 	{ 
 		mycolor = color;
-		banged = enabled = false;
+		banged.reset();
+		enabled = false;
 		numVertici = 2;
 		skewFactor = 0;
 		rotate(0); 
 	}
 
-	bool bang(int counter)
+	bool bang(int counter, float dt)
 	{
 		if (enabled)
 		{
@@ -96,18 +101,20 @@ struct NagSeq
 			{
 				if (sequence[k] == counter)
 				{
-					return banged = true;
+					banged.trigger(PULSE_TIME);
+					return true;
 				}
 			}
 		}
-		return banged = false;
+
+		return Highlight(dt);
 	}
 
-	inline bool Highlight() { return banged; }
+	inline bool Highlight(float dt) { return banged.process(dt); }
 
 	void reset() 
 	{ 
-		banged = false;
+		banged.reset();
 		rotate(0); 
 	}
 
@@ -189,7 +196,9 @@ struct nag : Module
 	{		
 		theRandomizer = 0;
 		pWidget = NULL;
-		NVGcolor colors[NUM_NAGS] = { SCHEME_RED, SCHEME_CYAN, SCHEME_BLUE,SCHEME_GREEN, SCHEME_PURPLE,SCHEME_YELLOW };
+		const NVGcolor SCHEME_CYAN2 = nvgRGB(0x32, 0x26, 0x4f);
+		const NVGcolor SCHEME_BLUE2 = nvgRGB(0x19, 0xd2, 0xff);
+		NVGcolor colors[NUM_NAGS] = { SCHEME_RED, SCHEME_CYAN2, SCHEME_BLUE2,SCHEME_GREEN, SCHEME_PURPLE,SCHEME_YELLOW };
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for (int index = 0; index < NUM_NAGS; index++)
 		{
@@ -243,8 +252,8 @@ struct nag : Module
 private:
 	int getInput(int index, int input_id, int knob_id, float mi, float ma);
 	void reset();
-	void updateNags();
-	void sclocca();
+	void updateNags(float dt);
+	void sclocca(float dt);
 	void randrandrand(int action);
 	void randrandrand();
 	void on_loaded();
