@@ -14,8 +14,7 @@ this new version implements a new revision of the motherboard. the new bipolar t
 allow negative voltages to flow, resulting in an wider range (0V to 10V or -10V to 10V).
 the previous patches may sound different due to this new design. 
 
-to add insult to injury, for the first time a plugin could have (or have not) 
-an hidden input. you don't need any sigil to take full advantage of it.
+to add insult to injury, for the first time a plugin could have (or have not) hidden features.
 
 # klee
 a rather complete klee sequencer, with some enhancements.
@@ -80,3 +79,6 @@ dedicated to the inventor of the short midi message. quantized midi output for h
 
 # nag nag nag
 trigonometric noise, a sin under control of some well-tempered voltages. 
+
+# empty
+a strategy to waste some rack space

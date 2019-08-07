@@ -4,7 +4,7 @@
     {
       "id": 26,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "PWMClock",
       "params": [
         {
@@ -36,20 +36,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 40,
+      "leftModuleId": 47,
       "rightModuleId": 45,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        18,
+        20,
         1
       ]
     },
     {
       "id": 27,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "nag",
       "params": [
         {
@@ -163,14 +163,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        41,
+        43,
         1
       ]
     },
     {
       "id": 28,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "AttAmp",
       "params": [
         {
@@ -232,7 +232,7 @@
     {
       "id": 29,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Boole",
       "params": [
         {
@@ -306,7 +306,7 @@
     {
       "id": 30,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Burst",
       "params": [
         {
@@ -345,7 +345,7 @@
     {
       "id": 31,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Counter",
       "params": [
         {
@@ -374,7 +374,7 @@
     {
       "id": 32,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Dmplex",
       "params": [
         {
@@ -407,7 +407,7 @@
     {
       "id": 33,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Klee",
       "params": [
         {
@@ -664,7 +664,7 @@
     {
       "id": 34,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "M581",
       "params": [
         {
@@ -826,14 +826,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        81,
+        83,
         1
       ]
     },
     {
       "id": 35,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Mplex",
       "params": [
         {
@@ -865,7 +865,7 @@
     {
       "id": 37,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Quantizer",
       "params": [],
       "leftModuleId": 33,
@@ -881,7 +881,7 @@
     {
       "id": 38,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Renato",
       "params": [
         {
@@ -1156,14 +1156,14 @@
       "rightModuleId": 39,
       "data": {},
       "pos": [
-        2,
+        0,
         2
       ]
     },
     {
       "id": 39,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Spiralone",
       "params": [
         {
@@ -1385,14 +1385,14 @@
         "theRandomizer": 0
       },
       "pos": [
-        41,
+        39,
         2
       ]
     },
     {
       "id": 40,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Uncertain",
       "params": [
         {
@@ -1412,17 +1412,17 @@
           "value": 1.0
         }
       ],
-      "rightModuleId": 26,
+      "rightModuleId": 47,
       "data": {},
       "pos": [
-        6,
+        0,
         1
       ]
     },
     {
       "id": 41,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "Z8K",
       "params": [
         {
@@ -1493,14 +1493,14 @@
       "leftModuleId": 39,
       "data": {},
       "pos": [
-        92,
+        90,
         2
       ]
     },
     {
       "id": 43,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "XSwitch",
       "params": [
         {
@@ -1546,14 +1546,14 @@
       ],
       "leftModuleId": 34,
       "pos": [
-        110,
+        112,
         1
       ]
     },
     {
       "id": 45,
       "plugin": "TheXOR",
-      "version": "1.0.3",
+      "version": "1.0.4",
       "model": "midyQuant",
       "params": [],
       "leftModuleId": 26,
@@ -1567,7 +1567,20 @@
         }
       },
       "pos": [
-        33,
+        35,
+        1
+      ]
+    },
+    {
+      "id": 47,
+      "plugin": "TheXOR",
+      "version": "1.0.4",
+      "model": "empty",
+      "params": [],
+      "leftModuleId": 40,
+      "rightModuleId": 26,
+      "pos": [
+        12,
         1
       ]
     }

@@ -148,6 +148,14 @@
 			"tags": [
 				"Switch"
 			]
+		},
+		{
+			"slug": "empty",
+			"name": "empty",
+			"description": "(do not) waste your precious rack space",
+			"tags": [
+				"Blank"
+			]
 		}
 	]
 }
