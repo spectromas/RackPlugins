@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="1in"
+   height="1in"
+   viewBox="0 0 25.4 25.4"
+   version="1.1"
+   id="svg7595"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
+   sodipodi:docname="xbtn_1.svg">
+  <defs
+     id="defs7589">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 12.7 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="25.4 : 12.7 : 1"
+       inkscape:persp3d-origin="12.7 : 8.4666667 : 1"
+       id="perspective838" />
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="11.2"
+     inkscape:cx="105.82012"
+     inkscape:cy="13.93821"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer2"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:window-width="1858"
+     inkscape:window-height="1057"
+     inkscape:window-x="54"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     units="in" />
+  <metadata
+     id="metadata7592">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:groupmode="layer"
+     id="layer2"
+     inkscape:label="Layer 2"
+     transform="translate(0,6.5644067)">
+    <rect
+       style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:1.63833165;stroke-linecap:square;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;paint-order:fill markers stroke"
+       id="rect839"
+       width="25.4"
+       height="25.4"
+       x="3.5527137e-15"
+       y="-6.5644069" />
+  </g>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-39.342426,-63.261662)"
+     style="display:inline">
+    <g
+       id="g2001"
+       transform="matrix(0.67425441,0,0,0.67425536,19.165622,22.531061)">
+      <circle
+         id="_196670520"
+         class="fil0 str0"
+         cx="48.760166"
+         cy="79.243904"
+         r="15.3466"
+         style="clip-rule:evenodd;fill:#000000;fill-rule:evenodd;stroke:#ffffff;stroke-width:3.22460938;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" />
+      <rect
+         style="clip-rule:evenodd;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0.03767794;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         y="77.66555"
+         x="-24.398756"
+         height="25.693985"
+         width="5.686996"
+         transform="rotate(-45)"
+         class="fil0 str0"
+         id="_196666080" />
+      <rect
+         style="clip-rule:evenodd;fill:#da251d;fill-rule:evenodd;stroke:none;stroke-width:0.03767794;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         y="-34.402252"
+         x="-93.356041"
+         height="25.693985"
+         width="5.686996"
+         transform="rotate(-135)"
+         class="fil2 str1"
+         id="_196664592" />
+      <rect
+         y="60.408272"
+         x="44.932125"
+         height="2.6637714"
+         width="7.6561131"
+         id="rect875"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" />
+      <rect
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         id="rect881"
+         width="7.6561131"
+         height="2.6637714"
+         x="44.932125"
+         y="95.415688" />
+      <rect
+         transform="rotate(90)"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         id="rect885"
+         width="7.6561131"
+         height="2.6637714"
+         x="75.415718"
+         y="-67.595856" />
+      <rect
+         y="-32.588387"
+         x="75.415718"
+         height="2.6637714"
+         width="7.6561131"
+         id="rect889"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         transform="rotate(90)" />
+      <rect
+         y="-109.34827"
+         x="17.727087"
+         height="2.6637714"
+         width="7.6561131"
+         id="rect893"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         transform="rotate(135)" />
+      <rect
+         transform="rotate(135)"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         id="rect895"
+         width="7.6561131"
+         height="2.6637714"
+         x="17.727087"
+         y="-74.340775" />
+      <rect
+         y="-5.1203589"
+         x="-94.603638"
+         height="2.6637714"
+         width="7.6561131"
+         id="rect897"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         transform="rotate(-135)" />
+      <rect
+         transform="rotate(-135)"
+         style="clip-rule:evenodd;opacity:1;fill:#ffffff;fill-rule:evenodd;stroke:none;stroke-width:0;stroke-miterlimit:4;stroke-dasharray:none;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision"
+         id="rect899"
+         width="7.6561131"
+         height="2.6637714"
+         x="-94.603622"
+         y="-40.127861" />
+      <polygon
+         transform="matrix(0.1875,0,0,0.1875,28.590479,53.050154)"
+         id="_196665264"
+         class="fil2 str0"
+         points="189.431,50.734 171.116,75.7262 178.83,75.7262 178.747,101.794 200.556,101.754 200.556,75.7262 207.953,75.7262 "
+         style="clip-rule:evenodd;fill:#da251d;fill-rule:evenodd;stroke:#000000;stroke-width:0.0762;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" />
+      <polygon
+         transform="matrix(0.1875,0,0,0.1875,28.590479,53.050154)"
+         id="_196665048"
+         class="fil0 str2"
+         points="207.953,202.598 189.431,177.606 171.116,202.598 178.83,202.598 178.747,228.666 200.556,228.625 200.556,202.598 "
+         style="clip-rule:evenodd;fill:#000000;fill-rule:evenodd;stroke:#ffffff;stroke-width:0.0762;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" />
+      <polygon
+         transform="matrix(0.1875,0,0,0.1875,28.590479,53.050154)"
+         id="_196666392"
+         class="fil1 str1"
+         points="178.747,165.23 200.556,165.189 200.556,139.162 207.953,139.162 189.431,114.17 171.116,139.162 178.83,139.162 "
+         style="clip-rule:evenodd;fill:#ffffff;fill-rule:evenodd;stroke:#ff0000;stroke-width:0.0762;image-rendering:optimizeQuality;shape-rendering:geometricPrecision;text-rendering:geometricPrecision" />
+    </g>
+  </g>
+</svg>

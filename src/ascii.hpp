@@ -30,6 +30,7 @@ struct ascii : Module
 {
 	enum ParamIds
 	{
+		M_RESET,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -61,4 +62,5 @@ private:
 	dsp::SchmittTrigger resetTrigger;
 	TextField *textField;
 	SchmittTrigger2 clockTrig;
+	dsp::SchmittTrigger masterReset;
 };

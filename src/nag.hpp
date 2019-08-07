@@ -161,6 +161,7 @@ struct nag : Module
 		ROTATE_1 = VERTEX_1 + NUM_NAGS,
 		SKEW_1 = ROTATE_1 + NUM_NAGS,
 		DEGMODE = SKEW_1 + NUM_NAGS,
+		M_RESET,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -257,6 +258,7 @@ private:
 #endif
 	nagWidget *pWidget;
 
+	dsp::SchmittTrigger masterReset;
 	dsp::SchmittTrigger resetTrig;
 	dsp::SchmittTrigger rndTrigger;
 	SchmittTrigger2 clockTrig;

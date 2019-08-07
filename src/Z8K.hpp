@@ -20,7 +20,8 @@ struct Z8K : Module
 	enum ParamIds
 	{
 		VOLTAGE_1,
-		NUM_PARAMS = VOLTAGE_1 + 16
+		M_RESET = VOLTAGE_1 + 16,
+		NUM_PARAMS
 	};
 
 	enum InputIds
@@ -133,4 +134,5 @@ private:
 	z8kSequencer seq[10];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;
+	dsp::SchmittTrigger masterReset;
 };

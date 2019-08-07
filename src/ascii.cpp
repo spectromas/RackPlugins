@@ -4,7 +4,7 @@ void ascii::process(const ProcessArgs &args)
 {
 	if (textField != NULL)
 	{
-		if (resetTrigger.process(inputs[RESET].value))
+		if (resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 		{
 			textField->cursor = textField->selection = 0;
 			outputs[OUT].value = LVL_OFF;
@@ -58,4 +58,5 @@ asciiWidget::asciiWidget(ascii *module)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(3.4), yncscape(116.611, 8.999)), module, ascii::M_RESET));
 }

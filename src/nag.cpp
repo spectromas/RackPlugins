@@ -39,7 +39,7 @@ void nag::updateNags(float dt)
 
 void nag::process(const ProcessArgs &args)
 {
-	if (resetTrig.process(inputs[RESET].value))
+	if (resetTrig.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 	{
 		reset();
 	} else
@@ -198,6 +198,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 	addInput(createInput<PJ301HPort>(Vec(mm2px(16.841), yncscape(24.892, 8.255)), module, nag::RANDOMIZONE));
 	addParam(createParam<CKSSFixH>(Vec(mm2px(49.115), yncscape(5.359, 3.704)), module, nag::DEGMODE));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(58.152), yncscape(6.123, 2.176)), module, nag::LED_DEGMODE));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(40.202), yncscape(36.909, 8.999)), module, nag::M_RESET));
 
 	if (module != NULL)
 	{

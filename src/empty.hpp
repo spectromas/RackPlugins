@@ -13,6 +13,7 @@ struct empty : Module
 {
 	enum ParamIds
 	{
+		MOTTBTN,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -41,6 +42,7 @@ struct empty : Module
 
 private:
 	dsp::SchmittTrigger rndTrigger;
+	dsp::SchmittTrigger btnTrig;
 	inline void getMottett() 
 	{ 
 		teTocca = (int)rescale(random::uniform(), 0.0, 1.0, 0.0, strategies.size());

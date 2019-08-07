@@ -58,6 +58,7 @@ struct PwmClock : Module
 		PWM, BPM, BPMDEC,
 		SWING,
 		OFFON,
+		PULSE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -75,7 +76,8 @@ struct PwmClock : Module
 	enum OutputIds
 	{
 		OUT_1,
-		NUM_OUTPUTS = OUT_1 + OUT_SOCKETS
+		ONSTOP = OUT_1 + OUT_SOCKETS,
+		NUM_OUTPUTS
 	};
 
 	enum LightIds
@@ -136,6 +138,10 @@ private:
 	SchmittTrigger2 resetTrigger;
 	SchmittTrigger2 onTrigger;
 	SchmittTrigger2 offTrigger;
+	dsp::SchmittTrigger pulseTrigger;
+	dsp::PulseGenerator onStopPulse;
+	dsp::PulseGenerator onManualStep;
+	const float pulseTime = 0.1;      //2msec trigger
 
 	void process_keys();
 	void updateBpm();

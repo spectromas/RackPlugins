@@ -45,7 +45,7 @@ struct emptyDisplay : LedDisplayChoice
 
 void empty::process(const ProcessArgs &args)
 {
-	if (rndTrigger.process(inputs[MOTTETTO].value))
+	if (rndTrigger.process(inputs[MOTTETTO].value) || btnTrig.process(params[MOTTBTN].value))
 		getMottett();
 }
 
@@ -64,12 +64,12 @@ emptyWidget::emptyWidget(empty *module)
 	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
-	emptyDisplay *disp = createWidget<emptyDisplay>(mm2px(Vec(2.929, px2mm(61.743))));
-	disp->box.size = mm2px(Vec(35.549, 61.743));
+	emptyDisplay *disp = createWidget<emptyDisplay>(mm2px(Vec(2.929, px2mm(101.743))));
+	disp->box.size = mm2px(Vec(35.549, 41.743));
 	disp->pModule = module;
 	addChild(disp);
 
+	addParam(createParam<XBTN>(Vec(mm2px(7.62), yncscape(97.836, 25.4)), module, empty::MOTTBTN));
 	addInput(createInput<PJ301HPort>(Vec(mm2px(0.0), yncscape(0.0, 8.255)), module, empty::MOTTETTO));
-
 }
 

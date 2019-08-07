@@ -3,6 +3,8 @@
 
 void Attenuator::process(const ProcessArgs &args)
 {
+	bool am = params[ATTMODE].value > 0.1;
+
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
 		if(outputs[OUT_1 + k].isConnected())
@@ -15,7 +17,10 @@ void Attenuator::process(const ProcessArgs &args)
 		{
 			float mi = std::min(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
 			float ma = std::max(params[LIM1_MIN + k].value, params[LIM1_MAX + k].value);
-			outputs[OUT_1 + k + NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), mi, ma);
+			if(am)
+				outputs[OUT_1 + k + NUM_ATTENUATORS].value = rescale(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), LVL_MIN, LVL_MAX, mi, ma);
+			else
+				outputs[OUT_1 + k + NUM_ATTENUATORS].value = clamp(inputs[IN_1 + k + NUM_ATTENUATORS].getVoltage(), mi, ma);
 		}
 	}
 
@@ -38,8 +43,8 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float y = yncscape(104.285, 8.255);
-	float ypot = yncscape(104.413, 8.0);
-	float delta_y = mm2px(16.285);
+	float ypot = yncscape(104.418, 8.0);
+	float delta_y = mm2px(14.301);
 	
 	for(int k = 0; k < NUM_ATTENUATORS; k++)
 	{
@@ -50,8 +55,9 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 		y += delta_y;
 		ypot += delta_y;
 	}
-	y += delta_y/2;
-	ypot += delta_y/2;
+
+	y = yncscape(45.170, 8.255);
+	ypot = yncscape(45.298, 8.0);
 
 	for(int k = 0; k < NUM_VLIMITERS; k++)
 	{
@@ -62,5 +68,8 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 		y += delta_y;
 		ypot += delta_y;
 	}
+
+	addParam(createParam<CKSSFixH>(Vec(mm2px(17.561), yncscape(60.170, 3.704)), module, Attenuator::ATTMODE));
+
 }
 

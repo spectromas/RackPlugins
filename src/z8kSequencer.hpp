@@ -18,10 +18,14 @@ public:
 		}
 	}
 
+	inline void Reset()
+	{
+		curStep = 0;
+	}
 	int Step(float transpose)
 	{
 		if(resetTrigger.process(pReset->value))
-			curStep = 0;
+			Reset();
 		else if(clockTrigger.process(pClock->value))
 		{
 			if(pDirection->value > 5)

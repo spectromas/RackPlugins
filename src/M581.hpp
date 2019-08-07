@@ -163,8 +163,9 @@ struct M581 : Module
 		NUM_STEPS,
 		RUN_MODE,
 		STEP_DIV,
-		MAXVOLTS
-		, NUM_PARAMS
+		MAXVOLTS,
+		M_RESET,
+		NUM_PARAMS
 	};
 
 	enum InputIds
@@ -297,4 +298,5 @@ private:
 	dsp::SchmittTrigger clockTrigger;
 	dsp::SchmittTrigger resetTrigger;
 	dsp::SchmittTrigger rndTrigger;
+	dsp::SchmittTrigger masterReset;
 };

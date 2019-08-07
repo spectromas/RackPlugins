@@ -78,7 +78,7 @@ struct Counter : Module
 	float countDown;
 
 private:
-	const float pulseTime = 0.002;      //2msec trigger
+	const float pulseTime = 0.1;      //2msec trigger
 	dsp::SchmittTrigger btnup;
 	dsp::SchmittTrigger btndwn;
 	CounterWidget *pWidget;

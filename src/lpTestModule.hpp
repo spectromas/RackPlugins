@@ -16,12 +16,6 @@ struct LaunchpadTestWidget : ModuleWidget
 	LaunchpadTestWidget(LaunchpadTest * module);
 };
 
-struct PatternBtn : SvgSwitch {
-	PatternBtn() {
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_1.svg")));
-	}
-};
 
 struct LaunchpadTest : Module
 {

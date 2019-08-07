@@ -43,7 +43,7 @@ void Renato::load()
 }
 void Renato::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 	{
 		seqX.Reset();
 		seqY.Reset();
@@ -148,6 +148,8 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	addInput(createInput<PJ301BPort>(Vec(mm2px(18.293), yncscape(115.267, 8.255)), module, Renato::GATEX_RND));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(28.687), yncscape(115.267, 8.255)), module, Renato::GATEY_RND));
 	
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(122.982), yncscape(114.895, 8.999)), module, Renato::M_RESET));
+
 	// page 0 (SESSION)
 	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(71.102), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_X);
 	addParam(pwdg);
@@ -180,7 +182,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	}
 	#endif
 
-	pwdg = createParam<NKK1>(Vec(mm2px(118.551), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
+	pwdg = createParam<NKK1>(Vec(mm2px(109.558), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)

@@ -210,13 +210,121 @@
     <None Include="..\..\res\modules\Counter.svg">
       <Filter>res</Filter>
     </None>
-    <None Include="..\..\res\modules\bene.svg">
-      <Filter>res</Filter>
-    </None>
     <None Include="..\..\README.md">
       <Filter>Files</Filter>
     </None>
     <None Include="..\..\res\modules\empty.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\BefacoPush_0big.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\BefacoPush_1big.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\BefacoSlidePot.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\BefacoSlidePotHandle.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSS_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSS_0H.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSS_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSS_1H.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSSThree_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSSThree_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CKSSThree_2.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CL1362G.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CL1362R.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CL1362W.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\CL1362Y.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hBlack.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hBlackSmall.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hRed.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hRedSmall.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hWhite.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\Davies1900hWhiteSmall.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\dnswitch_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\dnswitch_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\NKK_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\NKK_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\NKK_2.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\PJ301B.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\PJ301BLU.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\PJ301GR.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\PJ301H.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\PJ301O.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\TL1105_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\TL1105_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\upswitch_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\upswitch_1.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\xbtn_0.svg">
+      <Filter>res</Filter>
+    </None>
+    <None Include="..\..\res\xbtn_1.svg">
       <Filter>res</Filter>
     </None>
   </ItemGroup>

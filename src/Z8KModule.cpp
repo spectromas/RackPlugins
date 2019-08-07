@@ -37,19 +37,24 @@ void Z8K::process(const ProcessArgs &args)
 	bool activeSteps[16];
 	for(int k = 0; k < 16; k++)
 		activeSteps[k] = false;
-
-	if(randomizeTrigger.process(inputs[RANDOMIZE].value))
-		pWidget->std_randomize(VOLTAGE_1,VOLTAGE_1+16);
-
-	float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
-	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		activeSteps[seq[k].Step(transpose)] = true;
-
-	for(int k = 0; k < 16; k++)
+	if (masterReset.process(params[M_RESET].value))
 	{
-		outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
-	}
+		for (int k = 0; k < NUM_SEQUENCERS; k++)
+			seq[k].Reset();
+	} else
+	{
+		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
+			pWidget->std_randomize(VOLTAGE_1, VOLTAGE_1 + 16);
 
+		float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
+		for (int k = 0; k < NUM_SEQUENCERS; k++)
+			activeSteps[seq[k].Step(transpose)] = true;
+
+		for (int k = 0; k < 16; k++)
+		{
+			outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
+		}
+	}
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -175,6 +180,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(161.154), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
 	}
 
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(147.350), yncscape(92.799, 7.074), &module->connected));

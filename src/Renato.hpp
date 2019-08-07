@@ -37,7 +37,8 @@ struct Renato : Module
 		GATEX_1 = ACCESS_1 + 16,
 		GATEY_1 = GATEX_1 + 16,
 		VOLTAGE_1 = GATEY_1 + 16,
-		NUM_PARAMS = VOLTAGE_1 + 16
+		 M_RESET = VOLTAGE_1 + 16,
+		 NUM_PARAMS
 	};
 
 	enum InputIds
@@ -145,6 +146,7 @@ private:
 	dsp::SchmittTrigger accessRndTrigger;
 	dsp::SchmittTrigger gatexRndTrigger;
 	dsp::SchmittTrigger gateyRndTrigger;
+	dsp::SchmittTrigger masterReset;
 	void on_loaded();
 	void load();
 	void led(int n);

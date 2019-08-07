@@ -70,7 +70,7 @@ void M581::randrandrand(int action)
 
 void M581::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 	{
 		_reset();
 	} else
@@ -319,8 +319,9 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 
 	// input
 	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)), module, M581::RESET));
-	
+	addInput(createInput<PJ301YPort>(Vec(mm2px(124.178), yncscape(22.128, 8.255)), module, M581::RESET));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(134.427), yncscape(21.756, 8.999)), module, M581::M_RESET));
+
 	addInput(createInput<PJ301HPort>(Vec(mm2px(106.516), yncscape(114.960, 8.255)), module, M581::RANDOMIZONE));
 
 	// OUTPUTS

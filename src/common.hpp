@@ -10,7 +10,7 @@
 #define LVL_OFF   (0.0f)
 #define LVL_ON    (10.0f)
 #define LED_OFF    (0.0f)
-#define LED_ON    (5.0f)
+#define LED_ON    (10.0f)
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -38,6 +38,23 @@ extern Plugin *pluginInstance;
 #if defined(LAUNCHPAD) || defined(OSCTEST_MODULE)
 #define DIGITAL_EXT
 #endif
+
+
+struct PatternBtn : SvgSwitch {
+	PatternBtn() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_1.svg")));
+	}
+};
+
+struct XBTN : SvgSwitch {
+	XBTN() {
+		momentary = true;
+
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/xbtn_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/xbtn_1.svg")));
+	}
+};
 
 struct UPSWITCH : SvgSwitch
 {
