@@ -116,7 +116,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			ParamWidget *pctrl = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
+			ParamWidget *pctrl = createParam<Davies1900hFixRedKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{
