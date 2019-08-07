@@ -82,3 +82,6 @@ trigonometric noise, a sin under control of some well-tempered voltages.
 
 # empty
 a strategy to waste some rack space
+
+# ascii
+let your notes play

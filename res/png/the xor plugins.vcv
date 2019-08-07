@@ -158,7 +158,6 @@
         }
       ],
       "leftModuleId": 45,
-      "rightModuleId": 34,
       "data": {
         "theRandomizer": 0
       },
@@ -820,7 +819,6 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 27,
       "rightModuleId": 43,
       "data": {
         "theRandomizer": 0
@@ -1545,6 +1543,7 @@
         }
       ],
       "leftModuleId": 34,
+      "rightModuleId": 54,
       "pos": [
         112,
         1
@@ -1581,6 +1580,19 @@
       "rightModuleId": 26,
       "pos": [
         12,
+        1
+      ]
+    },
+    {
+      "id": 54,
+      "plugin": "TheXOR",
+      "version": "1.0.4",
+      "model": "ascii",
+      "params": [],
+      "leftModuleId": 43,
+      "text": "#include \"ascii.hpp\"\n\r\nvoid ascii::process(const ProcessArgs &args)\r\n{\r\n\tif (textField != NULL)\r\n\t{\r\n\t\tif (resetTrigger.process(inputs[RESET].value))\r\n\t\t{\r\n\t\t\ttextField->cursor = textField->selection = 0;\r\n\t\t\toutputs[OUT].value = LVL_OFF;\r\n\t\t} else\r\n\t\t{\r\n\t\t\tint clk = clockTrig.process(inputs[CLK].value); // 1=rise, -1=fall\r\n\t\t\tif (clk == 1)\r\n\t\t\t{\r\n\t\t\t\tstd::string safecopy = textField->text;\n\t\t\t\tint len = safecopy.length();\n\t\t\t\tif (len > 0)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (textField->cursor >= len)\r\n\t\t\t\t\t\ttextField->cursor = 0;\r\n\t\t\t\t\tchar c = safecopy.at(textField->cursor++);\r\n\t\t\t\t\ttextField->selection = textField->cursor;\r\n\t\t\t\t\toutputs[OUT].value = getValue(c);\r\n\t\t\t\t} else\r\n\t\t\t\t\toutputs[OUT].value = LVL_OFF;\r\n\r\n\t\t\t}\r\n\t\t}\n\t}\n}\n\nasciiWidget::asciiWidget(ascii *module)\n{\n\tsetModule(module);\n\tbox.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t{\r\n\t\tSvgPanel *panel = new SvgPanel();\r\n\t\tpanel->box.size = box.size;\r\n\t\tpanel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, \"res/modules/ascii.svg\")));\r\n\t\taddChild(panel);\r\n\t}\n\n\taddChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));\n\taddChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\n\taddChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\n\taddChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\n\n\ttextField = createWidget<LedDisplayTextField>(mm2px(Vec(3.39962, 14.8373)));\n\ttextField->box.size = mm2px(Vec(74.480, 98.753));\n\ttextField->multiline = true;\n\taddChild(textField);\n\tif (module != NULL)\n\t\tmodule->setField(textField);\n\n\taddInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));\r\n\taddInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));\r\n\taddOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));\n}\n",
+      "pos": [
+        122,
         1
       ]
     }

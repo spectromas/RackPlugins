@@ -16,6 +16,7 @@
 #include "counter.hpp"
 #include "nag.hpp"
 #include "empty.hpp"
+#include "ascii.hpp"
 
 #ifdef LPTEST_MODULE
 #include "lpTestModule.hpp"
@@ -54,6 +55,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<midyQuant, midyQuantWidget>("midyQuant"));
 	p->addModel(createModel<nag, nagWidget>("nag"));
 	p->addModel(createModel<empty, emptyWidget>("empty"));
+	p->addModel(createModel<ascii, asciiWidget>("ascii"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

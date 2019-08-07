@@ -25,6 +25,7 @@
     <ClCompile Include="..\..\src\midyQuant.cpp" />
     <ClCompile Include="..\..\src\nag.cpp" />
     <ClCompile Include="..\..\src\empty.cpp" />
+    <ClCompile Include="..\..\src\ascii.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\digitalExt\communicator.hpp">
@@ -127,6 +128,9 @@
       <Filter>include</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\nagDisplays.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\src\ascii.hpp">
       <Filter>include</Filter>
     </ClInclude>
   </ItemGroup>

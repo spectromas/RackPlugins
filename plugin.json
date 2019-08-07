@@ -21,6 +21,14 @@
 			]
 		},
 		{
+			"slug": "ascii",
+			"name": "ascii",
+			"description": "ascii Sequencer",
+			"tags": [
+				"Sequencer"
+			]
+		},
+		{
 			"slug": "M581",
 			"name": "M581",
 			"description": "581 Sequencer",
