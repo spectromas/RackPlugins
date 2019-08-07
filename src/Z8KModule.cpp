@@ -97,7 +97,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 		addInput(createInput<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
 	}
 
-	addInput(createInput<PJ301BPort>( Vec(mm2px(161.154), yncscape(2.685,8.255)), module, Z8K::TRANSPOSER));
+	addInput(createInput<PJ301BPort>( Vec(mm2px(161.154), yncscape(5.860,8.255)), module, Z8K::TRANSPOSER));
 
 	addInput(createInput<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), module, Z8K::RESET_VERT ));
 	addInput(createInput<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), module, Z8K::DIR_VERT));
