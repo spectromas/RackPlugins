@@ -1,104 +1,6 @@
 #include "common.hpp"
 #include "nag.hpp"
-
-struct nagDisplay : OpenGlWidget 
-{	
-	nagDisplay()
-	{
-		pmodule = NULL;
-	}
-
-	void SetModule(nag *module)
-	{
-		pmodule = module;
-	}
-	
-	void drawFramebuffer() override
-	{
-		if (pmodule == NULL)
-			return;
-		
-		NVGcolor dg = SCHEME_LIGHT_GRAY;
-		float width = 1.6;
-		glViewport(0.0, 0.0, fbSize.x, fbSize.y);
-		glClearColor(0.2, 0.2, 0.2, 1.0);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
-		
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glEnable(GL_LINE_SMOOTH);
-		glHint(GL_LINE_SMOOTH_HINT, GL_NICEST);
-		
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glRotatef(90.0f, 0.0f, 0.0f, 1.0f); //90 degree around x axis
-		glOrtho(-1.0, 1, -1.0, 1, -1.0, 1.0);
-		
-		// orologio
-		//glLineWidth(2*width);
-		glColor3f(0, 0, 0);
-		glBegin(GL_TRIANGLE_FAN);
-		glVertex2f(0, 0);
-
-		for (int i = 0; i <= NUM_STEPS; i++) 
-		{
-			float angle = 2 * M_PI * i / NUM_STEPS;
-			float x = cos(angle);
-			float y = sin(angle);
-			glVertex2f(x, y);
-		}
-		glEnd();
-		
-		// lancettona
-		glLineWidth(width);
-		float angle = (2 * M_PI * pmodule->getClock() / NUM_STEPS);
-		
-		glBegin(GL_LINES);
-		glColor3f(dg.r, dg.g, dg.b); //colore lancetta
-		glVertex2f(0, 0);
-		glVertex2f(cos(angle), sin(angle));
-		glEnd();
-		
-		for (int k = 0; k < NUM_NAGS; k++)
-		{
-			NagSeq *pseq = &(pmodule->sequencer[k]);
-			if (pseq->enabled)
-			{
-				if (pseq->Highlight(0))
-				{					
-					glLineWidth(1.3 * width);
-					glColor3f(pseq->mycolor.r, pseq->mycolor.g, pseq->mycolor.b);
-				} else
-				{
-					glLineWidth(width);
-					//glColor3f(dg.r, dg.g, dg.b);
-					glColor3f(pseq->mycolor.r/2, pseq->mycolor.g/2, pseq->mycolor.b/2);
-				}
-
-				if (pseq->numVertici == 1)
-				{
-					glBegin(GL_LINES);
-					glVertex3f(0, 0, 0);
-					float rad = pseq->sequence[0] * M_PI / 180.0;
-					glVertex3f(cos(rad), sin(rad), 0);
-				}
-				else
-				{
-					glBegin(GL_LINE_LOOP);
-					for (int j = 0; j < pseq->numVertici; j++)
-					{
-						float rad = pseq->sequence[j] * M_PI / 180.0;
-						glVertex3f(cos(rad), sin(rad), 0);
-					}
-				}
-				glEnd();
-			}
-		}
-	}
-
-private:
-	nag *pmodule;
-};
+#include "nagDisplays.hpp"
 
 void nag::on_loaded()
 {
@@ -128,7 +30,6 @@ void nag::updateNags(float dt)
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
 		sequencer[k].enabled = params[ENABLE_1 + k].value > 0.5;
-		lights[LED_1 + k].value = sequencer[k].enabled ? LED_ON : LED_OFF;
 		lights[ON_1 + k].value = sequencer[k].Highlight(dt) ? LED_ON : LED_OFF;
 		sequencer[k].set(getInput(k, INVERTEX_1, VERTEX_1, MIN_VERTICES, MAX_VERTICES));
 		sequencer[k].rotate(getInput(k, INROTATE_1, ROTATE_1, MIN_ROTATE, MAX_ROTATE));
@@ -210,7 +111,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 #ifdef OSCTEST_MODULE
 	char name[60];
 #endif
-	box.size = Vec(40 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	box.size = Vec(45 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
 		SvgPanel *panel = new SvgPanel();
@@ -237,7 +138,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 		}
 		#endif
 
-		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(102.014), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
+		pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(105.824), yncscape(108.056 - delta_y, 8.0)), module, nag::VERTEX_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
@@ -247,8 +148,9 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(118.218), yncscape(108.2 - delta_y, 8.255)), module, nag::INVERTEX_1 + index));
 
-		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(129.491), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
+		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(139.902), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
@@ -258,8 +160,9 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(152.296), yncscape(108.2 - delta_y, 8.255)), module, nag::INROTATE_1 + index));
 
-		pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(156.968), yncscape(108.056 - delta_y, 8.0)), module, nag::SKEW_1 + index);
+		pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(173.604), yncscape(108.056 - delta_y, 8.0)), module, nag::SKEW_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
@@ -269,13 +172,13 @@ nagWidget::nagWidget(nag *module) : SequencerWidget(module)
 			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(114.408), yncscape(108.2-delta_y, 8.255)), module, nag::INVERTEX_1 + index));
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(141.885), yncscape(108.2-delta_y, 8.255)), module, nag::INROTATE_1 + index));
-		addInput(createInput<PJ301GRPort>(Vec(mm2px(169.362), yncscape(108.2-delta_y, 8.255)), module, nag::INSKEW_1 + index));
+		addInput(createInput<PJ301GRPort>(Vec(mm2px(185.998), yncscape(108.2-delta_y, 8.255)), module, nag::INSKEW_1 + index));
 
-		addOutput(createOutput<PJ301WPort>(Vec(mm2px(189.584), yncscape(107.928-delta_y, 8.255)), module, nag::OUT_1 + index));
-		addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(89.660), yncscape(115.230-delta_y, 2.176)), module, nag::LED_1 + index));
-		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(185.932), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
+		addOutput(createOutput<PJ301WPort>(Vec(mm2px(208.211), yncscape(107.928-delta_y, 8.255)), module, nag::OUT_1 + index));
+		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(219.375), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
+
+		if (module != NULL)
+			addChild(new nag7Segm(module != NULL ? &module->sequencer[index] : NULL, 92.499, 108.231 - delta_y));
 	}
 	
 	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(40.702), yncscape(12.631, 8.0)), module, nag::DEGXCLK);

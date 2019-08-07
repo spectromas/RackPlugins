@@ -126,6 +126,9 @@
     <ClInclude Include="..\..\src\empty.hpp">
       <Filter>include</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\src\nagDisplays.hpp">
+      <Filter>include</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\res\counterSwitchPot.svg">

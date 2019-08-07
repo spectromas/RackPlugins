@@ -181,8 +181,7 @@ struct nag : Module
 	};
 	enum LightIds
 	{
-		LED_1,
-		ON_1= LED_1 +NUM_NAGS,
+		ON_1,
 		LED_DEGMODE = ON_1 + NUM_NAGS,
 		NUM_LIGHTS 
 	};

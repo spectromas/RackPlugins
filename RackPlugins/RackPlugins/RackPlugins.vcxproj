@@ -66,6 +66,7 @@
     <ClInclude Include="..\..\src\M581.hpp" />
     <ClInclude Include="..\..\src\M581Types.hpp" />
     <ClInclude Include="..\..\src\mplex.hpp" />
+    <ClInclude Include="..\..\src\nagDisplays.hpp" />
     <ClInclude Include="..\..\src\oscTestModule.hpp" />
     <ClInclude Include="..\..\src\pwmClock.hpp" />
     <ClInclude Include="..\..\src\quantizer.hpp" />
