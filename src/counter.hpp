@@ -86,6 +86,8 @@ private:
 	int curCounter;
 	dsp::SchmittTrigger resetTrigger;
 	dsp::SchmittTrigger counterTigger;
+	dsp::PulseGenerator outPulse;
+
 	void process_keys();
 
 	void on_loaded();

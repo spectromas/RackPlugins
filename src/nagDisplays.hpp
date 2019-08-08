@@ -79,7 +79,6 @@ struct nagDisplay : OpenGlWidget
 		NVGcolor dg = SCHEME_LIGHT_GRAY;
 		float width = 1.6;
 		glViewport(0.0, 0.0, fbSize.x, fbSize.y);
-		//glClearColor(0.2, 0.2, 0.2, 1.0);
 		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
@@ -132,7 +131,7 @@ struct nagDisplay : OpenGlWidget
 				{
 					glLineWidth(width);
 					//glColor3f(dg.r, dg.g, dg.b);
-					glColor3f(pseq->mycolor.r / 2, pseq->mycolor.g / 2, pseq->mycolor.b / 2);
+					glColor3f(pseq->mycolor.r *0.8, pseq->mycolor.g *0.8, pseq->mycolor.b *0.8);
 				}
 
 				if (pseq->numVertici == 1)

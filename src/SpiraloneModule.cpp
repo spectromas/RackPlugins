@@ -274,7 +274,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
+	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -286,7 +286,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	addParam(pwdg);
 	addInput(createInput<PJ301BPort>(Vec(mm2px(182.178), yncscape(104.395 + dist_v*seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
 
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)

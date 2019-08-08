@@ -193,9 +193,9 @@ struct nag : Module
 		counterRemaining = 0;
 		theCounter = 0;
 		theRandomizer = 0;
-		const NVGcolor SCHEME_CYAN2 = nvgRGB(0x32, 0x26, 0x4f);
-		const NVGcolor SCHEME_BLUE2 = nvgRGB(0x19, 0xd2, 0xff);
-		NVGcolor colors[NUM_NAGS] = { SCHEME_RED, SCHEME_CYAN2, SCHEME_BLUE2,SCHEME_GREEN, SCHEME_PURPLE,SCHEME_YELLOW };
+		const NVGcolor SCHEME_CYAN2 = nvgRGB(0xC0, 0xC0, 0xC0);
+		const NVGcolor SCHEME_BLUE2 = nvgRGB(0x29, 0xd2, 0xff);
+		NVGcolor colors[NUM_NAGS] = { nvgRGB(0xFF, 0x00, 0x00), SCHEME_CYAN2, SCHEME_BLUE2,SCHEME_GREEN, SCHEME_PURPLE,SCHEME_YELLOW };
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for (int index = 0; index < NUM_NAGS; index++)
 		{

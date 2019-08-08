@@ -23,7 +23,7 @@
 		{
 			"slug": "ascii",
 			"name": "ascii",
-			"description": "ascii Sequencer",
+			"description": "ascii Sequencer - make notes sing",
 			"tags": [
 				"Sequencer"
 			]
@@ -55,7 +55,7 @@
 		{
 			"slug": "Spiralone",
 			"name": "Spiralone",
-			"description": "Spiral Sequencer",
+			"description": "Spiralone Sequencer",
 			"tags": [
 				"Sequencer"
 			]
@@ -71,7 +71,7 @@
 		{
 			"slug": "Burst",
 			"name": "Burst",
-			"description": "",
+			"description": "quick output bursts",
 			"tags": [
 				"Utility"
 			]
@@ -79,7 +79,7 @@
 		{
 			"slug": "Uncertain",
 			"name": "Uncertain",
-			"description": "",
+			"description": "uncertain, buchla-esque voltages",
 			"tags": [
 				"Random"
 			]
@@ -95,7 +95,7 @@
 		{
 			"slug": "Quantizer",
 			"name": "Quantizer",
-			"description": "",
+			"description": "note quantizer",
 			"tags": [
 				"Quantizer"
 			]
@@ -103,15 +103,16 @@
 		{
 			"slug": "midyQuant",
 			"name": "midyQuant",
-			"description": "",
+			"description": "quantized MIDI output",
 			"tags": [
-				"MIDI Output"
+				"Quantizer",
+				"MIDI"
 			]
 		},
 		{
 			"slug": "AttAmp",
 			"name": "AttAmp",
-			"description": "",
+			"description": "attenuator/amplifier/offset",
 			"tags": [
 				"Attenuator",
 				"Amplifier"
@@ -120,7 +121,7 @@
 		{
 			"slug": "Boole",
 			"name": "Boole",
-			"description": "",
+			"description": "boolean logic for your signals",
 			"tags": [
 				"Logic"
 			]
@@ -128,7 +129,7 @@
 		{
 			"slug": "XSwitch",
 			"name": "XSwitch",
-			"description": "",
+			"description": "circuit breaker",
 			"tags": [
 				"Switch"
 			]
@@ -136,7 +137,7 @@
 		{
 			"slug": "Counter",
 			"name": "Counter",
-			"description": "",
+			"description": "count inputs and generate a signal when reaches 0",
 			"tags": [
 				"Utility"
 			]
@@ -160,7 +161,7 @@
 		{
 			"slug": "empty",
 			"name": "empty",
-			"description": "(do not) waste your precious rack space",
+			"description": "a strategy to waste your precious rack space",
 			"tags": [
 				"Blank"
 			]

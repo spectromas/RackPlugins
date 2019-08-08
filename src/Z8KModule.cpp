@@ -34,9 +34,9 @@ void Z8K::load()
 
 void Z8K::process(const ProcessArgs &args)
 {
-	bool activeSteps[16];
+	int activeSteps[16];
 	for(int k = 0; k < 16; k++)
-		activeSteps[k] = false;
+		activeSteps[k] = LVL_OFF;
 	if (masterReset.process(params[M_RESET].value))
 	{
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
@@ -48,12 +48,10 @@ void Z8K::process(const ProcessArgs &args)
 
 		float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
-			activeSteps[seq[k].Step(transpose)] = true;
+			activeSteps[seq[k].Step(transpose)]++;
 
 		for (int k = 0; k < 16; k++)
-		{
-			outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
-		}
+			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;

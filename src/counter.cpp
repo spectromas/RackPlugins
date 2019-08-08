@@ -49,24 +49,32 @@ void Counter::process(const ProcessArgs &args)
 		n = roundf(counter_f);
 	}
 	countDown = n - curCounter;
+	float deltaTime = 1.0 / args.sampleRate;
 
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		curCounter = 0;
-	} else if(counterTigger.process(inputs[IN_1].value))
+		outPulse.reset();
+
+	}
+	else if (counterTigger.process(inputs[IN_1].value))
 	{
 		++curCounter;
-		if(curCounter >= n)
+		if (curCounter >= n)
 		{
-			lights[ACTIVE].value = LVL_ON;
-			outputs[OUT_1].value = LVL_ON;
 			curCounter = 0;
-		} else
-		{
-			lights[ACTIVE].value = LVL_OFF;
-			outputs[OUT_1].value = LVL_OFF;
+			outPulse.trigger(pulseTime);
 		}
-	} 
+	}
+	if (outPulse.process(deltaTime))
+	{
+		lights[ACTIVE].value = LVL_ON;
+		outputs[OUT_1].value = LVL_ON;
+	} else
+	{
+		lights[ACTIVE].value = LVL_OFF;
+		outputs[OUT_1].value = LVL_OFF;
+	}
 }
 
 CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
@@ -102,7 +110,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(25.242), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
 
-	addOutput(createOutput<PJ301OPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
+	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
 }
 
 void CounterWidget::SetCounter(int n)
