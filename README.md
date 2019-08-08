@@ -13,7 +13,7 @@ common characteristics:
 version 1.1.x implements a new revision of the main motherboard: the new bipolar transistors
 allow negative voltages to flow. all plugins have a wider range available (0V to 10V or -10V to 10V), for this the 
 previous patches will sound different. 
-to add insult to injury, for the very _first time in the world_ a plugin could have (or have not) some hidden features.
+to add insult to injury, for the _very first time in the world_ a plugin could have (or have not) some hidden features.
 and now for something completely different: a list.
 
 ## a list.
@@ -60,7 +60,7 @@ calm down your boiling voltages, or energize the cables
 
 # boole
 there are 10 kind of people: those who can understand boolean logic, and the others.
-this is the very _first time plugin in the world_ with variable impedence inputs. 
+this is the _very first plugin in the world_ with variable impedence inputs. 
 when using high impedence mode, please use shielded cables for quieter operation.
 
 # xswitch
