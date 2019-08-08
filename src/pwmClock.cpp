@@ -77,79 +77,91 @@ void PwmClock::process_keys()
 	}
 }
 
+void PwmClock::process_active(const ProcessArgs &args)
+{
+	onStopPulse.reset();
+	onManualStep.reset();
+	lights[ACTIVE].value = LVL_ON;
+	if (resetTrigger.process(inputs[RESET].value))
+	{
+		_reset();
+	} else
+	{
+		for (int k = 0; k < OUT_SOCKETS; k++)
+		{
+			float gate_len = getDuration(k) * getPwm();
+			sa_timer[k].Step();
+			float elps = sa_timer[k].Elapsed();
+			if (elps >= getDuration(k))
+			{
+				elps = sa_timer[k].Reset();
+				odd_beat[k] = !odd_beat[k];
+			}
+			if (elps <= gate_len)
+				outputs[OUT_1 + k].value = LVL_ON;
+			else
+				outputs[OUT_1 + k].value = LVL_OFF;
+		}
+	}
+}
+
+void PwmClock::process_inactive(const ProcessArgs &args)
+{
+	float deltaTime = 1.0 / args.sampleRate;
+
+	// il led on e' usato per svagare la transizione on -> off
+	if(lights[ACTIVE].value == LED_ON && !onStopPulse.process(deltaTime))
+		onStopPulse.trigger(pulseTime);
+
+	if (manualTrigger.process(params[PULSE].value) && !onManualStep.process(deltaTime))
+		onManualStep.trigger(pulseTime);
+
+	outputs[ONSTOP].value = onStopPulse.process(deltaTime) ? LVL_ON : LVL_OFF;
+
+	for (int k = 0; k < OUT_SOCKETS; k++)
+		outputs[OUT_1 + k].value = onManualStep.process(deltaTime) ? LVL_ON  : LVL_OFF;
+	
+	lights[ACTIVE].value = onManualStep.process(deltaTime) ? LED_ON : LED_OFF;
+}
+
 void PwmClock::process(const ProcessArgs &args)
 {
 	process_keys();
 	bpm_integer = roundf(params[BPM].value);
 	updateBpm();
 
-	float deltaTime = 1.0 / args.sampleRate;
-	check_triggers(deltaTime);
-
-	double offonin = (inputs[OFF_IN].isConnected() || inputs[ON_IN].isConnected()) ? 0.0 : inputs[OFFON_IN].value;
-	
+	bool active = false;
 	if(pWidget != NULL)
 	{
-		if (offTrigger.process(inputs[OFF_IN].value))
+		if (inputs[REMOTE_IN].isConnected()) // priorita; prioritaria
+		{
+			active = inputs[REMOTE_IN].getNormalVoltage(0.0) > 0.5;
+			if (active && (params[OFFON].value < 0.5))
+			{
+				pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
+			} else if (!active && (params[OFFON].value > 0.5))
+			{
+				pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
+			}
+
+		} else if (offTrigger.process(inputs[OFF_IN].value))
 		{
 			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
+			active = false;
 		} else if (onTrigger.process(inputs[ON_IN].value))
 		{
 			pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
-		}
+			active = true;
+		} else
+			active = params[OFFON].value > 0.5;
 	}
 
-	if((params[OFFON].value + offonin) > 0.5)
+	if(active)
 	{
-		lights[ACTIVE].value = LVL_ON;
-		if(resetTrigger.process(inputs[RESET].value))
-		{
-			_reset();
-		} else
-		{
-			for(int k = 0; k < OUT_SOCKETS; k++)
-			{
-				float gate_len = getDuration(k) * getPwm();
-				sa_timer[k].Step();
-				float elps = sa_timer[k].Elapsed();
-				if(elps >= getDuration(k))
-				{
-					elps = sa_timer[k].Reset();
-					odd_beat[k] = !odd_beat[k];
-				}
-				if(elps <= gate_len)
-					outputs[OUT_1 + k].value = LVL_ON;
-				else
-					outputs[OUT_1 + k].value = LVL_OFF;
-			}
-		}
+		process_active(args);
 	} else
 	{
-		for(int k = 0; k < OUT_SOCKETS; k++)
-		{
-			outputs[OUT_1 + k].value = LVL_OFF;
-		}
-		lights[ACTIVE].value = LED_OFF;
-
-		if (pulseTrigger.process(inputs[PULSE].value))
-		{
-			for (int k = 0; k < OUT_SOCKETS; k++)
-			{
-				outputs[OUT_1 + k].value = LVL_ON;
-			}
-			lights[ACTIVE].value = LED_ON;
-		}
-	}
-}
-
-void Klee::check_triggers(float deltaTime)
-{
-	for (int k = 0; k < 3; k++)
-	{
-		if (outputs[TRIG_OUT + k].value > 0.5 && !triggers[k].process(deltaTime))
-		{
-			outputs[TRIG_OUT + k].value = LVL_OFF;
-		}
+		process_inactive(args);		
 	}
 }
 
@@ -201,17 +213,17 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 	pw = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(62.528), yncscape(99.483 + 4.762, 9.525)), module, PwmClock::BPM);
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(48.511), yncscape(70.175, 8.255)), module, PwmClock::EXT_BPM));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(49.145), yncscape(70.175, 8.255)), module, PwmClock::EXT_BPM));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(63.162), yncscape(70.175, 8.255)), module, PwmClock::RESET));
 
-	addParam(createParam<NKK1>(Vec(mm2px(7.769), yncscape(85.182, 9.488)), module, PwmClock::OFFON));
+	addParam(createParam<NKK1>(Vec(mm2px(7.769), yncscape(87.34, 9.488)), module, PwmClock::OFFON));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(3.539), yncscape(89.897, 2.176)), module, PwmClock::ACTIVE));
 	
-	addInput(createInput<PJ301BPort>(Vec(mm2px(49.145), yncscape(86.857, 8.255)), module, PwmClock::OFFON_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(21.633), yncscape(86.857, 8.255)), module, PwmClock::OFF_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(35.392), yncscape(86.857, 8.255)), module, PwmClock::ON_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(86.857, 8.255)), module, PwmClock::ON_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(49.145), yncscape(86.857, 8.255)), module, PwmClock::OFF_IN)); 
+	addInput(createInput<PJ301BPort>(Vec(mm2px(21.633), yncscape(86.857, 8.255)), module, PwmClock::REMOTE_IN));
 
-	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(47.54), yncscape(42.040, 9.525)), module, PwmClock::SWING));
+	addParam(createParam<Davies1900hFixRedKnob>(Vec(mm2px(48.511), yncscape(47.54, 9.525)), module, PwmClock::SWING));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(63.162), yncscape(48.175, 8.255)), module, PwmClock::SWING_IN));
 
 	addParam(createParam<Davies1900hFixBlackKnob>(Vec(mm2px(48.511), yncscape(25.54, 9.525)), module, PwmClock::PWM));
@@ -229,7 +241,7 @@ PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
 			pos_y += mm2px(11);
 		}
 	}
-	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(63.162), yncscape(4.175, 8.255)), module, PwmClock::ONSTOP));
+	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(49.145), yncscape(4.175, 8.255)), module, PwmClock::ONSTOP));
 }
 
 void PwmClockWidget::SetBpm(float bpm_integer)

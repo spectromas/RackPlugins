@@ -67,7 +67,7 @@ struct PwmClock : Module
 		EXT_BPM,
 		PWM_IN,
 		SWING_IN,
-		OFFON_IN,
+		REMOTE_IN,
 		OFF_IN,
 		ON_IN,
 		NUM_INPUTS
@@ -138,14 +138,16 @@ private:
 	SchmittTrigger2 resetTrigger;
 	SchmittTrigger2 onTrigger;
 	SchmittTrigger2 offTrigger;
-	dsp::SchmittTrigger pulseTrigger;
+	dsp::SchmittTrigger manualTrigger;
 	dsp::PulseGenerator onStopPulse;
 	dsp::PulseGenerator onManualStep;
 	const float pulseTime = 0.1;      //2msec trigger
 
 	void process_keys();
 	void updateBpm();
-	
+	void process_active(const ProcessArgs &args);
+	void process_inactive(const ProcessArgs &args);
+
 	float getDuration(int n)
 	{
 		return odd_beat[n] ? swingAmt[n] : duration[n];
