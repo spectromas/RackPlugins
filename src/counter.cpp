@@ -37,10 +37,18 @@ void Counter::process_keys()
 
 void Counter::process(const ProcessArgs &args)
 {
-	process_keys();
-	counter_f = params[COUNTER].value;
-	int n = roundf(counter_f);
-	countDown = counter_f - curCounter;
+	int n;
+	if (inputs[IN_COUNTER].isConnected())
+	{
+		n =clamp((int)rescale(inputs[IN_COUNTER].value, LVL_OFF, LVL_ON, COUNTER_MINVALUE, COUNTER_MAXVALUE), COUNTER_MINVALUE, COUNTER_MAXVALUE);
+		counter_f = n;
+	} else
+	{
+		process_keys();
+		counter_f = params[COUNTER].value;
+		n = roundf(counter_f);
+	}
+	countDown = n - curCounter;
 
 	if(resetTrigger.process(inputs[RESET].value))
 	{
@@ -80,7 +88,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
 	displayCtr->box.size = Vec(30+16, 24);
-	displayCtr->box.pos = Vec(mm2px(12.418), yncscape(83.887, px2mm(display->box.size.y)));
+	displayCtr->box.pos = Vec(mm2px(7.934), yncscape(83.887, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;
 	addChild(displayCtr);
@@ -90,6 +98,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	addParam(pw);
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.238), yncscape(12.664, 8.255)), module, Counter::IN_1));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(16.516), yncscape(28.287, 8.255)), module, Counter::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(29.070), yncscape(83.935, 8.255)), module, Counter::IN_COUNTER));
 	
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(25.242), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
 

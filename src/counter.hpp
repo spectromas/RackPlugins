@@ -23,6 +23,7 @@ struct Counter : Module
 	{
 		RESET,
 		IN_1,
+		IN_COUNTER,
 		NUM_INPUTS
 	};
 

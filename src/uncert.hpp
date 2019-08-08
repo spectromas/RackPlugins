@@ -51,8 +51,8 @@ struct Uncertain : Module
 	Uncertain() : Module()
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(Uncertain::FLUCT_AMT, LVL_OFF, LVL_MAX, LVL_OFF, "Fluctuate", "V");
-		configParam(Uncertain::QUANTIZED_AMT, LVL_OFF, LVL_ON, 0.0, "Quantized Amount", "V", 0, 1, 1);
+		configParam(Uncertain::FLUCT_AMT, LVL_MIN, LVL_MAX, LVL_OFF, "Fluctuate", "V");
+		configParam(Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0, "Quantized Amount", "V", 0, 1, 1);
 		configParam(Uncertain::STORED_AMT, LVL_OFF + 2.5, LVL_MAX - 2.5, 5.0, "Stored Amount", "V");
 		configParam(Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0, "Sigma", "#");
 	}

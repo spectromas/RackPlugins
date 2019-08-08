@@ -29,7 +29,7 @@ void Uncertain::out_quantized(int clk)
 {
 	if(clk == 1)
 	{
-		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, LVL_OFF, LVL_ON)+1;
+		int position = getInt(QUANTIZED_AMT, IN_QUANTIZED, 0.0, 5.0) + 1;
 		outputs[OUT_QUANTIZED_N1].value = roundf(rescale(random::uniform(), 0.0, 1.0, 0.0, position));		// 1V
 		float n2= roundf(rescale(random::uniform(), 0.0, 1.0, 1.0, 2 << position));
 		outputs[OUT_QUANTIZED_2N].value = clamp(Uncertain::SEMITONE*n2, LVL_OFF, LVL_ON);
@@ -57,8 +57,12 @@ float Uncertain::rndGaussianVoltage()
 
 float Uncertain::rndFluctVoltage() 
 { 
-	float vmax = getFloat(FLUCT_AMT, IN_FLUCT, LVL_OFF, LVL_MAX);
-	return clamp(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, vmax), LVL_OFF, LVL_MAX);
+	float vmax = getFloat(FLUCT_AMT, IN_FLUCT, LVL_MIN, LVL_MAX);
+	bool negative = vmax < 0;
+	if(negative)
+		return -clamp(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, -vmax), LVL_OFF, LVL_MAX);
+	else
+		return clamp(rescale(random::uniform(), 0.0, 1.0, LVL_OFF, vmax), LVL_OFF, LVL_MAX);
 }
 
 void Uncertain::out_fluct(int clk)
@@ -95,7 +99,7 @@ void Uncertain::out_fluct(int clk)
 			{
 				clock_t elapsed = clock() - fluctParams.tStart;
 				float v = fluctParams.vA + fluctParams.deltaV * elapsed;
-				outputs[OUT_FLUCT].value = clamp(v, LVL_OFF, LVL_MAX);
+				outputs[OUT_FLUCT].value = clamp(v, LVL_MIN, LVL_MAX);
 			}
 		}
 		break;
