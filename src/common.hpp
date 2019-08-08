@@ -526,7 +526,7 @@ struct XorPanel : SvgPanel
 		{
 			nvgBeginPath(args.vg);
 			nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
-			nvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));
+			nvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(.51f, 0.51f, 0.51f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));
 			nvgFill(args.vg);
 		}
 	};
