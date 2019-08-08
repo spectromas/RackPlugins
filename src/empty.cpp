@@ -25,18 +25,19 @@ struct emptyDisplay : LedDisplayChoice
 		};
 
 		if (pModule != NULL && font->handle >= 0) 
-		{/*
+		{
+#if 0
 			nvgBeginPath(args.vg);
 			nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
 			nvgFillColor(args.vg, nvgRGB(0xff, 0x00, 0x00));
 			nvgFill(args.vg);
-*/
+#endif
 			nvgScissor(args.vg, RECT_ARGS(args.clipBox));
-			nvgFillColor(args.vg, pModule->color());
+			nvgFillColor(args.vg, nvgRGB(0xff, 0xff, 0xff));
 			nvgFontFaceId(args.vg, font->handle);
 			nvgTextLetterSpacing(args.vg, 0.0);
 			nvgTextAlign(args.vg, NVG_ALIGN_TOP | NVG_ALIGN_CENTER);
-			nvgFontSize(args.vg, 15);
+			nvgFontSize(args.vg, 12);
 			nvgTextBox(args.vg, 0, 0, args.clipBox.size.x, pModule->txt(), NULL);
 			nvgResetScissor(args.vg);
 		}
@@ -49,27 +50,17 @@ void empty::process(const ProcessArgs &args)
 		getMottett();
 }
 
+
 emptyWidget::emptyWidget(empty *module)
 {
-	setModule(module);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/empty.svg")));
-		addChild(panel);
-	}
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 8, "res/modules/empty.svg");
 
 	emptyDisplay *disp = createWidget<emptyDisplay>(mm2px(Vec(2.929, px2mm(101.743))));
-	disp->box.size = mm2px(Vec(35.549, 41.743));
+	disp->box.size = mm2px(Vec(35.549, 28.743));
 	disp->pModule = module;
 	addChild(disp);
 
-	addParam(createParam<XBTN>(Vec(mm2px(7.62), yncscape(97.836, 25.4)), module, empty::MOTTBTN));
-	addInput(createInput<PJ301HPort>(Vec(mm2px(0.0), yncscape(0.0, 8.255)), module, empty::MOTTETTO));
+	addParam(createParam<HiddenButton>(Vec(mm2px(10.785), yncscape(22.289, 5.08)), module, empty::MOTTBTN));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(22.67), yncscape(6.391, 8.255)), module, empty::MOTTETTO));
 }
 

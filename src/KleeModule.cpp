@@ -237,7 +237,7 @@ bool Klee::chance()
 	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
 }
 
-KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
+KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
@@ -253,15 +253,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	INFO("%i launchpad found", numLaunchpads);
 	#endif
 	#endif
-	box.size = Vec(48 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/KleeModule.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+
+	CREATE_PANEL(module, this, 48, "res/modules/KleeModule.svg");
 
 	const float switch_dstx = 22.203 - 11.229;
 	for(int k = 0; k < 8; k++)

@@ -78,21 +78,8 @@ void Dmplex::process(const ProcessArgs &args)
 
 DmplexWidget::DmplexWidget(Dmplex *module) : ModuleWidget()
 {
-	setModule(module);
+	CREATE_PANEL(module, this, 10, "res/modules/dmplex.svg");
 
-	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/dmplex.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(15.267), yncscape(85.436, 8.999)), module, Dmplex::BTUP));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(15.267), yncscape(33.452, 8.999)), module, Dmplex::BTDN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(15.640), yncscape(71.230, 8.255)), module, Dmplex::INUP));

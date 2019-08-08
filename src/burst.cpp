@@ -173,19 +173,10 @@ int Burst::getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
 	return (int)clamp(offs + params[p_id].value, minValue, maxValue);
 }
 
-BurstWidget::BurstWidget(Burst *module) : SequencerWidget(module)
+BurstWidget::BurstWidget(Burst *module) : SequencerWidget()
 {
-	box.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Burst.svg")));		
-		addChild(panel);
-	}
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 16, "res/modules/Burst.svg");
+
 	float lft_x = mm2px(3.428);
 
 	addInput(createInput<PJ301RPort>(Vec(lft_x, yncscape(108.765, 8.255)), module, Burst::CLOCK_IN));

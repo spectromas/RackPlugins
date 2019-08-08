@@ -28,20 +28,8 @@ void Attenuator::process(const ProcessArgs &args)
 
 AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 {
-	setModule(module);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	CREATE_PANEL(module, this, 8, "res/modules/attenuator.svg");
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/attenuator.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float y = yncscape(104.285, 8.255);
 	float ypot = yncscape(104.418, 8.0);
 	float delta_y = mm2px(14.301);

@@ -61,23 +61,11 @@ void Counter::process(const ProcessArgs &args)
 	} 
 }
 
-CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
+CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Counter.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(15, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(15, 365)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 365)));
+	CREATE_PANEL(module, this, 8, "res/modules/Counter.svg");
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(2.281), yncscape(104.588,4.115)), module, Counter::COUNTER_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(2.281), yncscape(99.788, 4.115)), module, Counter::COUNTER_DEC));

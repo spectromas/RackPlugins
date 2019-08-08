@@ -2,174 +2,9 @@
   "version": "1.1.2",
   "modules": [
     {
-      "id": 26,
+      "id": 55,
       "plugin": "TheXOR",
-      "version": "1.0.4",
-      "model": "PWMClock",
-      "params": [
-        {
-          "id": 0,
-          "value": 0.0
-        },
-        {
-          "id": 1,
-          "value": 0.0
-        },
-        {
-          "id": 2,
-          "value": 0.5
-        },
-        {
-          "id": 3,
-          "value": 120.0
-        },
-        {
-          "id": 4,
-          "value": 0.0
-        },
-        {
-          "id": 5,
-          "value": 0.0
-        },
-        {
-          "id": 6,
-          "value": 0.0
-        }
-      ],
-      "leftModuleId": 47,
-      "rightModuleId": 45,
-      "data": {
-        "bpm_integer": 120
-      },
-      "pos": [
-        20,
-        1
-      ]
-    },
-    {
-      "id": 27,
-      "plugin": "TheXOR",
-      "version": "1.0.4",
-      "model": "nag",
-      "params": [
-        {
-          "id": 0,
-          "value": 11.0
-        },
-        {
-          "id": 1,
-          "value": 0.0
-        },
-        {
-          "id": 2,
-          "value": 0.0
-        },
-        {
-          "id": 3,
-          "value": 1.0
-        },
-        {
-          "id": 4,
-          "value": 1.0
-        },
-        {
-          "id": 5,
-          "value": 0.0
-        },
-        {
-          "id": 6,
-          "value": 1.0
-        },
-        {
-          "id": 7,
-          "value": 21.0
-        },
-        {
-          "id": 8,
-          "value": 22.0
-        },
-        {
-          "id": 9,
-          "value": 8.0
-        },
-        {
-          "id": 10,
-          "value": 5.0
-        },
-        {
-          "id": 11,
-          "value": 20.0
-        },
-        {
-          "id": 12,
-          "value": 12.0
-        },
-        {
-          "id": 13,
-          "value": 92.0
-        },
-        {
-          "id": 14,
-          "value": 6.0
-        },
-        {
-          "id": 15,
-          "value": 79.0
-        },
-        {
-          "id": 16,
-          "value": 33.0
-        },
-        {
-          "id": 17,
-          "value": 221.0
-        },
-        {
-          "id": 18,
-          "value": 93.0
-        },
-        {
-          "id": 19,
-          "value": 185.0
-        },
-        {
-          "id": 20,
-          "value": 44.0
-        },
-        {
-          "id": 21,
-          "value": 214.0
-        },
-        {
-          "id": 22,
-          "value": 161.0
-        },
-        {
-          "id": 23,
-          "value": 321.0
-        },
-        {
-          "id": 24,
-          "value": 359.0
-        },
-        {
-          "id": 25,
-          "value": 1.0
-        }
-      ],
-      "leftModuleId": 45,
-      "data": {
-        "theRandomizer": 0
-      },
-      "pos": [
-        43,
-        1
-      ]
-    },
-    {
-      "id": 28,
-      "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "AttAmp",
       "params": [
         {
@@ -219,19 +54,22 @@
         {
           "id": 11,
           "value": 10.0
+        },
+        {
+          "id": 12,
+          "value": 0.0
         }
       ],
-      "leftModuleId": 35,
-      "rightModuleId": 29,
+      "rightModuleId": 56,
       "pos": [
-        10,
-        0
+        0,
+        1
       ]
     },
     {
-      "id": 29,
+      "id": 56,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Boole",
       "params": [
         {
@@ -295,17 +133,17 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 28,
-      "rightModuleId": 30,
+      "leftModuleId": 55,
+      "rightModuleId": 57,
       "pos": [
-        18,
-        0
+        8,
+        1
       ]
     },
     {
-      "id": 30,
+      "id": 57,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Burst",
       "params": [
         {
@@ -333,18 +171,18 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 29,
-      "rightModuleId": 31,
+      "leftModuleId": 56,
+      "rightModuleId": 58,
       "data": {},
       "pos": [
-        32,
-        0
+        22,
+        1
       ]
     },
     {
-      "id": 31,
+      "id": 58,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Counter",
       "params": [
         {
@@ -360,20 +198,20 @@
           "value": 2.0
         }
       ],
-      "leftModuleId": 30,
-      "rightModuleId": 32,
+      "leftModuleId": 57,
+      "rightModuleId": 59,
       "data": {
         "counter": 2
       },
       "pos": [
-        48,
-        0
+        38,
+        1
       ]
     },
     {
-      "id": 32,
+      "id": 59,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Dmplex",
       "params": [
         {
@@ -393,20 +231,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 31,
-      "rightModuleId": 33,
+      "leftModuleId": 58,
+      "rightModuleId": 60,
       "data": {
         "num_outputs": 8
       },
       "pos": [
-        56,
-        0
+        46,
+        1
       ]
     },
     {
-      "id": 33,
+      "id": 60,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Klee",
       "params": [
         {
@@ -567,7 +405,7 @@
         },
         {
           "id": 39,
-          "value": 1.0
+          "value": 0.0
         },
         {
           "id": 40,
@@ -627,7 +465,7 @@
         },
         {
           "id": 54,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 55,
@@ -650,20 +488,20 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 32,
-      "rightModuleId": 37,
+      "leftModuleId": 59,
+      "rightModuleId": 69,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        66,
-        0
+        56,
+        1
       ]
     },
     {
-      "id": 34,
+      "id": 61,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "M581",
       "params": [
         {
@@ -817,21 +655,25 @@
         {
           "id": 37,
           "value": 1.0
+        },
+        {
+          "id": 38,
+          "value": 0.0
         }
       ],
-      "rightModuleId": 43,
+      "rightModuleId": 62,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        83,
-        1
+        0,
+        2
       ]
     },
     {
-      "id": 35,
+      "id": 62,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Mplex",
       "params": [
         {
@@ -851,35 +693,211 @@
           "value": 0.0
         }
       ],
-      "rightModuleId": 28,
+      "leftModuleId": 61,
+      "rightModuleId": 63,
       "data": {
         "num_inputs": 8
       },
       "pos": [
-        0,
-        0
+        29,
+        2
       ]
     },
     {
-      "id": 37,
+      "id": 63,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
+      "model": "PWMClock",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.5
+        },
+        {
+          "id": 3,
+          "value": 120.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 62,
+      "rightModuleId": 65,
+      "data": {
+        "bpm_integer": 120
+      },
+      "pos": [
+        39,
+        2
+      ]
+    },
+    {
+      "id": 64,
+      "plugin": "TheXOR",
+      "version": "1.1.0",
       "model": "Quantizer",
       "params": [],
-      "leftModuleId": 33,
+      "leftModuleId": 71,
+      "rightModuleId": 72,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        114,
+        109,
         0
       ]
     },
     {
-      "id": 38,
+      "id": 65,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
+      "model": "nag",
+      "params": [
+        {
+          "id": 0,
+          "value": 1.0
+        },
+        {
+          "id": 1,
+          "value": 1.0
+        },
+        {
+          "id": 2,
+          "value": 1.0
+        },
+        {
+          "id": 3,
+          "value": 1.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 6.0
+        },
+        {
+          "id": 8,
+          "value": 4.0
+        },
+        {
+          "id": 9,
+          "value": 3.0
+        },
+        {
+          "id": 10,
+          "value": 1.0
+        },
+        {
+          "id": 11,
+          "value": 1.0
+        },
+        {
+          "id": 12,
+          "value": 1.0
+        },
+        {
+          "id": 13,
+          "value": 0.0
+        },
+        {
+          "id": 14,
+          "value": 0.0
+        },
+        {
+          "id": 15,
+          "value": 0.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": 0.0
+        },
+        {
+          "id": 18,
+          "value": 0.0
+        },
+        {
+          "id": 19,
+          "value": 0.0
+        },
+        {
+          "id": 20,
+          "value": 59.0
+        },
+        {
+          "id": 21,
+          "value": 0.0
+        },
+        {
+          "id": 22,
+          "value": 0.0
+        },
+        {
+          "id": 23,
+          "value": 0.0
+        },
+        {
+          "id": 24,
+          "value": 0.0
+        },
+        {
+          "id": 25,
+          "value": 0.0
+        },
+        {
+          "id": 26,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 63,
+      "rightModuleId": 70,
+      "data": {
+        "theRandomizer": 0
+      },
+      "pos": [
+        54,
+        2
+      ]
+    },
+    {
+      "id": 66,
+      "plugin": "TheXOR",
+      "version": "1.1.0",
       "model": "Renato",
       "params": [
         {
@@ -1149,19 +1167,23 @@
         {
           "id": 66,
           "value": 1.0
+        },
+        {
+          "id": 67,
+          "value": 0.0
         }
       ],
-      "rightModuleId": 39,
+      "rightModuleId": 67,
       "data": {},
       "pos": [
-        0,
-        2
+        3,
+        0
       ]
     },
     {
-      "id": 39,
+      "id": 67,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Spiralone",
       "params": [
         {
@@ -1377,25 +1399,25 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 38,
-      "rightModuleId": 41,
+      "leftModuleId": 66,
+      "rightModuleId": 71,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        39,
-        2
+        42,
+        0
       ]
     },
     {
-      "id": 40,
+      "id": 68,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
       "model": "Uncertain",
       "params": [
         {
           "id": 0,
-          "value": 0.010416667
+          "value": 0.0
         },
         {
           "id": 1,
@@ -1410,17 +1432,72 @@
           "value": 1.0
         }
       ],
-      "rightModuleId": 47,
+      "leftModuleId": 69,
+      "rightModuleId": 73,
       "data": {},
       "pos": [
-        0,
+        114,
         1
       ]
     },
     {
-      "id": 41,
+      "id": 69,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
+      "model": "XSwitch",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 0.0
+        },
+        {
+          "id": 6,
+          "value": 0.0
+        },
+        {
+          "id": 7,
+          "value": 0.0
+        },
+        {
+          "id": 8,
+          "value": 0.0
+        },
+        {
+          "id": 9,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 60,
+      "rightModuleId": 68,
+      "pos": [
+        104,
+        1
+      ]
+    },
+    {
+      "id": 70,
+      "plugin": "TheXOR",
+      "version": "1.1.0",
       "model": "Z8K",
       "params": [
         {
@@ -1486,77 +1563,62 @@
         {
           "id": 15,
           "value": 1.0
+        },
+        {
+          "id": 16,
+          "value": 0.0
         }
       ],
-      "leftModuleId": 39,
+      "leftModuleId": 65,
       "data": {},
       "pos": [
-        90,
+        99,
         2
       ]
     },
     {
-      "id": 43,
+      "id": 71,
       "plugin": "TheXOR",
-      "version": "1.0.4",
-      "model": "XSwitch",
+      "version": "1.1.0",
+      "model": "ascii",
       "params": [
         {
           "id": 0,
           "value": 0.0
-        },
-        {
-          "id": 1,
-          "value": 0.0
-        },
-        {
-          "id": 2,
-          "value": 1.0
-        },
-        {
-          "id": 3,
-          "value": 0.0
-        },
-        {
-          "id": 4,
-          "value": 0.0
-        },
-        {
-          "id": 5,
-          "value": 0.0
-        },
-        {
-          "id": 6,
-          "value": 0.0
-        },
-        {
-          "id": 7,
-          "value": 0.0
-        },
-        {
-          "id": 8,
-          "value": 0.0
-        },
-        {
-          "id": 9,
-          "value": 0.0
         }
       ],
-      "leftModuleId": 34,
-      "rightModuleId": 54,
+      "leftModuleId": 67,
+      "rightModuleId": 64,
+      "text": "struct XorPanel : SvgPanel\r\n{\r\n\tstruct bgGradient : TransparentWidget\r\n\t{\r\n\t\tbgGradient(const Vec &size)\r\n\t\t{\r\n\t\t\tbox.pos = Vec(0, 0);\r\n\t\t\tbox.size = size;\r\n\t\t}\r\n\r\n\t\tvoid draw(const Widget::DrawArgs &args) override\r\n\t\t{\r\n\t\t\tnvgBeginPath(args.vg);\r\n\t\t\tnvgRect(args.vg, 0, 0, box.size.x, box.size.y);\r\n\t\t\tnvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));\r\n\t\t\tnvgFill(args.vg);\r\n\t\t}\r\n\t};\r\n\r\n\tXorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()\r\n\t{\r\n\t\tpWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t\tif (svg != NULL)\r\n\t\t\tsetBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));\r\n\t\taddChild(new bgGradient(box.size));\r\n\t}\r\n\r\n\tvoid AddScrews(ModuleWidget *pWidget)\r\n\t{\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t}\r\n};\r\n\r\n#define CREATE_PANEL(modul, widg,unit,svg)  { \\\r\n\tsetModule(modul); \\\r\n\tXorPanel *panel = new XorPanel(widg, unit, svg); \\\r\n\taddChild(panel); \\\r\n\tpanel->AddScrews(widg); \\\r\n}",
       "pos": [
-        112,
-        1
+        93,
+        0
       ]
     },
     {
-      "id": 45,
+      "id": 72,
       "plugin": "TheXOR",
-      "version": "1.0.4",
+      "version": "1.1.0",
+      "model": "empty",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 64,
+      "pos": [
+        117,
+        0
+      ]
+    },
+    {
+      "id": 73,
+      "plugin": "TheXOR",
+      "version": "1.1.0",
       "model": "midyQuant",
       "params": [],
-      "leftModuleId": 26,
-      "rightModuleId": 27,
+      "leftModuleId": 68,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1566,33 +1628,7 @@
         }
       },
       "pos": [
-        35,
-        1
-      ]
-    },
-    {
-      "id": 47,
-      "plugin": "TheXOR",
-      "version": "1.0.4",
-      "model": "empty",
-      "params": [],
-      "leftModuleId": 40,
-      "rightModuleId": 26,
-      "pos": [
-        12,
-        1
-      ]
-    },
-    {
-      "id": 54,
-      "plugin": "TheXOR",
-      "version": "1.0.4",
-      "model": "ascii",
-      "params": [],
-      "leftModuleId": 43,
-      "text": "#include \"ascii.hpp\"\n\r\nvoid ascii::process(const ProcessArgs &args)\r\n{\r\n\tif (textField != NULL)\r\n\t{\r\n\t\tif (resetTrigger.process(inputs[RESET].value))\r\n\t\t{\r\n\t\t\ttextField->cursor = textField->selection = 0;\r\n\t\t\toutputs[OUT].value = LVL_OFF;\r\n\t\t} else\r\n\t\t{\r\n\t\t\tint clk = clockTrig.process(inputs[CLK].value); // 1=rise, -1=fall\r\n\t\t\tif (clk == 1)\r\n\t\t\t{\r\n\t\t\t\tstd::string safecopy = textField->text;\n\t\t\t\tint len = safecopy.length();\n\t\t\t\tif (len > 0)\r\n\t\t\t\t{\r\n\t\t\t\t\tif (textField->cursor >= len)\r\n\t\t\t\t\t\ttextField->cursor = 0;\r\n\t\t\t\t\tchar c = safecopy.at(textField->cursor++);\r\n\t\t\t\t\ttextField->selection = textField->cursor;\r\n\t\t\t\t\toutputs[OUT].value = getValue(c);\r\n\t\t\t\t} else\r\n\t\t\t\t\toutputs[OUT].value = LVL_OFF;\r\n\r\n\t\t\t}\r\n\t\t}\n\t}\n}\n\nasciiWidget::asciiWidget(ascii *module)\n{\n\tsetModule(module);\n\tbox.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t{\r\n\t\tSvgPanel *panel = new SvgPanel();\r\n\t\tpanel->box.size = box.size;\r\n\t\tpanel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, \"res/modules/ascii.svg\")));\r\n\t\taddChild(panel);\r\n\t}\n\n\taddChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));\n\taddChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\n\taddChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\n\taddChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\n\n\ttextField = createWidget<LedDisplayTextField>(mm2px(Vec(3.39962, 14.8373)));\n\ttextField->box.size = mm2px(Vec(74.480, 98.753));\n\ttextField->multiline = true;\n\taddChild(textField);\n\tif (module != NULL)\n\t\tmodule->setField(textField);\n\n\taddInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));\r\n\taddInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));\r\n\taddOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));\n}\n",
-      "pos": [
-        122,
+        126,
         1
       ]
     }

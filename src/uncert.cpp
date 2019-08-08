@@ -108,19 +108,9 @@ float Uncertain::getFloat(ParamIds p_id, InputIds i_id, float minValue, float ma
 	return clamp(offs + params[p_id].value, minValue, maxValue);
 }
 
-UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget(module)
+UncertainWidget::UncertainWidget(Uncertain *module) : SequencerWidget()
 {
-	box.size = Vec(12 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/uncert.svg")));		
-		addChild(panel);
-	}
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 12, "res/modules/uncert.svg");
 
 	float lft_x = mm2px(4.726);
 	float rgt_x = mm2px(47.988);

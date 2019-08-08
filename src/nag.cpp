@@ -104,26 +104,15 @@ int nag::getInput(int index, int input_id, int knob_id, float mi, float ma)
 	return (int)roundf(params[knob_id + index].value);
 }
 
-nagWidget::nagWidget(nag *module) : SequencerWidget(module)
+nagWidget::nagWidget(nag *module) : SequencerWidget()
 {
 	if (module != NULL)
 		module->setWidget(this);
 #ifdef OSCTEST_MODULE
 	char name[60];
 #endif
-	box.size = Vec(45 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/nag.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 45, "res/modules/nag.svg");
 
 	for (int index = 0; index < NUM_NAGS; index++)
 	{

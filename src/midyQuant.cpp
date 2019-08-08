@@ -50,19 +50,7 @@ midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	setModule(module);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/midyQuant.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 8, "res/modules/midyQuant.svg");
 
 	display = createWidget<qtzrDisplay>(mm2px(Vec(3.41891, 14.0)));
 	display->box.size = mm2px(Vec(33.840, 19));

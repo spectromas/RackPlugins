@@ -139,7 +139,7 @@ bool M581::any()
 	return false;
 }
 
-M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
+M581Widget::M581Widget(M581 *module) : SequencerWidget()
 {
 	#ifdef OSCTEST_MODULE
 	char name[60];
@@ -147,15 +147,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	if(module != NULL)
 		module->setWidget(this);
 
-	box.size = Vec(29 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/M581Module.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 29, "res/modules/M581Module.svg");
 
 	float dist_h = 11.893;
 	for(int k = 0; k < 8; k++)

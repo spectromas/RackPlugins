@@ -79,7 +79,8 @@ struct nagDisplay : OpenGlWidget
 		NVGcolor dg = SCHEME_LIGHT_GRAY;
 		float width = 1.6;
 		glViewport(0.0, 0.0, fbSize.x, fbSize.y);
-		glClearColor(0.2, 0.2, 0.2, 1.0);
+		//glClearColor(0.2, 0.2, 0.2, 1.0);
+		glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 		glEnable(GL_BLEND);

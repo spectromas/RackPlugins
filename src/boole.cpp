@@ -73,20 +73,8 @@ bool Boole::process(int num_op, int index, bool hiz)
 
 BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 {
-	setModule(module);
-	box.size = Vec(14* RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	CREATE_PANEL(module, this, 14, "res/modules/boole.svg");
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/boole.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float in_x = mm2px(5.170);
 	float in_led_x = mm2px(15.778);
 	float out_led_x = mm2px(53.878);

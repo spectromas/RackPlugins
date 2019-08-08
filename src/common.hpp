@@ -47,12 +47,11 @@ struct PatternBtn : SvgSwitch {
 	}
 };
 
-struct XBTN : SvgSwitch {
-	XBTN() {
+struct HiddenButton : SvgSwitch {
+	HiddenButton() {
 		momentary = true;
 
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/xbtn_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/xbtn_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/hidden_0.svg")));
 	}
 };
 
@@ -374,9 +373,8 @@ public:
 	}
 
 protected:
-	SequencerWidget(Module *module) : ModuleWidget() 	
+	SequencerWidget() : ModuleWidget() 	
 	{
-		setModule(module);
 	}
 	
 	int getParamIndex(int index)
@@ -513,6 +511,49 @@ private:
 	float totalPulseTime;
 	float stopwatch;
 };
+
+struct XorPanel : SvgPanel
+{
+	struct bgGradient : TransparentWidget
+	{
+		bgGradient(const Vec &size)
+		{
+			box.pos = Vec(0, 0);
+			box.size = size;
+		}
+
+		void draw(const Widget::DrawArgs &args) override
+		{
+			nvgBeginPath(args.vg);
+			nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
+			nvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));
+			nvgFill(args.vg);
+		}
+	};
+
+	XorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()
+	{
+		pWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+		if (svg != NULL)
+			setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
+		addChild(new bgGradient(box.size));
+	}
+
+	void AddScrews(ModuleWidget *pWidget)
+	{
+		pWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		pWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	}
+};
+
+#define CREATE_PANEL(modul, widg,unit,svg)  { \
+	setModule(modul); \
+	XorPanel *panel = new XorPanel(widg, unit, svg); \
+	addChild(panel); \
+	panel->AddScrews(widg); \
+}
 
 inline float px2mm(float px) {return px * (MM_PER_IN / SVG_DPI ); }
 inline float yncscape(float y, float height) {	return RACK_GRID_HEIGHT - mm2px(y + height);}

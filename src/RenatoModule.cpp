@@ -121,7 +121,7 @@ void RenatoWidget::onMenu(int action)
 	}
 }
 
-RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
+RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 {
 	if (module != NULL)
 		module->setWidget(this);
@@ -130,15 +130,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget(module)
 	char name[60];
 	#endif
 
-	box.size = Vec(39 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/RenatoModule.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x -  2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 39, "res/modules/RenatoModule.svg");
 
 	addInput(createInput<PJ301RPort>(Vec(mm2px(39.330), yncscape(115.267,8.255)), module, Renato::XCLK));
 	addInput(createInput<PJ301RPort>(Vec(mm2px(55.242), yncscape(115.267,8.255)), module, Renato::YCLK));

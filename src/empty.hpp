@@ -33,29 +33,23 @@ struct empty : Module
 	empty() : Module()
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		cl = teTocca = 0;
+		teTocca = 0;
 	}
 	void process(const ProcessArgs &args) override;
-	inline const char *txt() const { return strategies[teTocca]; }
-	inline NVGcolor color()  const { return colors[cl]; }
+	inline const char *txt() const 
+	{ 
+#if 0
+return "The most easily forgotten thing is the most important Ask people to work against their better judgement Do something *EOF*";
+#endif
+		return strategies[teTocca]; 
+	}
 	
 
 private:
 	dsp::SchmittTrigger rndTrigger;
 	dsp::SchmittTrigger btnTrig;
-	inline void getMottett() 
-	{ 
-		teTocca = (int)rescale(random::uniform(), 0.0, 1.0, 0.0, strategies.size());
-		cl = (int)rescale(random::uniform(), 0.0, 1.0, 0.0, 3.0);
-	}
+	inline void getMottett() 	{teTocca = (int)rescale(random::uniform(), 0.0, 1.0, 0.0, strategies.size());}
 	int teTocca;
-	int cl;
-	std::vector<NVGcolor> colors =
-	{
-		nvgRGB(0xff, 0x00, 0x00),
-		nvgRGB(0x00, 0x00, 0x00),
-		nvgRGB(0xff, 0xff, 0xff)
-	};
 	std::vector<const char *> strategies = 
 	{
 		"",

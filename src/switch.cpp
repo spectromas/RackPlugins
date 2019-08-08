@@ -27,20 +27,8 @@ void XSwitch::process(const ProcessArgs &args)
 
 SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 {
-	setModule(module);
-	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	CREATE_PANEL(module, this, 10, "res/modules/Switch.svg");
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Switch.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	float in_x = mm2px(2.500);
 	float mod_x = mm2px(17.306);
 	float sw_x = mm2px(25.027);

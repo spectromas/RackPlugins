@@ -105,7 +105,7 @@ void Spiralone::randrandrand(int action)
 	}
 }
 
-SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
+SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
@@ -120,16 +120,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	color[3] = componentlibrary::SCHEME_YELLOW;
 	color[4] = componentlibrary::SCHEME_GREEN;
 
-	box.size = Vec(51 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/SpiraloneModule.svg")));
-
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 51, "res/modules/SpiraloneModule.svg");
 
 	float step = 2 * M_PI / TOTAL_STEPS;
 	float angle = M_PI / 2.0;

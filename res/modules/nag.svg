@@ -2110,11 +2110,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1.2157989"
-     inkscape:cx="477.83208"
-     inkscape:cy="225.62576"
+     inkscape:zoom="4.8631956"
+     inkscape:cx="230.12998"
+     inkscape:cy="291.06184"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
+     inkscape:current-layer="g1995"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -2136,6 +2136,16 @@
        position="51.924383,18.190665"
        orientation="0,1"
        id="guide101747"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="59.366993,69.92888"
+       orientation="0,1"
+       id="guide2157"
+       inkscape:locked="false" />
+    <sodipodi:guide
+       position="43.524194,62.094516"
+       orientation="0,1"
+       id="guide2159"
        inkscape:locked="false" />
   </sodipodi:namedview>
   <metadata
@@ -2887,6 +2897,12 @@
          rx="0.030611005"
          ry="0.40073907" />
     </g>
+    <circle
+       style="display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2.20087481;stroke-miterlimit:4;stroke-dasharray:none;enable-background:new"
+       id="path1215-1"
+       cx="40.496536"
+       cy="40.283264"
+       r="33.316097" />
   </g>
   <g
      inkscape:groupmode="layer"
@@ -4389,13 +4405,6 @@
          id="path1122"
          inkscape:connector-curvature="0" />
     </g>
-    <ellipse
-       style="display:inline;opacity:1;fill:none;fill-opacity:1;stroke:#ff0000;stroke-width:2.25097632;stroke-miterlimit:4;stroke-dasharray:none;enable-background:new"
-       id="path1215-1"
-       cx="40.533333"
-       cy="11.244473"
-       rx="34.074512"
-       ry="34.074516" />
     <g
        style="display:inline"
        transform="matrix(1.0666667,0,0,1.0666667,-38.455109,-52.9921)"

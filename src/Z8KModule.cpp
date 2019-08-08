@@ -67,7 +67,7 @@ void Z8K::process(const ProcessArgs &args)
 	#endif
 }
 
-Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
+Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 {	
 	if(module != NULL)
 		module->setWidget(this);
@@ -76,15 +76,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 	char name[60];
 	#endif
 
-	box.size = Vec(34 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Z8KModule.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 34, "res/modules/Z8KModule.svg");
+
 	float dist_h = 22.225;
 	float dist_v = -18.697;
 

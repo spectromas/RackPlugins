@@ -177,23 +177,12 @@ float PwmClock::getSwing()
 	return clamp(offs + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE);
 }
 
-PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget(module)
+PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
-	box.size = Vec(15 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/PwmClock.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(15, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(15, 365)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 365)));
+	
+	CREATE_PANEL(module, this, 15, "res/modules/PwmClock.svg");
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(14.452), yncscape(104.588 + 4.762,4.115)), module, PwmClock::BPM_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(14.452), yncscape(99.788 + 4.762, 4.115)), module, PwmClock::BPM_DEC));

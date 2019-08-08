@@ -79,20 +79,8 @@ void Mplex::process(const ProcessArgs &args)
 
 MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 {
-	setModule(module);
-	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	CREATE_PANEL(module, this, 10, "res/modules/mplex.svg");
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/mplex.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(25.322), yncscape(85.436, 8.999)), module, Mplex::BTUP));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(25.322), yncscape(33.452, 8.999)), module, Mplex::BTDN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(71.230, 8.255)), module, Mplex::INUP));

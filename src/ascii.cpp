@@ -32,19 +32,7 @@ void ascii::process(const ProcessArgs &args)
 
 asciiWidget::asciiWidget(ascii *module)
 {
-	setModule(module);
-	box.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/ascii.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 16, "res/modules/ascii.svg");
 
 	textField = createWidget<LedDisplayTextField>(mm2px(Vec(3.39962, 14.8373)));
 	textField->box.size = mm2px(Vec(74.480, 98.753));
@@ -58,5 +46,5 @@ asciiWidget::asciiWidget(ascii *module)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
-	addChild(createParam<BefacoPushBig>(Vec(mm2px(3.4), yncscape(116.611, 8.999)), module, ascii::M_RESET));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(9.4), yncscape(116.611, 8.999)), module, ascii::M_RESET));
 }
