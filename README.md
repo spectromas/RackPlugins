@@ -1,4 +1,4 @@
-### The XOR - the absoultely awful plugin suite
+### the absolutely awful plugin suite
 ![modules](/res/png/modules.png?raw=true "modules")
 
 common characteristics:
