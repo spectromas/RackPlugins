@@ -1,8 +1,5 @@
 #include "common.hpp"
 
-////////////////////
-// module widgets
-////////////////////
 using namespace rack;
 extern Plugin *pluginInstance;
 
@@ -10,7 +7,7 @@ extern Plugin *pluginInstance;
 struct Boole;
 struct BooleWidget : ModuleWidget
 {
-	BooleWidget(Boole * module);
+	BooleWidget(Boole *module);
 };
 
 struct Boole : Module
@@ -18,14 +15,16 @@ struct Boole : Module
 	enum ParamIds
 	{
 		INVERT_1,
-		THRESH_1 = INVERT_1 + NUM_BOOL_OP,
-		HIZ= THRESH_1 + 2* NUM_BOOL_OP-1,
+		THRESH_X = INVERT_1 + NUM_BOOL_OP,
+		THRESH_Y = THRESH_X + NUM_BOOL_OP,
+		HIZ= THRESH_Y + NUM_BOOL_OP-1,
 		NUM_PARAMS,
 	};
 	enum InputIds
 	{
-		IN_1,
-		NUM_INPUTS = IN_1 + 2 * NUM_BOOL_OP-1
+		IN_X,
+		IN_Y = IN_X + NUM_BOOL_OP,
+		NUM_INPUTS = IN_Y+ NUM_BOOL_OP-1
 	};
 	enum OutputIds
 	{
@@ -34,8 +33,10 @@ struct Boole : Module
 	};
 	enum LightIds
 	{
-		LED_1,
-		LED_HIZ = LED_1 + 3* NUM_BOOL_OP-1,
+		LED_X,
+		LED_Y = LED_X + NUM_BOOL_OP, 
+		LED_OUT = LED_Y + NUM_BOOL_OP-1,
+		LED_HIZ = LED_OUT + NUM_BOOL_OP,
 		NUM_LIGHTS 
 	};
 
@@ -44,24 +45,15 @@ struct Boole : Module
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < NUM_BOOL_OP; k++)
 		{
-			hiccup[k] = 0;
-			int index = 2 * k;
-			if(k > 0)
-				index--;
-
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
-			configParam(Boole::THRESH_1 + index, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
+			configParam(Boole::THRESH_X + k, LVL_OFF, LVL_ON, LVL_ON/2, "Threshold", "V");
 			if(k > 0)
-			{
-				index++;
-				configParam(Boole::THRESH_1 + index, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
-			}
+				configParam(Boole::THRESH_Y + k-1, LVL_OFF, LVL_ON, LVL_ON / 2, "Threshold", "V");
 		}
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
-	bool process(int num_op, int index, bool hiz);
+	bool process(int num_op, bool hiz);
 	float getVoltage(int index, int num_op, bool hiz);
-	unsigned char hiccup[NUM_BOOL_OP];
 };

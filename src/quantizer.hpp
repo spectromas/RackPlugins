@@ -255,6 +255,7 @@ struct Quantizer : Module, quantizeModule
 	{
 		OUT_1,
 		OUT_NOTRANSPOSE,
+		OUT_OCTAVE,
 		NUM_OUTPUTS
 	};
 	enum LightIds

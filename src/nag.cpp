@@ -20,6 +20,7 @@ void nag::reset()
 	for (int k = 0; k < NUM_NAGS; k++)
 	{
 		sequencer[k].reset();
+		outputs[OUT_1 + k].value = LVL_OFF;
 	}
 	theCounter = 0;
 	counterRemaining = 0;
@@ -165,9 +166,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(208.211), yncscape(107.928-delta_y, 8.255)), module, nag::OUT_1 + index));
 		addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(219.375), yncscape(115.230 - delta_y, 2.176)), module, nag::ON_1 + index));
-
-		if (module != NULL)
-			addChild(new nag7Segm(module != NULL ? &module->sequencer[index] : NULL, 92.499, 108.231 - delta_y));
+		addChild(new nag7Segm(module != NULL ? &module->sequencer[index] : NULL, 92.499, 108.231 - delta_y));
 	}
 	
 	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(40.702), yncscape(12.631, 8.0)), module, nag::DEGXCLK);

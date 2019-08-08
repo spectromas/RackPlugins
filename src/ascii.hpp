@@ -31,6 +31,7 @@ struct ascii : Module
 	enum ParamIds
 	{
 		M_RESET,
+		FTM,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -59,8 +60,10 @@ struct ascii : Module
 
 private:
 	float getValue(char c) { return clamp(rescale(c, 32.0, 127.0, LVL_OFF, LVL_MAX), LVL_OFF, LVL_MAX); }
+	void manifesto();
 	dsp::SchmittTrigger resetTrigger;
 	TextField *textField;
 	SchmittTrigger2 clockTrig;
 	dsp::SchmittTrigger masterReset;
+	dsp::SchmittTrigger manifestoTrigger;
 };

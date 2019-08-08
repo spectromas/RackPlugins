@@ -67,6 +67,21 @@ void Z8K::process(const ProcessArgs &args)
 	#endif
 }
 
+
+Menu *Z8KWidget::addContextMenu(Menu *menu)
+{
+	menu->addChild(new SeqMenuItem<Z8KWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
+	return menu;
+}
+
+void Z8KWidget::onMenu(int action)
+{
+	switch (action)
+	{
+	case RANDOMIZE_PITCH: std_randomize(Z8K::VOLTAGE_1, Z8K::VOLTAGE_1 + 16); break;
+	
+	}
+}
 Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 {	
 	if(module != NULL)

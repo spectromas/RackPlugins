@@ -13,6 +13,15 @@ struct Z8KWidget : SequencerWidget
 {
 public:
 	Z8KWidget(Z8K *module);
+	void onMenu(int action);
+private:
+	enum MENUACTIONS
+	{
+		RANDOMIZE_PITCH,
+	
+	};
+
+	Menu *addContextMenu(Menu *menu) override;
 };
 
 struct Z8K : Module

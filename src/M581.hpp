@@ -207,7 +207,7 @@ struct M581 : Module
 
 		configParam(M581::GATE_TIME, 0.005, 1.0, 0.25);
 		configParam(M581::SLIDE_TIME, 0.005, 2.0, 0.5);
-		configParam(M581::MAXVOLTS, 0.0, 1.0, 1.0);
+		configParam(M581::MAXVOLTS, 0.0, 1.0, 0.0);
 		configParam(M581::STEP_DIV, 0.0, 3.0, 0.0);
 		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);	
 		configParam(M581::RUN_MODE, 0.0, 4.0, 0.0);

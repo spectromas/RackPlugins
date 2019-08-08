@@ -8,16 +8,20 @@ void Boole::process(const ProcessArgs &args)
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
-		int index = 2 * k;
 		if(outputs[OUT_1 + k].isConnected())
 		{
-			bool o = process(k, index, hiz);
+			bool o = process(k, hiz);
 			if(params[INVERT_1 + k].value > 0.1)
 				o = !o;
-			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = o ? LED_ON : LED_OFF;
+			lights[LED_OUT+k].value = o ? LED_ON : LED_OFF;
 			outputs[OUT_1 + k].value = o ? LVL_ON : LVL_OFF;
-		} else
-			lights[LED_1+ k + 2 * NUM_BOOL_OP - 1].value = 0.0;
+		}
+		else
+		{
+			lights[LED_X + k].value = lights[LED_OUT + k].value = LED_OFF;
+			if(k>0)
+				lights[LED_Y + k].value = LED_OFF;
+		}
 	}
 }
 
@@ -25,7 +29,7 @@ float Boole::getVoltage(int index, int num_op, bool hiz)
 {
 	if (hiz && !inputs[index].isConnected())
 	{
-		if(++hiccup[num_op] == 0)
+		if(random::uniform() > 0.6)
 		{
 			float n = random::normal();
 			if (n > 2.1)
@@ -44,21 +48,15 @@ float Boole::getVoltage(int index, int num_op, bool hiz)
 		return inputs[index].getNormalVoltage(0.0);
 }
 
-bool Boole::process(int num_op, int index, bool hiz)
+bool Boole::process(int num_op, bool hiz)
 {
-	bool x;
+	bool x = getVoltage(IN_X + num_op, num_op, hiz) > params[THRESH_X + num_op].value;
+	lights[LED_X + num_op].value = x ? LED_ON : LED_OFF;
 	if(num_op == 0)	// not?
-	{
-		x = getVoltage(IN_1, num_op, hiz) > params[THRESH_1 ].value;
-		lights[LED_1].value = x ? LED_ON : LED_OFF;
 		return !x;
-	} else
-	{
-		x = getVoltage(IN_1 + index-1, num_op, hiz) > params[THRESH_1 + index-1].value;
-		lights[LED_1 + index - 1].value = x ? LED_ON : LED_OFF;
-	}
-	bool y = getVoltage(IN_1 + index, num_op, hiz) > params[THRESH_1 + index].value;
-	lights[LED_1 + index].value = y ? LED_ON : LED_OFF;
+		
+	bool y = getVoltage(IN_Y + num_op-1, num_op, hiz) > params[THRESH_Y + num_op-1].value;
+	lights[LED_Y + num_op - 1].value = y ? LED_ON : LED_OFF;
 		
 	switch(num_op)
 	{	
@@ -92,30 +90,26 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 	
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
-		int index = 2 * k;
-		if(k > 0)
-			index--;
-
 		// X
-		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_1 + index));
-		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0)), module, Boole::THRESH_1 + index));
-		addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1+index));
+		addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_X + k));
+		addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0)), module, Boole::THRESH_X + k));
+		addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_X +k));
 
 		// Y
 		if(k > 0)
 		{
-			index++;
 			y += sub_dy;
 			ypot += sub_dy;
 			yled += sub_dy;
-			addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_1 + index));
-			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0) ), module, Boole::THRESH_1 + index));
-			addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_1 + index ));
+			addInput(createInput<PJ301GRPort>(Vec(in_x, yncscape(y, 8.255)), module, Boole::IN_Y + k-1));
+			addParam(createParam<Davies1900hFixWhiteKnobSmall>(Vec(pot_x, yncscape(ypot, 8.0) ), module, Boole::THRESH_Y + k-1));
+			addChild(createLight<SmallLight<RedLight>>(Vec(in_led_x, yncscape(yled, 2.176)), module, Boole::LED_Y + k-1 ));
 		}
 		
 		// OUT
 		addOutput(createOutput<PJ301WPort>(Vec(out_x, yncscape(yout, 8.255)), module, Boole::OUT_1+k));
-		addChild(createLight<SmallLight<WhiteLight>>(Vec(out_led_x, yncscape(yled_out, 2.176)), module, Boole::LED_1 + k+ 2 * NUM_BOOL_OP-1));
+		addChild(createLight<SmallLight<WhiteLight>>(Vec(out_led_x, yncscape(yled_out, 2.176)), module, Boole::LED_OUT+k));
+
 		if(k == 0)
 		{
 			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(118.714, 5.460)), module, Boole::INVERT_1 + k));

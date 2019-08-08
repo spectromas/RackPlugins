@@ -8,20 +8,22 @@ extern Input *AccessInput(Spiralone *p, int seq, int id);
 extern float *AccessOutput(Spiralone *p, int seq, int id);
 extern float *AccessLight(Spiralone *p, int id);
 
-void spiraloneSequencer::Step(int seq, Spiralone *pSpir)
+int spiraloneSequencer::GetNumSteps(Spiralone *pSpir) { return getInput(pSpir, Spiralone::INLENGHT_1, Spiralone::LENGHT_1, 1.0, TOTAL_STEPS); }
+
+void spiraloneSequencer::Step(Spiralone *pSpir)
 {
 	if(resetTrigger.process(AccessInput(pSpir, seq, Spiralone::RESET_1)->value))
-		Reset(seq, pSpir);
+		Reset(pSpir);
 	else
 	{
 		int clk = clockTrig.process(AccessInput(pSpir, seq, Spiralone::CLOCK_1)->value); // 1=rise, -1=fall
 		if(clk == 1)
 		{
 			int mode = (int)std::roundf(AccessParam(pSpir, seq, Spiralone::MODE_1));
-			int numSteps = getInput(seq, pSpir, Spiralone::INLENGHT_1, Spiralone::LENGHT_1, 1.0, TOTAL_STEPS);
-			int stride = getInput(seq, pSpir, Spiralone::INSTRIDE_1, Spiralone::STRIDE_1, 1.0, 8.0);
+			int numSteps = GetNumSteps(pSpir);
+			int stride = getInput(pSpir, Spiralone::INSTRIDE_1, Spiralone::STRIDE_1, 1.0, 8.0);
 
-			*AccessLight(pSpir, ledID(seq)) = LED_OFF;
+			*AccessLight(pSpir, ledID()) = LED_OFF;
 			switch(mode)
 			{
 			case 0: // fwd:
@@ -43,28 +45,28 @@ void spiraloneSequencer::Step(int seq, Spiralone *pSpir)
 
 			curPos %= numSteps;
 
-			outputVoltage(seq, pSpir);
-			gate(clk, seq, pSpir);
+			outputVoltage(pSpir);
+			gate(clk, pSpir);
 		} else if(clk == -1)
-			gate(clk, seq, pSpir);
+			gate(clk, pSpir);
 	}
 }
 
-void spiraloneSequencer::Reset(int seq, Spiralone *pSpir)
+void spiraloneSequencer::Reset(Spiralone *pSpir)
 {
 	curPos = 0;
 	for(int k = 0; k < TOTAL_STEPS; k++)
-		*AccessLight(pSpir, ledID(seq, k)) = LED_OFF;
+		*AccessLight(pSpir, ledID(k)) = LED_OFF;
 }
 
-int spiraloneSequencer::getInput(int seq, Spiralone *pSpir, int input_id, int knob_id, float minValue, float maxValue)
+int spiraloneSequencer::getInput(Spiralone *pSpir, int input_id, int knob_id, float minValue, float maxValue)
 {
 	float getNormalVoltaged_in = AccessInput(pSpir, seq, input_id)->isConnected() ? rescale(AccessInput(pSpir, seq, input_id)->value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
 	float v = clamp(getNormalVoltaged_in + AccessParam(pSpir, seq, knob_id), minValue, maxValue);
 	return (int)roundf(v);
 }
 
-void spiraloneSequencer::outputVoltage(int seq, Spiralone *pSpir)
+void spiraloneSequencer::outputVoltage(Spiralone *pSpir)
 {
 	float v = AccessParam(pSpir, seq, Spiralone::XPOSE_1);
 	if(AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->isConnected())
@@ -73,11 +75,11 @@ void spiraloneSequencer::outputVoltage(int seq, Spiralone *pSpir)
 	*AccessOutput(pSpir, seq, Spiralone::CV_1) = clamp(v, LVL_MIN, LVL_MAX);
 }
 
-void spiraloneSequencer::gate(int clk, int seq, Spiralone *pSpir)
+void spiraloneSequencer::gate(int clk, Spiralone *pSpir)
 {
 	if(clk == 1)
 	{
-		*AccessLight(pSpir, ledID(seq)) = LED_ON;
+		*AccessLight(pSpir, ledID()) = LED_ON;
 		*AccessOutput(pSpir, seq, Spiralone::GATE_1) = LVL_ON;
 	} else if(clk == -1) // fall
 	{
