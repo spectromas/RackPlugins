@@ -18,6 +18,7 @@ struct Boole : Module
 		THRESH_X = INVERT_1 + NUM_BOOL_OP,
 		THRESH_Y = THRESH_X + NUM_BOOL_OP,
 		HIZ= THRESH_Y + NUM_BOOL_OP-1,
+		COMPAREMODE,
 		NUM_PARAMS,
 	};
 	enum InputIds
@@ -46,14 +47,15 @@ struct Boole : Module
 		for(int k = 0; k < NUM_BOOL_OP; k++)
 		{
 			configParam(Boole::INVERT_1 + k, 0.0, 1.0, 0.0);
-			configParam(Boole::THRESH_X + k, LVL_OFF, LVL_ON, LVL_ON/2, "Threshold", "V");
+			configParam(Boole::THRESH_X + k, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
 			if(k > 0)
-				configParam(Boole::THRESH_Y + k-1, LVL_OFF, LVL_ON, LVL_ON / 2, "Threshold", "V");
+				configParam(Boole::THRESH_Y + k-1, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
 		}
 	}
 	void process(const ProcessArgs &args) override;
 
 private:
-	bool process(int num_op, bool hiz);
+	bool process(int num_op, bool hiz, bool compare);
+	bool logicLevel(float v1, float v2, bool compare);
 	float getVoltage(int index, int num_op, bool hiz);
 };

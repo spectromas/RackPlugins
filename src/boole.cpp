@@ -4,13 +4,14 @@
 void Boole::process(const ProcessArgs &args)
 {
 	bool hiz = params[HIZ].value > 0.1;
+	bool compare = params[COMPAREMODE].value > 0.1;
 	lights[LED_HIZ].value = hiz ? LED_ON : LED_OFF;
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
 		if(outputs[OUT_1 + k].isConnected())
 		{
-			bool o = process(k, hiz);
+			bool o = process(k, hiz, compare);
 			if(params[INVERT_1 + k].value > 0.1)
 				o = !o;
 			lights[LED_OUT+k].value = o ? LED_ON : LED_OFF;
@@ -48,14 +49,19 @@ float Boole::getVoltage(int index, int num_op, bool hiz)
 		return inputs[index].getNormalVoltage(0.0);
 }
 
-bool Boole::process(int num_op, bool hiz)
+bool Boole::logicLevel(float v1, float v2, bool compare)
+{	
+	return compare ? fabs(v1 - v2) < std::numeric_limits<float>::epsilon() : v1 > v2;
+}
+
+bool Boole::process(int num_op, bool hiz, bool compare)
 {
-	bool x = getVoltage(IN_X + num_op, num_op, hiz) > params[THRESH_X + num_op].value;
+	bool x = logicLevel(getVoltage(IN_X + num_op, num_op, hiz), params[THRESH_X + num_op].value, compare);
 	lights[LED_X + num_op].value = x ? LED_ON : LED_OFF;
 	if(num_op == 0)	// not?
 		return !x;
 		
-	bool y = getVoltage(IN_Y + num_op-1, num_op, hiz) > params[THRESH_Y + num_op-1].value;
+	bool y = logicLevel(getVoltage(IN_Y + num_op-1, num_op, hiz), params[THRESH_Y + num_op-1].value, compare);
 	lights[LED_Y + num_op - 1].value = y ? LED_ON : LED_OFF;
 		
 	switch(num_op)
@@ -128,7 +134,8 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		yled += delta_y;
 	}
 
-	addParam(createParam<CKSSFixH>(Vec(mm2px(47.847), yncscape(2.136, 3.704)), module, Boole::HIZ));
-	addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(54.166), yncscape(2.7, 2.176)), module, Boole::LED_HIZ ));
+	addParam(createParam<CKSSFixH>(Vec(mm2px(21.831), yncscape(1.436, 3.704)), module, Boole::COMPAREMODE));
+	addParam(createParam<CKSSFixH>(Vec(mm2px(43.084), yncscape(1.436, 3.704)), module, Boole::HIZ));
+	addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(49.404), yncscape(2.2, 2.176)), module, Boole::LED_HIZ ));
 }
 
