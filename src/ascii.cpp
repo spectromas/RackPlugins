@@ -6,9 +6,9 @@ void ascii::manifesto()
 	disclaimer:
 	non vi venga in mente di rompere le palle con la politica. qui c'e' solo arte, arte allo stato puro,
 	ed una sconfinata ammirazione per filippo tommaso & soci.
-	persone che hanno vissuto in maniera artistica, seppur con scelte discutibili, un migliardo (con la 'g')
-	di volte migliori di rockstar pedofile moderne. poi, se fossero o non fossero fascisti... sti gran cazzi. 
-	hanno regalato all'umanita dei capolavori, e questo basta. tutto il resto e' noia. 
+	persone che hanno vissuto in maniera artistica, seppur con scelte discutibili, 10E32
+	di volte migliori (anche umanamente) di moderne rockstar pedofile. arte. anzi, Arte.
+	tutto il resto e' noia, pippe mentali e mancata connessione neuronale. 
 	*/
 
 	static std::vector<std::string> manifesto_futurista =

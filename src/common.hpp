@@ -50,8 +50,8 @@ struct PatternBtn : SvgSwitch {
 struct HiddenButton : SvgSwitch {
 	HiddenButton() {
 		momentary = true;
-
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/hidden_0.svg")));
+		fb->removeChild(shadow);
 	}
 };
 
@@ -134,7 +134,10 @@ struct _ioPort : SvgPort
 
 struct PJ301HPort : _ioPort
 {
-	PJ301HPort() : _ioPort("res/PJ301H.svg") {}
+	PJ301HPort() : _ioPort("res/PJ301H.svg") 
+	{
+		fb->removeChild(shadow);
+	}
 };
 
 struct PJ301YPort : _ioPort 

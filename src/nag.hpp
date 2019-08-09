@@ -223,6 +223,7 @@ struct nag : Module
 #endif
 	}
 #endif
+	int degPerClock();
 	void process(const ProcessArgs &args) override;
 	inline int getClock() { return theCounter; }
 	NagSeq sequencer[NUM_NAGS];

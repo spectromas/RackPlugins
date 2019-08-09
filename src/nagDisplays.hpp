@@ -4,14 +4,26 @@ struct nag7Segm : TransparentWidget
 private:
 	std::shared_ptr<Font> font;
 	NagSeq *pSeq;
+	nag *pNag;
+	void init(float x, float y)
+	{
+		box.size = Vec(27, 22);
+		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+	}
 
 public:
 	nag7Segm(NagSeq *sq, float x, float y)
 	{
 		pSeq = sq;
-		box.size = Vec(27, 22);
-		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+		pNag = NULL;
+		init(x, y);
+	}
+	nag7Segm(nag *p, float x, float y)
+	{
+		pSeq = NULL;
+		pNag = p;
+		init(x, y);
 	}
 	
 	void draw(const DrawArgs &args) override
@@ -55,6 +67,13 @@ public:
 				nvgFillColor(args.vg, textColor);
 				nvgText(args.vg, textPos.x, textPos.y, "--", NULL);
 			}
+		} else if (pNag != NULL)
+		{
+			char n[20];
+			sprintf(n, "%2i", pNag->degPerClock());
+			textColor = nvgRGB(0xff, 0x00, 0x00);
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, n, NULL);
 		}
 	}
 };

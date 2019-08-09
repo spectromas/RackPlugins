@@ -38,6 +38,7 @@ void nag::updateNags(float dt)
 	}
 }
 
+int nag::degPerClock() { return  getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK); }
 void nag::process(const ProcessArgs &args)
 {
 	if (resetTrig.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
@@ -50,7 +51,7 @@ void nag::process(const ProcessArgs &args)
 			if (rndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
-		int degclk = getInput(0, DEGXCLK_IN, DEGXCLK, MIN_DEGXCLOCK, MAX_DEGXCLOCK);
+		int degclk = degPerClock();
 		bool dm = degclk > 1 && params[DEGMODE].value > 0.1;
 		lights[LED_DEGMODE].value = dm ? LED_ON : LED_OFF;
 
@@ -143,6 +144,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 		pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(139.902), yncscape(108.056 - delta_y, 8.0)), module, nag::ROTATE_1 + index);
 		((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 		addParam(pwdg);
+		
 		#ifdef OSCTEST_MODULE
 		if (module != NULL)
 		{
@@ -172,6 +174,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	ParamWidget *pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(40.702), yncscape(12.631, 8.0)), module, nag::DEGXCLK);
 	((Davies1900hFixRedKnobSmall *)pwdg)->snap = true;
 	addParam(pwdg);
+	addChild(new nag7Segm(module, 27.159f, 12.807f));
 	#ifdef OSCTEST_MODULE
 	if (module != NULL)
 	{
@@ -183,7 +186,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	addInput(createInput<PJ301RPort>( Vec(mm2px(55.235), yncscape(24.892, 8.255)), module, nag::CLOCK));
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(55.235), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
 
-	addInput(createInput<PJ301HPort>(Vec(mm2px(16.841), yncscape(24.892, 8.255)), module, nag::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(14.195), yncscape(37.281, 8.255)), module, nag::RANDOMIZONE));
 	addParam(createParam<CKSSFixH>(Vec(mm2px(49.115), yncscape(5.359, 3.704)), module, nag::DEGMODE));
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(58.152), yncscape(6.123, 2.176)), module, nag::LED_DEGMODE));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(40.202), yncscape(36.909, 8.999)), module, nag::M_RESET));

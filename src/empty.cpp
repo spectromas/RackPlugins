@@ -60,7 +60,7 @@ emptyWidget::emptyWidget(empty *module)
 	disp->pModule = module;
 	addChild(disp);
 
-	addParam(createParam<HiddenButton>(Vec(mm2px(10.785), yncscape(22.289, 5.08)), module, empty::MOTTBTN));
-	addInput(createInput<PJ301HPort>(Vec(mm2px(22.67), yncscape(6.391, 8.255)), module, empty::MOTTETTO));
+	addParam(createParam<HiddenButton>(Vec(mm2px(17.78), yncscape(12.806, 5.08)), module, empty::MOTTBTN));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(0), yncscape(0, 8.255)), module, empty::MOTTETTO));
 }
 
