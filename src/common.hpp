@@ -514,6 +514,12 @@ private:
 
 struct XorPanel : SvgPanel
 {
+	struct Screw : app::SvgScrew 
+	{
+		Screw() {
+			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw.svg")));
+		}
+	};
 	struct bgGradient : TransparentWidget
 	{
 		bgGradient(const Vec &size)
@@ -541,10 +547,10 @@ struct XorPanel : SvgPanel
 
 	void AddScrews(ModuleWidget *pWidget)
 	{
-		pWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-		pWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		pWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		pWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 };
 
