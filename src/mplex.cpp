@@ -52,7 +52,7 @@ void Mplex::process(const ProcessArgs &args)
 	}
 	else if (inputs[CV].isConnected())
 	{
-		cur_sel = (int)roundf(rescale(clamp(inputs[CV].getNormalVoltage(0.0), LVL_OFF, LVL_ON), LVL_OFF, LVL_ON, 0, num_inputs - 1));
+		cur_sel = clamp((int)(std::numeric_limits<float>::epsilon()+inputs[CV].getNormalVoltage(0.0)), 0, num_inputs - 1);
 		set_output(cur_sel);
 	}
 	else
