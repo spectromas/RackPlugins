@@ -37,7 +37,7 @@ void Z8K::process(const ProcessArgs &args)
 	int activeSteps[16];
 	for(int k = 0; k < 16; k++)
 		activeSteps[k] = LVL_OFF;
-	if (masterReset.process(params[M_RESET].value))
+	if (masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[MASTERRESET].value))
 	{
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
 			seq[k].Reset();
@@ -120,7 +120,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	addInput(createInput<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), module, Z8K::CLOCK_HORIZ));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), module, Z8K::CV_HORIZ));
 
-	addInput(createInput<PJ301BPort> (Vec(mm2px(24.183), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(102.575, 8.255)), module, Z8K::RANDOMIZE));
+	addInput(createInput<PJ301YPort> (Vec(mm2px(26.912), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
 
 	for(int r = 0; r < 4; r++)
 	{

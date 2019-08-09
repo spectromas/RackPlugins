@@ -62,6 +62,7 @@ struct UPSWITCH : SvgSwitch
 		momentary = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_1.svg")));
+		fb->removeChild(shadow);
 	}
 };
 
@@ -72,6 +73,7 @@ struct DNSWITCH : SvgSwitch
 		momentary = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_1.svg")));
+		fb->removeChild(shadow);
 	}
 };
 

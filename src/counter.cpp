@@ -87,7 +87,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	addParam(createParam<DNSWITCH>(Vec(mm2px(2.281), yncscape(99.788, 4.115)), module, Counter::COUNTER_DEC));
 
 	SigDisplayWidget *display = new SigDisplayWidget(3, 0);
-	display->box.size = Vec(30+16, 24);
+	display->box.size = Vec(30+16, 22);
 	display->box.pos = Vec(mm2px(7.934), yncscape(100.07, px2mm(display->box.size.y)));
 
 	if(module != NULL)
@@ -95,7 +95,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	addChild(display);
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
-	displayCtr->box.size = Vec(30+16, 24);
+	displayCtr->box.size = Vec(30+16, 22);
 	displayCtr->box.pos = Vec(mm2px(7.934), yncscape(83.887, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;

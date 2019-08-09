@@ -52,6 +52,7 @@ struct Z8K : Module
 
 		RANDOMIZE,
 		TRANSPOSER,
+		MASTERRESET,
 
 		NUM_INPUTS
 	};
@@ -144,4 +145,5 @@ private:
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;
 	dsp::SchmittTrigger masterReset;
+	dsp::SchmittTrigger masterResetIn;
 };
