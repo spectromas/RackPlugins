@@ -14,14 +14,47 @@ struct RenatoWidget : SequencerWidget
 public:
 	void onMenu(int action);
 	RenatoWidget(Renato * module);
-
-private:
 	enum MENUACTIONS
 	{
-		RANDOMIZE_PITCH,
-		RANDOMIZE_GATEX,
-		RANDOMIZE_GATEY,
-		RANDOMIZE_ACCESS
+		RANDOMIZE_PITCH  = 0x01,
+		RANDOMIZE_GATEX  = 0x02,
+		RANDOMIZE_GATEY  = 0x04,
+		RANDOMIZE_ACCESS = 0x08,
+		RANDOMIZE_LAQUALUNQUE = 0x10
+
+	};
+private:
+
+	struct RandomizeSubItemItem : MenuItem {
+		RandomizeSubItemItem(Module *ren, const char *title, int action);
+
+		int randomizeDest;
+		Renato *renato;
+		void onAction(const event::Action &e) override;
+	};
+
+	struct RandomizeItem : ui::MenuItem
+	{
+	public:
+		RandomizeItem(Module *ren)
+		{
+			renato = ren;
+			text = "Force the hand of chance";
+			rightText = RIGHT_ARROW;
+		};
+		Menu *createChildMenu() override
+		{
+			Menu *sub_menu = new Menu;
+			sub_menu->addChild(new RandomizeSubItemItem(renato, "Ov Pitch", RANDOMIZE_PITCH));
+			sub_menu->addChild(new RandomizeSubItemItem(renato, "Ov Gate Ov X", RANDOMIZE_GATEX));
+			sub_menu->addChild(new RandomizeSubItemItem(renato, "Ov Gate Ov Y", RANDOMIZE_GATEY));
+			sub_menu->addChild(new RandomizeSubItemItem(renato, "Ov Access", RANDOMIZE_ACCESS));
+			sub_menu->addChild(new RandomizeSubItemItem(renato, "Ov Power", RANDOMIZE_LAQUALUNQUE));
+			return sub_menu;
+		}
+
+	private:
+		Module *renato;
 	};
 
 	Menu *addContextMenu(Menu *menu) override;
@@ -49,9 +82,7 @@ struct Renato : Module
 		ACCESS_IN1,
 		GATEX_IN1 = ACCESS_IN1 + 16,
 		GATEY_IN1 = GATEX_IN1 + 16,
-		ACCESS_RND = GATEY_IN1+16,
-		GATEX_RND,
-		GATEY_RND,
+		RANDOMIZONE = GATEY_IN1+16,
 		NUM_INPUTS
 	};
 
@@ -73,6 +104,7 @@ struct Renato : Module
 	void setWidget(RenatoWidget *pwdg) { pWidget = pwdg; }
 	Renato() : Module()
 	{
+		theRandomizer = 0;
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Renato::COUNTMODE_Y, 0.0, 2.0, 0.0);
@@ -115,10 +147,19 @@ struct Renato : Module
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
 
-	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
+	void dataFromJson(json_t *root) override
+	{
+		Module::dataFromJson(root);
+		json_t *rndJson = json_object_get(root, "theRandomizer");
+		if (rndJson)
+			theRandomizer = json_integer_value(rndJson);
+		on_loaded();
+	}
 	json_t *dataToJson() override
 	{
 		json_t *rootJ = json_object();
+		json_t *rndJson = json_integer(theRandomizer);
+		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
 	bool _accessX(int p) { return _access(xy(p, seqY.Position())); }
@@ -133,12 +174,15 @@ struct Renato : Module
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv = NULL;
 	#endif
+	int theRandomizer;
 
 private:
 	float getStatus(int pid, int iid)
 	{
 		return inputs[iid].getNormalVoltage(0.0) + params[pid].value;
 	}
+	void randrandrand();
+	void randrandrand(int action);
 
 private:
 	RenatoWidget *pWidget;

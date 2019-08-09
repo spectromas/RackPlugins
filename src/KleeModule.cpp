@@ -391,7 +391,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986+k*dist_v, 8.255)), module, Klee::TRIG_OUT + k));
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986+k*dist_v, 8.255)), module, Klee::GATE_OUT + k));
 	}
-	ParamWidget *pwdg = createParam<CKSSFix>(Vec(mm2px(172.113), yncscape(61.520, 5.460)), module, Klee::BUS2_MODE);
+	ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(171.725), yncscape(60.947, 6.607)), module, Klee::BUS2_MODE);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)

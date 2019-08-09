@@ -209,28 +209,6 @@ struct BefacoPushBig : app::SvgSwitch {
 	}
 };
 
-struct CKSSFix : app::SvgSwitch  {
-	CKSSFix() {
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_1.svg")));
-	}
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-};
-
-struct CKSSFixH : app::SvgSwitch  {
-	CKSSFixH() {
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_0H.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_1H.svg")));
-	}
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-};
-
 struct CKSSThreeFix : app::SvgSwitch  {
 	CKSSThreeFix() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSSThree_0.svg")));
@@ -243,11 +221,25 @@ struct CKSSThreeFix : app::SvgSwitch  {
 	}
 };
 
+struct TL1105HSw : app::SvgSwitch {
+	TL1105HSw() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
+	};
+};
+
+struct TL1105HBSw : app::SvgSwitch {
+	TL1105HBSw() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
+	};
+};
+
 struct TL1105Sw : app::SvgSwitch  {
 	TL1105Sw() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
-	}
+	};
 };
 
 struct SchmittTrigger2

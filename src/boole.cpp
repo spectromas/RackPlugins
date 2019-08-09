@@ -5,7 +5,6 @@ void Boole::process(const ProcessArgs &args)
 {
 	bool hiz = params[HIZ].value > 0.1;
 	bool compare = params[COMPAREMODE].value > 0.1;
-	lights[LED_HIZ].value = hiz ? LED_ON : LED_OFF;
 
 	for(int k = 0; k < NUM_BOOL_OP; k++)
 	{
@@ -118,12 +117,12 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 
 		if(k == 0)
 		{
-			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(118.714, 5.460)), module, Boole::INVERT_1 + k));
+			addParam(createParam<TL1105Sw>(Vec(mm2px(52.727), yncscape(118.714, 6.607)), module, Boole::INVERT_1 + k));
 			yled_out -= 20.731;
 			yout -= 20.731;
 		} else
 		{
-			addParam(createParam<CKSSFix>(Vec(mm2px(53.116), yncscape(yinv, 5.460)), module, Boole::INVERT_1 + k));
+			addParam(createParam<TL1105Sw>(Vec(mm2px(52.727), yncscape(yinv,6.607)), module, Boole::INVERT_1 + k));
 			yled_out += out_dy;
 			yout += out_dy;
 			yinv += out_dy;
@@ -134,8 +133,7 @@ BooleWidget::BooleWidget(Boole *module) : ModuleWidget()
 		yled += delta_y;
 	}
 
-	addParam(createParam<CKSSFixH>(Vec(mm2px(21.831), yncscape(1.436, 3.704)), module, Boole::COMPAREMODE));
-	addParam(createParam<CKSSFixH>(Vec(mm2px(43.084), yncscape(1.436, 3.704)), module, Boole::HIZ));
-	addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(49.404), yncscape(2.2, 2.176)), module, Boole::LED_HIZ ));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(10.228), yncscape(122.202, 4.477)), module, Boole::COMPAREMODE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(39.832), yncscape(2.319, 4.477)), module, Boole::HIZ));
 }
 

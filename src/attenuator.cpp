@@ -57,7 +57,7 @@ AttenuatorWidget::AttenuatorWidget(Attenuator *module) : ModuleWidget()
 		ypot += delta_y;
 	}
 
-	addParam(createParam<CKSSFixH>(Vec(mm2px(17.561), yncscape(60.170, 3.704)), module, Attenuator::ATTMODE));
+	addParam(createParam<TL1105HBSw>(Vec(mm2px(17.017), yncscape(59.783, 4.477)), module, Attenuator::ATTMODE));
 
 }
 

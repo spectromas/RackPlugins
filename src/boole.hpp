@@ -37,8 +37,7 @@ struct Boole : Module
 		LED_X,
 		LED_Y = LED_X + NUM_BOOL_OP, 
 		LED_OUT = LED_Y + NUM_BOOL_OP-1,
-		LED_HIZ = LED_OUT + NUM_BOOL_OP,
-		NUM_LIGHTS 
+		NUM_LIGHTS = LED_OUT + NUM_BOOL_OP
 	};
 
 	Boole() : Module()

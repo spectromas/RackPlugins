@@ -183,8 +183,7 @@ struct nag : Module
 	enum LightIds
 	{
 		ON_1,
-		LED_DEGMODE = ON_1 + NUM_NAGS,
-		NUM_LIGHTS 
+		NUM_LIGHTS = ON_1 + NUM_NAGS
 	};
 
 	nag() : Module()

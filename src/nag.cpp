@@ -53,7 +53,6 @@ void nag::process(const ProcessArgs &args)
 		}
 		int degclk = degPerClock();
 		bool dm = degclk > 1 && params[DEGMODE].value > 0.1;
-		lights[LED_DEGMODE].value = dm ? LED_ON : LED_OFF;
 
 		float deltaTime = 1.0 / args.sampleRate;
 		updateNags(deltaTime);
@@ -187,8 +186,7 @@ nagWidget::nagWidget(nag *module) : SequencerWidget()
 	addInput(createInput<PJ301GRPort>(Vec(mm2px(55.235), yncscape(12.503, 8.255)), module, nag::DEGXCLK_IN));
 
 	addInput(createInput<PJ301HPort>(Vec(mm2px(14.195), yncscape(37.281, 8.255)), module, nag::RANDOMIZONE));
-	addParam(createParam<CKSSFixH>(Vec(mm2px(49.115), yncscape(5.359, 3.704)), module, nag::DEGMODE));
-	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(58.152), yncscape(6.123, 2.176)), module, nag::LED_DEGMODE));
+	addParam(createParam<TL1105HSw>(Vec(mm2px(56.059), yncscape(4.973, 4.477)), module, nag::DEGMODE));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(40.202), yncscape(36.909, 8.999)), module, nag::M_RESET));
 
 	if (module != NULL)

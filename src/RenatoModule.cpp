@@ -51,12 +51,8 @@ void Renato::process(const ProcessArgs &args)
 	{
 		if (pWidget != NULL)
 		{
-			if (accessRndTrigger.process(inputs[ACCESS_RND].value))
-				pWidget->std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16);
-			if (gatexRndTrigger.process(inputs[GATEX_RND].value))
-				pWidget->std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16);
-			if (gateyRndTrigger.process(inputs[GATEY_RND].value))
-				pWidget->std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16);
+			if (accessRndTrigger.process(inputs[RANDOMIZONE].value))
+				randrandrand();
 		}
 		bool seek_mode = params[SEEKSLEEP].value > 0;
 		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
@@ -103,6 +99,8 @@ void Renato::process(const ProcessArgs &args)
 
 Menu *RenatoWidget::addContextMenu(Menu *menu)
 {
+	menu->addChild(new RandomizeItem(module));
+
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Xs", this, RANDOMIZE_GATEX));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Ys", this, RANDOMIZE_GATEY));
@@ -110,13 +108,45 @@ Menu *RenatoWidget::addContextMenu(Menu *menu)
 	return menu;
 }
 
+void Renato::randrandrand()
+{
+	if (theRandomizer & RenatoWidget::RANDOMIZE_PITCH)
+		randrandrand(0);
+
+	if (theRandomizer & RenatoWidget::RANDOMIZE_GATEX)
+		randrandrand(1);
+
+	if (theRandomizer & RenatoWidget::RANDOMIZE_GATEY)
+		randrandrand(2);
+
+	if (theRandomizer & RenatoWidget::RANDOMIZE_ACCESS)
+		randrandrand(3);
+
+	if (theRandomizer & RenatoWidget::RANDOMIZE_LAQUALUNQUE)
+	{
+		randrandrand(int(random::uniform() * 4));
+	}
+}
+
+void Renato::randrandrand(int action)
+{
+	switch (action)
+	{
+	case 0: pWidget->std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
+	case 1: pWidget->std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
+	case 2: pWidget->std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
+	case 3: pWidget->std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
+	}
+
+}
+
 void RenatoWidget::onMenu(int action)
 {
-	switch(action)
+	switch (action)
 	{
-	case RANDOMIZE_PITCH: std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
-	case RANDOMIZE_GATEX: std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
-	case RANDOMIZE_GATEY: std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
+	case RANDOMIZE_PITCH:  std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
+	case RANDOMIZE_GATEX:  std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
+	case RANDOMIZE_GATEY:  std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
 	case RANDOMIZE_ACCESS: std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
 	}
 }
@@ -136,9 +166,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 	addInput(createInput<PJ301RPort>(Vec(mm2px(55.242), yncscape(115.267,8.255)), module, Renato::YCLK));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), module, Renato::RESET));
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(7.899), yncscape(115.267, 8.255)), module, Renato::ACCESS_RND));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(18.293), yncscape(115.267, 8.255)), module, Renato::GATEX_RND));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(28.687), yncscape(115.267, 8.255)), module, Renato::GATEY_RND));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(18.293), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
 	
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(122.982), yncscape(114.895, 8.999)), module, Renato::M_RESET));
 
@@ -312,4 +340,17 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(107.531), yncscape(117.461, 3.867), &module->connected));
 	#endif
+}
+
+RenatoWidget::RandomizeSubItemItem::RandomizeSubItemItem(Module *k, const char *title, int action)
+{
+	renato = (Renato *)k;
+	text = title;
+	randomizeDest = action;
+	rightText = CHECKMARK((renato->theRandomizer & randomizeDest) != 0);
+}
+
+void RenatoWidget::RandomizeSubItemItem::onAction(const event::Action &e)
+{
+	renato->theRandomizer ^= randomizeDest;
 }

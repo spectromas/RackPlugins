@@ -181,7 +181,7 @@ BurstWidget::BurstWidget(Burst *module) : SequencerWidget()
 
 	addInput(createInput<PJ301RPort>(Vec(lft_x, yncscape(108.765, 8.255)), module, Burst::CLOCK_IN));
 	addParam(createParam<CKSSThreeFix>(Vec(mm2px(31.624), yncscape(105.749, 10.0)), module, Burst::MODE));
-	addParam(createParam<CKSSFix>(Vec(mm2px(71.875), yncscape(107.990, 5.46)), module, Burst::MODE_INVERT));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(71.486), yncscape(107.417, 6.607)), module, Burst::MODE_INVERT));
 	
 	addInput(createInput<PJ301BPort>(Vec(lft_x, yncscape(74.386, 8.255)), module, Burst::OUT_SPAN_IN));
 	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(22.644), yncscape(73.751, 9.525)), module, Burst::OUT_SPAN);
