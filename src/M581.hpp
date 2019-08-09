@@ -4,9 +4,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "M581Types.hpp"
-////////////////////
-// module widgets
-////////////////////
 
 struct M581;
 struct M581Widget : SequencerWidget
@@ -61,11 +58,12 @@ public:
 	void onMenu(int action);
 };
 
-
-struct BefacoSlidePotFix : SVGSlider
+struct BefacoSlidePotFix : SvgSlider
 {
 	BefacoSlidePotFix()
 	{
+		pModule = NULL;
+		myID = -1;
 		Vec margin = Vec(4.5, 4.5);
 	
 		maxHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), -mm2px(5.09852 / 2.0)).plus(margin);
@@ -75,6 +73,13 @@ struct BefacoSlidePotFix : SVGSlider
 		background->box.pos = margin;
 		box.size = background->box.size.plus(margin.mult(2));
 	}
+	void SetID(M581 *pm, int id);
+
+	void onDragStart(const event::DragStart &e) override;
+	
+private:
+	M581 *pModule;
+	int myID;
 };
 
 
@@ -195,6 +200,7 @@ struct M581 : Module
 	{
 		pWidget = NULL;
 		theRandomizer = 0;
+		lastSliderMoved = -1;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < 8; k++)
@@ -207,7 +213,7 @@ struct M581 : Module
 
 		configParam(M581::GATE_TIME, 0.005, 1.0, 0.25);
 		configParam(M581::SLIDE_TIME, 0.005, 2.0, 0.5);
-		configParam(M581::MAXVOLTS, 0.0, 1.0, 0.0);
+		configParam(M581::MAXVOLTS, 0.0, 2.0, 0.0);
 		configParam(M581::STEP_DIV, 0.0, 3.0, 0.0);
 		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);	
 		configParam(M581::RUN_MODE, 0.0, 4.0, 0.0);
@@ -237,11 +243,14 @@ struct M581 : Module
 	}
 	#endif
 
+	int lastSliderMoved;
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
 	void setWidget(M581Widget *pwdg) { pWidget = pwdg; }
-	
+	float voltFondoScala();
+	float getLastNoteValue();
+
 	void dataFromJson(json_t *root) override 
 	{ 
 		Module::dataFromJson(root); 
