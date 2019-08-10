@@ -3,9 +3,7 @@ FLAGS +=
 CFLAGS +=
 CXXFLAGS +=
 
-# Careful about linking to shared libraries, since you can't assume much about the user's environment and library search path.
-# Static libraries are fine.
-LDFLAGS +=  -lopengl32 
+
 
 
 # Add .cpp and .c files to the build
@@ -20,3 +18,16 @@ RACK_DIR ?= ../..
 
 # Include the VCV Rack plugin Makefile framework
 include $(RACK_DIR)/plugin.mk
+include $(RACK_DIR)/arch.mk
+
+ifdef ARCH_LIN
+	LDFLAGS += -lGL
+endif
+
+ifdef ARCH_MAC
+	LDFLAGS += -framework OpenGL
+endif
+
+ifdef ARCH_WIN
+	LDFLAGS +=  -lopengl32 
+endif
