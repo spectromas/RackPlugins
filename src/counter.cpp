@@ -81,6 +81,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
+
 	CREATE_PANEL(module, this, 8, "res/modules/Counter.svg");
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(2.281), yncscape(104.588,4.115)), module, Counter::COUNTER_INC));
