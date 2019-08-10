@@ -183,17 +183,17 @@ void Klee::populate_outputs()
 		if(shiftRegister.B[k])
 			b += params[PITCH_KNOB + k + 8].value*mult;
 	}
-	outputs[CV_A].value = a;
-	outputs[CV_B].value = b;
-	outputs[CV_AB].value = a + b;
-	outputs[CV_A__B].value = a - b;
+	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
+	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
+	outputs[CV_AB].value = clamp(a + b, LVL_MIN, LVL_MAX);
+	outputs[CV_A__B].value = clamp(a - b, LVL_MIN, LVL_MAX);
 }
 
 void Klee::showValues()
 {
 	for(int k = 0; k < 16; k++)
 	{
-		lights[LED_PITCH + k].value = shiftRegister.P[k] ? 1.0 : 0;
+		lights[LED_PITCH + k].value = shiftRegister.P[k] ? LED_ON : LED_OFF;
 	}
 
 	for(int k = 0; k < 3; k++)
@@ -237,7 +237,7 @@ bool Klee::chance()
 	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
 }
 
-KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
+KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
@@ -253,15 +253,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 	INFO("%i launchpad found", numLaunchpads);
 	#endif
 	#endif
-	box.size = Vec(48 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/KleeModule.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+
+	CREATE_PANEL(module, this, 48, "res/modules/KleeModule.svg");
 
 	const float switch_dstx = 22.203 - 11.229;
 	for(int k = 0; k < 8; k++)
@@ -398,7 +391,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget(module)
 		addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986+k*dist_v, 8.255)), module, Klee::TRIG_OUT + k));
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986+k*dist_v, 8.255)), module, Klee::GATE_OUT + k));
 	}
-	ParamWidget *pwdg = createParam<CKSSFix>(Vec(mm2px(172.113), yncscape(61.520, 5.460)), module, Klee::BUS2_MODE);
+	ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(171.725), yncscape(60.947, 6.607)), module, Klee::BUS2_MODE);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)

@@ -18,10 +18,14 @@ public:
 		}
 	}
 
+	inline void Reset()
+	{
+		curStep = 0;
+	}
 	int Step(float transpose)
 	{
 		if(resetTrigger.process(pReset->value))
-			curStep = 0;
+			Reset();
 		else if(clockTrigger.process(pClock->value))
 		{
 			if(pDirection->value > 5)
@@ -37,9 +41,17 @@ public:
 
 		pOutput->value = sequence[curStep]->value + transpose;
 		for(int k = 0; k < numSteps; k++)
-			leds[k]->value = k == curStep ? 10.0 : 0;
+			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 
 		return chain[curStep];
+	}
+
+	z8kSequencer()
+	{
+		pReset = NULL;
+		pDirection = NULL;
+		pClock = NULL;
+		pOutput = NULL;
 	}
 
 private:

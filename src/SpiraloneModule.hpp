@@ -44,14 +44,15 @@ struct Spiralone : Module
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < TOTAL_STEPS; k++)
-			configParam(Spiralone::VOLTAGE_1 + k, 0.0, 7.0, 1.0, "Voltage", "V");
+			configParam(Spiralone::VOLTAGE_1 + k, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
 		configParam(Spiralone::M_RESET, 0.0, 1.0, 0.0);
 		for(int seq = 0; seq < NUM_SEQUENCERS; seq++)
 		{
+			sequencer[seq].seq = seq;
 			configParam(Spiralone::MODE_1 + seq, 0.0, 2.0, 0.0);
 			configParam(Spiralone::LENGHT_1 + seq, 1.0, TOTAL_STEPS, TOTAL_STEPS, "Steps", "#");
 			configParam(Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0, "Stride", "#");
-			configParam(Spiralone::XPOSE_1 + seq, -3.0, 3.0, 0.0, "Transpose", "V");
+			configParam(Spiralone::XPOSE_1 + seq, LVL_MIN, LVL_MAX, 0.0, "Transpose", "V");
 		}
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene5, 1);
@@ -105,6 +106,7 @@ struct Spiralone : Module
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv = NULL;
 	#endif
+	spiraloneSequencer sequencer[NUM_SEQUENCERS];
 
 private:
 	void on_loaded();
@@ -113,7 +115,6 @@ private:
 	void randrandrand(int action);
 
 	SpiraloneWidget *pWidget;
-	spiraloneSequencer sequencer[NUM_SEQUENCERS];
 	dsp::SchmittTrigger masterReset;
 	dsp::SchmittTrigger rndTrigger;
 };

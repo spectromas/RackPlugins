@@ -1,8 +1,5 @@
 #include "common.hpp"
 
-////////////////////
-// module widgets
-////////////////////
 using namespace rack;
 extern Plugin *pluginInstance;
 
@@ -12,11 +9,6 @@ struct XSwitch;
 struct SwitchWidget : ModuleWidget
 {
 	SwitchWidget(XSwitch *module);
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct XSwitch : Module

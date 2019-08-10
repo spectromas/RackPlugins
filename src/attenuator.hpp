@@ -13,11 +13,6 @@ struct Attenuator;
 struct AttenuatorWidget : ModuleWidget
 {
 	AttenuatorWidget(Attenuator * module);
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct Attenuator : Module
@@ -28,7 +23,8 @@ struct Attenuator : Module
 		OFFS_1 = ATT_1 + NUM_ATTENUATORS,
 		LIM1_MIN = OFFS_1 + NUM_ATTENUATORS,
 		LIM1_MAX = LIM1_MIN + NUM_VLIMITERS,
-		NUM_PARAMS = LIM1_MAX + NUM_VLIMITERS
+		ATTMODE = LIM1_MAX + NUM_VLIMITERS,
+		NUM_PARAMS
 	};
 	enum InputIds
 	{
@@ -51,13 +47,13 @@ struct Attenuator : Module
 		for(int k = 0; k < NUM_ATTENUATORS; k++)
 		{
 			configParam(Attenuator::ATT_1+k, 0.0, 2.0, 1.0, "Amplitude", "%", 0, 100);
-			configParam(Attenuator::OFFS_1+k, -10.0, 10.0, 0.0, "Offset", "V");
+			configParam(Attenuator::OFFS_1+k, LVL_MIN, LVL_MAX, 0.0, "Offset", "V");
 		}
 
 		for(int k = 0; k < NUM_VLIMITERS; k++)
 		{
-			configParam(Attenuator::LIM1_MIN+k, -10.0, 10.0, -10.0, "Min Voltage", "V");
-			configParam(Attenuator::LIM1_MAX+k, -10.0, 10.0, 10.0, "Max Voltage", "V");
+			configParam(Attenuator::LIM1_MIN+k, LVL_MIN, LVL_MAX, LVL_MIN, "Min Voltage", "V");
+			configParam(Attenuator::LIM1_MAX+k, LVL_MIN, LVL_MAX, LVL_MAX, "Max Voltage", "V");
 		}
 	}
 	void process(const ProcessArgs &args) override;

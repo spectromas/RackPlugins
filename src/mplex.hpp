@@ -13,11 +13,6 @@ struct Mplex;
 struct MplexWidget : ModuleWidget
 {
 	MplexWidget(Mplex * module);
-private:
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct Mplex : Module
@@ -34,6 +29,7 @@ struct Mplex : Module
 		INDN,
 		RESET,
 		RANDOM,
+		CV,
 		IN_1,		
 		NUM_INPUTS = IN_1 + NUM_MPLEX_INPUTS
 	};

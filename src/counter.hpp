@@ -23,6 +23,7 @@ struct Counter : Module
 	{
 		RESET,
 		IN_1,
+		IN_COUNTER,
 		NUM_INPUTS
 	};
 
@@ -78,13 +79,15 @@ struct Counter : Module
 	float countDown;
 
 private:
-	const float pulseTime = 0.002;      //2msec trigger
+	const float pulseTime = 0.1;      //2msec trigger
 	dsp::SchmittTrigger btnup;
 	dsp::SchmittTrigger btndwn;
 	CounterWidget *pWidget;
 	int curCounter;
 	dsp::SchmittTrigger resetTrigger;
 	dsp::SchmittTrigger counterTigger;
+	dsp::PulseGenerator outPulse;
+
 	void process_keys();
 
 	void on_loaded();

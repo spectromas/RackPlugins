@@ -169,28 +169,19 @@ void Burst::next_step()
 
 int Burst::getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
 {
-	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, 0.0, 5.0, minValue, maxValue) : 0.0;
+	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
 	return (int)clamp(offs + params[p_id].value, minValue, maxValue);
 }
 
-BurstWidget::BurstWidget(Burst *module) : SequencerWidget(module)
+BurstWidget::BurstWidget(Burst *module) : SequencerWidget()
 {
-	box.size = Vec(16 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Burst.svg")));		
-		addChild(panel);
-	}
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 16, "res/modules/Burst.svg");
+
 	float lft_x = mm2px(3.428);
 
 	addInput(createInput<PJ301RPort>(Vec(lft_x, yncscape(108.765, 8.255)), module, Burst::CLOCK_IN));
 	addParam(createParam<CKSSThreeFix>(Vec(mm2px(31.624), yncscape(105.749, 10.0)), module, Burst::MODE));
-	addParam(createParam<CKSSFix>(Vec(mm2px(71.875), yncscape(107.990, 5.46)), module, Burst::MODE_INVERT));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(71.486), yncscape(107.417, 6.607)), module, Burst::MODE_INVERT));
 	
 	addInput(createInput<PJ301BPort>(Vec(lft_x, yncscape(74.386, 8.255)), module, Burst::OUT_SPAN_IN));
 	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(22.644), yncscape(73.751, 9.525)), module, Burst::OUT_SPAN);

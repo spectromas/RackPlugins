@@ -65,9 +65,6 @@ public:
 		Module *spiro;
 	};
 private:
-
-	
-	
 	void createSequencer(int seq);
 	ModuleLightWidget *createLed(int seq, Vec pos, Module *module, int firstLightId, bool big = false);
 	NVGcolor color[NUM_SEQUENCERS];

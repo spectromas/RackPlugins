@@ -13,9 +13,11 @@ void Quantizer::process(const ProcessArgs &args)
 			float semitone = quantize(v, octave);
 			outputs[OUT_1].setVoltage(semitone+octave, k);
 			outputs[OUT_NOTRANSPOSE].setVoltage(semitone, k);
+			outputs[OUT_OCTAVE].setVoltage(octave, k);			
 		}
 		outputs[OUT_1].setChannels(channels);
 		outputs[OUT_NOTRANSPOSE].setChannels(channels);
+		outputs[OUT_OCTAVE].setChannels(channels);
 	}
 }
 
@@ -31,19 +33,7 @@ QuantizerWidget::QuantizerWidget(Quantizer *module) : ModuleWidget()
 	if(module != NULL)
 		module->setWidget(this);
 
-	setModule(module);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/quantizer.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 8, "res/modules/quantizer.svg");
 
 	display = createWidget<qtzrDisplay>(mm2px(Vec(3.41891, 15.8373)));
 	display->box.size = mm2px(Vec(33.840, 19));
@@ -51,8 +41,9 @@ QuantizerWidget::QuantizerWidget(Quantizer *module) : ModuleWidget()
 		display->CreateInterface(module);
 	addChild(display);
 
-	addInput(createInput<PJ301BPort>(Vec(mm2px(16.192), yncscape(32.580, 8.255)), module, Quantizer::IN_1));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(4.486), yncscape(32.580, 8.255)), module, Quantizer::IN_1));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(4.486), yncscape(14.195, 8.255)), module, Quantizer::OUT_1));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(27.899), yncscape(14.195, 8.255)), module, Quantizer::OUT_NOTRANSPOSE));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(27.899), yncscape(32.580, 8.255)), module, Quantizer::OUT_OCTAVE));
 }
 

@@ -1,95 +1,88 @@
-# The XOR - Provisionally Entitled The Singing Version Uno
-All inputs and outputs are color-coded as in this figure:
+### the absolutely awful plugin suite
+![modules](/res/png/modules.png?raw=true "modules")
+
+common characteristics:
+- these plugins are awful, you are advised to avoid them at all costs
+- no user manuals, never ask for a user manual. 
+- ugly interface because a) i am not able and b) i am not interested in user interfaces
+- totally, miserably, hopelessy free
+- all input and output ports are color-coded as in figure:
 
 ![legend](/res/png/legenda.png?raw=true "legend")
 
-# Klee
-A rather complete Klee Sequencer, with some enhancements...
-More information: https://www.google.com/search?q=klee%20sequencer%20pdf
+version 1.1.x implements a new revision of the main motherboard: the new bipolar transistors
+allow negative voltages to flow. all plugins have a wider range available (0V to 10V or -10V to 10V), for this the 
+previous patches will sound different. 
+to add insult to injury, for the _very first time in the world_ a plugin could have (or have not) some hidden features.
+and now for something completely different: a list.
 
-![Klee](/res/png/klee.png?raw=true "The Klee")
+## a list.
+# klee
+a rather complete klee sequencer, with some enhancements.
+more information: https://www.google.com/search?q=klee%20sequencer%20pdf
 
-# M581
-Inspired by the System 100 Sequencer
-More information: https://www.google.com/search?q=m185%20step%20sequencer
+# m581
+inspired by the system 100 sequencer, check https://www.google.com/search?q=m185%20step%20sequencer
 
-![M581](/res/png/m581.png?raw=true "M581")
+# renato
+x/y sequencer, in memory of the great renato/04!
+vaguely inspired by https://www.google.com/search?q=renee%20sequencer
 
-# Renato
-X/Y Sequencer, dedicated to the great Renato!
-Vaguely inspired by https://www.google.com/search?q=renee%20sequencer
+# z8k
+4 colors x 4 sequencers. matrix reloaded.
+hint: https://www.google.com/search?q=z8000%20sequencer
 
-![Renato!](/res/png/renato.png?raw=true "Renato")
+# spiralone
+hypnotic!
+based on https://www.google.com/search?q=cyclic%20sequencer
 
-# Z8K
-4 colors for 4 sequencers. Matrix reloaded.
-A tip: https://www.google.com/search?q=z8000%20sequencer
+# burst
+will likely cause serious damage to your ears
+idea taken from: https://www.youtube.com/watch?v=ylnhftrhjnm
 
-![Z8K](/res/png/z8k.png?raw=true "Z8K")
-
-# Spiralone
-Hypnotic!
-Based on https://www.google.com/search?q=cyclic%20sequencer
-
-![Spiralone](/res/png/spiralone.png?raw=true "Spiralone")
-
-# Burst
-Will likely cause serious damage to your ears
-Idea taken from here: https://www.youtube.com/watch?v=YlnHFTrhJnM
-
-![Burst](/res/png/burst.png?raw=true "Burst")
-
-# pwmClockGen
-Most of these sequencers have their gate outputs dependent
-from the clock pulse cycle; for this reason there is a clock generator
-with controllable PWM
-
-![pwmClockGen](/res/png/pwmclockgen.png?raw=true "pwmClockGen")
+# pwmclockgen
+some sequencers have their gate outputs dependent from the clock pulse cycle.
+here is a clock generator with controllable/swingable pwm, and remotable and even syncable with midi start/stop pulses
 
 # quantizer
-Polyphonically in scale
+voltages in scale
 
-# Uncertain
-Unstable voltages
-Recipe:
-1/2 doepfer a-149-1
-1/4 buchla 266e
-1/4 gauss sigma control :-)
+# uncertain
+unstable voltages
+recipe:
+- 1/2 doepfer a-149-1
+- 1/4 buchla 266e
+- 1/4 gauss sigma control
+shaken, not stirred.
 
-![Uncertain](/res/png/uncertain.png?raw=true "Uncertain")
+# att / amp
+calm down your boiling voltages, or energize the cables
 
-# Attenuator
-Calm down your boiling voltages
+# boole
+there are 10 kind of people: those who can understand boolean logic, and the others.
+this is the _very first plugin in the world_ with variable impedence inputs. 
+when using high impedence mode, please use shielded cables for quieter operation.
 
-![Attenuator](/res/png/attenuator.png?raw=true "Attenuator")
+# xswitch
+circuit breaker
 
-# Boole
-There are 10 kind of people: those who can understand boolean logic, and the others....
+# mplex
+multiplexer, an extremely controllable one. obviously inspired by my wife.
 
-![Boole](/res/png/boole.png?raw=true "Boole")
+# dmplex
+did you multiplex? ok, now please de/multiplex. this sentence also inspired by my sweetie.
 
-# Switch
-Circuit breaker
+# counter
+count clocks and bangs when it reaches 0.
 
-![Switch](/res/png/switch.png?raw=true "Switch")
+# midyquant
+dedicated to the inventor of the short midi message. quantized midi output for heavy daw users.
 
-# Mplex
-Multiplexer
+# nag nag nag
+trigonometric noise, a sin () under control of some well-tempered voltages. 
 
-![Mplex](/res/png/mplex.png?raw=true "Mplex")
+# empty
+a strategy to waste some rack space in a more productive way
 
-OSC!!!!!
-For Microsoft Windows users only, there is the possibility to control the sequencers through OSC. 
-To do so, you must compile the plugins with the command:
-
-make -f makefile_osc
-
-and compile oscServer, a background process that acts like a bridge between VCV and OSC (find id
-@ https://github.com/The-XOR/oscServer).
-You know that oscServer is connected because the 'DIGITAL' led in the sequencers goes lit.
-oscServer is written in C# and needs at least Microsoft .NET Framerwork 4.5; in RackPlugins\digitalExt\osc\Repository
-there are some Liine Lemur patches (jzml). If you want to program your own OSC patches, 
-all the mappings are listed in RackPlugins\digitalExt\osc\RepositoryControl List.txt .
-What else? Ah, yes, oscServer can control ALL the sequencers SIMULTANEOUSLY ;-) so you can program
-(and send to me) a mega-patch able to control... everything. 
-THIS FEATURE IS HIGHLY EXPERIMENTAL, I couldn't test it thoroughly and it could (and will) be buggy.
+# ascii
+why just taking notes if you could make them play?

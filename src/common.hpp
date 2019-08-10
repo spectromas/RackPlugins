@@ -5,8 +5,12 @@
 #include <sstream>
 #include <iomanip>
 
-#define LVL_ON    (10.0)
-#define LVL_OFF   (0.0)
+#define LVL_MIN   (-10.0f)
+#define LVL_MAX   (10.0f)
+#define LVL_OFF   (0.0f)
+#define LVL_ON    (10.0f)
+#define LED_OFF    (0.0f)
+#define LED_ON    (10.0f)
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -35,6 +39,22 @@ extern Plugin *pluginInstance;
 #define DIGITAL_EXT
 #endif
 
+
+struct PatternBtn : SvgSwitch {
+	PatternBtn() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Patternbtn_1.svg")));
+	}
+};
+
+struct HiddenButton : SvgSwitch {
+	HiddenButton() {
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/hidden_0.svg")));
+		fb->removeChild(shadow);
+	}
+};
+
 struct UPSWITCH : SvgSwitch
 {
 	UPSWITCH()
@@ -42,6 +62,7 @@ struct UPSWITCH : SvgSwitch
 		momentary = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/upswitch_1.svg")));
+		fb->removeChild(shadow);
 	}
 };
 
@@ -52,6 +73,7 @@ struct DNSWITCH : SvgSwitch
 		momentary = true;
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/dnswitch_1.svg")));
+		fb->removeChild(shadow);
 	}
 };
 
@@ -91,6 +113,11 @@ struct Davies1900hFixWhiteKnobSmall : _davies1900base
 	Davies1900hFixWhiteKnobSmall() : _davies1900base("res/Davies1900hWhiteSmall.svg") {}
 };
 
+struct Davies1900hFixBlackKnobSmall : _davies1900base
+{
+	Davies1900hFixBlackKnobSmall() : _davies1900base("res/Davies1900hBlackSmall.svg") {}
+};
+
 struct Davies1900hFixRedKnobSmall : _davies1900base
 {
 	Davies1900hFixRedKnobSmall() : _davies1900base("res/Davies1900hRedSmall.svg") {}
@@ -109,7 +136,10 @@ struct _ioPort : SvgPort
 
 struct PJ301HPort : _ioPort
 {
-	PJ301HPort() : _ioPort("res/PJ301H.svg") {}
+	PJ301HPort() : _ioPort("res/PJ301H.svg") 
+	{
+		fb->removeChild(shadow);
+	}
 };
 
 struct PJ301YPort : _ioPort 
@@ -179,28 +209,6 @@ struct BefacoPushBig : app::SvgSwitch {
 	}
 };
 
-struct CKSSFix : app::SvgSwitch  {
-	CKSSFix() {
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_1.svg")));
-	}
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-};
-
-struct CKSSFixH : app::SvgSwitch  {
-	CKSSFixH() {
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_0H.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSS_1H.svg")));
-	}
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-};
-
 struct CKSSThreeFix : app::SvgSwitch  {
 	CKSSThreeFix() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSSThree_0.svg")));
@@ -213,11 +221,25 @@ struct CKSSThreeFix : app::SvgSwitch  {
 	}
 };
 
+struct TL1105HSw : app::SvgSwitch {
+	TL1105HSw() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
+	};
+};
+
+struct TL1105HBSw : app::SvgSwitch {
+	TL1105HBSw() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_HB0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_H1.svg")));
+	};
+};
+
 struct TL1105Sw : app::SvgSwitch  {
 	TL1105Sw() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
-	}
+	};
 };
 
 struct SchmittTrigger2
@@ -296,38 +318,6 @@ struct NKK2 : app::SvgSwitch
 	}
 };
 
-struct BefacoSnappedSwitch : app::SvgSwitch 
-{
-	void randomize() override
-	{
-		if(random::uniform() >= 0.5)
-			paramQuantity->setValue(1.0);
-		else
-			paramQuantity->setValue(0.0);
-	}
-
-	BefacoSnappedSwitch()
-	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_2.svg")));
-	}
-};
-
-struct BefacoSnappedSwitch3 : app::SvgSwitch
-{
-	void randomize() override
-	{
-		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
-	}
-
-	BefacoSnappedSwitch3()
-	{
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_0.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_1.svg")));
-		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSwitch_2.svg")));
-	}
-};
-
 struct VerticalSwitch : SvgSlider 
 {
 	VerticalSwitch()
@@ -380,15 +370,10 @@ public:
 	}
 
 protected:
-	SequencerWidget(Module *module) : ModuleWidget() 	
+	SequencerWidget() : ModuleWidget() 	
 	{
-		setModule(module);
 	}
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
-
+	
 	int getParamIndex(int index)
 	{
 		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramQuantity->paramId == index; });
@@ -524,6 +509,54 @@ private:
 	float stopwatch;
 };
 
-	inline float px2mm(float px) {
-		return px * (MM_PER_IN / SVG_DPI );
+struct XorPanel : SvgPanel
+{
+	struct Screw : app::SvgScrew 
+	{
+		Screw() {
+			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw.svg")));
+		}
+	};
+	struct bgGradient : TransparentWidget
+	{
+		bgGradient(const Vec &size)
+		{
+			box.pos = Vec(0, 0);
+			box.size = size;
+		}
+
+		void draw(const Widget::DrawArgs &args) override
+		{
+			nvgBeginPath(args.vg);
+			nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
+			nvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(.51f, 0.51f, 0.51f, 0.35f), nvgRGBAf(0.0f, 0.0f, 0.0f, 0.41f)));
+			nvgFill(args.vg);
+		}
+	};
+
+	XorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()
+	{
+		pWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+		if (svg != NULL)
+			setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
+		addChild(new bgGradient(box.size));
 	}
+
+	void AddScrews(ModuleWidget *pWidget)
+	{
+		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+	}
+};
+
+#define CREATE_PANEL(modul, widg,unit,svg)  { \
+	setModule(modul); \
+	XorPanel *panel = new XorPanel(widg, unit, svg); \
+	addChild(panel); \
+	panel->AddScrews(widg); \
+}
+
+inline float px2mm(float px) {return px * (MM_PER_IN / SVG_DPI ); }
+inline float yncscape(float y, float height) {	return RACK_GRID_HEIGHT - mm2px(y + height);}

@@ -18,14 +18,7 @@ void LaunchpadTest::process(const ProcessArgs &args)
 LaunchpadTestWidget::LaunchpadTestWidget(LaunchpadTest *module) : ModuleWidget()
 {
 	setModule(module);
-	box.size = Vec(13 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/test.svg")));
-		addChild(panel);
-	}
+	addChild(new XorPanel(this, 13, "res/modules/test.svg"));
 
 	addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 	addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));

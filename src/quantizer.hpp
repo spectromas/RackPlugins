@@ -109,10 +109,6 @@ struct QuantizerWidget : ModuleWidget
 	
 private:
 	qtzrDisplay *display;
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct quantizeModule
@@ -259,6 +255,7 @@ struct Quantizer : Module, quantizeModule
 	{
 		OUT_1,
 		OUT_NOTRANSPOSE,
+		OUT_OCTAVE,
 		NUM_OUTPUTS
 	};
 	enum LightIds
@@ -313,10 +310,6 @@ private:
 private:
 	qtzrDisplay *display;
 	qtzrMidiDisplay *midiDisplay;
-	float yncscape(float y, float height)
-	{
-		return RACK_GRID_HEIGHT - mm2px(y + height);
-	}
 };
 
 struct midyQuant : Module, quantizeModule

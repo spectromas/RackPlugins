@@ -1,6 +1,61 @@
 #include "SpiraloneModule.hpp"
 #include <math.h>
 
+
+struct spiro7Segm : TransparentWidget
+{
+private:
+	std::shared_ptr<Font> font;
+	Spiralone *pSeq;
+	int seq;
+
+public:
+	spiro7Segm(Spiralone *sq, int n, float x, float y)
+	{
+		seq = n;
+		pSeq = sq;
+		box.size = Vec(27, 22);
+		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+	}
+
+	void draw(const DrawArgs &args) override
+	{
+		// Background
+		NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
+		NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
+		nvgBeginPath(args.vg);
+		nvgRoundedRect(args.vg, 0.0, 0.0, box.size.x, box.size.y, 4.0);
+		nvgFillColor(args.vg, backgroundColor);
+		nvgFill(args.vg);
+		nvgStrokeWidth(args.vg, 1.0);
+		nvgStrokeColor(args.vg, borderColor);
+		nvgStroke(args.vg);
+		// text
+		nvgFontSize(args.vg, 18);
+		nvgFontFaceId(args.vg, font->handle);
+		nvgTextLetterSpacing(args.vg, 2.5);
+
+		Vec textPos = Vec(2, 18);
+		NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
+		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+		nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
+
+		textColor = nvgRGB(0xda, 0xe9, 0x29);
+		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+		nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
+
+		if (pSeq != NULL)
+		{
+			char n[20];
+			sprintf(n, "%2i", pSeq->sequencer[seq].GetNumSteps(pSeq));
+			textColor = nvgRGB(0xff, 0x00, 0x00);
+			nvgFillColor(args.vg, textColor);
+			nvgText(args.vg, textPos.x, textPos.y, n, NULL);
+		}
+	}
+};
+
 float AccessParam(Spiralone *p, int seq, int id) { return p->params[id + seq].value; }
 float AccessParam(Spiralone *p, int id) { return p->params[id].value; }
 Input *AccessInput(Spiralone *p, int seq, int id) { return &p->inputs[id + seq]; }
@@ -18,7 +73,7 @@ void Spiralone::on_loaded()
 void Spiralone::load()
 {
 	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		sequencer[k].Reset(k, this);
+		sequencer[k].Reset(this);
 }
 
 void Spiralone::process(const ProcessArgs &args)
@@ -35,7 +90,7 @@ void Spiralone::process(const ProcessArgs &args)
 		}
 
 		for(int k = 0; k < NUM_SEQUENCERS; k++)
-			sequencer[k].Step(k, this);
+			sequencer[k].Step(this);
 	}
 
 	#ifdef DIGITAL_EXT
@@ -105,7 +160,7 @@ void Spiralone::randrandrand(int action)
 	}
 }
 
-SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
+SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
@@ -120,16 +175,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget(module)
 	color[3] = componentlibrary::SCHEME_YELLOW;
 	color[4] = componentlibrary::SCHEME_GREEN;
 
-	box.size = Vec(51 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/SpiraloneModule.svg")));
-
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 51, "res/modules/SpiraloneModule.svg");
 
 	float step = 2 * M_PI / TOTAL_STEPS;
 	float angle = M_PI / 2.0;
@@ -205,7 +251,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	addInput(createInput<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), module, Spiralone::CLOCK_1 + seq));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), module, Spiralone::RESET_1 + seq));
 
-	ParamWidget *pwdg = createParam<BefacoSnappedSwitch3>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 7.883)), module, Spiralone::MODE_1 + seq);
+	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 9.488)), module, Spiralone::MODE_1 + seq);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -228,7 +274,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
+	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -238,9 +284,9 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 	addParam(pwdg);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(181.649), yncscape(104.395 + dist_v*seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(182.178), yncscape(104.395 + dist_v*seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
 
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -265,6 +311,8 @@ void SpiraloneWidget::createSequencer(int seq)
 
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), module, Spiralone::CV_1 + seq));
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::GATE_1 + seq));
+
+	addChild(new spiro7Segm((Spiralone *)module, seq, 169.177, 104.698 + dist_v * seq));
 }
 
 ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, int firstLightId, bool big)

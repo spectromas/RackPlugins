@@ -28,7 +28,8 @@ struct CV_LINE
 	void Reset()
 	{
 		slideNoteIncrement = 0;
-		startNoteValue = -1.0;
+		note_empty = true;
+		startNoteValue = 0.0;
 	}
 
 	void Set(ParamGetter *get) { pGet = get; }
@@ -36,9 +37,11 @@ struct CV_LINE
 	void Begin(int cur_step)
 	{
 		curNote = pGet->Note(cur_step);
-		if(startNoteValue < 0.0)
+		if (note_empty)
+		{
+			note_empty = false;
 			startNoteValue = curNote;
-
+		}
 		if(pGet->IsSlide(cur_step))
 			slideNoteIncrement = (curNote - startNoteValue) / pGet->SlideTime();
 		else
@@ -67,6 +70,7 @@ private:
 	float curNote;
 	float startNoteValue;
 	float slideNoteIncrement;
+	bool note_empty;
 	ParamGetter *pGet;
 };
 

@@ -7,14 +7,6 @@
 #define SWING_MINVALUE (0.0)
 #define SWING_MAXVALUE (0.5)
 
-struct Rogan1PSRedSmall : Rogan
-{
-	Rogan1PSRedSmall()
-	{
-		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Rogan2PSRedSmall.svg")));
-	}
-};
-
 #define OUT_SOCKETS (21)
 struct PwmClock;
 struct PwmClockWidget : SequencerWidget
@@ -66,6 +58,7 @@ struct PwmClock : Module
 		PWM, BPM, BPMDEC,
 		SWING,
 		OFFON,
+		PULSE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -74,7 +67,7 @@ struct PwmClock : Module
 		EXT_BPM,
 		PWM_IN,
 		SWING_IN,
-		OFFON_IN,
+		REMOTE_IN,
 		OFF_IN,
 		ON_IN,
 		NUM_INPUTS
@@ -83,7 +76,8 @@ struct PwmClock : Module
 	enum OutputIds
 	{
 		OUT_1,
-		NUM_OUTPUTS = OUT_1 + OUT_SOCKETS
+		ONSTOP = OUT_1 + OUT_SOCKETS,
+		NUM_OUTPUTS
 	};
 
 	enum LightIds
@@ -144,10 +138,16 @@ private:
 	SchmittTrigger2 resetTrigger;
 	SchmittTrigger2 onTrigger;
 	SchmittTrigger2 offTrigger;
+	dsp::SchmittTrigger manualTrigger;
+	dsp::PulseGenerator onStopPulse;
+	dsp::PulseGenerator onManualStep;
+	const float pulseTime = 0.1;      //2msec trigger
 
 	void process_keys();
 	void updateBpm();
-	
+	void process_active(const ProcessArgs &args);
+	void process_inactive(const ProcessArgs &args);
+
 	float getDuration(int n)
 	{
 		return odd_beat[n] ? swingAmt[n] : duration[n];

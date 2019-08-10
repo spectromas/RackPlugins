@@ -14,7 +14,7 @@
    viewBox="0 0 8 7.9999999"
    version="1.1"
    id="svg16908"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="Davies1900hRedSmall.svg">
   <defs
      id="defs16902">
@@ -34,9 +34,9 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.959798"
-     inkscape:cx="-60.855377"
-     inkscape:cy="8.8256397"
+     inkscape:zoom="15.839192"
+     inkscape:cx="14.878484"
+     inkscape:cy="2.3831228"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -44,9 +44,9 @@
      fit-margin-left="0"
      fit-margin-right="0"
      fit-margin-bottom="0"
-     inkscape:window-width="1920"
+     inkscape:window-width="1858"
      inkscape:window-height="1057"
-     inkscape:window-x="1912"
+     inkscape:window-x="54"
      inkscape:window-y="-8"
      inkscape:window-maximized="1"
      units="mm" />
@@ -71,7 +71,7 @@
     <path
        inkscape:connector-curvature="0"
        id="path6457"
-       style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.29628971"
+       style="display:inline;fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.29628971"
        d="m 239.61409,128.57612 c 0,2.20899 -1.79087,3.99978 -3.99996,3.99978 -2.20908,0 -3.99995,-1.79079 -3.99995,-3.99978 0,-2.20899 1.79087,-3.99978 3.99995,-3.99978 2.20909,0 3.99996,1.79079 3.99996,3.99978" />
     <path
        inkscape:connector-curvature="0"
@@ -81,7 +81,7 @@
     <path
        inkscape:connector-curvature="0"
        id="path6465"
-       style="display:inline;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.29628971"
+       style="display:inline;fill:#f9f9f9;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.29628971"
        d="m 235.74716,124.59154 c -0.0433,-0.01 -0.0873,-0.0153 -0.13289,-0.0153 -0.0458,0 -0.0898,0.005 -0.13288,0.0153 v 4.03466 h 0.26577 z" />
   </g>
 </svg>

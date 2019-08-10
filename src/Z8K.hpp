@@ -13,6 +13,15 @@ struct Z8KWidget : SequencerWidget
 {
 public:
 	Z8KWidget(Z8K *module);
+	void onMenu(int action);
+private:
+	enum MENUACTIONS
+	{
+		RANDOMIZE_PITCH,
+	
+	};
+
+	Menu *addContextMenu(Menu *menu) override;
 };
 
 struct Z8K : Module
@@ -20,7 +29,8 @@ struct Z8K : Module
 	enum ParamIds
 	{
 		VOLTAGE_1,
-		NUM_PARAMS = VOLTAGE_1 + 16
+		M_RESET = VOLTAGE_1 + 16,
+		NUM_PARAMS
 	};
 
 	enum InputIds
@@ -42,6 +52,7 @@ struct Z8K : Module
 
 		RANDOMIZE,
 		TRANSPOSER,
+		MASTERRESET,
 
 		NUM_INPUTS
 	};
@@ -83,7 +94,7 @@ struct Z8K : Module
 			for(int c = 0; c < 4; c++)
 			{
 				int n = c + r * 4;
-				configParam(Z8K::VOLTAGE_1 + n, 0.0, 7.0, 1.0, "Voltage", "V");
+				configParam(Z8K::VOLTAGE_1 + n, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
 			}
 		}
 		/*
@@ -133,4 +144,6 @@ private:
 	z8kSequencer seq[10];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;
+	dsp::SchmittTrigger masterReset;
+	dsp::SchmittTrigger masterResetIn;
 };

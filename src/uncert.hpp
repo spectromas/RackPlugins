@@ -1,8 +1,5 @@
 #include "common.hpp"
 
-////////////////////
-// module widgets
-////////////////////
 using namespace rack;
 extern Plugin *pluginInstance;
 
@@ -15,8 +12,6 @@ struct UncertainWidget : SequencerWidget
 struct Uncertain : Module
 {
 	static constexpr float SEMITONE = 1.0 / 12.0;// 1/12 V
-	static constexpr float MIN_VOLTAGE = 1.0 / 96.0;// 1/96 V
-	static constexpr float MAX_VOLTAGE = 10.0; // 10V
 	enum ParamIds
 	{
 		FLUCT_AMT,
@@ -56,9 +51,9 @@ struct Uncertain : Module
 	Uncertain() : Module()
 	{		
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-		configParam(Uncertain::FLUCT_AMT, Uncertain::MIN_VOLTAGE, Uncertain::MAX_VOLTAGE, Uncertain::MIN_VOLTAGE, "Fluctuate", "V");
+		configParam(Uncertain::FLUCT_AMT, LVL_MIN, LVL_MAX, LVL_OFF, "Fluctuate", "V");
 		configParam(Uncertain::QUANTIZED_AMT, 0.0, 5.0, 0.0, "Quantized Amount", "V", 0, 1, 1);
-		configParam(Uncertain::STORED_AMT, Uncertain::MIN_VOLTAGE + 2.5, Uncertain::MAX_VOLTAGE - 2.5, 5.0, "Stored Amount", "V");
+		configParam(Uncertain::STORED_AMT, LVL_OFF + 2.5, LVL_MAX - 2.5, 5.0, "Stored Amount", "V");
 		configParam(Uncertain::CURVEAMP_AMT, 0.0,2.0,1.0, "Sigma", "#");
 	}
 

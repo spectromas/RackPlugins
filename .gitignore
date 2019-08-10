@@ -13,3 +13,4 @@ RackPlugins/_ReSharper.Caches/*
 RackPlugins/RackPlugins.VC.VC.opendb
 *.pdb
 *.tlog
+*.filters

@@ -16,14 +16,8 @@ void OscTest::process(const ProcessArgs &args)
 OscTestWidget::OscTestWidget(OscTest *module) : ModuleWidget()
 {
 	setModule(module);
-	box.size = Vec(8 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		addChild(panel);
-	}
-
+	addChild(new XorPanel(this, 8, NULL));
+	
 	addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, 0)));
 	addChild(createWidget<ScrewSilver>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
 	addChild(createWidget<ScrewSilver>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));

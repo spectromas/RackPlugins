@@ -49,48 +49,47 @@ void Mplex::process(const ProcessArgs &args)
 	if(reset.process(inputs[RESET].value))
 	{
 		set_output(0);
-	} else if(random.process(inputs[RANDOM].value))
+	}
+	else if (inputs[CV].isConnected())
 	{
-		set_output(getRand(num_inputs_f));
-	} else if(upTrigger.process(params[BTDN].value + inputs[INDN].value))
-	{
-		if(++cur_sel >= num_inputs)
-			cur_sel = 0;
-		set_output(cur_sel);
-	} else if(dnTrigger.process(params[BTUP].value + inputs[INUP].value))
-	{
-		if(--cur_sel < 0)
-			cur_sel = num_inputs-1;
+		cur_sel = clamp((int)(std::numeric_limits<float>::epsilon()+inputs[CV].getNormalVoltage(0.0)), 0, num_inputs - 1);
 		set_output(cur_sel);
 	}
-
+	else
+	{
+		if (random.process(inputs[RANDOM].value))
+		{
+			set_output(getRand(num_inputs_f));
+		}
+		else if (upTrigger.process(params[BTDN].value + inputs[INDN].value))
+		{
+			if (++cur_sel >= num_inputs)
+				cur_sel = 0;
+			set_output(cur_sel);
+		}
+		else if (dnTrigger.process(params[BTUP].value + inputs[INUP].value))
+		{
+			if (--cur_sel < 0)
+				cur_sel = num_inputs - 1;
+			set_output(cur_sel);
+		}
+	}
 	outputs[OUT_1].value = inputs[IN_1 + cur_sel].value;
 }
 
 MplexWidget::MplexWidget(Mplex *module) : ModuleWidget()
 {
-	setModule(module);
-	box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
+	CREATE_PANEL(module, this, 10, "res/modules/mplex.svg");
 
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/mplex.svg")));		
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(25.322), yncscape(85.436, 8.999)), module, Mplex::BTUP));
 	addParam(createParam<BefacoPushBig>(Vec(mm2px(25.322), yncscape(33.452, 8.999)), module, Mplex::BTDN));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(71.230, 8.255)), module, Mplex::INUP));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(25.694), yncscape(49.014, 8.255)), module, Mplex::INDN));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(40.045), yncscape(60.122, 8.255)), module, Mplex::OUT_1));
 
-	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(95.529,8.255)), module, Mplex::RESET));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(27.716, 8.255)), module, Mplex::RANDOM));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(40.045), yncscape(108.243,8.255)), module, Mplex::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(96.422, 8.255)), module, Mplex::RANDOM));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(40.045), yncscape(19.939, 8.255)), module, Mplex::CV));
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(36.932), yncscape(8.814,4.115)), module, Mplex::OUTPUT_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(36.932), yncscape(4.025, 4.115)), module, Mplex::OUTPUT_DEC));

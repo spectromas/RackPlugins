@@ -1,6 +1,84 @@
 #include "M581.hpp"
 #include <sstream>
 
+void BefacoSlidePotFix::SetID(M581 *pm, int id)
+{
+	pModule = pm;
+	myID = id;
+}
+
+void BefacoSlidePotFix::onDragStart(const event::DragStart &e)
+{
+	if (pModule != NULL)
+		pModule->lastSliderMoved = myID;
+
+	SvgSlider::onDragStart(e);
+}
+
+struct multimeter : TransparentWidget
+{
+private:
+	std::shared_ptr<Font> font;
+	M581 *pSeq;
+
+public:
+	multimeter(M581 *sq, float x, float y)
+	{
+		pSeq = sq;
+		box.size = Vec(47.0f, 11.f);
+		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
+		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
+	}
+
+	void draw(const DrawArgs &args) override
+	{
+		// Background
+		NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
+		NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
+		nvgBeginPath(args.vg);
+		nvgRect(args.vg, 0.0, 0.0, box.size.x, box.size.y);
+		nvgFillColor(args.vg, backgroundColor);
+		nvgFill(args.vg);
+		nvgStrokeWidth(args.vg, 0.5);
+		nvgStrokeColor(args.vg, borderColor);
+		nvgStroke(args.vg);
+		// text
+		nvgFontSize(args.vg, 8.5f);
+		nvgFontFaceId(args.vg, font->handle);
+		nvgTextLetterSpacing(args.vg, 2.5);
+
+		Vec textPos = Vec(2, 9);
+		/*
+		NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
+		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
+		nvgText(args.vg, textPos.x, textPos.y, "~~.~~~", NULL);
+		*/
+		if (pSeq != NULL)
+		{
+			NVGcolor textColor = nvgRGB(0xff, 0x00, 0x00);
+			nvgFillColor(args.vg, textColor);
+			float n = pSeq->getLastNoteValue();
+			if (n > -90)
+			{
+				char an[20];
+				sprintf(an, "%06.3f", n);
+				nvgText(args.vg, textPos.x, textPos.y, an, NULL);
+			}
+			else
+			{
+				nvgText(args.vg, textPos.x, textPos.y, " ? ?  ", NULL);
+			}
+		}
+	}
+};
+
+float M581::getLastNoteValue()
+{
+	if (lastSliderMoved >= 0)
+		return clamp(params[lastSliderMoved].value * voltFondoScala(), LVL_OFF, LVL_ON);
+	return -100;
+}
+
 void M581::on_loaded()
 {
 	#ifdef DIGITAL_EXT
@@ -70,7 +148,7 @@ void M581::randrandrand(int action)
 
 void M581::process(const ProcessArgs &args)
 {
-	if(resetTrigger.process(inputs[RESET].value))
+	if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 	{
 		_reset();
 	} else
@@ -123,8 +201,8 @@ void M581::showCurStep(int cur_step, int sub_div)
 	int sled = sub_div;
 	for(int k = 0; k < 8; k++)
 	{
-		lights[LED_STEP + k].value = k == lled ? 1.0 : 0.0;
-		lights[LED_SUBDIV + k].value = k == sled ? 1.0 : 0.0;
+		lights[LED_STEP + k].value = k == lled ? LED_ON : LED_OFF;
+		lights[LED_SUBDIV + k].value = k == sled ? LED_ON : LED_OFF;
 	}
 }
 
@@ -139,7 +217,7 @@ bool M581::any()
 	return false;
 }
 
-M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
+M581Widget::M581Widget(M581 *module) : SequencerWidget()
 {
 	#ifdef OSCTEST_MODULE
 	char name[60];
@@ -147,15 +225,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	if(module != NULL)
 		module->setWidget(this);
 
-	box.size = Vec(29 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/M581Module.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 29, "res/modules/M581Module.svg");
 
 	float dist_h = 11.893;
 	for(int k = 0; k < 8; k++)
@@ -198,6 +268,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		// page #1 (Note): Notes
 		// step notes
 		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k*dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
+		((BefacoSlidePotFix *)pwdg)->SetID(module, M581::STEP_NOTES + k);
 		addParam(pwdg);
 	
 		#ifdef OSCTEST_MODULE
@@ -285,7 +356,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 	#endif
 
 	// volt fondo scala
-	pwdg = createParam<CKSSFix>(Vec(mm2px(7.066), yncscape(114.224, 5.460)), module, M581::MAXVOLTS);
+	pwdg = createParam<CKSSThreeFix>(Vec(mm2px(5.551), yncscape(111.938, 10.0)), module, M581::MAXVOLTS );
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if (module != NULL)
@@ -319,8 +390,9 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 
 	// input
 	addInput(createInput<PJ301RPort>(Vec(mm2px(113.864), yncscape(22.128, 8.255)), module, M581::CLOCK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(129.469), yncscape(22.128, 8.255)), module, M581::RESET));
-	
+	addInput(createInput<PJ301YPort>(Vec(mm2px(124.178), yncscape(22.128, 8.255)), module, M581::RESET));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(134.427), yncscape(21.756, 8.999)), module, M581::M_RESET));
+
 	addInput(createInput<PJ301HPort>(Vec(mm2px(106.516), yncscape(114.960, 8.255)), module, M581::RANDOMIZONE));
 
 	// OUTPUTS
@@ -349,9 +421,12 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget(module)
 		display->mode = module->getAddress(0);
 	}
 	addChild(display);
-	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
+	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	addParam(pwdg);
+
+	addChild(new multimeter(module, 85.851f, 88.0f));
+
 	#ifdef LAUNCHPAD
 	if (module != NULL)
 	{
@@ -406,11 +481,21 @@ void M581Widget::RandomizeSubItemItem::onAction(const event::Action &e)
 	md->theRandomizer ^= randomizeDest;
 }
 
+float M581::voltFondoScala()
+{
+	if (params[M581::MAXVOLTS].value > 1.1)
+		return 10.0;
+	else if(params[M581::MAXVOLTS].value > 0.4)
+		return 5.0;
+
+	return 3.0;
+}
+
 bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 0.0; }
 bool ParamGetter::IsSlide(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 1.0; }
 int ParamGetter::GateMode(int numstep) { return std::round(pModule->params[M581::GATE_SWITCH + numstep].value); }
 int ParamGetter::PulseCount(int numstep) { return std::round(pModule->params[M581::COUNTER_SWITCH + numstep].value); }
-float ParamGetter::Note(int numstep) { return pModule->params[M581::STEP_NOTES + numstep].value * (pModule->params[M581::MAXVOLTS].value > 0 ? 7.0 : 3.0); }
+float ParamGetter::Note(int numstep) { return clamp(pModule->params[M581::STEP_NOTES + numstep].value * pModule->voltFondoScala(), LVL_OFF, LVL_ON); }
 int ParamGetter::RunMode() { return std::round(pModule->params[M581::RUN_MODE].value); }
 int ParamGetter::NumSteps() { return std::round(pModule->params[M581::NUM_STEPS].value); }
 float ParamGetter::SlideTime() { return pModule->params[M581::SLIDE_TIME].value; }

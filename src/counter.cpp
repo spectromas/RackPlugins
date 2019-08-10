@@ -37,53 +37,58 @@ void Counter::process_keys()
 
 void Counter::process(const ProcessArgs &args)
 {
-	process_keys();
-	counter_f = params[COUNTER].value;
-	int n = roundf(counter_f);
-	countDown = counter_f - curCounter;
+	int n;
+	if (inputs[IN_COUNTER].isConnected())
+	{
+		n =clamp((int)rescale(inputs[IN_COUNTER].value, LVL_OFF, LVL_ON, COUNTER_MINVALUE, COUNTER_MAXVALUE), COUNTER_MINVALUE, COUNTER_MAXVALUE);
+		counter_f = n;
+	} else
+	{
+		process_keys();
+		counter_f = params[COUNTER].value;
+		n = roundf(counter_f);
+	}
+	countDown = n - curCounter;
+	float deltaTime = 1.0 / args.sampleRate;
 
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		curCounter = 0;
-	} else if(counterTigger.process(inputs[IN_1].value))
+		outPulse.reset();
+
+	}
+	else if (counterTigger.process(inputs[IN_1].value))
 	{
 		++curCounter;
-		if(curCounter >= n)
+		if (curCounter >= n)
 		{
-			lights[ACTIVE].value = LVL_ON;
-			outputs[OUT_1].value = LVL_ON;
 			curCounter = 0;
-		} else
-		{
-			lights[ACTIVE].value = LVL_OFF;
-			outputs[OUT_1].value = LVL_OFF;
+			outPulse.trigger(pulseTime);
 		}
-	} 
+	}
+	if (outPulse.process(deltaTime))
+	{
+		lights[ACTIVE].value = LVL_ON;
+		outputs[OUT_1].value = LVL_ON;
+	} else
+	{
+		lights[ACTIVE].value = LVL_OFF;
+		outputs[OUT_1].value = LVL_OFF;
+	}
 }
 
-CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
+CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 {
 	if(module != NULL)
 		module->setWidget(this);
-	box.size = Vec(8* RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	{
-		SvgPanel *panel = new SvgPanel();
-		panel->box.size = box.size;
 
-		panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Counter.svg")));
-		addChild(panel);
-	}
-
-	addChild(createWidget<ScrewBlack>(Vec(15, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(15, 365)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 30, 365)));
+	CREATE_PANEL(module, this, 8, "res/modules/Counter.svg");
 
 	addParam(createParam<UPSWITCH>(Vec(mm2px(2.281), yncscape(104.588,4.115)), module, Counter::COUNTER_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(2.281), yncscape(99.788, 4.115)), module, Counter::COUNTER_DEC));
 
 	SigDisplayWidget *display = new SigDisplayWidget(3, 0);
-	display->box.size = Vec(30+16, 24);
+	display->box.size = Vec(30+16, 22);
 	display->box.pos = Vec(mm2px(7.934), yncscape(100.07, px2mm(display->box.size.y)));
 
 	if(module != NULL)
@@ -91,8 +96,8 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 	addChild(display);
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
-	displayCtr->box.size = Vec(30+16, 24);
-	displayCtr->box.pos = Vec(mm2px(12.418), yncscape(83.887, px2mm(display->box.size.y)));
+	displayCtr->box.size = Vec(30+16, 22);
+	displayCtr->box.pos = Vec(mm2px(7.934), yncscape(83.887, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;
 	addChild(displayCtr);
@@ -102,10 +107,11 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget(module)
 	addParam(pw);
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.238), yncscape(12.664, 8.255)), module, Counter::IN_1));
 	addInput(createInput<PJ301YPort>(Vec(mm2px(16.516), yncscape(28.287, 8.255)), module, Counter::RESET));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(29.070), yncscape(83.935, 8.255)), module, Counter::IN_COUNTER));
 	
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(25.242), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
 
-	addOutput(createOutput<PJ301OPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
+	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
 }
 
 void CounterWidget::SetCounter(int n)

@@ -34,22 +34,25 @@ void Z8K::load()
 
 void Z8K::process(const ProcessArgs &args)
 {
-	bool activeSteps[16];
+	int activeSteps[16];
 	for(int k = 0; k < 16; k++)
-		activeSteps[k] = false;
-
-	if(randomizeTrigger.process(inputs[RANDOMIZE].value))
-		pWidget->std_randomize(VOLTAGE_1,VOLTAGE_1+16);
-
-	float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
-	for(int k = 0; k < NUM_SEQUENCERS; k++)
-		activeSteps[seq[k].Step(transpose)] = true;
-
-	for(int k = 0; k < 16; k++)
+		activeSteps[k] = LVL_OFF;
+	if (masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[MASTERRESET].value))
 	{
-		outputs[ACTIVE_STEP + k].value = activeSteps[k] ? LVL_ON : LVL_OFF;
-	}
+		for (int k = 0; k < NUM_SEQUENCERS; k++)
+			seq[k].Reset();
+	} else
+	{
+		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
+			pWidget->std_randomize(VOLTAGE_1, VOLTAGE_1 + 16);
 
+		float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
+		for (int k = 0; k < NUM_SEQUENCERS; k++)
+			activeSteps[seq[k].Step(transpose)]++;
+
+		for (int k = 0; k < 16; k++)
+			outputs[ACTIVE_STEP + k].value = activeSteps[k];
+	}
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -62,7 +65,22 @@ void Z8K::process(const ProcessArgs &args)
 	#endif
 }
 
-Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
+
+Menu *Z8KWidget::addContextMenu(Menu *menu)
+{
+	menu->addChild(new SeqMenuItem<Z8KWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
+	return menu;
+}
+
+void Z8KWidget::onMenu(int action)
+{
+	switch (action)
+	{
+	case RANDOMIZE_PITCH: std_randomize(Z8K::VOLTAGE_1, Z8K::VOLTAGE_1 + 16); break;
+	
+	}
+}
+Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 {	
 	if(module != NULL)
 		module->setWidget(this);
@@ -71,15 +89,8 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 	char name[60];
 	#endif
 
-	box.size = Vec(34 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-	SvgPanel *panel = new SvgPanel();
-	panel->box.size = box.size;
-	panel->setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, "res/modules/Z8KModule.svg")));
-	addChild(panel);
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, 0)));
-	addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
-	addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2*RACK_GRID_WIDTH, box.size.y - RACK_GRID_WIDTH)));
+	CREATE_PANEL(module, this, 34, "res/modules/Z8KModule.svg");
+
 	float dist_h = 22.225;
 	float dist_v = -18.697;
 
@@ -97,7 +108,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 		addInput(createInput<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
 	}
 
-	addInput(createInput<PJ301BPort>( Vec(mm2px(161.154), yncscape(2.685,8.255)), module, Z8K::TRANSPOSER));
+	addInput(createInput<PJ301BPort>( Vec(mm2px(161.154), yncscape(5.860,8.255)), module, Z8K::TRANSPOSER));
 
 	addInput(createInput<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), module, Z8K::RESET_VERT ));
 	addInput(createInput<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), module, Z8K::DIR_VERT));
@@ -109,14 +120,15 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 	addInput(createInput<PJ301RPort> (Vec(mm2px(22.897), yncscape(10.941, 8.255)), module, Z8K::CLOCK_HORIZ));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(31.477), yncscape(2.685, 8.255)), module, Z8K::CV_HORIZ));
 
-	addInput(createInput<PJ301BPort> (Vec(mm2px(24.183), yncscape(115.442, 8.255)), module, Z8K::RANDOMIZE));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(16.544), yncscape(102.575, 8.255)), module, Z8K::RANDOMIZE));
+	addInput(createInput<PJ301YPort> (Vec(mm2px(26.912), yncscape(115.442, 8.255)), module, Z8K::MASTERRESET));
 
 	for(int r = 0; r < 4; r++)
 	{
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			ParamWidget *pctrl = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
+			ParamWidget *pctrl = createParam<Davies1900hFixRedKnob>(Vec(mm2px(51.533 + dist_h * c), yncscape(81.575+ dist_v * r,9.525)), module, Z8K::VOLTAGE_1 + n);
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{
@@ -175,6 +187,7 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget(module)
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(161.154), yncscape(82.210+r*dist_v, 8.255)), module, Z8K::CV_1 + r));
 	}
 
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(147.350), yncscape(92.799, 7.074), &module->connected));

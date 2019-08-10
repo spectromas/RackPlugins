@@ -14,7 +14,7 @@
    viewBox="0 0 9.5249996 9.5249995"
    version="1.1"
    id="svg16908"
-   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
    sodipodi:docname="Davies1900hBlack.svg">
   <defs
      id="defs16902">
@@ -35,7 +35,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="-34.949903"
+     inkscape:cx="-78.007655"
      inkscape:cy="9.5126135"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -46,8 +46,8 @@
      fit-margin-bottom="0"
      inkscape:window-width="1435"
      inkscape:window-height="887"
-     inkscape:window-x="1966"
-     inkscape:window-y="104"
+     inkscape:window-x="225"
+     inkscape:window-y="167"
      inkscape:window-maximized="0"
      units="mm" />
   <metadata
@@ -71,7 +71,7 @@
     <path
        inkscape:connector-curvature="0"
        id="path6445"
-       style="display:inline;fill:#4d4d4d;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
+       style="display:inline;fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277778"
        d="m 239.62071,127.9952 c 0,2.63019 -2.13251,4.76243 -4.76243,4.76243 -2.63019,0 -4.76244,-2.13224 -4.76244,-4.76243 0,-2.63019 2.13225,-4.76243 4.76244,-4.76243 2.62992,0 4.76243,2.13224 4.76243,4.76243" />
     <path
        inkscape:connector-curvature="0"
