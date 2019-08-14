@@ -8,7 +8,7 @@ common characteristics:
 - totally, miserably, hopelessy free
 - all input and output ports are color-coded as in figure:
 
-![legend](/res/png/legenda.png?raw=true "legend")
+![legend](/repository/legenda.png?raw=true "legend")
 
 version 1.1.x implements a new revision of the main motherboard: the new bipolar transistors
 allow negative voltages to flow. all plugins have a wider range available (0V to 10V or -10V to 10V), for this the 

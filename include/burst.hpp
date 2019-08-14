@@ -1,15 +1,12 @@
 #include "common.hpp"
 
-////////////////////
-// module widgets
-////////////////////
 using namespace rack;
 extern Plugin *pluginInstance;
 
 struct Burst;
 struct BurstWidget : SequencerWidget
 {
-	BurstWidget(Burst * module);
+	BurstWidget(Burst *module);
 };
 
 #define NUM_BURST_PORTS (6)
@@ -49,13 +46,13 @@ struct Burst : Module
 	};
 
 	Burst() : Module()
-	{		
+	{
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(Burst::MODE, 0.0, 2.0, 0.0);
 		configParam(Burst::MODE_INVERT, 0.0, 1.0, 0.0);
 		configParam(Burst::OUT_SPAN, 1.0, NUM_BURST_PORTS, 1.0, "Span", "#");
 		configParam(Burst::EVENT_COUNT, 0.0, 23.0, 0.0, "Event Counter", "#", 0, 1, 1);
-		configParam(Burst::TRIG_THRESH, LVL_OFF, LVL_ON, LVL_OFF, "Threshold", "V");
+		configParam(Burst::TRIG_THRESH, LVL_MIN, LVL_MAX, LVL_OFF, "Threshold", "V");
 		configParam(Burst::TRIGGER, 0.0, 1.0, 0.0);
 		onReset();
 	}
@@ -77,8 +74,8 @@ private:
 	void prepare_step();
 	void next_step();
 	void end_step();
-	void port(int n, bool on) { lights[LEDOUT_1 + n].value = outputs[OUT_1 + n].value = on ? LVL_ON : LVL_OFF; }
-	void invert_port(int n) { port(n, outputs[OUT_1 + n].value < LVL_ON); }
+	void port(int n, bool on) { lights[LEDOUT_1 + n].value = outputs[OUT_1 + n].value = on ? LVL_MAX : LVL_OFF; }
+	void invert_port(int n) { port(n, outputs[OUT_1 + n].value < LVL_MAX); }
 
 private:
 	SchmittTrigger2 clock;
@@ -92,7 +89,7 @@ private:
 		PEND = 1,
 		RAND = 2
 	};
-	struct 
+	struct
 	{
 		int cycle_counter;
 		int max_cycle;
