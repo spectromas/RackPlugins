@@ -7,19 +7,19 @@ void Klee::on_loaded()
 	#endif
 	load();
 }
- 
+
 void Klee::randrandrand()
 {
-	if (theRandomizer & KleeWidget::RANDOMIZE_PITCH)
+	if(theRandomizer & KleeWidget::RANDOMIZE_PITCH)
 		randrandrand(0);
 
 	if(theRandomizer & KleeWidget::RANDOMIZE_BUS)
 		randrandrand(1);
 
-	if (theRandomizer & KleeWidget::RANDOMIZE_LOAD)
+	if(theRandomizer & KleeWidget::RANDOMIZE_LOAD)
 		randrandrand(2);
 
-	if (theRandomizer & KleeWidget::RANDOMIZE_LAQUALUNQUE)
+	if(theRandomizer & KleeWidget::RANDOMIZE_LAQUALUNQUE)
 	{
 		randrandrand(int(random::uniform() * 3));
 	}
@@ -27,8 +27,8 @@ void Klee::randrandrand()
 
 void Klee::randrandrand(int action)
 {
-	switch (action)
-	{	
+	switch(action)
+	{
 		case 0:
 			pWidget->std_randomize(Klee::PITCH_KNOB, Klee::PITCH_KNOB + 16);
 			break;
@@ -38,7 +38,7 @@ void Klee::randrandrand(int action)
 			break;
 
 		case 2:
-			pWidget->std_randomize(Klee::LOAD_BUS, Klee::LOAD_BUS + 16); 
+			pWidget->std_randomize(Klee::LOAD_BUS, Klee::LOAD_BUS + 16);
 			break;
 	}
 }
@@ -126,7 +126,7 @@ void Klee::update_bus()
 int Klee::getValue3(int k)
 {
 	int v = roundf(params[GROUPBUS + k].value);
-	return 2-v;
+	return 2 - v;
 }
 
 bool Klee::isSwitchOn(int ptr)
@@ -173,15 +173,14 @@ void Klee::populate_outputs()
 	}
 
 	float a = 0, b = 0;
-	float mult = params[RANGE].value + inputs[RANGE_IN].value;
 
 	for(int k = 0; k < 8; k++)
 	{
 		if(shiftRegister.A[k])
-			a += params[PITCH_KNOB + k].value*mult;
+			a += orng.Value(params[PITCH_KNOB + k].value);
 
 		if(shiftRegister.B[k])
-			b += params[PITCH_KNOB + k + 8].value*mult;
+			b += orng.Value(params[PITCH_KNOB + k + 8].value);
 	}
 	outputs[CV_A].value = clamp(a, LVL_MIN, LVL_MAX);
 	outputs[CV_B].value = clamp(b, LVL_MIN, LVL_MAX);
@@ -246,7 +245,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	#ifdef OSCTEST_MODULE
 	char name[60];
 	#endif
-	
+
 	#ifdef LAUNCHPAD
 	int numLaunchpads = module != NULL ? module->drv->GetNumLaunchpads() : 0;
 	#ifdef DEBUG
@@ -260,7 +259,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	for(int k = 0; k < 8; k++)
 	{
 		// Load switches
-		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(k*switch_dstx+11.229), yncscape(114.071+ nkk_offs,7.336)), module, Klee::LOAD_BUS + k);
+		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(k * switch_dstx + 11.229), yncscape(114.071 + nkk_offs, 7.336)), module, Klee::LOAD_BUS + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -279,12 +278,12 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
-			sprintf(name, "/Load%i", k+1);
+			sprintf(name, "/Load%i", k + 1);
 			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
 
-		pwdg = createParam<NKK1>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(114.071+nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8);
+		pwdg = createParam<NKK1>(Vec(mm2px(k * switch_dstx + 118.914), yncscape(114.071 + nkk_offs, 7.336)), module, Klee::LOAD_BUS + k + 8);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -309,7 +308,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		#endif
 
 		// BUS switches
-		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 11.229), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k);
+		pwdg = createParam<NKK2>(Vec(mm2px(k * switch_dstx + 11.229), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -333,7 +332,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		}
 		#endif
 
-		pwdg = createParam<NKK2>(Vec(mm2px(k*switch_dstx + 118.914), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k + 8);
+		pwdg = createParam<NKK2>(Vec(mm2px(k * switch_dstx + 118.914), yncscape(4.502 + nkk_offs, 7.336)), module, Klee::GROUPBUS + k + 8);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -362,7 +361,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	float dist_v = 60.582 - 76.986;
 	for(int k = 0; k < 3; k++)
 	{
-		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs +k*dist_v, 7.336)), module, Klee::BUS_MERGE + k);
+		ParamWidget *pwdg = createParam<NKK1>(Vec(mm2px(184.360), yncscape(76.986 + nkk_offs + k * dist_v, 7.336)), module, Klee::BUS_MERGE + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -378,7 +377,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		}
 		#endif
 
-		ModuleLightWidget *plight = createLight<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k*dist_v, 5.179)), module, Klee::LED_BUS + k);
+		ModuleLightWidget *plight = createLight<LargeLight<BlueLight>>(Vec(mm2px(205.425), yncscape(78.065 + k * dist_v, 5.179)), module, Klee::LED_BUS + k);
 		addChild(plight);
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
@@ -388,8 +387,8 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		}
 		#endif
 
-		addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986+k*dist_v, 8.255)), module, Klee::TRIG_OUT + k));
-		addOutput(createOutput<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986+k*dist_v, 8.255)), module, Klee::GATE_OUT + k));
+		addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(213.360), yncscape(76.986 + k * dist_v, 8.255)), module, Klee::TRIG_OUT + k));
+		addOutput(createOutput<PJ301WPort>(Vec(mm2px(230.822), yncscape(76.986 + k * dist_v, 8.255)), module, Klee::GATE_OUT + k));
 	}
 	ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(171.725), yncscape(60.947, 6.607)), module, Klee::BUS2_MODE);
 	addParam(pwdg);
@@ -407,7 +406,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	#endif
 
 	//load
-	pwdg = createParam<BefacoPushBig>(Vec(mm2px(25.360), yncscape(76.686,8.999)), module, Klee::LOAD_PARAM);
+	pwdg = createParam<BefacoPushBig>(Vec(mm2px(25.360), yncscape(76.686, 8.999)), module, Klee::LOAD_PARAM);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -509,18 +508,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	}
 	#endif
 
-	// CV Range
-	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(24.474,9.525)), module, Klee::RANGE);
-	addParam(pwdg);
-	#ifdef OSCTEST_MODULE
-	if(module != NULL)
-	{
-		module->oscDrv->Add(new oscControl("/Range"), pwdg);
-	}
-	#endif
-	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(25.109, 8.255)), module, Klee::RANGE_IN));
-
-	addInput(createInput<PJ301HPort>(Vec(mm2px(184.466), yncscape(25.109,8.255)), module, Klee::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(184.466), yncscape(25.109, 8.255)), module, Klee::RANDOMIZONE));
 
 	// RND Threshold
 	pwdg = createParam<Davies1900hFixBlackKnob>(Vec(mm2px(212.725), yncscape(9.228, 9.525)), module, Klee::RND_THRESHOLD);
@@ -532,6 +520,9 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 	}
 	#endif
 	addInput(createInput<PJ301BPort>(Vec(mm2px(230.822), yncscape(9.863, 8.255)), module, Klee::RND_THRES_IN));
+
+	if(module != NULL)
+		module->orng.Create(this, 215.332f, 22.748f, Klee::RANGE_IN, Klee::RANGE);
 
 	// pitch Knobs + leds
 	float pot_x[8] = {39.440, 45.104, 60.976, 83.912, 109.368, 132.304, 148.175, 153.840};
@@ -547,7 +538,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
-			sprintf(name, "/Knob%i", k+1);
+			sprintf(name, "/Knob%i", k + 1);
 			module->oscDrv->Add(new oscControl(name), pwdg);
 		}
 		#endif
@@ -571,12 +562,12 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
-			sprintf(name, "/Led%i", k+1);
+			sprintf(name, "/Led%i", k + 1);
 			module->oscDrv->Add(new oscControl(name), plight);
 		}
 		#endif
 
-		pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(pot_x[7-k]), yncscape(pot_y_inf[k], 9.525)), module, Klee::PITCH_KNOB + 8 + k);
+		pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(pot_x[7 - k]), yncscape(pot_y_inf[k], 9.525)), module, Klee::PITCH_KNOB + 8 + k);
 		addParam(pwdg);
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
@@ -586,7 +577,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 		}
 		#endif
 
-		plight = createLight<MediumLight<WhiteLight>>(Vec(mm2px(led_x[7-k]), yncscape(led_y_inf[k], 3.176)), module, Klee::LED_PITCH + k + 8);
+		plight = createLight<MediumLight<WhiteLight>>(Vec(mm2px(led_x[7 - k]), yncscape(led_y_inf[k], 3.176)), module, Klee::LED_PITCH + k + 8);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -620,7 +611,7 @@ KleeWidget::KleeWidget(Klee *module) : SequencerWidget()
 Menu *KleeWidget::addContextMenu(Menu *menu)
 {
 	menu->addChild(new RandomizeItem(module));
-	 
+
 	menu->addChild(new SeqMenuItem<KleeWidget>("Range -> 1V", this, SET_RANGE_1V));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Bus", this, RANDOMIZE_BUS));
@@ -632,16 +623,19 @@ void KleeWidget::onMenu(int action)
 {
 	switch(action)
 	{
-	case RANDOMIZE_BUS: std_randomize(Klee::GROUPBUS, Klee::GROUPBUS + 16); break;
-	case RANDOMIZE_PITCH: std_randomize(Klee::PITCH_KNOB, Klee::PITCH_KNOB + 16); break;
-	case RANDOMIZE_LOAD: std_randomize(Klee::LOAD_BUS, Klee::LOAD_BUS + 16); break;
-	case SET_RANGE_1V:
-	{
-		int index = getParamIndex(Klee::RANGE);
-		if(index >= 0)
-			params[index]->paramQuantity->setValue(1.0);
-	}
-	break;
+		case RANDOMIZE_BUS: std_randomize(Klee::GROUPBUS, Klee::GROUPBUS + 16); break;
+		case RANDOMIZE_PITCH: std_randomize(Klee::PITCH_KNOB, Klee::PITCH_KNOB + 16); break;
+		case RANDOMIZE_LOAD: std_randomize(Klee::LOAD_BUS, Klee::LOAD_BUS + 16); break;
+		case SET_RANGE_1V:
+		{
+			int index = getParamIndex(Klee::RANGE);
+			if(index >= 0)
+				params[index]->paramQuantity->setValue(0.0);
+			index = getParamIndex(Klee::RANGE+1);
+			if(index >= 0)
+				params[index]->paramQuantity->setValue(1.0);
+		}
+		break;
 	}
 }
 

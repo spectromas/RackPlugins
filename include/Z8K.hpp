@@ -4,11 +4,8 @@
 #include <iomanip>
 #include <algorithm>
 #include "z8kSequencer.hpp"
-////////////////////
-// module widgets
-////////////////////
+#include "outRange.hpp"
 
-struct Z8K;
 struct Z8KWidget : SequencerWidget
 {
 public:
@@ -18,7 +15,6 @@ private:
 	enum MENUACTIONS
 	{
 		RANDOMIZE_PITCH,
-	
 	};
 
 	Menu *addContextMenu(Menu *menu) override;
@@ -30,7 +26,8 @@ struct Z8K : Module
 	{
 		VOLTAGE_1,
 		M_RESET = VOLTAGE_1 + 16,
-		NUM_PARAMS
+		RANGE,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 
 	enum InputIds
@@ -51,10 +48,10 @@ struct Z8K : Module
 		CLOCK_HORIZ,
 
 		RANDOMIZE,
-		TRANSPOSER,
 		MASTERRESET,
 
-		NUM_INPUTS
+		RANGE_IN,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 
 	enum OutputIds
@@ -94,7 +91,7 @@ struct Z8K : Module
 			for(int c = 0; c < 4; c++)
 			{
 				int n = c + r * 4;
-				configParam(Z8K::VOLTAGE_1 + n, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
+				configParam(Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
 		/*
@@ -130,6 +127,7 @@ struct Z8K : Module
 		json_t *rootJ = json_object();
 		return rootJ;
 	}
+	outputRange orng;
 
 	#ifdef DIGITAL_EXT
 	float connected;

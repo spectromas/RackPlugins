@@ -68,11 +68,9 @@ int spiraloneSequencer::getInput(Spiralone *pSpir, int input_id, int knob_id, fl
 
 void spiraloneSequencer::outputVoltage(Spiralone *pSpir)
 {
-	float v = AccessParam(pSpir, seq, Spiralone::XPOSE_1);
-	if(AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->isConnected())
-		v += AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->value;
+	float v = AccessParam(pSpir, seq, Spiralone::XPOSE_1) + AccessInput(pSpir, seq, Spiralone::INXPOSE_1)->getNormalVoltage(0.0);
 	v += AccessParam(pSpir, Spiralone::VOLTAGE_1 + curPos);
-	*AccessOutput(pSpir, seq, Spiralone::CV_1) = clamp(v, LVL_MIN, LVL_MAX);
+	*AccessOutput(pSpir, seq, Spiralone::CV_1) = pSpir->orng.Value(v);
 }
 
 void spiraloneSequencer::gate(int clk, Spiralone *pSpir)

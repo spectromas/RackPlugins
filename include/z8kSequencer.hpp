@@ -1,4 +1,6 @@
 #pragma once
+
+struct Z8K;
 struct z8kSequencer
 {
 public:
@@ -22,30 +24,9 @@ public:
 	{
 		curStep = 0;
 	}
-	int Step(float transpose)
-	{
-		if(resetTrigger.process(pReset->value))
-			Reset();
-		else if(clockTrigger.process(pClock->value))
-		{
-			if(pDirection->value > 5)
-			{
-				if(--curStep < 0)
-					curStep = numSteps - 1;
-			} else
-			{
-				if(++curStep >= numSteps)
-					curStep = 0;
-			}
-		}
 
-		pOutput->value = sequence[curStep]->value + transpose;
-		for(int k = 0; k < numSteps; k++)
-			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
-
-		return chain[curStep];
-	}
-
+	int Step(Z8K *pModule);
+	
 	z8kSequencer()
 	{
 		pReset = NULL;

@@ -234,9 +234,12 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	#endif
 	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
 
+	if(module != NULL)
+		((Spiralone *)module)->orng.Create(this, 1.098f, 5.295f, Spiralone::RANGE_IN, Spiralone::RANGE);
+
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
-		addChild(new DigitalLed(mm2px(6.894), yncscape(8.250,3.867), &module->connected));
+		addChild(new DigitalLed(mm2px(112.474), yncscape(4.428,3.867), &module->connected));
 	#endif
 }
 

@@ -1,6 +1,7 @@
 #pragma once
 #include "common.hpp"
 #include <algorithm>
+#include "outRange.hpp"
 
 struct Klee;
 struct KleeWidget : SequencerWidget
@@ -16,7 +17,7 @@ public:
 	};
 	struct RandomizeSubItemItem : MenuItem {
 		RandomizeSubItemItem(Module *k, const char *title, int action);
-	
+
 		int randomizeDest;
 		Klee *kl;
 		void onAction(const event::Action &e) override;
@@ -44,7 +45,7 @@ public:
 	private:
 		Module *kl;
 	};
-private:	
+private:
 	Menu *addContextMenu(Menu *menu) override;
 
 public:
@@ -67,9 +68,9 @@ struct Klee : Module
 		RND_THRESHOLD,
 		BUS1_LOAD,
 		BUS_MERGE,
-		RANGE = BUS_MERGE + 3,
-		BUS2_MODE,
-		NUM_PARAMS
+		BUS2_MODE = BUS_MERGE + 3,
+		RANGE,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 
 	enum InputIds
@@ -77,9 +78,9 @@ struct Klee : Module
 		LOAD_INPUT,
 		EXT_CLOCK_INPUT,
 		RND_THRES_IN,
-		RANGE_IN,
 		RANDOMIZONE,
-		NUM_INPUTS
+		RANGE_IN,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 
 	enum OutputIds
@@ -90,8 +91,7 @@ struct Klee : Module
 		CV_A__B,
 		GATE_OUT,
 		TRIG_OUT = GATE_OUT + 3,
-		temp = TRIG_OUT + 3,
-		NUM_OUTPUTS
+		NUM_OUTPUTS = TRIG_OUT + 3
 	};
 
 	enum LightIds
@@ -109,20 +109,20 @@ struct Klee : Module
 		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
-	
+
 		for(int k = 0; k < 8; k++)
 		{
 			configParam(Klee::LOAD_BUS + k, 0.0, 1.0, 0.0);
 			configParam(Klee::LOAD_BUS + k + 8, 0.0, 1.0, 0.0);
 			configParam(Klee::GROUPBUS + k, 0.0, 2.0, 2.0);
-			configParam(Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);	
+			configParam(Klee::GROUPBUS + k + 8, 0.0, 2.0, 2.0);
 		}
 
 		for(int k = 0; k < 3; k++)
 		{
-			configParam(Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);	
+			configParam(Klee::BUS_MERGE + k, 0.0, 1.0, 0.0);
 		}
-	
+
 		configParam(Klee::BUS2_MODE, 0.0, 1.0, 0.0);
 		configParam(Klee::LOAD_PARAM, 0.0, 1.0, 0.0);
 		configParam(Klee::BUS1_LOAD, 0.0, 1.0, 0.0);
@@ -130,7 +130,6 @@ struct Klee : Module
 		configParam(Klee::X28_X16, 0.0, 1.0, 0.0);
 		configParam(Klee::RND_PAT, 0.0, 1.0, 0.0);
 		configParam(Klee::B_INV, 0.0, 1.0, 0.0);
-		configParam(Klee::RANGE, 0.0001, LVL_MAX, 1.0);
 		configParam(Klee::RND_THRESHOLD, 0.0, 1.0, 0.0);
 
 		for(int k = 0; k < 8; k++)
@@ -159,16 +158,16 @@ struct Klee : Module
 		#endif
 	}
 	#endif
-	
+
 	void setWidget(KleeWidget *pwdg) { pWidget = pwdg; }
 
-	void dataFromJson(json_t *root) override 
-	{ 
-		Module::dataFromJson(root); 
+	void dataFromJson(json_t *root) override
+	{
+		Module::dataFromJson(root);
 		json_t *rndJson = json_object_get(root, "theRandomizer");
-		if (rndJson)
+		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
-		on_loaded(); 
+		on_loaded();
 	}
 	json_t *dataToJson() override
 	{
@@ -191,6 +190,7 @@ struct Klee : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
+	outputRange orng;
 
 private:
 	KleeWidget *pWidget;

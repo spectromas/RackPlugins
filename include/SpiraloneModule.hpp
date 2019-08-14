@@ -1,5 +1,6 @@
 #pragma once
 #include "Spiralone.hpp"
+#include "outRange.hpp"
 
 struct Spiralone : Module
 {
@@ -11,7 +12,8 @@ struct Spiralone : Module
 		LENGHT_1 = MODE_1 + NUM_SEQUENCERS,
 		STRIDE_1 = LENGHT_1 + NUM_SEQUENCERS,
 		XPOSE_1 = STRIDE_1 + NUM_SEQUENCERS,
-		NUM_PARAMS = XPOSE_1 + NUM_SEQUENCERS
+		RANGE = XPOSE_1 + NUM_SEQUENCERS,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 
 	enum InputIds
@@ -22,7 +24,8 @@ struct Spiralone : Module
 		INSTRIDE_1 = INLENGHT_1 + NUM_SEQUENCERS,
 		INXPOSE_1 = INSTRIDE_1 + NUM_SEQUENCERS,
 		CLOCK_1 = INXPOSE_1 + NUM_SEQUENCERS,
-		NUM_INPUTS = CLOCK_1 + NUM_SEQUENCERS
+		RANGE_IN = CLOCK_1 + NUM_SEQUENCERS,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 
 	enum OutputIds
@@ -44,7 +47,7 @@ struct Spiralone : Module
 		pWidget = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		for(int k = 0; k < TOTAL_STEPS; k++)
-			configParam(Spiralone::VOLTAGE_1 + k, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
+			configParam(Spiralone::VOLTAGE_1 + k, 0.0, 1.0, 0.0, "Voltage", "V");
 		configParam(Spiralone::M_RESET, 0.0, 1.0, 0.0);
 		for(int seq = 0; seq < NUM_SEQUENCERS; seq++)
 		{
@@ -107,6 +110,7 @@ struct Spiralone : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	spiraloneSequencer sequencer[NUM_SEQUENCERS];
+	outputRange orng;
 
 private:
 	void on_loaded();

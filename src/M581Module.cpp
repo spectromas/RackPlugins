@@ -9,73 +9,16 @@ void BefacoSlidePotFix::SetID(M581 *pm, int id)
 
 void BefacoSlidePotFix::onDragStart(const event::DragStart &e)
 {
-	if (pModule != NULL)
+	if(pModule != NULL)
 		pModule->lastSliderMoved = myID;
 
 	SvgSlider::onDragStart(e);
 }
-
-struct multimeter : TransparentWidget
-{
-private:
-	std::shared_ptr<Font> font;
-	M581 *pSeq;
-
-public:
-	multimeter(M581 *sq, float x, float y)
-	{
-		pSeq = sq;
-		box.size = Vec(47.0f, 11.f);
-		box.pos = Vec(mm2px(x), yncscape(y, px2mm(box.size.y)));
-		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
-	}
-
-	void draw(const DrawArgs &args) override
-	{
-		// Background
-		NVGcolor backgroundColor = nvgRGB(0x20, 0x20, 0x20);
-		NVGcolor borderColor = nvgRGB(0x10, 0x10, 0x10);
-		nvgBeginPath(args.vg);
-		nvgRect(args.vg, 0.0, 0.0, box.size.x, box.size.y);
-		nvgFillColor(args.vg, backgroundColor);
-		nvgFill(args.vg);
-		nvgStrokeWidth(args.vg, 0.5);
-		nvgStrokeColor(args.vg, borderColor);
-		nvgStroke(args.vg);
-		// text
-		nvgFontSize(args.vg, 8.5f);
-		nvgFontFaceId(args.vg, font->handle);
-		nvgTextLetterSpacing(args.vg, 2.5);
-
-		Vec textPos = Vec(2, 9);
-		/*
-		NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
-		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
-		nvgText(args.vg, textPos.x, textPos.y, "~~.~~~", NULL);
-		*/
-		if (pSeq != NULL)
-		{
-			NVGcolor textColor = nvgRGB(0xff, 0x00, 0x00);
-			nvgFillColor(args.vg, textColor);
-			float n = pSeq->getLastNoteValue();
-			if (n > -90)
-			{
-				char an[20];
-				sprintf(an, "%06.3f", n);
-				nvgText(args.vg, textPos.x, textPos.y, an, NULL);
-			}
-			else
-			{
-				nvgText(args.vg, textPos.x, textPos.y, " ? ?  ", NULL);
-			}
-		}
-	}
-};
-
 float M581::getLastNoteValue()
 {
-	if (lastSliderMoved >= 0)
-		return clamp(params[lastSliderMoved].value * voltFondoScala(), LVL_OFF, LVL_ON);
+	if(lastSliderMoved >= 0)
+		return orng.Value(params[lastSliderMoved].value);
+		
 	return -100;
 }
 
@@ -106,19 +49,19 @@ void M581::_reset()
 
 void M581::randrandrand()
 {
-	if (theRandomizer & M581Widget::RANDOMIZE_PITCH)
+	if(theRandomizer & M581Widget::RANDOMIZE_PITCH)
 		randrandrand(0);
 
 	if(theRandomizer & M581Widget::RANDOMIZE_COUNTER)
 		randrandrand(1);
 
-	if (theRandomizer & M581Widget::RANDOMIZE_MODE)
+	if(theRandomizer & M581Widget::RANDOMIZE_MODE)
 		randrandrand(2);
 
-	if (theRandomizer & M581Widget::RANDOMIZE_ENABLE)
+	if(theRandomizer & M581Widget::RANDOMIZE_ENABLE)
 		randrandrand(3);
 
-	if (theRandomizer & M581Widget::RANDOMIZE_LAQUALUNQUE)
+	if(theRandomizer & M581Widget::RANDOMIZE_LAQUALUNQUE)
 	{
 		randrandrand(int(random::uniform() * 4));
 	}
@@ -126,10 +69,10 @@ void M581::randrandrand()
 
 void M581::randrandrand(int action)
 {
-	switch (action)
-	{	
+	switch(action)
+	{
 		case 0:
-			pWidget->std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); 
+			pWidget->std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8);
 			break;
 
 		case 1:
@@ -141,7 +84,7 @@ void M581::randrandrand(int action)
 			break;
 
 		case 3:
-			pWidget->std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); 
+			pWidget->std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8);
 			break;
 	}
 }
@@ -232,7 +175,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	{
 		// page #0 (Session): step enable/disable; gate mode
 			  // step enable
-		ParamWidget *pwdg = createParam<CKSSThreeFix>(Vec(mm2px(14.151+k*dist_h), yncscape(11.744,10.0)), module, M581::STEP_ENABLE + k);
+		ParamWidget *pwdg = createParam<CKSSThreeFix>(Vec(mm2px(14.151 + k * dist_h), yncscape(11.744, 10.0)), module, M581::STEP_ENABLE + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -249,7 +192,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 		#endif
 
 		// Gate switches
-		pwdg = createParam<VerticalSwitch>(Vec(mm2px(14.930 + k*dist_h), yncscape(39.306, 13.2)), module, M581::GATE_SWITCH + k);
+		pwdg = createParam<VerticalSwitch>(Vec(mm2px(14.930 + k * dist_h), yncscape(39.306, 13.2)), module, M581::GATE_SWITCH + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -267,10 +210,10 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 
 		// page #1 (Note): Notes
 		// step notes
-		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k*dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
+		pwdg = createParam<BefacoSlidePotFix>(Vec(mm2px(14.943 + k * dist_h), yncscape(95.822, 27.517)), module, M581::STEP_NOTES + k);
 		((BefacoSlidePotFix *)pwdg)->SetID(module, M581::STEP_NOTES + k);
 		addParam(pwdg);
-	
+
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
@@ -281,7 +224,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 
 		//page #2 (Device): Counters
 		// Counter switches
-		pwdg = createParam<CounterSwitch>(Vec(mm2px(14.93 + k*dist_h), yncscape(60.897, 24.0)), module, M581::COUNTER_SWITCH + k);
+		pwdg = createParam<CounterSwitch>(Vec(mm2px(14.93 + k * dist_h), yncscape(60.897, 24.0)), module, M581::COUNTER_SWITCH + k);
 		addParam(pwdg);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -298,7 +241,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 		#endif
 
 		// step leds (all pages)
-		ModuleLightWidget *plight = createLight<LargeLight<RedLight>>(Vec(mm2px(13.491 + k*dist_h), yncscape(27.412, 5.179)), module, M581::LED_STEP + k);
+		ModuleLightWidget *plight = createLight<LargeLight<RedLight>>(Vec(mm2px(13.491 + k * dist_h), yncscape(27.412, 5.179)), module, M581::LED_STEP + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -317,7 +260,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 
 		// subdiv leds (all pages)
 		const float dv = 3.029;
-		plight = createLight<TinyLight<RedLight>>(Vec(mm2px(11.642), yncscape(61.75+k*dv+0.272, 1.088)), module, M581::LED_SUBDIV + k);
+		plight = createLight<TinyLight<RedLight>>(Vec(mm2px(11.642), yncscape(61.75 + k * dv + 0.272, 1.088)), module, M581::LED_SUBDIV + k);
 		addChild(plight);
 		#ifdef LAUNCHPAD
 		if(module != NULL)
@@ -336,7 +279,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	}
 
 	// Gate time
-	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(121.032), yncscape(112.942, 9.525)), module, M581::GATE_TIME);
+	ParamWidget *pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(134.129), yncscape(95.480, 9.525)), module, M581::GATE_TIME);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
@@ -355,15 +298,6 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	}
 	#endif
 
-	// volt fondo scala
-	pwdg = createParam<CKSSThreeFix>(Vec(mm2px(5.551), yncscape(111.938, 10.0)), module, M581::MAXVOLTS );
-	addParam(pwdg);
-	#ifdef LAUNCHPAD
-	if (module != NULL)
-	{
-		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(6, 0), 2, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
-	}
-	#endif
 
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -376,7 +310,7 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	pwdg = createParam<VerticalSwitch>(Vec(mm2px(123.494), yncscape(75.482, 13.2)), module, M581::STEP_DIV);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	if (module != NULL)
+	if(module != NULL)
 	{
 		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(4, 3), 4, LaunchpadLed::Color(43), LaunchpadLed::Color(32)), pwdg);
 	}
@@ -421,14 +355,12 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 		display->mode = module->getAddress(0);
 	}
 	addChild(display);
-	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(58.259,9.525)), module, M581::RUN_MODE);
+	pwdg = createParam<Davies1900hFixWhiteKnob>(Vec(mm2px(113.229), yncscape(58.259, 9.525)), module, M581::RUN_MODE);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	addParam(pwdg);
 
-	addChild(new multimeter(module, 85.851f, 88.0f));
-
 	#ifdef LAUNCHPAD
-	if (module != NULL)
+	if(module != NULL)
 	{
 		module->drv->Add(new LaunchpadRadio(2, ILaunchpadPro::RC2Key(6, 1), 5, LaunchpadLed::Color(11), LaunchpadLed::Color(14)), pwdg);
 	}
@@ -440,9 +372,12 @@ M581Widget::M581Widget(M581 *module) : SequencerWidget()
 	}
 	#endif
 
+	if(module != NULL)
+		module->orng.Create(this, 122.042f, 109.649f, M581::RANGE_IN, M581::RANGE);
+
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
-		addChild(new DigitalLed(mm2px(92.540), yncscape(2.322,3.867), &module->connected));
+		addChild(new DigitalLed(mm2px(92.540), yncscape(2.322, 3.867), &module->connected));
 	#endif
 }
 
@@ -461,10 +396,10 @@ void M581Widget::onMenu(int action)
 {
 	switch(action)
 	{
-	case RANDOMIZE_COUNTER: std_randomize(M581::COUNTER_SWITCH, M581::COUNTER_SWITCH + 8); break;
-	case RANDOMIZE_PITCH: std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); break;
-	case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8); break;
-	case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); break;
+		case RANDOMIZE_COUNTER: std_randomize(M581::COUNTER_SWITCH, M581::COUNTER_SWITCH + 8); break;
+		case RANDOMIZE_PITCH: std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); break;
+		case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8); break;
+		case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); break;
 	}
 }
 
@@ -481,21 +416,11 @@ void M581Widget::RandomizeSubItemItem::onAction(const event::Action &e)
 	md->theRandomizer ^= randomizeDest;
 }
 
-float M581::voltFondoScala()
-{
-	if (params[M581::MAXVOLTS].value > 1.1)
-		return 10.0;
-	else if(params[M581::MAXVOLTS].value > 0.4)
-		return 5.0;
-
-	return 3.0;
-}
-
 bool ParamGetter::IsEnabled(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 0.0; }
 bool ParamGetter::IsSlide(int numstep) { return pModule->params[M581::STEP_ENABLE + numstep].value > 1.0; }
 int ParamGetter::GateMode(int numstep) { return std::round(pModule->params[M581::GATE_SWITCH + numstep].value); }
 int ParamGetter::PulseCount(int numstep) { return std::round(pModule->params[M581::COUNTER_SWITCH + numstep].value); }
-float ParamGetter::Note(int numstep) { return clamp(pModule->params[M581::STEP_NOTES + numstep].value * pModule->voltFondoScala(), LVL_OFF, LVL_ON); }
+float ParamGetter::Note(int numstep) { return pModule->orng.Value(pModule->params[M581::STEP_NOTES + numstep].value); }
 int ParamGetter::RunMode() { return std::round(pModule->params[M581::RUN_MODE].value); }
 int ParamGetter::NumSteps() { return std::round(pModule->params[M581::NUM_STEPS].value); }
 float ParamGetter::SlideTime() { return pModule->params[M581::SLIDE_TIME].value; }

@@ -3,22 +3,19 @@
 #include <iomanip>
 #include <algorithm>
 #include "rntSequencer.hpp"
-
-////////////////////
-// module widgets
-////////////////////
+#include "outRange.hpp"
 
 struct Renato;
 struct RenatoWidget : SequencerWidget
-{	
+{
 public:
 	void onMenu(int action);
-	RenatoWidget(Renato * module);
+	RenatoWidget(Renato *module);
 	enum MENUACTIONS
 	{
-		RANDOMIZE_PITCH  = 0x01,
-		RANDOMIZE_GATEX  = 0x02,
-		RANDOMIZE_GATEY  = 0x04,
+		RANDOMIZE_PITCH = 0x01,
+		RANDOMIZE_GATEX = 0x02,
+		RANDOMIZE_GATEY = 0x04,
 		RANDOMIZE_ACCESS = 0x08,
 		RANDOMIZE_LAQUALUNQUE = 0x10
 
@@ -70,8 +67,9 @@ struct Renato : Module
 		GATEX_1 = ACCESS_1 + 16,
 		GATEY_1 = GATEX_1 + 16,
 		VOLTAGE_1 = GATEY_1 + 16,
-		 M_RESET = VOLTAGE_1 + 16,
-		 NUM_PARAMS
+		M_RESET = VOLTAGE_1 + 16,
+		RANGE,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 
 	enum InputIds
@@ -82,8 +80,9 @@ struct Renato : Module
 		ACCESS_IN1,
 		GATEX_IN1 = ACCESS_IN1 + 16,
 		GATEY_IN1 = GATEX_IN1 + 16,
-		RANDOMIZONE = GATEY_IN1+16,
-		NUM_INPUTS
+		RANDOMIZONE = GATEY_IN1 + 16,
+		RANGE_IN,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 
 	enum OutputIds
@@ -91,7 +90,7 @@ struct Renato : Module
 		CV,
 		XGATE, YGATE,
 		CV_OUTSTEP1,
-		NUM_OUTPUTS = CV_OUTSTEP1+16
+		NUM_OUTPUTS = CV_OUTSTEP1 + 16
 	};
 
 	enum LightIds
@@ -100,7 +99,7 @@ struct Renato : Module
 		LED_1,
 		NUM_LIGHTS = LED_1 + 16
 	};
-	
+
 	void setWidget(RenatoWidget *pwdg) { pWidget = pwdg; }
 	Renato() : Module()
 	{
@@ -118,7 +117,7 @@ struct Renato : Module
 				configParam(Renato::ACCESS_1 + n, 0.0, 1.0, 1.0);
 				configParam(Renato::GATEX_1 + n, 0.0, 1.0, 1.0);
 				configParam(Renato::GATEY_1 + n, 0.0, 1.0, 1.0);
-				configParam(Renato::VOLTAGE_1 + n, LVL_OFF, LVL_MAX, 1.0, "Voltage", "V");
+				configParam(Renato::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
 		#ifdef LAUNCHPAD
@@ -151,7 +150,7 @@ struct Renato : Module
 	{
 		Module::dataFromJson(root);
 		json_t *rndJson = json_object_get(root, "theRandomizer");
-		if (rndJson)
+		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
 		on_loaded();
 	}
@@ -175,6 +174,7 @@ struct Renato : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
+	outputRange orng;
 
 private:
 	float getStatus(int pid, int iid)
@@ -201,4 +201,4 @@ private:
 	bool _gateY(int n) { return  getStatus(GATEY_1 + n, GATEY_IN1 + n) > 0; }
 	rntSequencer seqX;
 	rntSequencer seqY;
-};
+	};

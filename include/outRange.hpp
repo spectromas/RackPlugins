@@ -1,3 +1,4 @@
+#pragma once
 struct portSmall : _ioPort
 {
 	portSmall() : _ioPort("res/PJ301Bsmall.svg") {}

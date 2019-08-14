@@ -72,6 +72,11 @@ void ascii::process(const ProcessArgs &args)
 	}
 }
 
+float ascii::getValue(char c) 
+{ 
+	return orng.Value(rescale(c, 32.0, 127.0, 0.0, 1.0));
+}
+
 asciiWidget::asciiWidget(ascii *module)
 {
 	CREATE_PANEL(module, this, 16, "res/modules/ascii.svg");
@@ -91,4 +96,6 @@ asciiWidget::asciiWidget(ascii *module)
 	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(9.4), yncscape(116.611, 8.999)), module, ascii::M_RESET));
+	if(module != NULL)
+		module->orng.Create(this, 41.555f, 114.351f, ascii::RANGE_IN, ascii::RANGE);
 }

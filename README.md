@@ -82,7 +82,10 @@ dedicated to the inventor of the short midi message. quantized midi output for h
 trigonometric noise, a sin () under control of some well-tempered voltages. 
 
 # empty
-a strategy to waste some rack space in a more productive way
+a strategy to waste some rack space in a more productive way. 
 
 # ascii
 why just taking notes if you could make them play?
+
+# qu4ttro
+admittedly inspired by a popular ios machine. or it was bach?

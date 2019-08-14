@@ -18,7 +18,7 @@ public:
 	int StepDivision();
 
 private:
-	M581 * pModule;
+	M581 *pModule;
 };
 
 
@@ -37,7 +37,7 @@ struct CV_LINE
 	void Begin(int cur_step)
 	{
 		curNote = pGet->Note(cur_step);
-		if (note_empty)
+		if(note_empty)
 		{
 			note_empty = false;
 			startNoteValue = curNote;
@@ -77,7 +77,7 @@ private:
 struct GATE_LINE
 {
 private:
-	ParamGetter * pGet;
+	ParamGetter *pGet;
 	int curStep;
 	float gate_len(float elapsedTime) { return elapsedTime > pGet->GateTime() ? LVL_OFF : LVL_ON; }
 
@@ -100,28 +100,28 @@ public:
 
 		switch(pGet->GateMode(curStep))
 		{
-		case 0:	// off
-			break;
+			case 0:	// off
+				break;
 
-		case 1:  //single pulse
-			rv = gate_len(timer->Elapsed());
-			break;
+			case 1:  //single pulse
+				rv = gate_len(timer->Elapsed());
+				break;
 
-		case 2: // multiple pulse
-		{
-			if((pulseCount % pGet->StepDivision()) == 0)
+			case 2: // multiple pulse
 			{
-				rv = gate_len(timer->StopWatch());
-			} else
-			{
-				rv = LVL_OFF;
+				if((pulseCount % pGet->StepDivision()) == 0)
+				{
+					rv = gate_len(timer->StopWatch());
+				} else
+				{
+					rv = LVL_OFF;
+				}
 			}
-		}
-		break;
-
-		case 3:	// continuo
-			rv = LVL_ON;
 			break;
+
+			case 3:	// continuo
+				rv = LVL_ON;
+				break;
 		}
 
 		return rv;
@@ -158,7 +158,7 @@ struct STEP_COUNTER
 	}
 
 private:
-	ParamGetter * pGet;
+	ParamGetter *pGet;
 	int pulseCounter;
 	bool pp_rev;
 	int curStep;
@@ -170,45 +170,45 @@ private:
 	{
 		switch(pGet->RunMode())
 		{
-		case 0: // FWD
-			return inc_step(current);
-
-		case 1: // BWD
-			return dec_step(current);
-
-		case 2: // ping ed anche pong
-			if(pp_rev)
-			{
-				int step = dec_step(current);
-				if(step <= current)
-					return step;
-				pp_rev = !pp_rev;
+			case 0: // FWD
 				return inc_step(current);
-			} else
-			{
-				int step = inc_step(current);
-				if(step >= current)
-					return step;
-				pp_rev = !pp_rev;
+
+			case 1: // BWD
 				return dec_step(current);
+
+			case 2: // ping ed anche pong
+				if(pp_rev)
+				{
+					int step = dec_step(current);
+					if(step <= current)
+						return step;
+					pp_rev = !pp_rev;
+					return inc_step(current);
+				} else
+				{
+					int step = inc_step(current);
+					if(step >= current)
+						return step;
+					pp_rev = !pp_rev;
+					return dec_step(current);
+				}
+				break;
+
+			case 3: // BROWNIAN
+			{
+				if(testaCroce())
+				{
+					return inc_step(current);
+				} else
+				{
+					return testaCroce() ? dec_step(current) : current;
+				}
 			}
 			break;
 
-		case 3: // BROWNIAN
-		{
-			if(testaCroce())
-			{
-				return inc_step(current);
-			} else
-			{
-				return testaCroce() ? dec_step(current) : current;
-			}
-		}
-		break;
-
-		case 4: // At casacc
-			current = getRand(pGet->NumSteps()); // OCIO: step off NON funziona con random!
-			break;
+			case 4: // At casacc
+				current = getRand(pGet->NumSteps()); // OCIO: step off NON funziona con random!
+				break;
 		}
 
 		return current;

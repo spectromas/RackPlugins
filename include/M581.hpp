@@ -4,6 +4,7 @@
 #include <iomanip>
 #include <algorithm>
 #include "M581Types.hpp"
+#include "outRange.hpp"
 
 struct M581;
 struct M581Widget : SequencerWidget
@@ -20,7 +21,7 @@ public:
 
 	struct RandomizeSubItemItem : MenuItem {
 		RandomizeSubItemItem(Module *m, const char *title, int action);
-	
+
 		int randomizeDest;
 		M581 *md;
 		void onAction(const event::Action &e) override;
@@ -65,31 +66,30 @@ struct BefacoSlidePotFix : SvgSlider
 		pModule = NULL;
 		myID = -1;
 		Vec margin = Vec(4.5, 4.5);
-	
+
 		maxHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), -mm2px(5.09852 / 2.0)).plus(margin);
 		minHandlePos = Vec(mm2px(-3.09541 / 2.0 + 2.27312 / 2.0), mm2px(27.51667 - 5.09852 / 2.0)).plus(margin);
 		setBackgroundSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePot.svg")));
-		setHandleSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePotHandle.svg")));	
+		setHandleSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/BefacoSlidePotHandle.svg")));
 		background->box.pos = margin;
 		box.size = background->box.size.plus(margin.mult(2));
 	}
 	void SetID(M581 *pm, int id);
 
 	void onDragStart(const event::DragStart &e) override;
-	
+
 private:
 	M581 *pModule;
 	int myID;
 };
-
 
 struct CounterSwitch : SvgSlider
 {
 	CounterSwitch()
 	{
 		snap = true;
-		maxHandlePos = Vec(-mm2px(2.3-2.3/2.0), 0);
-		minHandlePos = Vec(-mm2px(2.3-2.3/2.0), mm2px(24-2.8));
+		maxHandlePos = Vec(-mm2px(2.3 - 2.3 / 2.0), 0);
+		minHandlePos = Vec(-mm2px(2.3 - 2.3 / 2.0), mm2px(24 - 2.8));
 		background->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/counterSwitchPot.svg"));
 		background->wrap();
 		background->box.pos = Vec(0, 0);
@@ -155,6 +155,7 @@ private:
 		"RND"
 	};
 };
+
 struct M581 : Module
 {
 	enum ParamIds
@@ -168,9 +169,9 @@ struct M581 : Module
 		NUM_STEPS,
 		RUN_MODE,
 		STEP_DIV,
-		MAXVOLTS,
 		M_RESET,
-		NUM_PARAMS
+		RANGE,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 
 	enum InputIds
@@ -178,8 +179,8 @@ struct M581 : Module
 		CLOCK,
 		RESET,
 		RANDOMIZONE,
-		
-		NUM_INPUTS
+		RANGE_IN,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 
 	enum OutputIds
@@ -208,14 +209,13 @@ struct M581 : Module
 			configParam(M581::STEP_ENABLE + k, 0.0, 2.0, 1.0);
 			configParam(M581::GATE_SWITCH + k, 0.0, 3.0, 2.0);
 			configParam(M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
-			configParam(M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);		
+			configParam(M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);
 		}
 
 		configParam(M581::GATE_TIME, 0.005, 1.0, 0.25);
 		configParam(M581::SLIDE_TIME, 0.005, 2.0, 0.5);
-		configParam(M581::MAXVOLTS, 0.0, 2.0, 0.0);
 		configParam(M581::STEP_DIV, 0.0, 3.0, 0.0);
-		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);	
+		configParam(M581::NUM_STEPS, 1.0, 31.0, 8.0);
 		configParam(M581::RUN_MODE, 0.0, 4.0, 0.0);
 
 		#ifdef LAUNCHPAD
@@ -248,16 +248,15 @@ struct M581 : Module
 	void onReset() override { load(); }
 	void onRandomize() override { load(); }
 	void setWidget(M581Widget *pwdg) { pWidget = pwdg; }
-	float voltFondoScala();
 	float getLastNoteValue();
 
-	void dataFromJson(json_t *root) override 
-	{ 
-		Module::dataFromJson(root); 
+	void dataFromJson(json_t *root) override
+	{
+		Module::dataFromJson(root);
 		json_t *rndJson = json_object_get(root, "theRandomizer");
-		if (rndJson)
+		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
-		on_loaded(); 
+		on_loaded();
 	}
 	json_t *dataToJson() override
 	{
@@ -287,6 +286,7 @@ struct M581 : Module
 	OSCDriver *oscDrv = NULL;
 	#endif
 	int theRandomizer;
+	outputRange orng;
 
 private:
 	CV_LINE cvControl;

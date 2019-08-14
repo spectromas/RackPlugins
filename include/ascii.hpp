@@ -1,4 +1,5 @@
 #include "common.hpp"
+#include "outRange.hpp"
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -32,13 +33,15 @@ struct ascii : Module
 	{
 		M_RESET,
 		FTM,
-		NUM_PARAMS
+		RANGE,
+		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
 	enum InputIds
 	{
 		RESET,
 		CLK,
-		NUM_INPUTS
+		RANGE_IN,
+		NUM_INPUTS = RANGE_IN + outputRange::NUMSLOTS
 	};
 	enum OutputIds
 	{
@@ -57,9 +60,10 @@ struct ascii : Module
 	}
 	void setField(TextField *p) { textField = p; }
 	void process(const ProcessArgs &args) override;
+	outputRange orng;
 
 private:
-	float getValue(char c) { return clamp(rescale(c, 32.0, 127.0, LVL_OFF, LVL_MAX), LVL_OFF, LVL_MAX); }
+	float getValue(char c);
 	void manifesto();
 	dsp::SchmittTrigger resetTrigger;
 	TextField *textField;

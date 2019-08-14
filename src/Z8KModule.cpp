@@ -46,13 +46,13 @@ void Z8K::process(const ProcessArgs &args)
 		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
 			pWidget->std_randomize(VOLTAGE_1, VOLTAGE_1 + 16);
 
-		float transpose = inputs[TRANSPOSER].isConnected() ? inputs[TRANSPOSER].value : 0;
 		for (int k = 0; k < NUM_SEQUENCERS; k++)
-			activeSteps[seq[k].Step(transpose)]++;
+			activeSteps[seq[k].Step(this)]++;
 
 		for (int k = 0; k < 16; k++)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}
+	
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -107,8 +107,6 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 		addInput(createInput<PJ301BPort>(Vec(mm2px(52.168+k*dist_h), yncscape(105.695,8.255)), module, Z8K::DIR_A + k));
 		addInput(createInput<PJ301RPort>(Vec(mm2px(52.168+k*dist_h), yncscape(95.948,8.255)), module, Z8K::CLOCK_A + k));
 	}
-
-	addInput(createInput<PJ301BPort>( Vec(mm2px(161.154), yncscape(5.860,8.255)), module, Z8K::TRANSPOSER));
 
 	addInput(createInput<PJ301YPort>( Vec(mm2px(135.416), yncscape(111.040,8.255)), module, Z8K::RESET_VERT ));
 	addInput(createInput<PJ301BPort>( Vec(mm2px(143.995), yncscape(102.785,8.255)), module, Z8K::DIR_VERT));
@@ -188,8 +186,36 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	}
 
 	addChild(createParam<BefacoPushBig>(Vec(mm2px(5.366), yncscape(115.070, 9.001)), module, Z8K::M_RESET));
+
+	if(module != NULL)
+		module->orng.Create(this, 146.682f, 4.802f, Z8K::RANGE_IN, Z8K::RANGE);
+
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(147.350), yncscape(92.799, 7.074), &module->connected));
 	#endif
+}
+
+int z8kSequencer::Step(Z8K *pModule)
+{
+	if(resetTrigger.process(pReset->value))
+		Reset();
+	else if(clockTrigger.process(pClock->value))
+	{
+		if(pDirection->value > 5)
+		{
+			if(--curStep < 0)
+				curStep = numSteps - 1;
+		} else
+		{
+			if(++curStep >= numSteps)
+				curStep = 0;
+		}
+	}
+
+	pOutput->value = pModule->orng.Value(sequence[curStep]->value);
+	for(int k = 0; k < numSteps; k++)
+		leds[k]->value = k == curStep ? LED_ON : LED_OFF;
+
+	return chain[curStep];
 }
