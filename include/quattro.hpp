@@ -74,13 +74,14 @@ private:
 	quattro *pModule;
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
-	void beginPulse();
+	void beginPulse(bool silent=true);
 	void endPulse();
 	STEPMODE getStepMode();
 	void move_next();
 	PulseGenerator2 resetPulseGuard;
 	bool resetting;
-	const float pulseTime = 0.01;
+	const float pulseTime = 0.001;
+	int prenotazioneDiChiamata;
 };
 
 struct quattro : Module

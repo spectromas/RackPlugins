@@ -229,25 +229,16 @@ void quattroStrip::process(int forceStep, float deltaTime)
 		if(pulseStatus == 0) //gioco regolare, nessun reset pending
 		{
 			if(forceStep >= 0)
+				prenotazioneDiChiamata = forceStep;
+			
+			int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
+			if(clk == 1)
 			{
-				endPulse();
-				curStep = forceStep;
-				resetPulseGuard.trigger(pulseTime);
-				beginPulse();
-			} else
-			{
-				int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
-				if(clk == 1)
-				{
-					if(forceStep < 0)
-						move_next();
-					else
-						curStep = forceStep;
+				move_next();					
+				beginPulse(false);
+			} else if(clk == -1)
+				endPulse();			
 
-					beginPulse();
-				} else if(clk == -1)
-					endPulse();
-			}
 		} else if(pulseStatus == -1)
 			endPulse();
 	}
@@ -255,7 +246,18 @@ void quattroStrip::process(int forceStep, float deltaTime)
 
 void quattroStrip::move_next()
 {
+	if(prenotazioneDiChiamata >= 0)
+	{
+		curStep = prenotazioneDiChiamata;
+		prenotazioneDiChiamata = -1;
+		return;
+	}
 	bool backwd = (pModule->inputs[quattro::DIRECTION1 + stripID].getNormalVoltage(0.0) + pModule->params[quattro::BACKWARD + stripID].value) > 0.5;
+	if(getStepMode() == RESET)
+	{
+		curStep = backwd ? QUATTRO_NUM_STEPS -1 : 0;
+		return;
+	}
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 	{
 		if(backwd)
@@ -271,8 +273,7 @@ void quattroStrip::move_next()
 		if(getStepMode() != SKIP)
 			break;
 	}
-	if(getStepMode() == RESET)
-		curStep = 0;
+
 }
 
 quattroStrip::STEPMODE quattroStrip::getStepMode()
@@ -280,10 +281,10 @@ quattroStrip::STEPMODE quattroStrip::getStepMode()
 	return  (quattroStrip::STEPMODE)(int)(pModule->params[quattro::MODE + curStep].value);
 }
 
-void quattroStrip::beginPulse()
+void quattroStrip::beginPulse(bool silent)
 {
 	pModule->outputs[quattro::CV1 + stripID].value = pModule->orng.Value(pModule->params[quattro::VOLTAGE_1 + curStep].value);
-	pModule->outputs[quattro::GATE1 + stripID].value = LVL_ON;
+	pModule->outputs[quattro::GATE1 + stripID].value = silent ? LVL_OFF : LVL_ON;
 	if(stripID == 0)
 		pModule->outputs[quattro::CURSTEP1 + curStep].value = LVL_ON;
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
@@ -306,6 +307,7 @@ void quattroStrip::reset(float deltaTime)
 	{
 		endPulse();
 		curStep = 0;
+		prenotazioneDiChiamata = -1;
 		resetPulseGuard.trigger(pulseTime);
 		beginPulse();
 	}
