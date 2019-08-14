@@ -30,6 +30,13 @@ void Z8K::load()
 	//vert
 	std::vector<int> steps_v = {0,4,8,12,13,9,5,1,2,6,10,14,15,11,7,3};
 	seq[SEQ_VERT].Init(&inputs[RESET_VERT], &inputs[DIR_VERT], &inputs[CLOCK_VERT], &outputs[CV_VERT], &lights[LED_VERT], params, steps_v);
+	reset();
+}
+
+void Z8K::reset()
+{
+	for(int k = 0; k < NUM_SEQUENCERS; k++)
+		seq[k].Reset();
 }
 
 void Z8K::process(const ProcessArgs &args)
@@ -39,8 +46,7 @@ void Z8K::process(const ProcessArgs &args)
 		activeSteps[k] = LVL_OFF;
 	if (masterReset.process(params[M_RESET].value) || masterResetIn.process(inputs[MASTERRESET].value))
 	{
-		for (int k = 0; k < NUM_SEQUENCERS; k++)
-			seq[k].Reset();
+		reset();
 	} else
 	{
 		if (randomizeTrigger.process(inputs[RANDOMIZE].value))
@@ -199,10 +205,11 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 int z8kSequencer::Step(Z8K *pModule)
 {
 	if(resetTrigger.process(pReset->value))
-		Reset();
-	else if(clockTrigger.process(pClock->value))
 	{
-		if(pDirection->value > 5)
+		Reset();
+	} else if(clockTrigger.process(pClock->value))
+	{
+		if(pDirection->value > 0.5)
 		{
 			if(--curStep < 0)
 				curStep = numSteps - 1;
@@ -211,11 +218,11 @@ int z8kSequencer::Step(Z8K *pModule)
 			if(++curStep >= numSteps)
 				curStep = 0;
 		}
+
+		if(pOutput->isConnected())
+			pOutput->value = pModule->orng.Value(sequence[curStep]->value);
+		for(int k = 0; k < numSteps; k++)
+			leds[k]->value = k == curStep ? LED_ON : LED_OFF;
 	}
-
-	pOutput->value = pModule->orng.Value(sequence[curStep]->value);
-	for(int k = 0; k < numSteps; k++)
-		leds[k]->value = k == curStep ? LED_ON : LED_OFF;
-
 	return chain[curStep];
 }

@@ -139,6 +139,7 @@ struct Z8K : Module
 private:
 	void on_loaded();
 	void load();
+	void reset();
 	z8kSequencer seq[10];
 	dsp::SchmittTrigger randomizeTrigger;
 	Z8KWidget *pWidget;

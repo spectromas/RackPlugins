@@ -60,9 +60,8 @@
           "value": 0.0
         }
       ],
-      "rightModuleId": 56,
       "pos": [
-        4,
+        2,
         1
       ]
     },
@@ -137,10 +136,8 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 55,
-      "rightModuleId": 57,
       "pos": [
-        12,
+        11,
         1
       ]
     },
@@ -164,7 +161,7 @@
         },
         {
           "id": 3,
-          "value": 0.0
+          "value": 1.0
         },
         {
           "id": 4,
@@ -175,8 +172,6 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 56,
-      "rightModuleId": 58,
       "data": {},
       "pos": [
         26,
@@ -202,13 +197,11 @@
           "value": 2.0
         }
       ],
-      "leftModuleId": 57,
-      "rightModuleId": 59,
       "data": {
         "counter": 2
       },
       "pos": [
-        42,
+        43,
         1
       ]
     },
@@ -235,13 +228,11 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 58,
-      "rightModuleId": 60,
       "data": {
         "num_outputs": 8
       },
       "pos": [
-        50,
+        52,
         1
       ]
     },
@@ -490,15 +481,17 @@
         {
           "id": 59,
           "value": 0.0
+        },
+        {
+          "id": 60,
+          "value": 5.0
         }
       ],
-      "leftModuleId": 59,
-      "rightModuleId": 69,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        60,
+        63,
         1
       ]
     },
@@ -663,14 +656,17 @@
         {
           "id": 38,
           "value": 0.0
+        },
+        {
+          "id": 39,
+          "value": 5.0
         }
       ],
-      "rightModuleId": 62,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        1,
+        0,
         2
       ]
     },
@@ -697,8 +693,6 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 61,
-      "rightModuleId": 63,
       "data": {
         "num_inputs": 8
       },
@@ -746,13 +740,11 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 62,
-      "rightModuleId": 65,
       "data": {
         "bpm_integer": 120
       },
       "pos": [
-        40,
+        41,
         2
       ]
     },
@@ -762,13 +754,12 @@
       "version": "1.1.1",
       "model": "Quantizer",
       "params": [],
-      "leftModuleId": 73,
       "data": {
         "scale": 0,
         "root": 0
       },
       "pos": [
-        138,
+        145,
         1
       ]
     },
@@ -887,13 +878,11 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 63,
-      "rightModuleId": 70,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        55,
+        57,
         2
       ]
     },
@@ -1174,14 +1163,21 @@
         {
           "id": 67,
           "value": 0.0
+        },
+        {
+          "id": 68,
+          "value": 0.0
+        },
+        {
+          "id": 69,
+          "value": 5.0
         }
       ],
-      "rightModuleId": 67,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        0,
+        1,
         0
       ]
     },
@@ -1402,15 +1398,21 @@
         {
           "id": 52,
           "value": 0.0
+        },
+        {
+          "id": 53,
+          "value": 0.0
+        },
+        {
+          "id": 54,
+          "value": 5.0
         }
       ],
-      "leftModuleId": 66,
-      "rightModuleId": 72,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        39,
+        41,
         0
       ]
     },
@@ -1437,11 +1439,9 @@
           "value": 1.0
         }
       ],
-      "leftModuleId": 69,
-      "rightModuleId": 73,
       "data": {},
       "pos": [
-        118,
+        123,
         1
       ]
     },
@@ -1492,10 +1492,8 @@
           "value": 0.0
         }
       ],
-      "leftModuleId": 60,
-      "rightModuleId": 68,
       "pos": [
-        108,
+        112,
         1
       ]
     },
@@ -1572,13 +1570,19 @@
         {
           "id": 16,
           "value": 0.0
+        },
+        {
+          "id": 17,
+          "value": 0.0
+        },
+        {
+          "id": 18,
+          "value": 5.0
         }
       ],
-      "leftModuleId": 65,
-      "rightModuleId": 71,
       "data": {},
       "pos": [
-        100,
+        103,
         2
       ]
     },
@@ -1595,31 +1599,20 @@
         {
           "id": 1,
           "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 5.0
         }
       ],
-      "leftModuleId": 70,
       "text": "struct XorPanel : SvgPanel\r\n{\r\n\tstruct bgGradient : TransparentWidget\r\n\t{\r\n\t\tbgGradient(const Vec &size)\r\n\t\t{\r\n\t\t\tbox.pos = Vec(0, 0);\r\n\t\t\tbox.size = size;\r\n\t\t}\r\n\r\n\t\tvoid draw(const Widget::DrawArgs &args) override\r\n\t\t{\r\n\t\t\tnvgBeginPath(args.vg);\r\n\t\t\tnvgRect(args.vg, 0, 0, box.size.x, box.size.y);\r\n\t\t\tnvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));\r\n\t\t\tnvgFill(args.vg);\r\n\t\t}\r\n\t};\r\n\r\n\tXorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()\r\n\t{\r\n\t\tpWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t\tif (svg != NULL)\r\n\t\t\tsetBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));\r\n\t\taddChild(new bgGradient(box.size));\r\n\t}\r\n\r\n\tvoid AddScrews(ModuleWidget *pWidget)\r\n\t{\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t}\r\n};\r\n\r\n#define CREATE_PANEL(modul, widg,unit,svg)  { \\\r\n\tsetModule(modul); \\\r\n\tXorPanel *panel = new XorPanel(widg, unit, svg); \\\r\n\taddChild(panel); \\\r\n\tpanel->AddScrews(widg); \\\r\n}",
       "pos": [
-        134,
+        138,
         2
-      ]
-    },
-    {
-      "id": 72,
-      "plugin": "TheXOR",
-      "version": "1.1.1",
-      "model": "empty",
-      "params": [
-        {
-          "id": 0,
-          "value": 0.0
-        }
-      ],
-      "leftModuleId": 67,
-      "rightModuleId": 74,
-      "pos": [
-        90,
-        0
       ]
     },
     {
@@ -1628,8 +1621,6 @@
       "version": "1.1.1",
       "model": "midyQuant",
       "params": [],
-      "leftModuleId": 68,
-      "rightModuleId": 64,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1639,7 +1630,7 @@
         }
       },
       "pos": [
-        130,
+        136,
         1
       ]
     },
@@ -1742,9 +1733,27 @@
           "value": 5.0
         }
       ],
-      "leftModuleId": 72,
+      "data": {
+        "theRandomizer": 0
+      },
       "pos": [
-        98,
+        102,
+        0
+      ]
+    },
+    {
+      "id": 86,
+      "plugin": "TheXOR",
+      "version": "1.1.1",
+      "model": "empty",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        }
+      ],
+      "pos": [
+        93,
         0
       ]
     }

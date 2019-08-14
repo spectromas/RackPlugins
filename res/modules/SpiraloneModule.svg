@@ -3238,7 +3238,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.3909314"
-     inkscape:cx="235.65609"
+     inkscape:cx="113.07636"
      inkscape:cy="187.24911"
      inkscape:document-units="mm"
      inkscape:current-layer="layer2"
@@ -5889,7 +5889,7 @@
      inkscape:groupmode="layer"
      id="layer3"
      inkscape:label="widgets"
-     style="display:inline">
+     style="display:none">
     <circle
        r="1.0880001"
        cy="37.042007"

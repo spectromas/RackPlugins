@@ -23,6 +23,9 @@ public:
 	inline void Reset()
 	{
 		curStep = 0;
+		leds[0]->value = LED_ON;
+		for(int k = 1; k < numSteps; k++)
+			leds[k]->value =LED_OFF;
 	}
 
 	int Step(Z8K *pModule);
