@@ -1,4 +1,4 @@
-#include "M581.hpp"
+#include "../include/M581.hpp"
 #include <sstream>
 
 void BefacoSlidePotFix::SetID(M581 *pm, int id)

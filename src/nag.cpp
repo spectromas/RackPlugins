@@ -1,6 +1,6 @@
-#include "common.hpp"
-#include "nag.hpp"
-#include "nagDisplays.hpp"
+#include "../include/common.hpp"
+#include "../include/nag.hpp"
+#include "../include/nagDisplays.hpp"
 
 void nag::on_loaded()
 {

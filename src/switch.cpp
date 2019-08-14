@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "switch.hpp"
+#include "../include/common.hpp"
+#include "../include/switch.hpp"
 
 void XSwitch::process(const ProcessArgs &args)
 {

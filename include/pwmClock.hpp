@@ -1,5 +1,6 @@
 #pragma once
 #include "common.hpp"
+#include <chrono>
 #define BPM_MINVALUE (10)
 #define BPM_MAXVALUE (300)
 #define PWM_MINVALUE (0.05)
@@ -14,7 +15,6 @@ struct PwmClockWidget : SequencerWidget
 	PwmClockWidget(PwmClock *module);
 	void SetBpm(float bpmint);
 };
-
 
 struct SA_TIMER	//sample accurate version
 {
@@ -50,6 +50,67 @@ private:
 	float stopwatch;
 };
 
+struct MIDICLOCK_TIMER
+{
+	void reset()
+	{
+		midiClockCounter = 0;
+		lastclockpulse = std::chrono::high_resolution_clock::now();
+		bpm = BPM_MINVALUE;
+		resetStat();	
+	}
+
+	float getBpm(float trigger)
+	{
+		if (midiClock.process(trigger))
+		{
+			if ((midiClockCounter++ % 24) == 0)
+			{
+				midiClockCounter = 0;
+				std::chrono::time_point<std::chrono::system_clock> now = std::chrono::high_resolution_clock::now();
+				long elapsed_msec = (long)std::chrono::duration_cast<std::chrono::milliseconds>(now - lastclockpulse).count();
+				if (elapsed_msec > 0)
+				{
+					if (addSample(now, roundf(600000.0f / elapsed_msec) / 10.0))
+						bpm = clamp(readStat(), (float)BPM_MINVALUE, (float)BPM_MAXVALUE);
+					lastclockpulse = now;
+				}
+			}
+		}
+
+		return bpm;
+	}
+
+	private:
+		dsp::SchmittTrigger midiClock;
+		unsigned char midiClockCounter;
+		std::chrono::time_point<std::chrono::system_clock> lastclockpulse;
+		float bpm = BPM_MINVALUE;
+		int meanCalcSamples;
+		float meanCalcTempValue;
+		std::chrono::time_point<std::chrono::system_clock> meanCalcStart;
+		void resetStat()
+		{
+			meanCalcStart = std::chrono::high_resolution_clock::now();
+			meanCalcSamples = 0;
+			meanCalcTempValue = 0.f;
+		}
+
+		bool addSample(std::chrono::time_point<std::chrono::system_clock> now, float v)
+		{
+			meanCalcSamples++;
+			meanCalcTempValue += v;
+			return std::chrono::duration_cast<std::chrono::milliseconds>(now - meanCalcStart).count() >= 500; // aggiorna bpm ogni 500msec
+		}
+
+		float readStat()
+		{
+			float rv = meanCalcTempValue / meanCalcSamples;
+			resetStat();
+			return rv;
+		}
+};
+
 struct PwmClock : Module
 {
 	enum ParamIds
@@ -68,8 +129,11 @@ struct PwmClock : Module
 		PWM_IN,
 		SWING_IN,
 		REMOTE_IN,
-		OFF_IN,
-		ON_IN,
+		MIDI_STOP,
+		MIDI_START,
+		MIDI_CLOCK,
+		MIDI_CONTINUE,
+		PULSE_IN,
 		NUM_INPUTS
 	};
 
@@ -136,15 +200,16 @@ private:
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;
 	SchmittTrigger2 resetTrigger;
+	SchmittTrigger2 pulseTrigger;
 	SchmittTrigger2 onTrigger;
 	SchmittTrigger2 offTrigger;
 	dsp::SchmittTrigger manualTrigger;
 	dsp::PulseGenerator onStopPulse;
 	dsp::PulseGenerator onManualStep;
-	const float pulseTime = 0.1;      //2msec trigger
 
+	const float pulseTime = 0.1;      //2msec trigger
 	void process_keys();
-	void updateBpm();
+	void updateBpm(bool externalMidiClock);
 	void process_active(const ProcessArgs &args);
 	void process_inactive(const ProcessArgs &args);
 
@@ -160,5 +225,7 @@ private:
 	void _reset();
 	float getPwm();
 	float getSwing();
+	bool isGeneratorActive();
 	SA_TIMER sa_timer[OUT_SOCKETS];
+	MIDICLOCK_TIMER midiClock;
 };

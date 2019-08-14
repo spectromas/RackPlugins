@@ -1,4 +1,4 @@
-#include "Z8K.hpp"
+#include "../include/Z8K.hpp"
 #include <sstream>
 
 void Z8K::on_loaded()

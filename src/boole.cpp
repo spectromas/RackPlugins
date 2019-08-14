@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "boole.hpp"
+#include "../include/common.hpp"
+#include "../include/boole.hpp"
 
 void Boole::process(const ProcessArgs &args)
 {

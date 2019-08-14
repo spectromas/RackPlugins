@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "uncert.hpp"
+#include "../include/common.hpp"
+#include "../include/uncert.hpp"
 
 void Uncertain::on_loaded()
 {

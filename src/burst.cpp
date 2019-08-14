@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "burst.hpp"
+#include "../include/common.hpp"
+#include "../include/burst.hpp"
 
 void Burst::on_loaded()
 {

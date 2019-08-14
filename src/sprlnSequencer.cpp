@@ -1,6 +1,6 @@
-#include "Spiralone.hpp"
-#include "sprlnSequencer.hpp"
-#include "SpiraloneModule.hpp"
+#include "../include/Spiralone.hpp"
+#include "../include/sprlnSequencer.hpp"
+#include "../include/SpiraloneModule.hpp"
 
 extern float AccessParam(Spiralone *p, int seq, int id);
 extern float AccessParam(Spiralone *p, int id);

@@ -13,7 +13,7 @@
 #define LED_ON    (10.0f)
 
 using namespace rack;
-extern Plugin *pluginInstance;
+extern Plugin* pluginInstance;
 
 #if defined(ARCH_WIN) && defined(USE_LAUNCHPAD)
 #define LAUNCHPAD
@@ -38,7 +38,6 @@ extern Plugin *pluginInstance;
 #if defined(LAUNCHPAD) || defined(OSCTEST_MODULE)
 #define DIGITAL_EXT
 #endif
-
 
 struct PatternBtn : SvgSwitch {
 	PatternBtn() {
@@ -77,9 +76,9 @@ struct DNSWITCH : SvgSwitch
 	}
 };
 
-struct _davies1900base : Davies1900hKnob 
+struct _davies1900base : Davies1900hKnob
 {
-	_davies1900base(const char *res) 
+	_davies1900base(const char* res)
 	{
 		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, res)));
 	}
@@ -93,17 +92,27 @@ struct _davies1900base : Davies1900hKnob
 	}
 };
 
-struct Davies1900hFixWhiteKnob : _davies1900base 
+struct Davies1900hLargeFixRedKnob : _davies1900base
+{
+	Davies1900hLargeFixRedKnob() : _davies1900base("res/Davies1900hLargeRed.svg") {}
+};
+
+struct Davies1900hLargeFixWhiteKnob : _davies1900base
+{
+	Davies1900hLargeFixWhiteKnob() : _davies1900base("res/Davies1900hLargeWhite.svg") {}
+};
+
+struct Davies1900hFixWhiteKnob : _davies1900base
 {
 	Davies1900hFixWhiteKnob() : _davies1900base("res/Davies1900hWhite.svg") {}
 };
 
-struct Davies1900hFixBlackKnob : _davies1900base 
+struct Davies1900hFixBlackKnob : _davies1900base
 {
 	Davies1900hFixBlackKnob() : _davies1900base("res/Davies1900hBlack.svg") {}
 };
 
-struct Davies1900hFixRedKnob : _davies1900base 
+struct Davies1900hFixRedKnob : _davies1900base
 {
 	Davies1900hFixRedKnob() : _davies1900base("res/Davies1900hRed.svg") {}
 };
@@ -126,7 +135,7 @@ struct Davies1900hFixRedKnobSmall : _davies1900base
 
 struct _ioPort : SvgPort
 {
-	_ioPort(const char *res)
+	_ioPort(const char* res)
 	{
 		setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, res)));
 		sw->wrap();
@@ -136,13 +145,13 @@ struct _ioPort : SvgPort
 
 struct PJ301HPort : _ioPort
 {
-	PJ301HPort() : _ioPort("res/PJ301H.svg") 
+	PJ301HPort() : _ioPort("res/PJ301H.svg")
 	{
 		fb->removeChild(shadow);
 	}
 };
 
-struct PJ301YPort : _ioPort 
+struct PJ301YPort : _ioPort
 {
 	PJ301YPort() : _ioPort("res/PJ301Y.svg") {}
 };
@@ -209,7 +218,7 @@ struct BefacoPushBig : app::SvgSwitch {
 	}
 };
 
-struct CKSSThreeFix : app::SvgSwitch  {
+struct CKSSThreeFix : app::SvgSwitch {
 	CKSSThreeFix() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSSThree_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/CKSSThree_1.svg")));
@@ -235,7 +244,7 @@ struct TL1105HBSw : app::SvgSwitch {
 	};
 };
 
-struct TL1105Sw : app::SvgSwitch  {
+struct TL1105Sw : app::SvgSwitch {
 	TL1105Sw() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_0.svg")));
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/TL1105_1.svg")));
@@ -259,28 +268,28 @@ struct SchmittTrigger2
 		switch(state)
 		{
 			case LOW:
-			if(in >= high)
-			{
-				state = HIGH;
-				return 1;
-			}
-			break;
+				if(in >= high)
+				{
+					state = HIGH;
+					return 1;
+				}
+				break;
 			case HIGH:
-			if(in <= low)
-			{
-				state = LOW;
-				return -1;
-			}
-			break;
+				if(in <= low)
+				{
+					state = LOW;
+					return -1;
+				}
+				break;
 			default:
-			if(in >= high)
-			{
-				state = HIGH;
-			} else if(in <= low)
-			{
-				state = LOW;
-			}
-			break;
+				if(in >= high)
+				{
+					state = HIGH;
+				} else if(in <= low)
+				{
+					state = LOW;
+				}
+				break;
 		}
 		return 0;
 	}
@@ -291,7 +300,7 @@ struct SchmittTrigger2
 	}
 };
 
-struct NKK1 : app::SvgSwitch 
+struct NKK1 : app::SvgSwitch
 {
 	NKK1() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
@@ -304,7 +313,7 @@ struct NKK1 : app::SvgSwitch
 	}
 };
 
-struct NKK2 : app::SvgSwitch 
+struct NKK2 : app::SvgSwitch
 {
 	NKK2() {
 		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/NKK_0.svg")));
@@ -318,13 +327,13 @@ struct NKK2 : app::SvgSwitch
 	}
 };
 
-struct VerticalSwitch : SvgSlider 
+struct VerticalSwitch : SvgSlider
 {
 	VerticalSwitch()
 	{
 		snap = true;
-		maxHandlePos = Vec(-mm2px(2.3-2.3/2.0), 0);
-		minHandlePos = Vec(-mm2px(2.3-2.3/2.0),mm2px(13-2.8));
+		maxHandlePos = Vec(-mm2px(2.3 - 2.3 / 2.0), 0);
+		minHandlePos = Vec(-mm2px(2.3 - 2.3 / 2.0), mm2px(13 - 2.8));
 		background->svg = APP->window->loadSvg(asset::plugin(pluginInstance, "res/counterSwitchShort.svg"));
 		background->wrap();
 		background->box.pos = Vec(0, 0);
@@ -339,24 +348,24 @@ struct VerticalSwitch : SvgSlider
 
 template<class T> struct SeqMenuItem : ui::MenuItem
 {
-public:
-	SeqMenuItem(const char *title, T *pW, int act)
+	public:
+	SeqMenuItem(const char* title, T* pW, int act)
 	{
 		text = title;
 		widget = pW;
 		action = act;
 	};
 
-	void onAction(const event::Action &e) override { widget->onMenu(action); };
+	void onAction(const event::Action& e) override { widget->onMenu(action); };
 
-private:
-	T *widget;
+	private:
+	T* widget;
 	int action;
 };
 
 class SequencerWidget : public ModuleWidget
 {
-public:
+	public:
 	void std_randomize(int first_index, int last_index)
 	{
 		for(int k = first_index; k < last_index; k++)
@@ -369,35 +378,35 @@ public:
 		}
 	}
 
-protected:
-	SequencerWidget() : ModuleWidget() 	
+	protected:
+	SequencerWidget() : ModuleWidget()
 	{
 	}
-	
+
 	int getParamIndex(int index)
 	{
-		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget *m) -> bool { return m->paramQuantity->paramId == index; });
+		auto it = std::find_if(params.begin(), params.end(), [&index](const ParamWidget* m) -> bool { return m->paramQuantity->paramId == index; });
 		if(it != params.end())
 			return std::distance(params.begin(), it);
 		return -1;
 	}
 
-	void appendContextMenu(ui::Menu *menu) override
+	void appendContextMenu(ui::Menu* menu) override
 	{
 		menu->addChild(createMenuLabel("*** A la carte ***"));
 		addContextMenu(menu);
 	}
 
-	virtual Menu *addContextMenu(Menu *menu) { return menu; }
+	virtual Menu* addContextMenu(Menu* menu) { return menu; }
 };
 
 #if defined(LAUNCHPAD) || defined(OSC_ENABLE)
 struct DigitalLed : SvgWidget
 {
-	float *value;
+	float* value;
 	std::vector<std::shared_ptr<Svg>> frames;
 
-	DigitalLed(int x, int y, float *pVal)
+	DigitalLed(int x, int y, float* pVal)
 	{
 		frames.push_back(APP->window->loadSvg(asset::plugin(pluginInstance, "res/digitalLed_off.svg")));
 		frames.push_back(APP->window->loadSvg(asset::plugin(pluginInstance, "res/digitalLed_on.svg")));
@@ -407,7 +416,7 @@ struct DigitalLed : SvgWidget
 		value = pVal;
 	}
 
-	void draw(const DrawArgs &args) override
+	void draw(const DrawArgs& args) override
 	{
 		int index = (*value > 0) ? 1 : 0;
 		setSvg(frames[index]);
@@ -418,13 +427,13 @@ struct DigitalLed : SvgWidget
 
 struct SigDisplayWidget : TransparentWidget
 {
-private:
+	private:
 	int digits;
 	int precision;
 	std::shared_ptr<Font> font;
 
-public:
-	float *value;
+	public:
+	float* value;
 	SigDisplayWidget(int digit, int precis = 0)
 	{
 		value = NULL;
@@ -433,7 +442,7 @@ public:
 		font = APP->window->loadFont(asset::plugin(pluginInstance, "res/Segment7Standard.ttf"));
 	};
 
-	void draw(const DrawArgs &args) override
+	void draw(const DrawArgs& args) override
 	{
 		if(value != NULL)
 		{
@@ -459,7 +468,7 @@ public:
 				to_display << std::fixed << std::setw(digits) << std::setprecision(precision) << *value;
 
 			Vec textPos = Vec(3, 17);
-			
+
 			NVGcolor textColor = nvgRGB(0xdf, 0xd2, 0x2c);
 			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
 			//nvgText(args.vg, textPos.x, textPos.y, "~~", NULL);
@@ -467,7 +476,7 @@ public:
 			textColor = nvgRGB(0xda, 0xe9, 0x29);
 			nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
 			//nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
-			
+
 			textColor = nvgRGB(0xf0, 0x00, 0x00);
 			nvgFillColor(args.vg, textColor);
 			nvgText(args.vg, textPos.x, textPos.y, to_display.str().c_str(), NULL);
@@ -503,7 +512,7 @@ struct TIMER
 		return t;
 	}
 
-private:
+	private:
 	clock_t prevTime;
 	float totalPulseTime;
 	float stopwatch;
@@ -511,7 +520,7 @@ private:
 
 struct XorPanel : SvgPanel
 {
-	struct Screw : app::SvgScrew 
+	struct Screw : app::SvgScrew
 	{
 		Screw() {
 			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw.svg")));
@@ -519,13 +528,13 @@ struct XorPanel : SvgPanel
 	};
 	struct bgGradient : TransparentWidget
 	{
-		bgGradient(const Vec &size)
+		bgGradient(const Vec& size)
 		{
 			box.pos = Vec(0, 0);
 			box.size = size;
 		}
 
-		void draw(const Widget::DrawArgs &args) override
+		void draw(const Widget::DrawArgs& args) override
 		{
 			nvgBeginPath(args.vg);
 			nvgRect(args.vg, 0, 0, box.size.x, box.size.y);
@@ -534,15 +543,15 @@ struct XorPanel : SvgPanel
 		}
 	};
 
-	XorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()
+	XorPanel(ModuleWidget* pWidget, int units, const char* svg) : SvgPanel()
 	{
 		pWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
-		if (svg != NULL)
+		if(svg != NULL)
 			setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
 		addChild(new bgGradient(box.size));
 	}
 
-	void AddScrews(ModuleWidget *pWidget)
+	void AddScrews(ModuleWidget* pWidget)
 	{
 		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0)));
 		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
@@ -558,5 +567,46 @@ struct XorPanel : SvgPanel
 	panel->AddScrews(widg); \
 }
 
-inline float px2mm(float px) {return px * (MM_PER_IN / SVG_DPI ); }
-inline float yncscape(float y, float height) {	return RACK_GRID_HEIGHT - mm2px(y + height);}
+inline float px2mm(float px) { return px * (MM_PER_IN / SVG_DPI); }
+inline float yncscape(float y, float height) { return RACK_GRID_HEIGHT - mm2px(y + height); }
+
+struct PulseGenerator2
+{
+	float remaining = 0.f;
+	bool inProgress = false;
+
+	/** Immediately disables the pulse */
+	void reset() 
+	{
+		remaining = 0.f;
+		inProgress = false;
+	}
+
+	// 1 = in process; -1 = terminato; 0 = no operation
+	int process(float deltaTime) 
+	{
+		if(remaining > 0.f) 
+		{
+			remaining -= deltaTime;
+			inProgress = true;
+			return 1;
+		} else if(inProgress)
+		{
+			inProgress = false;
+			return -1;
+		}
+
+		return 0;
+	}
+
+	/** Begins a trigger with the given `duration`. */
+	void trigger(float duration = 1e-3f) 
+	{
+		if(duration > remaining) 
+		{
+			remaining = duration;
+			inProgress = true;
+		}
+	}
+};
+

@@ -16,3 +16,14 @@ gate: CL1362WPort [white]
 modin:  CL1362BPort [black]
 
 trigger:  CL1362BLUPort  [BLU]
+
+
++Y
+^
+|
+|
+|
+|
+|
++-----------------> +X
+

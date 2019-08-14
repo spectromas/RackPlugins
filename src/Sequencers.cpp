@@ -1,29 +1,30 @@
-#include "common.hpp"
-#include "Klee.hpp"
-#include "M581.hpp"
-#include "Z8K.hpp"
-#include "Renato.hpp"
-#include "SpiraloneModule.hpp"
-#include "pwmClock.hpp"
-#include "quantizer.hpp"
-#include "burst.hpp"
-#include "uncert.hpp"
-#include "attenuator.hpp"
-#include "boole.hpp"
-#include "mplex.hpp"
-#include "demplex.hpp"
-#include "switch.hpp"
-#include "counter.hpp"
-#include "nag.hpp"
-#include "empty.hpp"
-#include "ascii.hpp"
+#include "../include/common.hpp"
+#include "../include/Klee.hpp"
+#include "../include/M581.hpp"
+#include "../include/Z8K.hpp"
+#include "../include/Renato.hpp"
+#include "../include/SpiraloneModule.hpp"
+#include "../include/pwmClock.hpp"
+#include "../include/quantizer.hpp"
+#include "../include/burst.hpp"
+#include "../include/uncert.hpp"
+#include "../include/attenuator.hpp"
+#include "../include/boole.hpp"
+#include "../include/mplex.hpp"
+#include "../include/demplex.hpp"
+#include "../include/switch.hpp"
+#include "../include/counter.hpp"
+#include "../include/nag.hpp"
+#include "../include/empty.hpp"
+#include "../include/ascii.hpp"
+#include "../include/quattro.hpp"
 
 #ifdef LPTEST_MODULE
-#include "lpTestModule.hpp"
+#include "../include/lpTestModule.hpp"
 #endif 
 
 #ifdef OSCTEST_MODULE
-#include "oscTestModule.hpp"
+#include "../include/oscTestModule.hpp"
 #endif 
 
 // The pluginInstance-wide instance of the Plugin class
@@ -56,6 +57,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<nag, nagWidget>("nag"));
 	p->addModel(createModel<empty, emptyWidget>("empty"));
 	p->addModel(createModel<ascii, asciiWidget>("ascii"));
+	p->addModel(createModel<quattro, quattroWidget>("quattro"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

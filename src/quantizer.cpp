@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "quantizer.hpp"
+#include "../include/common.hpp"
+#include "../include/quantizer.hpp"
 
 void Quantizer::process(const ProcessArgs &args)
 {
