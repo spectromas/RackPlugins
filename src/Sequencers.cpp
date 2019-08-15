@@ -18,6 +18,7 @@
 #include "../include/empty.hpp"
 #include "../include/ascii.hpp"
 #include "../include/quattro.hpp"
+#include "../include/z8kStrip.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -58,6 +59,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<empty, emptyWidget>("empty"));
 	p->addModel(createModel<ascii, asciiWidget>("ascii"));
 	p->addModel(createModel<quattro, quattroWidget>("quattro"));
+	p->addModel(createModel<z8kStrip, z8kStripWidget>("z8kStrip"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

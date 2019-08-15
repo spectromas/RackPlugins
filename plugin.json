@@ -29,6 +29,14 @@
       ]
     },
     {
+      "slug": "z8kStrip",
+      "name": "z8kStrip",
+      "description": "tt",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
       "slug": "M581",
       "name": "M581",
       "description": "581 Sequencer",

@@ -3424,11 +3424,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.0000001"
-     inkscape:cx="671.61295"
-     inkscape:cy="198.51574"
+     inkscape:zoom="1.4142136"
+     inkscape:cx="516.57688"
+     inkscape:cy="180.88204"
      inkscape:document-units="mm"
-     inkscape:current-layer="layer7"
+     inkscape:current-layer="layer4"
      showgrid="false"
      units="mm"
      inkscape:snap-bbox="true"
@@ -7692,6 +7692,27 @@ La y e' width - posizione - 28
          style="fill:#000000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.35277775"
          d="m 94.588681,123.3764 c 0,0.99357 -0.806153,1.79974 -1.799717,1.79974 -0.993567,0 -1.79972,-0.80617 -1.79972,-1.79974 0,-0.99356 0.806153,-1.79969 1.79972,-1.79969 0.993564,0 1.799717,0.80613 1.799717,1.79969"
          id="path2592"
+         inkscape:connector-curvature="0" />
+    </g>
+    <g
+       id="g2686"
+       transform="matrix(0.26458333,0,0,0.26458333,146.52851,94.791306)">
+      <ellipse
+         ry="7.0111437"
+         rx="7.1459732"
+         cy="13.402482"
+         cx="13.359202"
+         id="path829"
+         style="fill:#ff0000;stroke:none;stroke-width:2.79121566;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none" />
+      <path
+         style="stroke-width:1.19757414"
+         id="path2"
+         d="m 12.77964,10.528733 a 2.3709269,2.4196175 0 1 0 0,4.839235 2.3709269,2.4196175 0 1 0 0,-4.839235 z"
+         inkscape:connector-curvature="0" />
+      <path
+         style="stroke-width:1.17611182"
+         id="path4"
+         d="M 24.904306,4.0605432 21.615366,0.69697662 C 21.179244,0.25095918 20.587281,0 19.970895,0 H 5.6149244 C 4.9985387,0 4.4065759,0.25095918 3.9704539,0.69697662 L 0.6815132,4.0605432 C 0.2453913,4.5065607 0,5.1119551 0,5.7423264 V 23.787599 c 0,1.314266 1.0408776,2.37876 2.3259836,2.37876 H 23.259835 c 1.285106,0 2.325984,-1.064494 2.325984,-2.37876 V 5.7423264 c 0,-0.6303713 -0.245391,-1.2357657 -0.681513,-1.6817832 z M 12.79291,19.030079 c -3.2110205,0 -5.8149593,-2.663021 -5.8149593,-5.946899 0,-3.2838784 2.6039388,-5.9469003 5.8149583,-5.9469003 3.211021,0 5.81496,2.6630219 5.81496,5.9469003 0,3.283878 -2.603938,5.946899 -5.814959,5.946899 z"
          inkscape:connector-curvature="0" />
     </g>
   </g>

@@ -6,6 +6,11 @@
 #include "z8kSequencer.hpp"
 #include "outRange.hpp"
 
+#define TOS_LINK
+
+#ifdef TOS_LINK
+#include "../include/tosLink.hpp"
+#endif
 struct Z8KWidget : SequencerWidget
 {
 public:
@@ -60,6 +65,9 @@ struct Z8K : Module
 		CV_A = CV_1 + 4,
 		CV_VERT = CV_A + 4,
 		CV_HORIZ,
+		#ifdef TOS_LINK
+		OUT_TOS,
+		#endif
 		ACTIVE_STEP,
 		NUM_OUTPUTS = ACTIVE_STEP + 16
 	};
@@ -92,8 +100,16 @@ struct Z8K : Module
 			{
 				int n = c + r * 4;
 				configParam(Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
+				#ifdef TOS_LINK
+				TOSData.matriciana[n] = &params[Z8K::VOLTAGE_1 + n].value;
+				TOSData.pRng = &orng;
+				#endif
 			}
 		}
+		#ifdef TOS_LINK
+		tosOut.Publish(&TOSData, TOSLink::DIGITAL_TYPE::Z8KMatrix);
+		#endif
+
 		/*
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene4, 1);
@@ -134,6 +150,15 @@ struct Z8K : Module
 	#endif
 	#if defined(OSCTEST_MODULE)
 	OSCDriver *oscDrv = NULL;
+	#endif
+
+	#ifdef TOS_LINK
+	struct z8kTosData
+	{
+		float *matriciana[16];
+		outputRange *pRng;
+	} TOSData;
+	TOSLinkOutput tosOut;
 	#endif
 
 private:

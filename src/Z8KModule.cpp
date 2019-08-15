@@ -59,6 +59,10 @@ void Z8K::process(const ProcessArgs &args)
 			outputs[ACTIVE_STEP + k].value = activeSteps[k];
 	}
 	
+	#ifdef TOS_LINK
+	tosOut.process();
+	#endif
+
 	#ifdef DIGITAL_EXT
 	bool dig_connected = false;
 
@@ -96,6 +100,11 @@ Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 	#endif
 
 	CREATE_PANEL(module, this, 34, "res/modules/Z8KModule.svg");
+
+	#ifdef TOS_LINK
+	if(module != NULL)
+		module->tosOut.Create(this, 146.529f, 26.786f, Z8K::OUT_TOS);
+	#endif
 
 	float dist_h = 22.225;
 	float dist_v = -18.697;
