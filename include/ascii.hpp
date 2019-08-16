@@ -57,6 +57,7 @@ struct ascii : Module
 	{		
 		textField = NULL;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		orng.configure(this, RANGE);
 	}
 	void setField(TextField *p) { textField = p; }
 	void process(const ProcessArgs &args) override;

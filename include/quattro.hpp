@@ -16,7 +16,7 @@ struct quattroWidget : SequencerWidget
 		RANDOMIZE_MODE = 0x02,
 		RANDOMIZE_DIRECTION = 0x04,
 		RANDOMIZE_ABCD = 0x08,
-		RANDOMIZE_LAQUALUNQUE = 0x10,
+		RANDOMIZE_LAQUALUNQUE = 0x10
 	};
 
 	struct RandomizeSubItemItem : MenuItem {
@@ -73,10 +73,10 @@ private:
 	};
 	int curStep;
 	int stripID;
-	quattro *pModule;
+	quattro *pModule = NULL;
 	dsp::SchmittTrigger resetTrig;
 	SchmittTrigger2 clockTrigger;
-	void beginPulse(bool silent=true);
+	void beginPulse(bool silent = true);
 	void endPulse();
 	STEPMODE getStepMode();
 	void move_next();
@@ -124,17 +124,21 @@ struct quattro : Module
 		LEDSTRIP4 = LEDSTRIP3 + QUATTRO_NUM_STEPS,
 		NUM_LIGHTS = LEDSTRIP4 + QUATTRO_NUM_STEPS
 	};
+
 	quattro() : Module()
 	{
 		pWidget = NULL;
-		theRandomizer = 0;
+			theRandomizer = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+
 		for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		{
 			configParam(MODE + k, 0.0, 2.0, 1.0);
 			configParam(VOLTAGE_1 + k, 0.0, 1.0, 0.5);
 			configParam(STRIPSEL_1 + k, 0.0, 3.0, 0.0);
 		}
+
+		orng.configure(this, RANGE);
 		for(int k = 0; k < NUM_STRIPS; k++)
 			strip[k].Init(this, k);
 

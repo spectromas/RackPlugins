@@ -57,6 +57,8 @@ struct Spiralone : Module
 			configParam(Spiralone::STRIDE_1 + seq, 1.0, 8.0, 1.0, "Stride", "#");
 			configParam(Spiralone::XPOSE_1 + seq, LVL_MIN, LVL_MAX, 0.0, "Transpose", "V");
 		}
+		orng.configure(this, RANGE);
+
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene5, 1);
 		#endif

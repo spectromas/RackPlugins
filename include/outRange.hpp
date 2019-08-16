@@ -17,28 +17,26 @@ public:
 	{
 		portID = port;
 		paramID = param;
-		module = pWidget->module;
-		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 3.761f),  yncscape(y , 5.885f+0.595f)), module, portID));
-		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 11.495f), yncscape(y , 5.885f+0.595f)), module, portID + 1));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 3.761f),  yncscape(y , 5.885f+0.595f)), pWidget->module, portID));
+		pWidget->addInput(createInput<portSmall>(Vec(mm2px(x + 11.495f), yncscape(y , 5.885f+0.595f)), pWidget->module, portID + 1));
 
-		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 0.407f), yncscape(y , 6.480f+6.f)), module, paramID);
+		ParamWidget *pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 0.407f), yncscape(y , 6.480f+6.f)), pWidget->module, paramID);
 		pWidget->addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-			module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMin"), pwdg);
 		#endif	
-		pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 14.734f), yncscape(y, 6.480f + 6.f)), module, paramID + 1);
+		pwdg = createParam<daviesVerySmall>(Vec(mm2px(x + 14.734f), yncscape(y, 6.480f + 6.f)), pWidget->module, paramID + 1);
 		pWidget->addParam(pwdg);
 		#ifdef OSCTEST_MODULE
-		if(module != NULL)
-			module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
+		if(pWidget->module != NULL)
+			pWidget->module->oscDrv->Add(new oscControl("RangeMax"), pwdg);
 		#endif
-		configure(module);
 	}
 
 	float Value(float v) //v normalizzato 0-1
 	{
-		if(module != NULL)
+		if(module != NULL && portID >= 0)
 		{
 			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
@@ -47,17 +45,16 @@ public:
 		return 0;
 	}
 
-private:
-	int portID;
-	int paramID;
-	Module *module = NULL;
-
-	void configure(Module *module)
+	void configure(Module *pModule, int param)
 	{
-		if(module != NULL)
-		{
-			module->configParam(paramID, LVL_MIN, LVL_MAX, 0.0, "Output Range: Min Voltage", "V");
-			module->configParam(paramID + 1, LVL_MIN, LVL_MAX, LVL_MAX / 2.f, "Output Range: Max Voltage", "V");
-		}
+		module = pModule;
+		paramID = param;
+		module->configParam(paramID, LVL_MIN, LVL_MAX, 0.0, "Output Range: Min Voltage", "V");
+		module->configParam(paramID + 1, LVL_MIN, LVL_MAX, LVL_MAX / 2.f, "Output Range: Max Voltage", "V");
 	}
+
+private:
+	int portID = -1;
+	int paramID = -1;
+	Module *module = NULL;
 };

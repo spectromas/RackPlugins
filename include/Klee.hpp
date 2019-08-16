@@ -109,6 +109,7 @@ struct Klee : Module
 		theRandomizer = 0;
 
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+		orng.configure(this, RANGE);
 
 		for(int k = 0; k < 8; k++)
 		{

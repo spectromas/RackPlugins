@@ -211,6 +211,7 @@ struct M581 : Module
 			configParam(M581::STEP_NOTES + k, 0.0, 1.0, 0.5);
 			configParam(M581::COUNTER_SWITCH + k, 0.0, 7.0, 0.0);
 		}
+		orng.configure(this, RANGE);
 
 		configParam(M581::GATE_TIME, 0.005, 1.0, 0.25);
 		configParam(M581::SLIDE_TIME, 0.005, 2.0, 0.5);

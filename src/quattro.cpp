@@ -131,7 +131,7 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(223.548f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::CV1 + k));
 		addOutput(createOutput<PJ301WPort>(Vec(mm2px(239.028f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::GATE1 + k));
 	}
-	
+
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 		create_strip(module, k);
 }
@@ -143,7 +143,7 @@ void quattroWidget::create_strip(quattro *module, int n)
 	#endif
 	int xleft = 39.117f + INCX(n);
 
-	ParamWidget *pwdg = createParam<Davies1900hLargeFixRedKnob>(Vec(mm2px(xleft+2.012f - 2.04f), yncscape(109.190f+3.49f, 11.430)), module, quattro::VOLTAGE_1 + n);
+	ParamWidget *pwdg = createParam<Davies1900hLargeFixRedKnob>(Vec(mm2px(xleft + 2.012f - 2.04f), yncscape(109.190f + 3.49f, 11.430)), module, quattro::VOLTAGE_1 + n);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -152,7 +152,6 @@ void quattroWidget::create_strip(quattro *module, int n)
 		module->oscDrv->Add(new oscControl(name), pwdg);
 	}
 	#endif
-
 	pwdg = createParam<NKK2>(Vec(mm2px(xleft + 3.043f), yncscape(96.967f, 7.336)), module, quattro::MODE + n);
 	addParam(pwdg);
 	#ifdef OSCTEST_MODULE
@@ -165,7 +164,11 @@ void quattroWidget::create_strip(quattro *module, int n)
 
 	for(int k = 0; k < NUM_STRIPS; k++)
 	{
-		ModuleLightWidget *plight = createLight<LargeLight<RedLight>>(Vec(mm2px(xleft + 5.137f), yncscape(78.485f + INCY(k), 5.179f)), module, quattro::ledStrips[k] + n);
+		ModuleLightWidget *plight;
+		if(k % 2)
+			plight = createLight<LargeLight<WhiteLight>>(Vec(mm2px(xleft + 5.137f), yncscape(78.485f + INCY(k), 5.179f)), module, quattro::ledStrips[k] + n);
+		else
+			plight = createLight<LargeLight<RedLight>>(Vec(mm2px(xleft + 5.137f), yncscape(78.485f + INCY(k), 5.179f)), module, quattro::ledStrips[k] + n);
 		addChild(plight);
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
@@ -174,7 +177,7 @@ void quattroWidget::create_strip(quattro *module, int n)
 			module->oscDrv->Add(new oscControl(name), plight);
 		}
 		#endif
-}
+	}
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(xleft), yncscape(20.228f, 8.255f)), module, quattro::SETSTEP1 + n));
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(xleft + 7.726f), yncscape(11.761f, 8.255f)), module, quattro::CURSTEP1 + n));
@@ -237,26 +240,29 @@ void quattroStrip::Init(quattro *pmodule, int n)
 
 void quattroStrip::process(int forceStep, float deltaTime)
 {
-	if(resetTrig.process(pModule->inputs[quattro::RESET1 + stripID].value))
-		reset(deltaTime);
-	else
+	if(pModule != NULL)
 	{
-		int pulseStatus = resetPulseGuard.process(deltaTime);
-		if(pulseStatus == 0) //gioco regolare, nessun reset pending
+		if(resetTrig.process(pModule->inputs[quattro::RESET1 + stripID].value))
+			reset(deltaTime);
+		else
 		{
-			if(forceStep >= 0)
-				prenotazioneDiChiamata = forceStep;
-			
-			int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
-			if(clk == 1)
+			int pulseStatus = resetPulseGuard.process(deltaTime);
+			if(pulseStatus == 0) //gioco regolare, nessun reset pending
 			{
-				move_next();					
-				beginPulse(false);
-			} else if(clk == -1)
-				endPulse();			
+				if(forceStep >= 0)
+					prenotazioneDiChiamata = forceStep;
 
-		} else if(pulseStatus == -1)
-			endPulse();
+				int clk = clockTrigger.process(pModule->inputs[quattro::CLOCK1 + stripID].value); // 1=rise, -1=fall
+				if(clk == 1)
+				{
+					move_next();
+					beginPulse(false);
+				} else if(clk == -1)
+					endPulse();
+
+			} else if(pulseStatus == -1)
+				endPulse();
+		}
 	}
 }
 
@@ -271,7 +277,7 @@ void quattroStrip::move_next()
 	bool backwd = (pModule->inputs[quattro::DIRECTION1 + stripID].getNormalVoltage(0.0) + pModule->params[quattro::BACKWARD + stripID].value) > 0.5;
 	if(getStepMode() == RESET)
 	{
-		curStep = backwd ? QUATTRO_NUM_STEPS -1 : 0;
+		curStep = backwd ? QUATTRO_NUM_STEPS - 1 : 0;
 		return;
 	}
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
@@ -317,7 +323,7 @@ void quattroStrip::endPulse()
 
 void quattroStrip::reset(float deltaTime)
 {
-	if(resetPulseGuard.process(deltaTime) == 0)
+	if(pModule != NULL && resetPulseGuard.process(deltaTime) == 0)
 	{
 		endPulse();
 		curStep = 0;

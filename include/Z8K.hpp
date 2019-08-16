@@ -94,6 +94,7 @@ struct Z8K : Module
 				configParam(Z8K::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
+		orng.configure(this, RANGE);
 		/*
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene4, 1);

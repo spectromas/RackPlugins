@@ -101,6 +101,7 @@ struct Renato : Module
 	};
 
 	void setWidget(RenatoWidget *pwdg) { pWidget = pwdg; }
+	
 	Renato() : Module()
 	{
 		theRandomizer = 0;
@@ -120,6 +121,8 @@ struct Renato : Module
 				configParam(Renato::VOLTAGE_1 + n, 0.0, 1.0, 0.0, "Voltage", "V");
 			}
 		}
+		orng.configure(this, RANGE);
+
 		#ifdef LAUNCHPAD
 		drv = new LaunchpadBindingDriver(this, Scene3, 2);
 		drv->SetAutoPageKey(LaunchpadKey::SESSION, 0);
