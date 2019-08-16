@@ -14,6 +14,8 @@ struct PwmClockWidget : SequencerWidget
 {
 	PwmClockWidget(PwmClock *module);
 	void SetBpm(float bpmint);
+	void onHoverKey(const event::HoverKey &e) override;
+
 };
 
 struct SA_TIMER	//sample accurate version
@@ -153,6 +155,7 @@ struct PwmClock : Module
 	PwmClock() : Module()
 	{
 		pWidget = NULL;
+		pendingKey = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(PwmClock::BPM_INC, 0.0, 1.0, 0.0);
 		configParam(PwmClock::BPM_DEC, 0.0, 1.0, 0.0);
@@ -192,6 +195,7 @@ struct PwmClock : Module
 	void setWidget(PwmClockWidget *pwdg) { pWidget = pwdg; }
 	float bpm;
 	float swing;
+	int pendingKey;
 
 private:
 	dsp::SchmittTrigger btnup;

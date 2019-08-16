@@ -1,4 +1,6 @@
 #include "../include/pwmClock.hpp"
+#include <GLFW/glfw3.h>
+
 
 void PwmClock::on_loaded()
 {
@@ -20,6 +22,7 @@ void PwmClock::_reset()
 
 void PwmClock::load()
 {
+	pendingKey = 0;
 	updateBpm(false);
 }
 
@@ -136,6 +139,7 @@ bool PwmClock::isGeneratorActive()
 	bool active = false;
 	if(inputs[REMOTE_IN].isConnected()) // priorita; prioritaria
 	{
+		pendingKey = 0;
 		active = inputs[REMOTE_IN].getNormalVoltage(0.0) > 0.5;
 		if(active && (params[OFFON].value < 0.5))
 		{
@@ -147,15 +151,34 @@ bool PwmClock::isGeneratorActive()
 
 	} else if(offTrigger.process(inputs[MIDI_STOP].value))
 	{
+		pendingKey = 0;
 		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
 		active = false;
 	} else if(onTrigger.process(inputs[MIDI_START].value + inputs[MIDI_CONTINUE].value))
 	{
+		pendingKey = 0;
 		pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 1.0;
 		active = true;
 	} else
+	{
 		active = params[OFFON].value > 0.5;
+		if(pendingKey != 0)
+		{
+			switch(pendingKey)
+			{
+				case 1:  // segnala lo toggle
+					active = !active;
+					pWidget->params[OFFON]->dirtyValue = params[OFFON].value = active ? 1.0 : 0.0;
+					break;
 
+				case 2:  // segnala lo stoppo
+					active = false;
+					pWidget->params[OFFON]->dirtyValue = params[OFFON].value = 0.0;
+					break;
+			}
+			pendingKey = 0;
+		}
+	}
 	return active;
 }
 
@@ -265,5 +288,31 @@ void PwmClockWidget::SetBpm(float bpm_integer)
 		pKnob->smooth = false;
 		params[index]->paramQuantity->setValue((double)bpm_integer);
 		pKnob->smooth = smooth;
+	}
+}
+
+void PwmClockWidget::onHoverKey(const event::HoverKey &e)
+{
+	SequencerWidget::onHoverKey(e);
+	if(module != NULL && !e.isConsumed() && e.action == GLFW_PRESS)
+	{
+		switch(e.key)
+		{
+			case GLFW_KEY_SPACE:
+			case GLFW_KEY_ENTER:
+			case GLFW_KEY_KP_ENTER:
+			{
+				((PwmClock *)module)->pendingKey = 1;  // segnala lo toggle
+				e.consume(this);
+			}
+			break;
+
+			case GLFW_KEY_ESCAPE:
+			{
+				((PwmClock *)module)->pendingKey = 2;  // segnala lo stoppo
+				e.consume(this);
+			}
+			break;
+		}
 	}
 }
