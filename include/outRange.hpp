@@ -34,13 +34,24 @@ public:
 		#endif
 	}
 
-	float Value(float v) //v normalizzato 0-1
+	float Value(float v) const //v normalizzato 0-1
 	{
 		if(module != NULL && portID >= 0)
 		{
 			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			return clamp(rescale(v, 0.0, 1.0, std::min(vmin, vmax), std::max(vmin, vmax)), LVL_MIN, LVL_MAX);
+		}
+		return 0;
+	}
+
+	float Reverse(float v) const
+	{
+		if(module != NULL && portID >= 0)
+		{
+			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
+			return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0f, 1.0f), 0.0f, 1.0f);
 		}
 		return 0;
 	}

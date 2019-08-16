@@ -39,6 +39,12 @@ void Z8K::reset()
 		seq[k].Reset();
 }
 
+void Z8K::QuantizePitch()
+{
+	for(int k = 0; k < 16; k++)
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+}
+
 void Z8K::process(const ProcessArgs &args)
 {
 	int activeSteps[16];
@@ -75,6 +81,7 @@ void Z8K::process(const ProcessArgs &args)
 Menu *Z8KWidget::addContextMenu(Menu *menu)
 {
 	menu->addChild(new SeqMenuItem<Z8KWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
+	menu->addChild(new SeqMenuItem<Z8KWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
@@ -82,10 +89,11 @@ void Z8KWidget::onMenu(int action)
 {
 	switch (action)
 	{
-	case RANDOMIZE_PITCH: std_randomize(Z8K::VOLTAGE_1, Z8K::VOLTAGE_1 + 16); break;
-	
+		case RANDOMIZE_PITCH: std_randomize(Z8K::VOLTAGE_1, Z8K::VOLTAGE_1 + 16); break;
+		case QUANTIZE_PITCH: ((Z8K *)module)->QuantizePitch(); break;
 	}
 }
+
 Z8KWidget::Z8KWidget(Z8K *module) : SequencerWidget()
 {	
 	if(module != NULL)

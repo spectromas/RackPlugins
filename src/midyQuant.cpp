@@ -13,9 +13,8 @@ void midyQuant::process(const ProcessArgs &args)
 		{
 			float v = inputs[CV].getVoltage();
 			int vel = (int)rescale(inputs[VEL].getNormalVoltage(0.5), 0.0, 1.0, 0, 127);
-			int octave = int(v);	// 1v/octave
-			float notef = quantize(v, octave) + octave;
-			int note = clamp(std::round(notef * 12.0 + 60.0), 0, 127);
+			float semitone = NearestSemitone(v);
+			int note = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
 			midiOutput.sendNote(clk == 1, note, vel);
 		}
 	}
@@ -37,11 +36,10 @@ void midyQuantWidget::onMenu(int action)
 {
 	switch(action)
 	{
-	case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
-	break;
+		case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
+			break;
 	}
 }
-
 
 midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 {
@@ -57,7 +55,7 @@ midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 	if(module != NULL)
 		display->CreateInterface(module);
 	addChild(display);
-	
+
 	midiDisplay = createWidget<qtzrMidiDisplay>(mm2px(Vec(3.41891, 38.00)));
 	midiDisplay->box.size = mm2px(Vec(33.840, 28));
 	if(module != NULL)

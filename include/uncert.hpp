@@ -11,7 +11,6 @@ struct UncertainWidget : SequencerWidget
 
 struct Uncertain : Module
 {
-	static constexpr float SEMITONE = 1.0 / 12.0;// 1/12 V
 	enum ParamIds
 	{
 		FLUCT_AMT,

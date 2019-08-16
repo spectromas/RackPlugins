@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "M581Types.hpp"
-#include "outRange.hpp"
 
 struct M581;
 struct M581Widget : SequencerWidget
@@ -17,6 +16,7 @@ public:
 		RANDOMIZE_MODE = 0x04,
 		RANDOMIZE_ENABLE = 0x08,
 		RANDOMIZE_LAQUALUNQUE = 0x10,
+		QUANTIZE_PITCH
 	};
 
 	struct RandomizeSubItemItem : MenuItem {
@@ -250,6 +250,7 @@ struct M581 : Module
 	void onRandomize() override { load(); }
 	void setWidget(M581Widget *pwdg) { pWidget = pwdg; }
 	float getLastNoteValue();
+	void QuantizePitch();
 
 	void dataFromJson(json_t *root) override
 	{

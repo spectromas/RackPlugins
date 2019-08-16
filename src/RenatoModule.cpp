@@ -105,6 +105,7 @@ Menu *RenatoWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Xs", this, RANDOMIZE_GATEX));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Ys", this, RANDOMIZE_GATEY));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Access", this, RANDOMIZE_ACCESS));
+	menu->addChild(new SeqMenuItem<RenatoWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
@@ -140,6 +141,12 @@ void Renato::randrandrand(int action)
 
 }
 
+void Renato::QuantizePitch()
+{
+	for(int k = 0; k < 16; k++)
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+}
+
 void RenatoWidget::onMenu(int action)
 {
 	switch(action)
@@ -148,6 +155,8 @@ void RenatoWidget::onMenu(int action)
 		case RANDOMIZE_GATEX:  std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
 		case RANDOMIZE_GATEY:  std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
 		case RANDOMIZE_ACCESS: std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
+		case QUANTIZE_PITCH: ((Renato *)module)->QuantizePitch(); break;
+
 	}
 }
 

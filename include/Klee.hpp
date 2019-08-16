@@ -1,7 +1,6 @@
 #pragma once
 #include "common.hpp"
 #include <algorithm>
-#include "outRange.hpp"
 
 struct Klee;
 struct KleeWidget : SequencerWidget
@@ -13,7 +12,8 @@ public:
 		RANDOMIZE_PITCH = 0x02,
 		RANDOMIZE_LOAD = 0x04,
 		RANDOMIZE_LAQUALUNQUE = 0x08,
-		SET_RANGE_1V
+		SET_RANGE_1V,
+		QUANTIZE_PITCH
 	};
 	struct RandomizeSubItemItem : MenuItem {
 		RandomizeSubItemItem(Module *k, const char *title, int action);
@@ -147,6 +147,7 @@ struct Klee : Module
 
 		on_loaded();
 	}
+	void QuantizePitch();
 
 	#ifdef DIGITAL_EXT
 	~Klee()

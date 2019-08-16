@@ -4,7 +4,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "z8kSequencer.hpp"
-#include "outRange.hpp"
 
 struct Z8KWidget : SequencerWidget
 {
@@ -15,6 +14,7 @@ private:
 	enum MENUACTIONS
 	{
 		RANDOMIZE_PITCH,
+		QUANTIZE_PITCH
 	};
 
 	Menu *addContextMenu(Menu *menu) override;
@@ -121,6 +121,7 @@ struct Z8K : Module
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
 	void setWidget(Z8KWidget *pwdg) { pWidget = pwdg; }
+	void QuantizePitch();
 
 	void dataFromJson(json_t *root) override { Module::dataFromJson(root); on_loaded(); }
 	json_t *dataToJson() override

@@ -1,5 +1,4 @@
 #include "common.hpp"
-#include "outRange.hpp"
 
 using namespace rack;
 extern Plugin *pluginInstance;

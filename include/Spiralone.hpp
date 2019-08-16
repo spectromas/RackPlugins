@@ -10,11 +10,6 @@
 #define TOTAL_STEPS (32)
 #include "sprlnSequencer.hpp"
 
-
-////////////////////
-// module widgets
-////////////////////
-
 struct SpiraloneWidget : SequencerWidget
 {
 public:
@@ -25,16 +20,18 @@ public:
 		RANDOMIZE_STRIDE = 0x04,
 		RANDOMIZE_XPOSE = 0x08,
 		RANDOMIZE_MODE = 0x10,
-		RANDOMIZE_LAQUALUNQUE = 0x20
+		RANDOMIZE_LAQUALUNQUE = 0x20,
+		QUANTIZE_PITCH
 	};
 
 	SpiraloneWidget(Spiralone *module);
 	Menu *addContextMenu(Menu *menu) override;
 	void onMenu(int action);
 
-	struct RandomizeSubItemItem : MenuItem {
+	struct RandomizeSubItemItem : MenuItem
+	{
 		RandomizeSubItemItem(Module *spir, const char *title, int action);
-	
+
 		int randomizeDest;
 		Spiralone *spiro;
 		void onAction(const event::Action &e) override;

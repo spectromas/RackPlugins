@@ -45,7 +45,7 @@ public:
 		nvgFillColor(args.vg, nvgTransRGBA(textColor, 16));
 		nvgText(args.vg, textPos.x, textPos.y, "\\\\", NULL);
 
-		if (pSeq != NULL)
+		if(pSeq != NULL)
 		{
 			char n[20];
 			sprintf(n, "%2i", pSeq->sequencer[seq].GetNumSteps(pSeq));
@@ -113,22 +113,22 @@ void Spiralone::process(const ProcessArgs &args)
 
 void Spiralone::randrandrand()
 {
-	if (theRandomizer & SpiraloneWidget::RANDOMIZE_PITCH)
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_PITCH)
 		randrandrand(0);
 
 	if(theRandomizer & SpiraloneWidget::RANDOMIZE_LEN)
 		randrandrand(1);
 
-	if (theRandomizer & SpiraloneWidget::RANDOMIZE_STRIDE)
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_STRIDE)
 		randrandrand(2);
 
-	if (theRandomizer & SpiraloneWidget::RANDOMIZE_XPOSE)
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_XPOSE)
 		randrandrand(3);
 
-	if (theRandomizer & SpiraloneWidget::RANDOMIZE_MODE)
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_MODE)
 		randrandrand(4);
 
-	if (theRandomizer & SpiraloneWidget::RANDOMIZE_LAQUALUNQUE)
+	if(theRandomizer & SpiraloneWidget::RANDOMIZE_LAQUALUNQUE)
 	{
 		randrandrand(int(random::uniform() * 5));
 	}
@@ -136,7 +136,7 @@ void Spiralone::randrandrand()
 
 void Spiralone::randrandrand(int action)
 {
-	switch (action)
+	switch(action)
 	{
 		case 0:
 			pWidget->std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
@@ -158,6 +158,12 @@ void Spiralone::randrandrand(int action)
 			pWidget->std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
 			break;
 	}
+}
+
+void Spiralone::QuantizePitch()
+{
+	for(int k = 0; k < TOTAL_STEPS; k++)
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
 }
 
 SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
@@ -186,8 +192,8 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 		float cy = sin(angle);
 		float center_y = 64.250;
 		float center_x = 66.894;
-	
-		ParamWidget *pctrl = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(center_x-4.0+r*cx), yncscape(center_y-4.0 +r*cy, 8.0)), module, Spiralone::VOLTAGE_1 + k);
+
+		ParamWidget *pctrl = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(center_x - 4.0 + r * cx), yncscape(center_y - 4.0 + r * cy, 8.0)), module, Spiralone::VOLTAGE_1 + k);
 		#ifdef OSCTEST_MODULE
 		if(module != NULL)
 		{
@@ -196,17 +202,17 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 		}
 		#endif
 		addParam(pctrl);
-		
+
 		r -= 2;
 		for(int s = 0; s < NUM_SEQUENCERS; s++)
 		{
 			int n = s * TOTAL_STEPS + k;
 			r -= 6;
-			ModuleLightWidget *plight = createLed(s, Vec(mm2px(center_x-1.088+ r*cx), yncscape(center_y-1.088 + r*cy, 2.176)), module, Spiralone::LED_SEQUENCE_1 + n);
+			ModuleLightWidget *plight = createLed(s, Vec(mm2px(center_x - 1.088 + r * cx), yncscape(center_y - 1.088 + r * cy, 2.176)), module, Spiralone::LED_SEQUENCE_1 + n);
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{
-				sprintf(name, "/Led%i_%i", s+1, n + 1);
+				sprintf(name, "/Led%i_%i", s + 1, n + 1);
 				module->oscDrv->Add(new oscControl(name), plight);
 			}
 			#endif
@@ -221,7 +227,7 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 	ParamWidget *pwdg = createParam<BefacoPushBig>(Vec(mm2px(7.970), yncscape(113.627, 8.999)), module, Spiralone::M_RESET);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
-	if (module != NULL)
+	if(module != NULL)
 	{
 		module->drv->Add(new LaunchpadMomentary(0, ILaunchpadPro::RC2Key(0, 7), LaunchpadLed::Color(63), LaunchpadLed::Color(62)), pwdg);
 	}
@@ -232,14 +238,14 @@ SpiraloneWidget::SpiraloneWidget(Spiralone *module) : SequencerWidget()
 		module->oscDrv->Add(new oscControl("/Reset"), pwdg);
 	}
 	#endif
-	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593,8.255)), module, Spiralone::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(62.766), yncscape(59.593, 8.255)), module, Spiralone::RANDOMIZONE));
 
 	if(module != NULL)
 		((Spiralone *)module)->orng.Create(this, 1.098f, 5.295f, Spiralone::RANGE_IN, Spiralone::RANGE);
 
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
-		addChild(new DigitalLed(mm2px(112.474), yncscape(4.428,3.867), &module->connected));
+		addChild(new DigitalLed(mm2px(112.474), yncscape(4.428, 3.867), &module->connected));
 	#endif
 }
 
@@ -250,15 +256,15 @@ void SpiraloneWidget::createSequencer(int seq)
 	#endif
 
 	float dist_v = -25.206;
-	
-	addInput(createInput<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825+dist_v*seq,8.255)), module, Spiralone::CLOCK_1 + seq));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395+dist_v*seq,8.255)), module, Spiralone::RESET_1 + seq));
 
-	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(158.607), yncscape(109.773 + dist_v*seq, 9.488)), module, Spiralone::MODE_1 + seq);
+	addInput(createInput<PJ301RPort>(Vec(mm2px(143.251), yncscape(115.825 + dist_v * seq, 8.255)), module, Spiralone::CLOCK_1 + seq));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(143.251), yncscape(104.395 + dist_v * seq, 8.255)), module, Spiralone::RESET_1 + seq));
+
+	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(158.607), yncscape(109.773 + dist_v * seq, 9.488)), module, Spiralone::MODE_1 + seq);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
-	{	
+	{
 		int color_launchpad[NUM_SEQUENCERS][2];
 		color_launchpad[0][0] = 11; color_launchpad[0][1] = 5;
 		color_launchpad[1][0] = 1; color_launchpad[1][1] = 3;
@@ -277,7 +283,7 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 
-	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
+	pwdg = createParam<Davies1900hFixRedKnobSmall>(Vec(mm2px(175.427), yncscape(115.953 + dist_v * seq, 8.0)), module, Spiralone::LENGHT_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -287,9 +293,9 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 	addParam(pwdg);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(182.178), yncscape(104.395 + dist_v*seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(182.178), yncscape(104.395 + dist_v * seq, 8.0)), module, Spiralone::INLENGHT_1 + seq));
 
-	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v*seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
+	pwdg = createParam<Davies1900hFixBlackKnobSmall>(Vec(mm2px(195.690), yncscape(115.953 + dist_v * seq, 8.255)), module, Spiralone::STRIDE_1 + seq);
 	((Davies1900hKnob *)pwdg)->snap = true;
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
@@ -299,9 +305,9 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 	addParam(pwdg);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(201.913), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::INSTRIDE_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(201.913), yncscape(104.395 + dist_v * seq, 8.255)), module, Spiralone::INSTRIDE_1 + seq));
 
-	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(215.954), yncscape(115.953 + dist_v*seq, 8.0)), module, Spiralone::XPOSE_1 + seq);
+	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(215.954), yncscape(115.953 + dist_v * seq, 8.0)), module, Spiralone::XPOSE_1 + seq);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
@@ -310,17 +316,17 @@ void SpiraloneWidget::createSequencer(int seq)
 	}
 	#endif
 	addParam(pwdg);
-	addInput(createInput<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::INXPOSE_1 + seq));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(222.177), yncscape(104.395 + dist_v * seq, 8.255)), module, Spiralone::INXPOSE_1 + seq));
 
-	addOutput(createOutput<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v*seq, 8.255)), module, Spiralone::CV_1 + seq));
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v*seq, 8.255)), module, Spiralone::GATE_1 + seq));
+	addOutput(createOutput<PJ301GPort>(Vec(mm2px(238.996), yncscape(115.825 + dist_v * seq, 8.255)), module, Spiralone::CV_1 + seq));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(238.996), yncscape(104.395 + dist_v * seq, 8.255)), module, Spiralone::GATE_1 + seq));
 
 	addChild(new spiro7Segm((Spiralone *)module, seq, 169.177, 104.698 + dist_v * seq));
 }
 
 ModuleLightWidget *SpiraloneWidget::createLed(int seq, Vec pos, Module *module, int firstLightId, bool big)
 {
-	ModuleLightWidget * rv = new ModuleLightWidget();
+	ModuleLightWidget *rv = new ModuleLightWidget();
 	if(big)
 		rv->box.size = mm2px(Vec(3, 3));
 	else
@@ -342,6 +348,7 @@ Menu *SpiraloneWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Stride", this, RANDOMIZE_STRIDE));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Transpose", this, RANDOMIZE_XPOSE));
 	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Randomize Mode", this, RANDOMIZE_MODE));
+	menu->addChild(new SeqMenuItem<SpiraloneWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 
 	return menu;
 }
@@ -350,25 +357,28 @@ void SpiraloneWidget::onMenu(int action)
 {
 	switch(action)
 	{
-	case RANDOMIZE_PITCH:
-		std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
-		break;
+		case RANDOMIZE_PITCH:
+			std_randomize(Spiralone::VOLTAGE_1, Spiralone::VOLTAGE_1 + TOTAL_STEPS);
+			break;
 
-	case RANDOMIZE_LEN:
-		std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
-		break;
+		case RANDOMIZE_LEN:
+			std_randomize(Spiralone::LENGHT_1, Spiralone::LENGHT_1 + NUM_SEQUENCERS);
+			break;
 
-	case RANDOMIZE_STRIDE:
-		std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
-		break;
+		case RANDOMIZE_STRIDE:
+			std_randomize(Spiralone::STRIDE_1, Spiralone::STRIDE_1 + NUM_SEQUENCERS);
+			break;
 
-	case RANDOMIZE_XPOSE:
-		std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
-		break;
+		case RANDOMIZE_XPOSE:
+			std_randomize(Spiralone::XPOSE_1, Spiralone::XPOSE_1 + NUM_SEQUENCERS);
+			break;
 
-	case RANDOMIZE_MODE:
-		std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
-		break;
+		case RANDOMIZE_MODE:
+			std_randomize(Spiralone::MODE_1, Spiralone::MODE_1 + NUM_SEQUENCERS);
+			break;
+
+		case QUANTIZE_PITCH: ((Spiralone *)module)->QuantizePitch(); break;
+
 	}
 }
 

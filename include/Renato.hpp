@@ -3,7 +3,6 @@
 #include <iomanip>
 #include <algorithm>
 #include "rntSequencer.hpp"
-#include "outRange.hpp"
 
 struct Renato;
 struct RenatoWidget : SequencerWidget
@@ -17,12 +16,13 @@ public:
 		RANDOMIZE_GATEX = 0x02,
 		RANDOMIZE_GATEY = 0x04,
 		RANDOMIZE_ACCESS = 0x08,
-		RANDOMIZE_LAQUALUNQUE = 0x10
-
+		RANDOMIZE_LAQUALUNQUE = 0x10,
+		QUANTIZE_PITCH
 	};
 private:
 
-	struct RandomizeSubItemItem : MenuItem {
+	struct RandomizeSubItemItem : MenuItem
+	{
 		RandomizeSubItemItem(Module *ren, const char *title, int action);
 
 		int randomizeDest;
@@ -101,7 +101,8 @@ struct Renato : Module
 	};
 
 	void setWidget(RenatoWidget *pwdg) { pWidget = pwdg; }
-	
+	void QuantizePitch();
+
 	Renato() : Module()
 	{
 		theRandomizer = 0;
@@ -204,4 +205,4 @@ private:
 	bool _gateY(int n) { return  getStatus(GATEY_1 + n, GATEY_IN1 + n) > 0; }
 	rntSequencer seqX;
 	rntSequencer seqY;
-	};
+};

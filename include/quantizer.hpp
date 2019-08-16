@@ -1,8 +1,5 @@
 #include "common.hpp"
 
-////////////////////
-// module widgets
-////////////////////
 using namespace rack;
 extern Plugin *pluginInstance;
 struct Quantizer;
@@ -145,16 +142,21 @@ protected:
 		if(bpmJson)
 			root = json_integer_value(bpmJson);
 	}
-	static constexpr float SEMITONE = 1.0 / 12.0;// 1/12 V
 	int scale;
 	int root;
 
 	void calcScale()
 	{
 		currentScale.clear();
+		currentScale_neg.clear();
 		float root_offs = SEMITONE * root;	//root key
 		for(int k = 0; k < int(availableScales.at(scale).notes.size()); k++)
+		{
 			currentScale.push_back(SEMITONE * availableScales.at(scale).notes.at(k) + root_offs);
+			if(k>0)
+				currentScale_neg.push_back(-SEMITONE * (12-availableScales.at(scale).notes.at(k)) + root_offs);	
+		}
+		currentScale_neg.push_back(-SEMITONE * 12+ root_offs);
 	}
 	void initializeScale()
 	{
@@ -224,20 +226,30 @@ protected:
 		availableScales.push_back(QScale("Ninetone"					,  { 0, 2, 3, 4, 6, 7, 8, 9, 11 }));
 	}
 
-	float quantize(float v, int octave)
+	float quantize(float semitone)
 	{
-		float semitone = fabs(v - octave);
-		float nearest = -2.0;
-		for (std::vector<float>::iterator it = currentScale.begin(); it != currentScale.end(); ++it)
+		float nearest = 20000.00;
+		if(semitone >= 0)
 		{
-			if (fabs(semitone - *it) < fabs(semitone - nearest))
-				nearest = *it;
+			for(std::vector<float>::iterator it = currentScale.begin(); it != currentScale.end(); ++it)
+			{
+				if(fabs(semitone - *it) < fabs(semitone - nearest))
+					nearest = *it;
+			}
+		} else
+		{
+			for(std::vector<float>::iterator it = currentScale_neg.begin(); it != currentScale_neg.end(); ++it)
+			{
+				if(fabs(semitone - *it) < fabs(semitone - nearest))
+					nearest = *it;
+			}
 		}
 
 		return nearest;
 	}
 	std::vector<QScale> availableScales;
 	std::vector<float> currentScale;
+	std::vector<float> currentScale_neg;
 };
 
 struct Quantizer : Module, quantizeModule

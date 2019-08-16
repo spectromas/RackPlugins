@@ -90,6 +90,12 @@ void quattro::randrandrand(int action)
 	}
 }
 
+void quattro::QuantizePitch()
+{
+	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
+}
+
 #define INCY(k) (-k * 14.798f)
 #define INCX(k) (k * 23.651f)
 quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
@@ -202,6 +208,7 @@ Menu *quattroWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<quattroWidget>("Randomize Modes", this, RANDOMIZE_MODE));
 	menu->addChild(new SeqMenuItem<quattroWidget>("Randomize Direction", this, RANDOMIZE_DIRECTION));
 	menu->addChild(new SeqMenuItem<quattroWidget>("Randomize ABCD", this, RANDOMIZE_ABCD));
+	menu->addChild(new SeqMenuItem<quattroWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
@@ -213,6 +220,7 @@ void quattroWidget::onMenu(int action)
 		case RANDOMIZE_MODE: std_randomize(quattro::MODE, quattro::MODE + QUATTRO_NUM_STEPS); break;
 		case RANDOMIZE_DIRECTION: std_randomize(quattro::DIRECTION1, quattro::DIRECTION1 + NUM_STRIPS); break;
 		case RANDOMIZE_ABCD: std_randomize(quattro::STRIPSEL_1, quattro::STRIPSEL_1 + QUATTRO_NUM_STEPS); break;
+		case QUANTIZE_PITCH: ((quattro *)module)->QuantizePitch(); break;
 	}
 }
 

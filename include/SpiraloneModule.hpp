@@ -1,6 +1,5 @@
 #pragma once
 #include "Spiralone.hpp"
-#include "outRange.hpp"
 
 struct Spiralone : Module
 {
@@ -84,14 +83,15 @@ struct Spiralone : Module
 	void process(const ProcessArgs &args) override;
 	void onReset() override { load(); }
 	void setWidget(SpiraloneWidget *pwdg) { pWidget = pwdg; }
-	
-	void dataFromJson(json_t *root) override 
-	{ 
-		Module::dataFromJson(root); 
+	void QuantizePitch();
+
+	void dataFromJson(json_t *root) override
+	{
+		Module::dataFromJson(root);
 		json_t *rndJson = json_object_get(root, "theRandomizer");
-		if (rndJson)
+		if(rndJson)
 			theRandomizer = json_integer_value(rndJson);
-		on_loaded(); 
+		on_loaded();
 	}
 	json_t *dataToJson() override
 	{

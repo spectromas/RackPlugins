@@ -1,5 +1,4 @@
 #include "common.hpp"
-#include "outRange.hpp"
 
 using namespace rack;
 extern Plugin *pluginInstance;
@@ -16,10 +15,12 @@ struct quattroWidget : SequencerWidget
 		RANDOMIZE_MODE = 0x02,
 		RANDOMIZE_DIRECTION = 0x04,
 		RANDOMIZE_ABCD = 0x08,
-		RANDOMIZE_LAQUALUNQUE = 0x10
+		RANDOMIZE_LAQUALUNQUE = 0x10,
+		QUANTIZE_PITCH
 	};
 
-	struct RandomizeSubItemItem : MenuItem {
+	struct RandomizeSubItemItem : MenuItem
+	{
 		RandomizeSubItemItem(Module *m, const char *title, int action);
 
 		int randomizeDest;
@@ -131,7 +132,7 @@ struct quattro : Module
 	quattro() : Module()
 	{
 		pWidget = NULL;
-			theRandomizer = 0;
+		theRandomizer = 0;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 
 		for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
@@ -172,13 +173,14 @@ struct quattro : Module
 		json_object_set_new(rootJ, "theRandomizer", rndJson);
 		return rootJ;
 	}
+	void QuantizePitch();
 
 private:
 	quattroWidget *pWidget;
 	void randrandrand();
 	void randrandrand(int action);
 	void on_loaded();
-		void load();
+	void load();
 	void reset(float deltaTime);
 	quattroStrip strip[NUM_STRIPS];
 	dsp::SchmittTrigger masterReset;

@@ -67,6 +67,7 @@ void M581::randrandrand()
 	}
 }
 
+
 void M581::randrandrand(int action)
 {
 	switch(action)
@@ -124,6 +125,13 @@ void M581::process(const ProcessArgs &args)
 	#endif	
 	connected = dig_connected ? 1.0 : 0.0;
 	#endif
+}
+
+
+void M581::QuantizePitch()
+{
+	for(int k = 0; k < 8; k++)
+		params[STEP_NOTES + k].value = pWidget->quantizePitch(STEP_NOTES + k, params[STEP_NOTES + k].value, orng);
 }
 
 void M581::beginNewStep()
@@ -389,6 +397,7 @@ Menu *M581Widget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Counters", this, RANDOMIZE_COUNTER));
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Modes", this, RANDOMIZE_MODE));
 	menu->addChild(new SeqMenuItem<M581Widget>("Randomize Enable/Slide", this, RANDOMIZE_ENABLE));
+	menu->addChild(new SeqMenuItem<M581Widget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
@@ -400,6 +409,7 @@ void M581Widget::onMenu(int action)
 		case RANDOMIZE_PITCH: std_randomize(M581::STEP_NOTES, M581::STEP_NOTES + 8); break;
 		case RANDOMIZE_MODE: std_randomize(M581::GATE_SWITCH, M581::GATE_SWITCH + 8); break;
 		case RANDOMIZE_ENABLE: std_randomize(M581::STEP_ENABLE, M581::STEP_ENABLE + 8); break;
+		case QUANTIZE_PITCH: ((M581 *)module)->QuantizePitch(); break;
 	}
 }
 

@@ -231,6 +231,12 @@ void Klee::sr_rotate()
 	}
 }
 
+void Klee::QuantizePitch()
+{
+	for(int k = 0; k < 16; k++)
+		params[PITCH_KNOB + k].value = pWidget->quantizePitch(PITCH_KNOB + k, params[PITCH_KNOB + k].value, orng);
+}
+
 bool Klee::chance()
 {
 	return rand() <= (params[RND_THRESHOLD].value + inputs[RND_THRES_IN].value) * RAND_MAX;
@@ -616,6 +622,7 @@ Menu *KleeWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Pitch", this, RANDOMIZE_PITCH));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Bus", this, RANDOMIZE_BUS));
 	menu->addChild(new SeqMenuItem<KleeWidget>("Randomize Load", this, RANDOMIZE_LOAD));
+	menu->addChild(new SeqMenuItem<KleeWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
@@ -636,6 +643,7 @@ void KleeWidget::onMenu(int action)
 				params[index]->paramQuantity->setValue(1.0);
 		}
 		break;
+		case QUANTIZE_PITCH: ((Klee *)module)->QuantizePitch(); break;
 	}
 }
 
