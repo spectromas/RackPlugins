@@ -15,7 +15,8 @@ struct quattroWidget : SequencerWidget
 		RANDOMIZE_PITCH = 0x01,
 		RANDOMIZE_MODE = 0x02,
 		RANDOMIZE_DIRECTION = 0x04,
-		RANDOMIZE_LAQUALUNQUE = 0x08,
+		RANDOMIZE_ABCD = 0x08,
+		RANDOMIZE_LAQUALUNQUE = 0x10,
 	};
 
 	struct RandomizeSubItemItem : MenuItem {
@@ -41,6 +42,7 @@ struct quattroWidget : SequencerWidget
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Pitch", RANDOMIZE_PITCH));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Mode", RANDOMIZE_MODE));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Direction", RANDOMIZE_DIRECTION));
+			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov ABCD", RANDOMIZE_ABCD));
 			sub_menu->addChild(new RandomizeSubItemItem(md, "Ov Power", RANDOMIZE_LAQUALUNQUE));
 			return sub_menu;
 		}
@@ -90,7 +92,8 @@ struct quattro : Module
 	{
 		VOLTAGE_1,
 		MODE = VOLTAGE_1 + QUATTRO_NUM_STEPS,
-		BACKWARD = MODE + QUATTRO_NUM_STEPS,
+		STRIPSEL_1 = MODE + QUATTRO_NUM_STEPS,
+		BACKWARD = STRIPSEL_1 + QUATTRO_NUM_STEPS,
 		M_RESET = BACKWARD + NUM_STRIPS,
 		RANGE,
 		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
@@ -130,6 +133,7 @@ struct quattro : Module
 		{
 			configParam(MODE + k, 0.0, 2.0, 1.0);
 			configParam(VOLTAGE_1 + k, 0.0, 1.0, 0.5);
+			configParam(STRIPSEL_1 + k, 0.0, 3.0, 0.0);
 		}
 		for(int k = 0; k < NUM_STRIPS; k++)
 			strip[k].Init(this, k);

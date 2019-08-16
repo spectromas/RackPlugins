@@ -97,11 +97,6 @@ struct Davies1900hLargeFixRedKnob : _davies1900base
 	Davies1900hLargeFixRedKnob() : _davies1900base("res/Davies1900hLargeRed.svg") {}
 };
 
-struct Davies1900hLargeFixWhiteKnob : _davies1900base
-{
-	Davies1900hLargeFixWhiteKnob() : _davies1900base("res/Davies1900hLargeWhite.svg") {}
-};
-
 struct Davies1900hFixWhiteKnob : _davies1900base
 {
 	Davies1900hFixWhiteKnob() : _davies1900base("res/Davies1900hWhite.svg") {}
@@ -190,26 +185,6 @@ struct PJ301BLUPort : _ioPort
 	PJ301BLUPort() : _ioPort("res/PJ301BLU.svg") {}
 };
 
-struct CL1362YPort : _ioPort
-{
-	CL1362YPort() : _ioPort("res/CL1362Y.svg") {}
-};
-
-struct CL1362GPort : _ioPort
-{
-	CL1362GPort() : _ioPort("res/CL1362G.svg") {}
-};
-
-struct CL1362RPort : _ioPort
-{
-	CL1362RPort() : _ioPort("res/CL1362R.svg") {}
-};
-
-struct CL1362WPort : _ioPort
-{
-	CL1362WPort() : _ioPort("res/CL1362W.svg") {}
-};
-
 struct BefacoPushBig : app::SvgSwitch {
 	BefacoPushBig() {
 		momentary = true;
@@ -229,6 +204,22 @@ struct CKSSThreeFix : app::SvgSwitch {
 		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
 	}
 };
+
+
+
+struct ABCDSwitch : app::SvgSwitch {
+	ABCDSwitch() {
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/abcd_1.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/abcd_2.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/abcd_3.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/abcd_4.svg")));
+	}
+	void randomize() override
+	{
+		paramQuantity->setValue(roundf(rescale(random::uniform(), 0.0, 1.0, paramQuantity->getMinValue(), paramQuantity->getMaxValue())));
+	}
+};
+
 
 struct TL1105HSw : app::SvgSwitch {
 	TL1105HSw() {

@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="53.999401"
-   height="53.999401"
-   viewBox="0 0 14.287342 14.287341"
+   width="43.19952"
+   height="43.19952"
+   viewBox="0 0 11.429873 11.429873"
    version="1.1"
    id="svg16908"
    inkscape:version="0.92.4 (5da689c313, 2019-01-14)"
@@ -35,8 +35,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="3.959798"
-     inkscape:cx="-144.29371"
-     inkscape:cy="17.03347"
+     inkscape:cx="-79.77103"
+     inkscape:cy="11.581017"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -66,11 +66,11 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(-230.79391,-120.57893)">
+     transform="translate(-232.22265,-122.00766)">
     <g
        style="fill:#ff0000;stroke-width:0.88889879"
        id="g6467"
-       transform="matrix(0.39687059,0,0,-0.39687059,245.08125,127.7226)">
+       transform="matrix(0.31749647,0,0,-0.31749647,243.65252,127.7226)">
       <path
          d="m 0,0 c 0,-9.941 -8.059,-18 -18,-18 -9.941,0 -18,8.059 -18,18 0,9.941 8.059,18 18,18 C -8.059,18 0,9.941 0,0"
          style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;stroke-width:0.88889879"
@@ -80,7 +80,7 @@
     <g
        style="stroke-width:0.88889879"
        id="g6475"
-       transform="matrix(0.39687059,0,0,-0.39687059,238.17515,120.60608)">
+       transform="matrix(0.39687059,0,0,-0.3125515,238.17515,122.13706)">
       <path
          d="M 0,0 C -0.195,0.045 -0.393,0.069 -0.598,0.069 -0.804,0.069 -1.002,0.045 -1.196,0 V -18.157 H 0 Z"
          style="fill:#ffffff;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:0.88889879"
