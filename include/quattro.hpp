@@ -84,6 +84,9 @@ private:
 	bool resetting;
 	const float pulseTime = 0.001;
 	int prenotazioneDiChiamata;
+	bool moving_bwd;
+	int getDirection();
+	void reset_curstep(int movement);
 };
 
 struct quattro : Module
@@ -93,8 +96,8 @@ struct quattro : Module
 		VOLTAGE_1,
 		MODE = VOLTAGE_1 + QUATTRO_NUM_STEPS,
 		STRIPSEL_1 = MODE + QUATTRO_NUM_STEPS,
-		BACKWARD = STRIPSEL_1 + QUATTRO_NUM_STEPS,
-		M_RESET = BACKWARD + NUM_STRIPS,
+		DIRECTION1 = STRIPSEL_1 + QUATTRO_NUM_STEPS,
+		M_RESET = DIRECTION1 + NUM_STRIPS,
 		RANGE,
 		NUM_PARAMS = RANGE + outputRange::NUMSLOTS
 	};
@@ -102,8 +105,8 @@ struct quattro : Module
 	{
 		SETSTEP1,
 		RESET1 = SETSTEP1 + QUATTRO_NUM_STEPS,
-		DIRECTION1 = RESET1 + NUM_STRIPS,
-		CLOCK1 = DIRECTION1 + NUM_STRIPS,
+		DIRECTION_IN1 = RESET1 + NUM_STRIPS,
+		CLOCK1 = DIRECTION_IN1 + NUM_STRIPS,
 		MRESET_IN = CLOCK1 + NUM_STRIPS,
 		RANDOMIZONE,
 		RANGE_IN,
@@ -140,8 +143,10 @@ struct quattro : Module
 
 		orng.configure(this, RANGE);
 		for(int k = 0; k < NUM_STRIPS; k++)
+		{
+			configParam(DIRECTION1 + k, 0.0, 2.0, 0.0);
 			strip[k].Init(this, k);
-
+		}
 		on_loaded();
 	}
 
@@ -173,7 +178,7 @@ private:
 	void randrandrand();
 	void randrandrand(int action);
 	void on_loaded();
-	void load();
+		void load();
 	void reset(float deltaTime);
 	quattroStrip strip[NUM_STRIPS];
 	dsp::SchmittTrigger masterReset;

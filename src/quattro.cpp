@@ -81,7 +81,7 @@ void quattro::randrandrand(int action)
 			break;
 
 		case 2:
-			pWidget->std_randomize(quattro::BACKWARD, quattro::BACKWARD + NUM_STRIPS);
+			pWidget->std_randomize(quattro::DIRECTION1, quattro::DIRECTION1 + NUM_STRIPS);
 			break;
 
 		case 3:
@@ -102,7 +102,7 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 
 	CREATE_PANEL(module, this, 50, "res/modules/quattro.svg");
 
-	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(94.127f, 8.255)), module, quattro::RANDOMIZONE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(231.288f), yncscape(90.796f, 8.255)), module, quattro::RANDOMIZONE));
 	if(module != NULL)
 		module->orng.Create(this, 224.846f, 108.285f, quattro::RANGE_IN, quattro::RANGE);
 
@@ -124,8 +124,8 @@ quattroWidget::quattroWidget(quattro *module) : SequencerWidget()
 	for(int k = 0; k < NUM_STRIPS; k++)
 	{
 		addInput(createInput<PJ301RPort>(Vec(mm2px(4.036f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::CLOCK1 + k));
-		addInput(createInput<PJ301BPort>(Vec(mm2px(15.07f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::DIRECTION1 + k));
-		addParam(createParam<TL1105Sw>(Vec(mm2px(24.336f), yncscape(77.771f + INCY(k), 6.607)), module, quattro::BACKWARD + k));
+		addInput(createInput<PJ301BPort>(Vec(mm2px(15.07f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::DIRECTION_IN1 + k));
+		addParam(createParam<CKSSThreeFix>(Vec(mm2px(24.201f), yncscape(76.074f + INCY(k), 10.000f)), module, quattro::DIRECTION1 + k));
 		addInput(createInput<PJ301YPort>(Vec(mm2px(30.867f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::RESET1 + k));
 
 		addOutput(createOutput<PJ301GPort>(Vec(mm2px(223.548f), yncscape(76.947f + INCY(k), 8.255)), module, quattro::CV1 + k));
@@ -211,7 +211,7 @@ void quattroWidget::onMenu(int action)
 	{
 		case RANDOMIZE_PITCH: std_randomize(quattro::VOLTAGE_1, quattro::VOLTAGE_1 + QUATTRO_NUM_STEPS); break;
 		case RANDOMIZE_MODE: std_randomize(quattro::MODE, quattro::MODE + QUATTRO_NUM_STEPS); break;
-		case RANDOMIZE_DIRECTION: std_randomize(quattro::BACKWARD, quattro::BACKWARD + NUM_STRIPS); break;
+		case RANDOMIZE_DIRECTION: std_randomize(quattro::DIRECTION1, quattro::DIRECTION1 + NUM_STRIPS); break;
 		case RANDOMIZE_ABCD: std_randomize(quattro::STRIPSEL_1, quattro::STRIPSEL_1 + QUATTRO_NUM_STEPS); break;
 	}
 }
@@ -235,6 +235,7 @@ void quattroStrip::Init(quattro *pmodule, int n)
 	pModule = pmodule;
 	resetPulseGuard.reset();
 	curStep = 0;
+	moving_bwd = false;
 	beginPulse();
 }
 
@@ -266,6 +267,30 @@ void quattroStrip::process(int forceStep, float deltaTime)
 	}
 }
 
+int quattroStrip::getDirection()
+{
+	return clamp((int)roundf(pModule->inputs[quattro::DIRECTION_IN1 + stripID].isConnected() ?
+			 pModule->inputs[quattro::DIRECTION_IN1 + stripID].getVoltage() : pModule->params[quattro::DIRECTION1 + stripID].value), 0, 2);
+}
+
+void quattroStrip::reset_curstep(int movement)
+{
+	switch(movement)
+	{
+		case 0:  // fwd
+			curStep = 0;
+			break;
+
+		case 1: // bwd
+			curStep = QUATTRO_NUM_STEPS - 1;
+			break;
+
+		case 2: // el pendulun
+			curStep = moving_bwd ? QUATTRO_NUM_STEPS - 1 : 0;
+			break;
+	}
+}
+
 void quattroStrip::move_next()
 {
 	if(prenotazioneDiChiamata >= 0)
@@ -274,24 +299,65 @@ void quattroStrip::move_next()
 		prenotazioneDiChiamata = -1;
 		return;
 	}
-	bool backwd = (pModule->inputs[quattro::DIRECTION1 + stripID].getNormalVoltage(0.0) + pModule->params[quattro::BACKWARD + stripID].value) > 0.5;
+	int movement = getDirection();
 	if(getStepMode() == RESET)
 	{
-		curStep = backwd ? QUATTRO_NUM_STEPS - 1 : 0;
+		reset_curstep(movement);
+		switch(movement)
+		{
+			case 0:  // fwd
+				curStep = 0;
+				break;
+
+			case 1: // bwd
+				curStep = QUATTRO_NUM_STEPS - 1;
+				break;
+
+			case 2: // el pendulun
+				curStep = moving_bwd ? QUATTRO_NUM_STEPS - 1 : 0;
+				break;
+		}
 		return;
 	}
 	for(int k = 0; k < QUATTRO_NUM_STEPS; k++)
 	{
-		if(backwd)
+		switch(movement)
 		{
-			if(--curStep < 0)
-				curStep = QUATTRO_NUM_STEPS - 1;
-		} else
-		{
-			if(++curStep >= QUATTRO_NUM_STEPS)
-				curStep = 0;
-		}
+			case 0:  // fwd
+			{
+				if(++curStep >= QUATTRO_NUM_STEPS)
+					curStep = 0;
+			}
+			break;
 
+			case 1: // bwd
+			{
+				if(--curStep < 0)
+					curStep = QUATTRO_NUM_STEPS - 1;
+			}
+			break;
+
+			case 2: // el pendulun
+			{
+				if(moving_bwd)
+				{
+					if(--curStep < 0) // siamo a battuta verso sx
+					{
+						curStep = 1;
+						moving_bwd = false;
+					}
+				} else
+				{
+					if(++curStep >= QUATTRO_NUM_STEPS) // siamo a battuta verso dx
+					{
+						curStep = QUATTRO_NUM_STEPS - 2;
+						moving_bwd = true;
+					}
+				}
+			}
+			break;
+		}
+	
 		if(getStepMode() != SKIP)
 			break;
 	}
@@ -327,6 +393,8 @@ void quattroStrip::reset(float deltaTime)
 	{
 		endPulse();
 		curStep = 0;
+		reset_curstep(getDirection());
+		moving_bwd = false;
 		prenotazioneDiChiamata = -1;
 		resetPulseGuard.trigger(pulseTime);
 		beginPulse();
