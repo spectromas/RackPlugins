@@ -11,11 +11,18 @@ void midyQuant::process(const ProcessArgs &args)
 		int clk = gate.process(inputs[GATE].value); // 1=rise, -1=fall
 		if(clk != 0)
 		{
-			float v = inputs[CV].getVoltage();
 			int vel = (int)rescale(inputs[VEL].getNormalVoltage(0.5), 0.0, 1.0, 0, 127);
-			float semitone = NearestSemitone(v);
-			int note = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
-			midiOutput.sendNote(clk == 1, note, vel);
+			if(note_playing >= 0 && clk == -1)
+			{
+				midiOutput.sendNote(false, note_playing, vel);
+				note_playing = -1;
+			} else if(clk == 1)
+			{
+				float v = inputs[CV].getVoltage();
+				float semitone = NearestSemitone(v);
+				note_playing = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
+				midiOutput.sendNote(true, note_playing, vel);
+			}
 		}
 	}
 }

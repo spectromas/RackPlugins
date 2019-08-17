@@ -337,7 +337,8 @@ struct midyQuant : Module, quantizeModule
 	midyQuant() : Module(), quantizeModule()
 	{		
 		pWidget = NULL;
-		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);		
+		note_playing = -1;
+		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 	}
 
 	void process(const ProcessArgs &args) override;
@@ -361,6 +362,7 @@ struct midyQuant : Module, quantizeModule
 
 	void onReset() override 
 	{
+		note_playing = -1;
 		midiOutput.reset();
 	}
 
@@ -373,4 +375,5 @@ private:
 	midyQuantWidget *pWidget;
 	SchmittTrigger2 gate;
 	dsp::SchmittTrigger resetTrigger;
+	int note_playing;
 };
