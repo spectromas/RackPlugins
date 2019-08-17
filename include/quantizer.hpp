@@ -111,7 +111,7 @@ private:
 struct quantizeModule
 {
 public:
-	void SetRoot(int n) {root = n; calcScale();}
+	void SetRoot(int n) {root = n; }
 	void SetScale(int n) {scale = n; calcScale();}
 	inline int getScale() {return scale;}
 	inline int getRoot() {return root;}
@@ -148,16 +148,12 @@ protected:
 	void calcScale()
 	{
 		currentScale.clear();
-		currentScale_neg.clear();
-		float root_offs = SEMITONE * root;	//root key
 		for(int k = 0; k < int(availableScales.at(scale).notes.size()); k++)
-		{
-			currentScale.push_back(SEMITONE * availableScales.at(scale).notes.at(k) + root_offs);
-			if(k>0)
-				currentScale_neg.push_back(-SEMITONE * (12-availableScales.at(scale).notes.at(k)) + root_offs);	
-		}
-		currentScale_neg.push_back(-SEMITONE * 12+ root_offs);
+			currentScale.push_back(SEMITONE * (availableScales.at(scale).notes.at(k)-12));
+		for(int k = 0; k < int(availableScales.at(scale).notes.size()); k++)
+			currentScale.push_back(SEMITONE * availableScales.at(scale).notes.at(k));
 	}
+
 	void initializeScale()
 	{
 		availableScales.push_back(QScale("Chromatic"				,  { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 }));
@@ -228,28 +224,19 @@ protected:
 
 	float quantize(float semitone)
 	{
-		float nearest = 20000.00;
-		if(semitone >= 0)
+		int ptr = 0;
+		for(int k = 1; k < (int)currentScale.size(); k++)
 		{
-			for(std::vector<float>::iterator it = currentScale.begin(); it != currentScale.end(); ++it)
-			{
-				if(fabs(semitone - *it) < fabs(semitone - nearest))
-					nearest = *it;
-			}
-		} else
-		{
-			for(std::vector<float>::iterator it = currentScale_neg.begin(); it != currentScale_neg.end(); ++it)
-			{
-				if(fabs(semitone - *it) < fabs(semitone - nearest))
-					nearest = *it;
-			}
+			if(fabs(semitone - currentScale[k]) > fabs(semitone - currentScale[ptr]))
+				break;
+			else
+				ptr = k;
 		}
-
-		return nearest;
+		return currentScale[ptr]+ SEMITONE * root;
 	}
+
 	std::vector<QScale> availableScales;
 	std::vector<float> currentScale;
-	std::vector<float> currentScale_neg;
 };
 
 struct Quantizer : Module, quantizeModule

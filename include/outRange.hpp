@@ -51,9 +51,10 @@ public:
 		{
 			float vmin = clamp(module->params[paramID].value + module->inputs[portID].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
 			float vmax = clamp(module->params[paramID + 1].value + module->inputs[portID + 1].getNormalVoltage(0.0), LVL_MIN, LVL_MAX);
-			return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0f, 1.0f), 0.0f, 1.0f);
+			return clamp(rescale(v, std::min(vmin, vmax), std::max(vmin, vmax), 0.0, 1.0), 0.0, 1.0);
 		}
-		return 0;
+
+		return v;
 	}
 
 	void configure(Module *pModule, int param)

@@ -391,6 +391,7 @@ public:
 
 	float quantizePitch(int idx, float value, const outputRange &orng)
 	{
+		value = orng.Value(value);
 		value = orng.Reverse(NearestSemitone(value));
 		int index = getParamIndex(idx);
 		if(index >= 0)
