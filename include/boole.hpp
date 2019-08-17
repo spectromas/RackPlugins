@@ -56,5 +56,5 @@ struct Boole : Module
 private:
 	bool process(int num_op, bool hiz, bool compare);
 	bool logicLevel(float v1, float v2, bool compare);
-	float getVoltage(int index, int num_op, bool hiz);
+	float getVoltage(int index, bool hiz);
 };

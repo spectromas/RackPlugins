@@ -10,9 +10,11 @@ common characteristics:
 
 ![legend](/repository/legenda.png?raw=true "legend")
 
-version 1.1.x implements a new revision of the main motherboard: the new bipolar transistors
-allow negative voltages to flow. all plugins have a wider range available (0V to 10V or -10V to 10V), for this the 
-previous patches will sound different. 
+**** 1.1.1 update ****
+i was really, really tired of voltage level mismatches between the various modules available. for this, the output level 
+of the sequencers changed again, now supporting a full range of -10V to +10V. this range can be limited/shifted/transposed/whatever 
+with two tiny knobs, strangely labeled as "output range".
+
 to add insult to injury, for the _very first time in the world_ a plugin could have (or have not) some hidden features.
 and now for something completely different: a list.
 
@@ -89,3 +91,6 @@ why just taking notes if you could make them play?
 
 # qu4ttro
 admittedly inspired by a popular ios machine. or it was bach?
+
+# flop
+as stated before, the logic consequence of using these plugins is a flop.

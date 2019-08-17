@@ -25,7 +25,7 @@ void Boole::process(const ProcessArgs &args)
 	}
 }
 
-float Boole::getVoltage(int index, int num_op, bool hiz)
+float Boole::getVoltage(int index, bool hiz)
 {
 	if (hiz && !inputs[index].isConnected())
 	{
@@ -44,23 +44,24 @@ float Boole::getVoltage(int index, int num_op, bool hiz)
 				return random::uniform() * 1.0;
 		}
 		return 0;
-	} else
-		return inputs[index].getNormalVoltage(0.0);
+	} 
+	
+	return inputs[index].getNormalVoltage(0.0);
 }
 
 bool Boole::logicLevel(float v1, float v2, bool compare)
 {	
-	return compare ? fabs(v1 - v2) < std::numeric_limits<float>::epsilon() : v1 > v2;
+	return compare ? fabs(v1 - v2) < std::numeric_limits<float>::epsilon() : v1 >= v2;
 }
 
 bool Boole::process(int num_op, bool hiz, bool compare)
 {
-	bool x = logicLevel(getVoltage(IN_X + num_op, num_op, hiz), params[THRESH_X + num_op].value, compare);
+	bool x = logicLevel(getVoltage(IN_X + num_op, hiz), params[THRESH_X + num_op].value, compare);
 	lights[LED_X + num_op].value = x ? LED_ON : LED_OFF;
 	if(num_op == 0)	// not?
 		return !x;
 		
-	bool y = logicLevel(getVoltage(IN_Y + num_op-1, num_op, hiz), params[THRESH_Y + num_op-1].value, compare);
+	bool y = logicLevel(getVoltage(IN_Y + num_op-1, hiz), params[THRESH_Y + num_op-1].value, compare);
 	lights[LED_Y + num_op - 1].value = y ? LED_ON : LED_OFF;
 		
 	switch(num_op)

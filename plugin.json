@@ -127,6 +127,14 @@
       ]
     },
     {
+      "slug": "flop",
+      "name": "flop",
+      "description": "flop (and flip) logic for your signals",
+      "tags": [
+        "Logic"
+      ]
+    },
+    {
       "slug": "XSwitch",
       "name": "XSwitch",
       "description": "circuit breaker",
