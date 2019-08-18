@@ -60,8 +60,9 @@
           "value": 0.0
         }
       ],
+      "rightModuleId": 56,
       "pos": [
-        2,
+        0,
         1
       ]
     },
@@ -136,8 +137,10 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 55,
+      "rightModuleId": 57,
       "pos": [
-        11,
+        8,
         1
       ]
     },
@@ -172,9 +175,11 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 56,
+      "rightModuleId": 58,
       "data": {},
       "pos": [
-        26,
+        22,
         1
       ]
     },
@@ -195,13 +200,19 @@
         {
           "id": 2,
           "value": 2.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
         }
       ],
+      "leftModuleId": 57,
+      "rightModuleId": 59,
       "data": {
         "counter": 2
       },
       "pos": [
-        43,
+        38,
         1
       ]
     },
@@ -228,11 +239,13 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 58,
+      "rightModuleId": 60,
       "data": {
         "num_outputs": 8
       },
       "pos": [
-        52,
+        46,
         1
       ]
     },
@@ -487,11 +500,13 @@
           "value": 5.0
         }
       ],
+      "leftModuleId": 59,
+      "rightModuleId": 69,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        63,
+        56,
         1
       ]
     },
@@ -666,7 +681,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        0,
+        1,
         2
       ]
     },
@@ -697,7 +712,7 @@
         "num_inputs": 8
       },
       "pos": [
-        30,
+        31,
         2
       ]
     },
@@ -744,7 +759,7 @@
         "bpm_integer": 120
       },
       "pos": [
-        41,
+        42,
         2
       ]
     },
@@ -759,7 +774,7 @@
         "root": 0
       },
       "pos": [
-        155,
+        156,
         2
       ]
     },
@@ -882,7 +897,7 @@
         "theRandomizer": 0
       },
       "pos": [
-        57,
+        58,
         2
       ]
     },
@@ -1173,12 +1188,13 @@
           "value": 5.0
         }
       ],
+      "leftModuleId": 68,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        1,
-        0
+        126,
+        1
       ]
     },
     {
@@ -1408,11 +1424,12 @@
           "value": 5.0
         }
       ],
+      "rightModuleId": 86,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        41,
+        1,
         0
       ]
     },
@@ -1439,9 +1456,11 @@
           "value": 1.0
         }
       ],
+      "leftModuleId": 69,
+      "rightModuleId": 66,
       "data": {},
       "pos": [
-        123,
+        114,
         1
       ]
     },
@@ -1492,8 +1511,10 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 60,
+      "rightModuleId": 68,
       "pos": [
-        112,
+        104,
         1
       ]
     },
@@ -1582,7 +1603,7 @@
       ],
       "data": {},
       "pos": [
-        103,
+        104,
         2
       ]
     },
@@ -1611,7 +1632,7 @@
       ],
       "text": "struct XorPanel : SvgPanel\r\n{\r\n\tstruct bgGradient : TransparentWidget\r\n\t{\r\n\t\tbgGradient(const Vec &size)\r\n\t\t{\r\n\t\t\tbox.pos = Vec(0, 0);\r\n\t\t\tbox.size = size;\r\n\t\t}\r\n\r\n\t\tvoid draw(const Widget::DrawArgs &args) override\r\n\t\t{\r\n\t\t\tnvgBeginPath(args.vg);\r\n\t\t\tnvgRect(args.vg, 0, 0, box.size.x, box.size.y);\r\n\t\t\tnvgFillPaint(args.vg, nvgLinearGradient(args.vg, 0, 0, 0, box.size.y /*/ 2*/, nvgRGBAf(0.5f, 0.5f, 0.5f, 0.35f), nvgRGBAf(0.2f, 0.2f, 0.2f, 0.1f)));\r\n\t\t\tnvgFill(args.vg);\r\n\t\t}\r\n\t};\r\n\r\n\tXorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()\r\n\t{\r\n\t\tpWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);\r\n\t\tif (svg != NULL)\r\n\t\t\tsetBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));\r\n\t\taddChild(new bgGradient(box.size));\r\n\t}\r\n\r\n\tvoid AddScrews(ModuleWidget *pWidget)\r\n\t{\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t\tpWidget->addChild(createWidget<ScrewBlack>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));\r\n\t}\r\n};\r\n\r\n#define CREATE_PANEL(modul, widg,unit,svg)  { \\\r\n\tsetModule(modul); \\\r\n\tXorPanel *panel = new XorPanel(widg, unit, svg); \\\r\n\taddChild(panel); \\\r\n\tpanel->AddScrews(widg); \\\r\n}",
       "pos": [
-        138,
+        139,
         2
       ]
     },
@@ -1621,6 +1642,7 @@
       "version": "1.1.1",
       "model": "midyQuant",
       "params": [],
+      "leftModuleId": 87,
       "data": {
         "scale": 0,
         "root": 0,
@@ -1630,8 +1652,8 @@
         }
       },
       "pos": [
-        136,
-        1
+        152,
+        0
       ]
     },
     {
@@ -1765,11 +1787,13 @@
           "value": 5.0
         }
       ],
+      "leftModuleId": 86,
+      "rightModuleId": 97,
       "data": {
         "theRandomizer": 0
       },
       "pos": [
-        102,
+        60,
         0
       ]
     },
@@ -1784,8 +1808,10 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 67,
+      "rightModuleId": 74,
       "pos": [
-        93,
+        52,
         0
       ]
     },
@@ -1836,9 +1862,73 @@
           "value": 0.0
         }
       ],
+      "leftModuleId": 97,
+      "rightModuleId": 73,
       "pos": [
-        145,
-        1
+        138,
+        0
+      ]
+    },
+    {
+      "id": 97,
+      "plugin": "TheXOR",
+      "version": "1.1.1",
+      "model": "o88o",
+      "params": [
+        {
+          "id": 0,
+          "value": 0.0
+        },
+        {
+          "id": 1,
+          "value": 0.0
+        },
+        {
+          "id": 2,
+          "value": 0.0
+        },
+        {
+          "id": 3,
+          "value": 0.0
+        },
+        {
+          "id": 4,
+          "value": 0.0
+        },
+        {
+          "id": 5,
+          "value": 1.0
+        },
+        {
+          "id": 6,
+          "value": 8.0
+        },
+        {
+          "id": 7,
+          "value": 1.0
+        },
+        {
+          "id": 8,
+          "value": 32.0
+        },
+        {
+          "id": 9,
+          "value": 8.0
+        },
+        {
+          "id": 10,
+          "value": 0.0
+        },
+        {
+          "id": 11,
+          "value": 0.0
+        }
+      ],
+      "leftModuleId": 74,
+      "rightModuleId": 87,
+      "pos": [
+        110,
+        0
       ]
     }
   ],
