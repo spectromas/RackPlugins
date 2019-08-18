@@ -85,6 +85,27 @@ struct DNSWITCH : SvgSwitch
 	}
 };
 
+struct LEFTSWITCH : SvgSwitch
+{
+	LEFTSWITCH()
+	{
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/leftswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/leftswitch_1.svg")));
+		fb->removeChild(shadow);
+	}
+};
+
+struct RIGHTSWITCH : SvgSwitch
+{
+	RIGHTSWITCH()
+	{
+		momentary = true;
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/rightswitch_0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/rightswitch_1.svg")));
+		fb->removeChild(shadow);
+	}
+};
 struct _davies1900base : Davies1900hKnob
 {
 	_davies1900base(const char *res)

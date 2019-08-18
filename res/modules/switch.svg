@@ -1747,7 +1747,7 @@
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.4315977"
-     inkscape:cx="63.025478"
+     inkscape:cx="-7.0930289"
      inkscape:cy="326.17864"
      inkscape:document-units="mm"
      inkscape:current-layer="text861"
@@ -1791,7 +1791,8 @@
      id="layer4"
      inkscape:label="Sfondone"
      style="display:inline;filter:url(#filter1401)"
-     transform="translate(0,36.525024)">
+     transform="translate(0,36.525024)"
+     sodipodi:insensitive="true">
     <rect
        style="opacity:1;fill:#333333;fill-opacity:1;stroke:none;stroke-width:4.15512037;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect906"

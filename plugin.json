@@ -69,6 +69,14 @@
       ]
     },
     {
+      "slug": "o88o",
+      "name": "o88o",
+      "description": "o88o Sequencer",
+      "tags": [
+        "Sequencer"
+      ]
+    },
+    {
       "slug": "Burst",
       "name": "Burst",
       "description": "quick output bursts",
