@@ -17,6 +17,7 @@ struct Counter : Module
 	{
 		COUNTER_INC, COUNTER_DEC,
 		COUNTER,
+		ONESHOT,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -30,12 +31,14 @@ struct Counter : Module
 	enum OutputIds
 	{
 		OUT_1,
+		OUT_TGL,
 		NUM_OUTPUTS
 	};
 
 	enum LightIds
 	{
 		ACTIVE,
+		TOGGLESTAT,
 		NUM_LIGHTS
 	};
 
@@ -84,6 +87,7 @@ private:
 	dsp::SchmittTrigger btndwn;
 	CounterWidget *pWidget;
 	int curCounter;
+	bool toggle_status;
 	dsp::SchmittTrigger resetTrigger;
 	dsp::SchmittTrigger counterTigger;
 	dsp::PulseGenerator outPulse;
@@ -92,4 +96,6 @@ private:
 
 	void on_loaded();
 	void load();
+	void reset();
+	void trig_out();
 };
