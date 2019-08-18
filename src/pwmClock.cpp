@@ -4,6 +4,7 @@
 
 void PwmClock::on_loaded()
 {
+	current_status = false;
 	bpm = 0;
 	swing = 0;
 	_reset();
@@ -12,6 +13,7 @@ void PwmClock::on_loaded()
 
 void PwmClock::_reset()
 {
+	optimize_manualStep = false;
 	for(int k = 0; k < OUT_SOCKETS; k++)
 	{
 		sa_timer[k].Reset();
@@ -88,7 +90,6 @@ void PwmClock::process_active(const ProcessArgs &args)
 {
 	onStopPulse.reset();
 	onManualStep.reset();
-	lights[ACTIVE].value = LVL_ON;
 	if(resetTrigger.process(inputs[RESET].value))
 	{
 		_reset();
@@ -106,10 +107,7 @@ void PwmClock::process_active(const ProcessArgs &args)
 					elps = sa_timer[k].Reset();
 					odd_beat[k] = !odd_beat[k];
 				}
-				if(elps <= gate_len)
-					outputs[OUT_1 + k].value = LVL_ON;
-				else
-					outputs[OUT_1 + k].value = LVL_OFF;
+				outputs[OUT_1 + k].value = elps <= gate_len ? LVL_ON : LVL_OFF;
 			}
 		}
 	}
@@ -119,19 +117,31 @@ void PwmClock::process_inactive(const ProcessArgs &args)
 {
 	float deltaTime = 1.0 / args.sampleRate;
 
-	// il led on e' usato per svagare la transizione on -> off
-	if(lights[ACTIVE].value == LED_ON && !onStopPulse.process(deltaTime))
+	if(current_status && !onStopPulse.process(deltaTime))
 		onStopPulse.trigger(pulseTime);
 
-	if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].value)) && !onManualStep.process(deltaTime))
-		onManualStep.trigger(pulseTime);
+	if(!onManualStep.process(deltaTime))
+	{
+		if(optimize_manualStep)
+		{
+			optimize_manualStep = false;
+			for(int k = 0; k < OUT_SOCKETS; k++)
+				outputs[OUT_1 + k].value = LVL_OFF;
 
+			lights[ACTIVE].value = LED_OFF;
+
+		}
+		if((manualTrigger.process(params[PULSE].value) || pulseTrigger.process(inputs[PULSE_IN].value)))
+		{
+			onManualStep.trigger(pulseTime);
+			optimize_manualStep = true;
+			for(int k = 0; k < OUT_SOCKETS; k++)
+				outputs[OUT_1 + k].value = LVL_ON;
+
+			lights[ACTIVE].value = LED_ON;
+		}
+	}
 	outputs[ONSTOP].value = onStopPulse.process(deltaTime) ? LVL_ON : LVL_OFF;
-
-	for(int k = 0; k < OUT_SOCKETS; k++)
-		outputs[OUT_1 + k].value = onManualStep.process(deltaTime) ? LVL_ON : LVL_OFF;
-
-	lights[ACTIVE].value = onManualStep.process(deltaTime) ? LED_ON : LED_OFF;
 }
 
 bool PwmClock::isGeneratorActive()
@@ -204,19 +214,13 @@ void PwmClock::process(const ProcessArgs &args)
 	{
 		process_inactive(args);
 	}
+	if(active != current_status)
+	{
+		current_status = active;
+		lights[ACTIVE].value = active ? LED_ON : LED_OFF;
+	}
 }
 
-float PwmClock::getPwm()
-{
-	float offs = inputs[PWM_IN].isConnected() ? rescale(inputs[PWM_IN].value, LVL_OFF, LVL_ON, PWM_MINVALUE, PWM_MAXVALUE) : 0.0;
-	return clamp(offs + params[PWM].value, PWM_MINVALUE, PWM_MAXVALUE);
-}
-
-float PwmClock::getSwing()
-{
-	float offs = inputs[SWING_IN].isConnected() ? rescale(inputs[SWING_IN].value, LVL_OFF, LVL_ON, SWING_MINVALUE, SWING_MAXVALUE) : 0.0;
-	return clamp(offs + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE);
-}
 
 PwmClockWidget::PwmClockWidget(PwmClock *module) : SequencerWidget()
 {

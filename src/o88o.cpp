@@ -33,8 +33,9 @@ void o88o::process(const ProcessArgs &args)
 		else
 			curPtn = params[PATTERN].value - 1;
 		
-		int clk = clockTrigger.process(getGatedClock()); // 1=rise, -1=fall
-		if(clk == 1)
+		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
+		bool gate = (params[GATE].value > 0.5 || inputs[GATE_IN].getNormalVoltage(0.0) >= 1.0);
+		if(clk == 1 && gate)
 		{
 			next_step();
 			open_gate();

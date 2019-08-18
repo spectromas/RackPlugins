@@ -203,6 +203,7 @@ private:
 	PwmClockWidget *pWidget;
 	uint32_t tick = UINT32_MAX;
 	int bpm_integer = 120;
+	bool current_status;
 	SchmittTrigger2 resetTrigger;
 	SchmittTrigger2 pulseTrigger;
 	SchmittTrigger2 onTrigger;
@@ -210,6 +211,7 @@ private:
 	dsp::SchmittTrigger manualTrigger;
 	dsp::PulseGenerator onStopPulse;
 	dsp::PulseGenerator onManualStep;
+	bool optimize_manualStep;
 
 	const float pulseTime = 0.1;      //2msec trigger
 	void process_keys();
@@ -217,18 +219,16 @@ private:
 	void process_active(const ProcessArgs &args);
 	void process_inactive(const ProcessArgs &args);
 
-	float getDuration(int n)
-	{
-		return odd_beat[n] ? swingAmt[n] : duration[n];
-	}
+	inline float getDuration(int n) 	{return odd_beat[n] ? swingAmt[n] : duration[n]; }
 	float duration[OUT_SOCKETS];
 	float swingAmt[OUT_SOCKETS];
 	bool odd_beat[OUT_SOCKETS];
 	void on_loaded();
 	void load();
 	void _reset();
-	float getPwm();
-	float getSwing();
+	inline float getPwm() { return clamp(rescale(inputs[PWM_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, PWM_MINVALUE, PWM_MAXVALUE) + params[PWM].value, PWM_MINVALUE, PWM_MAXVALUE); }
+
+	inline float getSwing() { return clamp(rescale(inputs[SWING_IN].getNormalVoltage(0.0), LVL_OFF, LVL_ON, SWING_MINVALUE, SWING_MAXVALUE) + params[SWING].value, SWING_MINVALUE, SWING_MAXVALUE); }
 	bool isGeneratorActive();
 	SA_TIMER sa_timer[OUT_SOCKETS];
 	MIDICLOCK_TIMER midiClock;

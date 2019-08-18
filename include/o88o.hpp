@@ -82,7 +82,6 @@ private:
 	void close_gate();
 	void next_step();
 	void reset();
-	inline int getGatedClock() { return (params[GATE].value > 0.5 || inputs[GATE_IN].getNormalVoltage(0.0) >= 1.0) ? inputs[CLOCK_IN].value : 0.f; }
 	void getPatternLimits();
 	void out_position();
 	inline bool getSwitch(int paramId, int inputId) { return inputs[inputId].isConnected() ? inputs[inputId].getNormalVoltage(0.0) >= 1.0 : params[paramId].value > 0.5; }
