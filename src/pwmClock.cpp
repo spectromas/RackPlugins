@@ -217,7 +217,16 @@ void PwmClock::process(const ProcessArgs &args)
 	if(active != current_status)
 	{
 		current_status = active;
-		lights[ACTIVE].value = active ? LED_ON : LED_OFF;
+		if(active)
+		{
+			_reset();
+			lights[ACTIVE].value = LED_ON;
+		} else
+		{
+			lights[ACTIVE].value = LED_OFF;
+			for(int k = 0; k < OUT_SOCKETS; k++)
+				outputs[OUT_1 + k].value = LVL_OFF;
+		}
 	}
 }
 
