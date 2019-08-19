@@ -44,6 +44,17 @@ inline float NearestSemitone(float v) {return round(v / SEMITONE) * SEMITONE;}
 #define DIGITAL_EXT
 #endif
 
+struct TheXORBtn : SvgSwitch
+{
+	TheXORBtn() : SvgSwitch()
+	{
+		momentary = true;
+		fb->removeChild(shadow);
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/x0.svg")));
+		addFrame(APP->window->loadSvg(asset::plugin(pluginInstance, "res/x1.svg")));
+	}
+};
+
 struct PatternBtn : SvgSwitch
 {
 	PatternBtn()
@@ -572,7 +583,13 @@ struct XorPanel : SvgPanel
 			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw.svg")));
 		}
 	};
-	struct bgGradient : TransparentWidget
+	struct ScrewH : app::SvgScrew
+	{
+		ScrewH()
+		{
+			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw_hole.svg")));
+		}
+	};	struct bgGradient : TransparentWidget
 	{
 		bgGradient(const Vec &size)
 		{
@@ -599,10 +616,11 @@ struct XorPanel : SvgPanel
 
 	void AddScrews(ModuleWidget *pWidget)
 	{
-		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0)));
-		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		int orco_can = int(random::uniform() * 16); //ma perche???????? :-(
+		if(orco_can != 0) pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0))); else														pWidget->addChild(createWidget<ScrewH>(Vec(RACK_GRID_WIDTH, 0)));
+		if(orco_can != 2) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0))); else										pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
+		if(orco_can != 4) pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else						pWidget->addChild(createWidget<ScrewH>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		if(orco_can != 5) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else  	pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
 };
 

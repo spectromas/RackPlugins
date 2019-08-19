@@ -10,10 +10,12 @@ common characteristics:
 
 ![legend](/repository/legenda.png?raw=true "legend")
 
+- warning: the front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
+
 **** 1.1.1 update ****
 i was really, really tired of voltage level mismatches between the various modules available. for this, the output level 
-of the sequencers changed again, now supporting a full range of -10V to +10V. this range can be limited/shifted/transposed/whatever 
-with two tiny knobs, strangely labeled as "output range". 
+of the sequencers changed again, now supporting a full range of -10V to +10V. this can be limited/shifted/transposed/whatever 
+with two tiny knobs, misleading labeled as "output range". 
 
 to add insult to injury, for the _very first time in the world_ a plugin could have (or have not) some hidden features.
 and now for something completely different: a list.
@@ -96,4 +98,4 @@ as stated before, the logic consequence of using these plugins is a flop.
 "vaguely" inspired by a popular ios app. or it was bach?
 
 # o88o
-an arpeggiator that pretends to be a sequencer.
+an arpeggiator that pretends to be a sequencer (or the other way around). the first pattern is _just_ as empty as empty

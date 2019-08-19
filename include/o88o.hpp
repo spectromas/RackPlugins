@@ -30,6 +30,7 @@ public:
 		PTN_INC, 
 		PTN_DEC,
 		RANDOMIZE,
+		LED_GATE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -58,7 +59,6 @@ public:
 	};
 	enum LightIds
 	{
-		LED_GATE,
 		NUM_LIGHTS
 	};
 

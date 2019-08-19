@@ -108,7 +108,7 @@ void o88o::open_gate()
 	if(getCell(curRow, curCol) && isCellEnabled(curRow, curCol))
 	{
 		outputs[GATE_OUT].value = LVL_ON;
-		lights[LED_GATE].value = LED_ON;
+		params[LED_GATE].value = LVL_ON;
 	}
 	out_position();
 }
@@ -116,7 +116,7 @@ void o88o::open_gate()
 void o88o::close_gate()
 {
 	outputs[GATE_OUT].value = LVL_OFF;
-	lights[LED_GATE].value = LED_OFF;
+	params[LED_GATE].value = LVL_OFF;
 	out_position();
 }
 
@@ -243,8 +243,7 @@ o88oWidget::o88oWidget(o88o *module)
 	addParam(createParam<TL1105Sw>(Vec(mm2px(45.956), yncscape(10.379f, 6.607)), module, o88o::SWITCH_LOOP));
 	addParam(createParam<TL1105Sw>(Vec(mm2px(96.178), yncscape(10.379f, 6.607)), module, o88o::SWITCH_INVERT));
 
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(20.273), yncscape(10.017, 8.255)), module, o88o::GATE_OUT));
-	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(30.744), yncscape(13.056, 2.176)), module, o88o::LED_GATE));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(20.881), yncscape(10.017, 8.255)), module, o88o::GATE_OUT));
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(106.256, 8.255)), module, o88o::FIRSTROW_IN));
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(106.383, 8.0)), module, o88o::FIRSTROW);
@@ -308,8 +307,9 @@ o88oWidget::o88oWidget(o88o *module)
 	addChild(new o88o7Segm(module != NULL ? module : NULL, 103.832, 10.320));
 	addParam(createParam<RIGHTSWITCH>(Vec(mm2px(109.255), yncscape(4.358, 4.627)), module, o88o::PTN_INC));
 	addParam(createParam<LEFTSWITCH>(Vec(mm2px(103.832), yncscape(4.358, 4.627)), module, o88o::PTN_DEC));
-	addParam(createParam<HiddenButton>(Vec(mm2px(10.291), yncscape(9.801, 5.08)), module, o88o::RANDOMIZE));
+	addParam(createParam<HiddenButton>(Vec(mm2px(0), yncscape(0, 5.08)), module, o88o::RANDOMIZE));
 	addInput(createInput<PJ301HPort>(Vec(mm2px(6.361), yncscape(29.018, 8.255)), module, o88o::RANDOMIZE_IN));
+	addParam(createParam<TheXORBtn>(Vec(mm2px(6.489), yncscape(10.144, 8)), module, o88o::LED_GATE));
 }
 
 void o88oWidget::SetPattern(int ptn)
