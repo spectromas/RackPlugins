@@ -589,7 +589,8 @@ struct XorPanel : SvgPanel
 		{
 			setSvg(APP->window->loadSvg(asset::plugin(pluginInstance, "res/screw_hole.svg")));
 		}
-	};	struct bgGradient : TransparentWidget
+	};	
+	struct bgGradient : TransparentWidget
 	{
 		bgGradient(const Vec &size)
 		{
@@ -606,8 +607,9 @@ struct XorPanel : SvgPanel
 		}
 	};
 
-	XorPanel(ModuleWidget *pWidget, int units, const char *svg) : SvgPanel()
+	XorPanel(ModuleWidget *pWidget, int u, const char *svg) : SvgPanel()
 	{
+		units = u;
 		pWidget->box.size = box.size = Vec(units * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 		if(svg != NULL)
 			setBackground(APP->window->loadSvg(asset::plugin(pluginInstance, svg)));
@@ -616,12 +618,15 @@ struct XorPanel : SvgPanel
 
 	void AddScrews(ModuleWidget *pWidget)
 	{
+		int px = units < 6 ? 0 : RACK_GRID_WIDTH;
 		int orco_can = int(random::uniform() * 16); //ma perche???????? :-(
-		if(orco_can != 0) pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, 0))); else														pWidget->addChild(createWidget<ScrewH>(Vec(RACK_GRID_WIDTH, 0)));
-		if(orco_can != 2) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0))); else										pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, 0)));
-		if(orco_can != 4) pWidget->addChild(createWidget<Screw>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else						pWidget->addChild(createWidget<ScrewH>(Vec(RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
-		if(orco_can != 5) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else  	pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - 2 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		if(orco_can != 0) pWidget->addChild(createWidget<Screw>(Vec(px, 0))); else pWidget->addChild(createWidget<ScrewH>(Vec(px, 0)));
+		if(orco_can != 2) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - px- RACK_GRID_WIDTH, 0))); else pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - px- RACK_GRID_WIDTH, 0)));
+		if(orco_can != 4) pWidget->addChild(createWidget<Screw>(Vec(px, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else pWidget->addChild(createWidget<ScrewH>(Vec(px, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+		if(orco_can != 5) pWidget->addChild(createWidget<Screw>(Vec(box.size.x - px - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH))); else pWidget->addChild(createWidget<ScrewH>(Vec(box.size.x - px - RACK_GRID_WIDTH, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 	}
+private:
+	int units;
 };
 
 #define CREATE_PANEL(modul, widg,unit,svg)  { \

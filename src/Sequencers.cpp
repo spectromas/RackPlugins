@@ -20,6 +20,7 @@
 #include "../include/quattro.hpp"
 #include "../include/flop.hpp"
 #include "../include/o88o.hpp"
+#include "../include/volt.hpp"
 
 #ifdef LPTEST_MODULE
 #include "../include/lpTestModule.hpp"
@@ -62,6 +63,7 @@ void init(rack::Plugin *p)
 	p->addModel(createModel<quattro, quattroWidget>("quattro"));
 	p->addModel(createModel<flop, flopWidget>("flop"));
 	p->addModel(createModel<o88o, o88oWidget>("o88o"));
+	p->addModel(createModel<volt, voltWidget>("volt"));
 
 #ifdef LPTEST_MODULE
 	p->addModel(createModel<LaunchpadTest, LaunchpadTestWidget>("LaunchpadTest"));

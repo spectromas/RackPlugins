@@ -10,12 +10,12 @@ common characteristics:
 
 ![legend](/repository/legenda.png?raw=true "legend")
 
-- warning: the front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
+- warning: the millboard front panels require special screws (polygonal holes). they are easy to miss and we do not provide spares.
 
 **** 1.1.1 update ****
-i was really, really tired of voltage level mismatches between the various modules available. for this, the output level 
+i was really, really tired of the voltage level mismatch between the modules available. so, the output level 
 of the sequencers changed again, now supporting a full range of -10V to +10V. this can be limited/shifted/transposed/whatever 
-with two tiny knobs, misleading labeled as "output range". 
+with two tiny knobs misleading labeled as "output range". 
 
 to add insult to injury, for the _very first time in the world_ a plugin could have (or have not) some hidden features.
 and now for something completely different: a list.
@@ -46,7 +46,7 @@ idea taken from: https://www.youtube.com/watch?v=ylnhftrhjnm
 
 # pwmclockgen
 some sequencers have their gate outputs dependent from the clock pulse cycle.
-here is a clock generator with controllable/swingable pwm, and remotable and even syncable with midi start/stop pulses
+here is a clock generator with controllable pwm, and swingable, and remotable, and syncable with midi, and with a lot of outputs, and frankly quite ugly.
 
 # quantizer
 voltages in scale
@@ -60,7 +60,7 @@ recipe:
 shaken, not stirred.
 
 # att / amp
-calm down your boiling voltages, or energize the cables
+calm down your boiling voltages, or energize the cables. can be used as voltage generator too.
 
 # boole
 there are 10 kind of people: those who can understand boolean logic, and the others.
@@ -68,7 +68,7 @@ this is the _very first plugin in the world_ with variable impedence inputs.
 when using high impedence mode, please use shielded cables for quieter operation.
 
 # xswitch
-circuit breaker
+circuit breaker. now expanded with optional hold capabilities.
 
 # mplex
 multiplexer, an extremely controllable one. obviously inspired by my wife.
@@ -86,7 +86,7 @@ dedicated to the inventor of the short midi message. quantized midi output for h
 trigonometric noise, a sin () under control of some well-tempered voltages. 
 
 # empty
-a strategy to waste some rack space in a more productive way. 
+a strategy to waste some rack space in a _more productive_ way ;-)
 
 # ascii
 why just taking notes if you could make them play?
@@ -95,7 +95,10 @@ why just taking notes if you could make them play?
 as stated before, the logic consequence of using these plugins is a flop.
 
 # qu4ttro
-"vaguely" inspired by a popular ios app. or it was bach?
+vaguely inspired by a popular ios app. or it was bach?
 
 # o88o
-an arpeggiator that pretends to be a sequencer (or the other way around). the first pattern is _just_ as empty as empty
+an arpeggiator that pretends to be a sequencer, or the other way around. the first pattern is _just_ as empty as empty
+
+# volt
+the plugin that alessandro volta always wanted to have, if he was interested in microtonal music instead of frogs.

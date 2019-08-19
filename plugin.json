@@ -189,6 +189,14 @@
       "tags": [
         "Blank"
       ]
+    },
+    {
+      "slug": "volt",
+      "name": "volt",
+      "description": "microtonal quantizer",
+      "tags": [
+        "Quantizer"
+      ]
     }
   ]
 }
