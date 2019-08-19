@@ -28,10 +28,14 @@ void o88o::process(const ProcessArgs &args)
 		reset();
 	} else
 	{
+		invert_active = getSwitch(SWITCH_INVERT, SWVERT_IN);
 		if(inputs[PATTERN_IN].isConnected())
 			curPtn = clamp((int)rescale(inputs[PATTERN_IN].getNormalVoltage(0.0), LVL_OFF, LVL_MAX, 0, NUM_PATTERNS - 1), 0, NUM_PATTERNS - 1);
 		else
 			curPtn = params[PATTERN].value - 1;
+
+		if(curPtn == 0 && (rndTrigger.process(inputs[RANDOMIZE_IN].value) || rndBtnTrig.process(params[RANDOMIZE].value)))
+			randPattrn();
 		
 		int clk = clockTrigger.process(inputs[CLOCK_IN].value); // 1=rise, -1=fall
 		bool gate = (params[GATE].value > 0.5 || inputs[GATE_IN].getNormalVoltage(0.0) >= 1.0);
@@ -42,6 +46,13 @@ void o88o::process(const ProcessArgs &args)
 		} else if(clk == -1)
 			close_gate();
 	}
+}
+
+void o88o::randPattrn()
+{
+	for(int r = 0; r < NUM_o88o_RECT; r++)
+		for(int c = 0; c < NUM_o88o_RECT; c++)
+			TheMatrix[0][r][c] = int(random::uniform() * 2);
 }
 
 void o88o::getPatternLimits()
@@ -94,7 +105,7 @@ void o88o::out_position()
 
 void o88o::open_gate()
 {
-	if(TheMatrix[curPtn][curRow][curCol] && isCellEnabled(curRow, curCol))
+	if(getCell(curRow, curCol) && isCellEnabled(curRow, curCol))
 	{
 		outputs[GATE_OUT].value = LVL_ON;
 		lights[LED_GATE].value = LED_ON;
@@ -168,9 +179,10 @@ void o88o::next_row(bool vert, bool back, bool loop)
 
 NVGcolor o88o::getCellColor(int r, int c)
 {
+	bool cell = getCell(r, c);
 	if(r == curRow && c == curCol)
 	{
-		if(TheMatrix[curPtn][r][c])
+		if(cell)
 		{
 			if(isCellEnabled(r, c))
 				return cellColors[CURRENT];
@@ -182,7 +194,7 @@ NVGcolor o88o::getCellColor(int r, int c)
 
 	} else
 	{
-		if(TheMatrix[curPtn][r][c])
+		if(cell)
 		{
 			if(isCellEnabled(r, c))
 				return cellColors[ENABLED];
@@ -221,15 +233,18 @@ o88oWidget::o88oWidget(o88o *module)
 
 	addParam(createParam<TL1105HSw>(Vec(mm2px(7.185), yncscape(47.082, 4.477)), module, o88o::GATE));
 	
-	addParam(createParam<TL1105HSw>(Vec(mm2px(82.672), yncscape(3.689f,  4.477)), module, o88o::SWITCH_BACKW));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(62.629), yncscape(3.689f,  4.477)), module, o88o::SWITCH_VERT));
-	addParam(createParam<TL1105HSw>(Vec(mm2px(40.500), yncscape(3.689f, 4.477)), module,  o88o::SWITCH_LOOP));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(85.318), yncscape(10.017, 8.255)), module, o88o::SWBACK_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(65.275), yncscape(10.017, 8.255)), module, o88o::SWVERT_IN));
-	addInput(createInput<PJ301BPort>(Vec(mm2px(43.146), yncscape(10.017, 8.255)), module, o88o::SWLOOP_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(36.642), yncscape(10.017, 8.255)), module, o88o::SWLOOP_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(53.383), yncscape(10.017, 8.255)), module, o88o::SWVERT_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(70.124), yncscape(10.017, 8.255)), module, o88o::SWBACK_IN));
+	addInput(createInput<PJ301BPort>(Vec(mm2px(86.864), yncscape(10.017, 8.255)), module, o88o::SWINVERT_IN));
+
+	addParam(createParam<TL1105Sw>(Vec(mm2px(79.437), yncscape(10.379f, 6.607)), module, o88o::SWITCH_BACKW));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(62.697), yncscape(10.379f, 6.607)), module, o88o::SWITCH_VERT));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(45.956), yncscape(10.379f, 6.607)), module, o88o::SWITCH_LOOP));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(96.178), yncscape(10.379f, 6.607)), module, o88o::SWITCH_INVERT));
 
 	addOutput(createOutput<PJ301WPort>(Vec(mm2px(20.273), yncscape(10.017, 8.255)), module, o88o::GATE_OUT));
-	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(32.861), yncscape(13.056, 2.176)), module, o88o::LED_GATE));
+	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(30.744), yncscape(13.056, 2.176)), module, o88o::LED_GATE));
 
 	addInput(createInput<PJ301BPort>(Vec(mm2px(128.294), yncscape(106.256, 8.255)), module, o88o::FIRSTROW_IN));
 	pwdg = createParam<Davies1900hFixWhiteKnobSmall>(Vec(mm2px(115.900), yncscape(106.383, 8.0)), module, o88o::FIRSTROW);
@@ -293,6 +308,8 @@ o88oWidget::o88oWidget(o88o *module)
 	addChild(new o88o7Segm(module != NULL ? module : NULL, 103.832, 10.320));
 	addParam(createParam<RIGHTSWITCH>(Vec(mm2px(109.255), yncscape(4.358, 4.627)), module, o88o::PTN_INC));
 	addParam(createParam<LEFTSWITCH>(Vec(mm2px(103.832), yncscape(4.358, 4.627)), module, o88o::PTN_DEC));
+	addParam(createParam<HiddenButton>(Vec(mm2px(10.291), yncscape(9.801, 5.08)), module, o88o::RANDOMIZE));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(6.361), yncscape(29.018, 8.255)), module, o88o::RANDOMIZE_IN));
 }
 
 void o88oWidget::SetPattern(int ptn)

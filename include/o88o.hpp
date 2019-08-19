@@ -21,6 +21,7 @@ public:
 		SWITCH_BACKW,
 		SWITCH_VERT,
 		SWITCH_LOOP,
+		SWITCH_INVERT,
 		FIRSTROW,
 		LASTCOL,
 		FIRSTCOL,
@@ -28,6 +29,7 @@ public:
 		LASTROW, 
 		PTN_INC, 
 		PTN_DEC,
+		RANDOMIZE,
 		NUM_PARAMS
 	};
 	enum InputIds
@@ -43,6 +45,8 @@ public:
 		SWBACK_IN,
 		SWVERT_IN,
 		SWLOOP_IN,
+		SWINVERT_IN,
+		RANDOMIZE_IN,
 		NUM_INPUTS
 	};
 	enum OutputIds
@@ -64,6 +68,7 @@ public:
 		curPtn = 0;
 		lastCol = lastRow = NUM_o88o_RECT - 1;
 		firstCol = firstRow = 0;
+		invert_active = false;
 		config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
 		configParam(PATTERN, 1, NUM_PATTERNS, 1, "Pattern", "#");
 		configParam(FIRSTROW, 1, NUM_o88o_RECT, 1, "First Row", "#");
@@ -89,6 +94,8 @@ private:
 	void next_column(bool vert, bool back, bool loop);
 	void next_row(bool vert, bool back, bool loop);
 	void process_keys();
+	void randPattrn();
+	inline int getCell(int r, int c) { return invert_active ? TheMatrix[curPtn][r][c] == 0 : TheMatrix[curPtn][r][c]; }
 
 	enum CELLSTATUS
 	{
@@ -100,17 +107,20 @@ private:
 		CURRENT_OFF,
 		NUM_COLORS
 	};
-	static const int NUM_PATTERNS = 50;
+	static const int NUM_PATTERNS = 51;
 	static NVGcolor cellColors[NUM_COLORS];
 	static int TheMatrix[NUM_PATTERNS][NUM_o88o_RECT][NUM_o88o_RECT];
 	int curPtn;
 	int curCol, curRow;
 	int firstCol, lastCol;
 	int firstRow, lastRow;
+	bool invert_active;
 	SchmittTrigger2 clockTrigger;
 	dsp::SchmittTrigger masterReset;
 	dsp::SchmittTrigger btninc;
 	dsp::SchmittTrigger btndec;
 	o88oWidget *pWidget;
+	dsp::SchmittTrigger rndTrigger;
+	dsp::SchmittTrigger rndBtnTrig;
 
 };

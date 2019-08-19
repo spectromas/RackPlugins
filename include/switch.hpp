@@ -17,7 +17,8 @@ struct XSwitch : Module
 	{
 		SW_1,
 		INV_1 = SW_1 + NUM_SWITCHES,
-		NUM_PARAMS = INV_1 + NUM_SWITCHES
+		OUTMODE = INV_1 + NUM_SWITCHES,
+		NUM_PARAMS
 	};
 	enum InputIds
 	{

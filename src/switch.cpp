@@ -21,7 +21,8 @@ void XSwitch::process(const ProcessArgs &args)
 		}
 
 		lights[LED_1 + k].value = LED_OFF;
-		outputs[OUT_1 + k].value = LVL_OFF;
+		if(params[OUTMODE].value < 0.5)
+			outputs[OUT_1 + k].value = LVL_OFF;
 	}
 }
 
@@ -55,5 +56,6 @@ SwitchWidget::SwitchWidget(XSwitch *module) : ModuleWidget()
 		yled += delta_y;
 		yinv += delta_y;
 	}
+	addParam(createParam<TL1105HBSw>(Vec(mm2px(9.823), yncscape(116.927, 4.477)), module, XSwitch::OUTMODE));
 }
 
