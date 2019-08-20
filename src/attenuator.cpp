@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "attenuator.hpp"
+#include "../include/common.hpp"
+#include "../include/attenuator.hpp"
 
 void Attenuator::process(const ProcessArgs &args)
 {

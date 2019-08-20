@@ -1,4 +1,4 @@
-#include "counter.hpp"
+#include "../include/counter.hpp"
 
 void Counter::on_loaded()
 {
@@ -7,8 +7,17 @@ void Counter::on_loaded()
 
 void Counter::load()
 {
+	countDown = 0;
+	reset();
+}
+
+void Counter::reset()
+{
 	curCounter = 0;
-	countDown=0;
+	outPulse.reset();
+	toggle_status = false;
+	lights[TOGGLESTAT].value = LED_OFF;
+	outputs[OUT_TGL].value = LVL_OFF;
 }
 
 void Counter::process_keys()
@@ -37,10 +46,12 @@ void Counter::process_keys()
 
 void Counter::process(const ProcessArgs &args)
 {
+	bool oneshot_mode = params[ONESHOT].value > 0.1;
+
 	int n;
-	if (inputs[IN_COUNTER].isConnected())
+	if(inputs[IN_COUNTER].isConnected())
 	{
-		n =clamp((int)rescale(inputs[IN_COUNTER].value, LVL_OFF, LVL_ON, COUNTER_MINVALUE, COUNTER_MAXVALUE), COUNTER_MINVALUE, COUNTER_MAXVALUE);
+		n = clamp((int)rescale(inputs[IN_COUNTER].value, LVL_OFF, LVL_ON, COUNTER_MINVALUE, COUNTER_MAXVALUE), COUNTER_MINVALUE, COUNTER_MAXVALUE);
 		counter_f = n;
 	} else
 	{
@@ -53,28 +64,39 @@ void Counter::process(const ProcessArgs &args)
 
 	if(resetTrigger.process(inputs[RESET].value))
 	{
-		curCounter = 0;
-		outPulse.reset();
+		reset();
 
-	}
-	else if (counterTigger.process(inputs[IN_1].value))
+	} else 
 	{
-		++curCounter;
-		if (curCounter >= n)
+		if(!oneshot_mode || !toggle_status)
 		{
-			curCounter = 0;
-			outPulse.trigger(pulseTime);
+			if(counterTigger.process(inputs[IN_1].value))
+			{
+				++curCounter;
+				if(curCounter >= n)
+					trig_out();
+			}
 		}
 	}
-	if (outPulse.process(deltaTime))
+
+	if(outPulse.process(deltaTime))
 	{
-		lights[ACTIVE].value = LVL_ON;
+		lights[ACTIVE].value = LED_ON;
 		outputs[OUT_1].value = LVL_ON;
 	} else
 	{
-		lights[ACTIVE].value = LVL_OFF;
+		lights[ACTIVE].value = LED_OFF;
 		outputs[OUT_1].value = LVL_OFF;
 	}
+}
+
+void Counter::trig_out()
+{
+	curCounter = 0;
+	outPulse.trigger(pulseTime);
+	toggle_status = !toggle_status;
+	lights[TOGGLESTAT].value = toggle_status ? LED_ON : LED_OFF;
+	outputs[OUT_TGL].value =   toggle_status ? LVL_ON : LVL_OFF;
 }
 
 CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
@@ -84,11 +106,12 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 
 	CREATE_PANEL(module, this, 8, "res/modules/Counter.svg");
 
-	addParam(createParam<UPSWITCH>(Vec(mm2px(2.281), yncscape(104.588,4.115)), module, Counter::COUNTER_INC));
+	addParam(createParam<UPSWITCH>(Vec(mm2px(2.281), yncscape(104.588, 4.115)), module, Counter::COUNTER_INC));
 	addParam(createParam<DNSWITCH>(Vec(mm2px(2.281), yncscape(99.788, 4.115)), module, Counter::COUNTER_DEC));
+	addParam(createParam<TL1105Sw>(Vec(mm2px(11.325), yncscape(71.907, 6.607)), module, Counter::ONESHOT));
 
 	SigDisplayWidget *display = new SigDisplayWidget(3, 0);
-	display->box.size = Vec(30+16, 22);
+	display->box.size = Vec(30 + 16, 22);
 	display->box.pos = Vec(mm2px(7.934), yncscape(100.07, px2mm(display->box.size.y)));
 
 	if(module != NULL)
@@ -96,7 +119,7 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	addChild(display);
 
 	SigDisplayWidget *displayCtr = new SigDisplayWidget(3, 0);
-	displayCtr->box.size = Vec(30+16, 22);
+	displayCtr->box.size = Vec(30 + 16, 22);
 	displayCtr->box.pos = Vec(mm2px(7.934), yncscape(83.887, px2mm(display->box.size.y)));
 	if(module != NULL)
 		displayCtr->value = &module->countDown;
@@ -106,12 +129,14 @@ CounterWidget::CounterWidget(Counter *module) : SequencerWidget()
 	((Davies1900hKnob *)pw)->snap = true;
 	addParam(pw);
 	addInput(createInput<PJ301BPort>(Vec(mm2px(3.238), yncscape(12.664, 8.255)), module, Counter::IN_1));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(16.516), yncscape(28.287, 8.255)), module, Counter::RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(3.238), yncscape(28.287, 8.255)), module, Counter::RESET));
 	addInput(createInput<PJ301BPort>(Vec(mm2px(29.070), yncscape(83.935, 8.255)), module, Counter::IN_COUNTER));
-	
+
 	addChild(createLight<SmallLight<RedLight>>(Vec(mm2px(25.242), yncscape(15.703, 2.176)), module, Counter::ACTIVE));
+	addChild(createLight<SmallLight<WhiteLight>>(Vec(mm2px(25.242), yncscape(31.327, 2.176)), module, Counter::TOGGLESTAT));
 
 	addOutput(createOutput<PJ301BLUPort>(Vec(mm2px(29.793), yncscape(12.664, 8.255)), module, Counter::OUT_1));
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(29.793), yncscape(28.287, 8.255)), module, Counter::OUT_TGL));
 }
 
 void CounterWidget::SetCounter(int n)

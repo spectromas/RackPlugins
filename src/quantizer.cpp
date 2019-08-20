@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "quantizer.hpp"
+#include "../include/common.hpp"
+#include "../include/quantizer.hpp"
 
 void Quantizer::process(const ProcessArgs &args)
 {
@@ -8,9 +8,9 @@ void Quantizer::process(const ProcessArgs &args)
 		int channels = inputs[IN_1].getChannels();
 		for(int k = 0; k < channels; k++)
 		{
-			float v = inputs[IN_1].getVoltage(k);
+			float v = NearestSemitone(inputs[IN_1].getVoltage(k));
 			int octave = int(v);	// 1v/octave
-			float semitone = quantize(v, octave);
+			float semitone = quantize(v-octave);
 			outputs[OUT_1].setVoltage(semitone+octave, k);
 			outputs[OUT_NOTRANSPOSE].setVoltage(semitone, k);
 			outputs[OUT_OCTAVE].setVoltage(octave, k);			

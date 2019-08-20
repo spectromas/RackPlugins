@@ -14,3 +14,4 @@ RackPlugins/RackPlugins.VC.VC.opendb
 *.pdb
 *.tlog
 *.filters
+/.vs

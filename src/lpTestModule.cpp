@@ -1,6 +1,6 @@
-#include "common.hpp"
+#include "../include/common.hpp"
 #ifdef LPTEST_MODULE
-#include "lpTestModule.hpp"
+#include "../include/lpTestModule.hpp"
 #include <string.h>
 
 

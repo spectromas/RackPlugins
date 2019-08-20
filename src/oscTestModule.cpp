@@ -1,4 +1,4 @@
-#include "oscTestModule.hpp"
+#include "../include/oscTestModule.hpp"
 #ifdef OSCTEST_MODULE
 
 void OscTest::process(const ProcessArgs &args)

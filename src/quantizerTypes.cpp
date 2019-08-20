@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "quantizer.hpp"
+#include "../include/common.hpp"
+#include "../include/quantizer.hpp"
 
 struct scaleRootChoiceItem : ui::MenuItem 
 {

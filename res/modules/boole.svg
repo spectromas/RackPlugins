@@ -1827,11 +1827,11 @@
      borderopacity="1.0"
      inkscape:pageopacity="0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.4387983"
-     inkscape:cx="192.58926"
-     inkscape:cy="390.86375"
+     inkscape:zoom="2.4315976"
+     inkscape:cx="88.263251"
+     inkscape:cy="348.30952"
      inkscape:document-units="mm"
-     inkscape:current-layer="g3048"
+     inkscape:current-layer="layer5"
      showgrid="false"
      fit-margin-top="0"
      fit-margin-left="0"
@@ -2231,7 +2231,7 @@
        inkscape:connector-curvature="0" />
     <path
        style="fill:none;stroke:#f9f9f9;stroke-width:0.28379983px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="M 22.879434,10.147409 V 125.30486"
+       d="M 26.198816,10.147409 V 125.30486"
        id="path2084"
        inkscape:connector-curvature="0" />
   </g>
@@ -4346,9 +4346,7 @@
          inkscape:connector-curvature="0" />
     </g>
     <g
-       aria-label="compare
-mode
-"
+       aria-label="compare mode "
        style="font-style:italic;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:3.76296306px;line-height:0.5;font-family:Consolas;-inkscape-font-specification:'Consolas Bold Italic';text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;display:inline;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.28222224;enable-background:new"
        id="text2102">
       <path

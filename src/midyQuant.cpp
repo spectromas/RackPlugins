@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "quantizer.hpp"
+#include "../include/common.hpp"
+#include "../include/quantizer.hpp"
 
 void midyQuant::process(const ProcessArgs &args)
 {
@@ -11,12 +11,18 @@ void midyQuant::process(const ProcessArgs &args)
 		int clk = gate.process(inputs[GATE].value); // 1=rise, -1=fall
 		if(clk != 0)
 		{
-			float v = inputs[CV].getVoltage();
 			int vel = (int)rescale(inputs[VEL].getNormalVoltage(0.5), 0.0, 1.0, 0, 127);
-			int octave = int(v);	// 1v/octave
-			float notef = quantize(v, octave) + octave;
-			int note = clamp(std::round(notef * 12.0 + 60.0), 0, 127);
-			midiOutput.sendNote(clk == 1, note, vel);
+			if(note_playing >= 0 && clk == -1)
+			{
+				midiOutput.sendNote(false, note_playing, vel);
+				note_playing = -1;
+			} else if(clk == 1)
+			{
+				float v = inputs[CV].getVoltage();
+				float semitone = NearestSemitone(v);
+				note_playing = clamp(std::round(semitone * 12.0 + 60.0), 0, 127);
+				midiOutput.sendNote(true, note_playing, vel);
+			}
 		}
 	}
 }
@@ -37,11 +43,10 @@ void midyQuantWidget::onMenu(int action)
 {
 	switch(action)
 	{
-	case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
-	break;
+		case MIDIPANIC: ((midyQuant *)module)->midiOutput.panic();
+			break;
 	}
 }
-
 
 midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 {
@@ -57,7 +62,7 @@ midyQuantWidget::midyQuantWidget(midyQuant *module) : ModuleWidget()
 	if(module != NULL)
 		display->CreateInterface(module);
 	addChild(display);
-	
+
 	midiDisplay = createWidget<qtzrMidiDisplay>(mm2px(Vec(3.41891, 38.00)));
 	midiDisplay->box.size = mm2px(Vec(33.840, 28));
 	if(module != NULL)

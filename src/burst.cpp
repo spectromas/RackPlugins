@@ -1,5 +1,5 @@
-#include "common.hpp"
-#include "burst.hpp"
+#include "../include/common.hpp"
+#include "../include/burst.hpp"
 
 void Burst::on_loaded()
 {
@@ -169,7 +169,7 @@ void Burst::next_step()
 
 int Burst::getInt(ParamIds p_id, InputIds i_id, float minValue, float maxValue)
 {
-	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_ON, 0.0, maxValue) : 0.0;
+	float offs = inputs[i_id].isConnected() ? rescale(inputs[i_id].value, LVL_OFF, LVL_MAX, 0.0, maxValue) : 0.0;
 	return (int)clamp(offs + params[p_id].value, minValue, maxValue);
 }
 

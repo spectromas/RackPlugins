@@ -1,14 +1,10 @@
-#include "ascii.hpp"
+#include "../include/ascii.hpp"
 
 void ascii::manifesto()
 {
 	/*
-	disclaimer:
-	non vi venga in mente di rompere le palle con la politica. qui c'e' solo arte, arte allo stato puro,
-	ed una sconfinata ammirazione per filippo tommaso & soci.
-	persone che hanno vissuto in maniera artistica, seppur con scelte discutibili, 10E32
-	di volte migliori (anche umanamente) di moderne rockstar pedofile. arte. anzi, Arte.
-	tutto il resto e' noia, pippe mentali e mancata connessione neuronale. 
+	arte. l'ultimo vero movimento artistico totale: musica, letteratura, pittura, architettura....
+	tutto il resto e' noooooooiaaaaaaa
 	*/
 
 	static std::vector<std::string> manifesto_futurista =
@@ -29,7 +25,7 @@ void ascii::manifesto()
 	};
 
 	std::string s;
-	for (std::vector<std::string>::iterator it = manifesto_futurista.begin(); it != manifesto_futurista.end(); ++it)
+	for(std::vector<std::string>::iterator it = manifesto_futurista.begin(); it != manifesto_futurista.end(); ++it)
 	{
 		s += *it;
 		s += "\n";
@@ -39,9 +35,9 @@ void ascii::manifesto()
 
 void ascii::process(const ProcessArgs &args)
 {
-	if (textField != NULL)
+	if(textField != NULL)
 	{
-		if (resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
+		if(resetTrigger.process(inputs[RESET].value) || masterReset.process(params[M_RESET].value))
 		{
 			textField->cursor = textField->selection = 0;
 			outputs[OUT].value = LVL_OFF;
@@ -53,13 +49,13 @@ void ascii::process(const ProcessArgs &args)
 		} else
 		{
 			int clk = clockTrig.process(inputs[CLK].value); // 1=rise, -1=fall
-			if (clk == 1)
+			if(clk == 1)
 			{
 				std::string safecopy = textField->text;
 				int len = safecopy.length();
-				if (len > 0)
+				if(len > 0)
 				{
-					if (textField->cursor >= len)
+					if(textField->cursor >= len)
 						textField->cursor = 0;
 					char c = safecopy.at(textField->cursor++);
 					textField->selection = textField->cursor;
@@ -72,6 +68,11 @@ void ascii::process(const ProcessArgs &args)
 	}
 }
 
+float ascii::getValue(char c)
+{
+	return orng.Value(rescale(c, 32.0, 127.0, 0.0, 1.0));
+}
+
 asciiWidget::asciiWidget(ascii *module)
 {
 	CREATE_PANEL(module, this, 16, "res/modules/ascii.svg");
@@ -82,13 +83,15 @@ asciiWidget::asciiWidget(ascii *module)
 
 	textField->multiline = true;
 	addChild(textField);
-	if (module != NULL)
+	if(module != NULL)
 		module->setField(textField);
 
-	addParam(createParam<HiddenButton>(Vec(mm2px(30.097), yncscape(119.363, 5.08)), module, ascii::FTM));
+	addParam(createParam<HiddenButton>(Vec(mm2px(26.642), yncscape(114.398, 5.08)), module, ascii::FTM));
 
 	addInput(createInput<PJ301RPort>(Vec(mm2px(10.932), yncscape(4.233, 8.255)), module, ascii::CLK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512),  yncscape(4.233, 8.255)), module, ascii::RESET));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(36.512), yncscape(4.233, 8.255)), module, ascii::RESET));
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(62.092), yncscape(4.233, 8.255)), module, ascii::OUT));
-	addChild(createParam<BefacoPushBig>(Vec(mm2px(9.4), yncscape(116.611, 8.999)), module, ascii::M_RESET));
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(3.400), yncscape(116.611, 8.999)), module, ascii::M_RESET));
+	if(module != NULL)
+		module->orng.Create(this, 35.734f, 114.351f, ascii::RANGE_IN, ascii::RANGE);
 }

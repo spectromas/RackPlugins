@@ -1,26 +1,26 @@
-#include "Renato.hpp"
+#include "../include/Renato.hpp"
 #include <sstream>
 
 
 bool Access(Renato *pr, bool is_x, int p) { return is_x ? pr->_accessX(p) : pr->_accessY(p); }
 
-void Renato::led(int l) 
+void Renato::led(int l)
 {
 	for(int r = 0; r < 4; r++)
 	{
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF; 
+			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF;
 		}
 	}
 }
 
 void Renato::setOut(int l, bool on)
 {
-	for (int r = 0; r < 4; r++)
+	for(int r = 0; r < 4; r++)
 	{
-		for (int c = 0; c < 4; c++)
+		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
 			lights[LED_1 + n].value = l == n ? LED_ON : LED_OFF;
@@ -49,17 +49,17 @@ void Renato::process(const ProcessArgs &args)
 		seqY.Reset();
 	} else
 	{
-		if (pWidget != NULL)
+		if(pWidget != NULL)
 		{
-			if (accessRndTrigger.process(inputs[RANDOMIZONE].value))
+			if(accessRndTrigger.process(inputs[RANDOMIZONE].value))
 				randrandrand();
 		}
 		bool seek_mode = params[SEEKSLEEP].value > 0;
 		int clkX = seqX.Step(inputs[XCLK].value, params[COUNTMODE_X].value, seek_mode, this, true);
 		int clkY = seqY.Step(inputs[YCLK].value, params[COUNTMODE_Y].value, seek_mode, this, false);
 		int n = xy(seqX.Position(), seqY.Position());
-		
-		if(_access(n) )
+
+		if(_access(n))
 		{
 			bool on = false;
 			if(_gateX(n))
@@ -74,7 +74,7 @@ void Renato::process(const ProcessArgs &args)
 					on = true;
 			}
 
-			outputs[CV].value = params[VOLTAGE_1 + n].value;
+			outputs[CV].value = orng.Value(params[VOLTAGE_1 + n].value);
 			setOut(n, on);
 			led(n);
 		}
@@ -105,24 +105,25 @@ Menu *RenatoWidget::addContextMenu(Menu *menu)
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Xs", this, RANDOMIZE_GATEX));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Gate Ys", this, RANDOMIZE_GATEY));
 	menu->addChild(new SeqMenuItem<RenatoWidget>("Randomize Access", this, RANDOMIZE_ACCESS));
+	menu->addChild(new SeqMenuItem<RenatoWidget>("Pitch Quantization", this, QUANTIZE_PITCH));
 	return menu;
 }
 
 void Renato::randrandrand()
 {
-	if (theRandomizer & RenatoWidget::RANDOMIZE_PITCH)
+	if(theRandomizer & RenatoWidget::RANDOMIZE_PITCH)
 		randrandrand(0);
 
-	if (theRandomizer & RenatoWidget::RANDOMIZE_GATEX)
+	if(theRandomizer & RenatoWidget::RANDOMIZE_GATEX)
 		randrandrand(1);
 
-	if (theRandomizer & RenatoWidget::RANDOMIZE_GATEY)
+	if(theRandomizer & RenatoWidget::RANDOMIZE_GATEY)
 		randrandrand(2);
 
-	if (theRandomizer & RenatoWidget::RANDOMIZE_ACCESS)
+	if(theRandomizer & RenatoWidget::RANDOMIZE_ACCESS)
 		randrandrand(3);
 
-	if (theRandomizer & RenatoWidget::RANDOMIZE_LAQUALUNQUE)
+	if(theRandomizer & RenatoWidget::RANDOMIZE_LAQUALUNQUE)
 	{
 		randrandrand(int(random::uniform() * 4));
 	}
@@ -130,30 +131,38 @@ void Renato::randrandrand()
 
 void Renato::randrandrand(int action)
 {
-	switch (action)
+	switch(action)
 	{
-	case 0: pWidget->std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
-	case 1: pWidget->std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
-	case 2: pWidget->std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
-	case 3: pWidget->std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
+		case 0: pWidget->std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
+		case 1: pWidget->std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
+		case 2: pWidget->std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
+		case 3: pWidget->std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
 	}
 
+}
+
+void Renato::QuantizePitch()
+{
+	for(int k = 0; k < 16; k++)
+		params[VOLTAGE_1 + k].value = pWidget->quantizePitch(VOLTAGE_1 + k, params[VOLTAGE_1 + k].value, orng);
 }
 
 void RenatoWidget::onMenu(int action)
 {
-	switch (action)
+	switch(action)
 	{
-	case RANDOMIZE_PITCH:  std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
-	case RANDOMIZE_GATEX:  std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
-	case RANDOMIZE_GATEY:  std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
-	case RANDOMIZE_ACCESS: std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
+		case RANDOMIZE_PITCH:  std_randomize(Renato::VOLTAGE_1, Renato::VOLTAGE_1 + 16); break;
+		case RANDOMIZE_GATEX:  std_randomize(Renato::GATEX_1, Renato::GATEX_1 + 16); break;
+		case RANDOMIZE_GATEY:  std_randomize(Renato::GATEY_1, Renato::GATEY_1 + 16); break;
+		case RANDOMIZE_ACCESS: std_randomize(Renato::ACCESS_1, Renato::ACCESS_1 + 16); break;
+		case QUANTIZE_PITCH: ((Renato *)module)->QuantizePitch(); break;
+
 	}
 }
 
-RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
+RenatoWidget::RenatoWidget(Renato *module) : SequencerWidget()
 {
-	if (module != NULL)
+	if(module != NULL)
 		module->setWidget(this);
 
 	#ifdef OSCTEST_MODULE
@@ -162,16 +171,19 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 
 	CREATE_PANEL(module, this, 39, "res/modules/RenatoModule.svg");
 
-	addInput(createInput<PJ301RPort>(Vec(mm2px(39.330), yncscape(115.267,8.255)), module, Renato::XCLK));
-	addInput(createInput<PJ301RPort>(Vec(mm2px(55.242), yncscape(115.267,8.255)), module, Renato::YCLK));
-	addInput(createInput<PJ301YPort>(Vec(mm2px(133.987), yncscape(115.267,8.255)), module, Renato::RESET));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(33.509), yncscape(115.267, 8.255)), module, Renato::XCLK));
+	addInput(createInput<PJ301RPort>(Vec(mm2px(49.222), yncscape(115.267, 8.255)), module, Renato::YCLK));
+	addInput(createInput<PJ301YPort>(Vec(mm2px(119.500), yncscape(115.267, 8.255)), module, Renato::RESET));
 
-	addInput(createInput<PJ301HPort>(Vec(mm2px(18.293), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
-	
-	addChild(createParam<BefacoPushBig>(Vec(mm2px(122.982), yncscape(114.895, 8.999)), module, Renato::M_RESET));
+	addInput(createInput<PJ301HPort>(Vec(mm2px(12.472), yncscape(115.267, 8.255)), module, Renato::RANDOMIZONE));
+
+	addChild(createParam<BefacoPushBig>(Vec(mm2px(108.494), yncscape(114.895, 8.999)), module, Renato::M_RESET));
+
+	if(module != NULL)
+		module->orng.Create(this, 129.543f, 112.774f, Renato::RANGE_IN, Renato::RANGE);
 
 	// page 0 (SESSION)
-	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(71.102), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_X);
+	ParamWidget *pwdg = createParam<NKK2>(Vec(mm2px(60.319), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_X);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -187,7 +199,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 	}
 	#endif
 
-	pwdg = createParam<NKK2>(Vec(mm2px(94.827), yncscape(115.727+1, 8.467)), module, Renato::COUNTMODE_Y);
+	pwdg = createParam<NKK2>(Vec(mm2px(84.044), yncscape(115.727 + 1, 8.467)), module, Renato::COUNTMODE_Y);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -202,7 +214,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 	}
 	#endif
 
-	pwdg = createParam<NKK1>(Vec(mm2px(109.558), yncscape(115.727+1, 8.467)), module, Renato::SEEKSLEEP);
+	pwdg = createParam<NKK1>(Vec(mm2px(96.126), yncscape(115.727 + 1, 8.467)), module, Renato::SEEKSLEEP);
 	addParam(pwdg);
 	#ifdef LAUNCHPAD
 	if(module != NULL)
@@ -218,8 +230,8 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 	#endif
 
 	addOutput(createOutput<PJ301GPort>(Vec(mm2px(181.436), yncscape(115.267, 8.255)), module, Renato::CV));
-	addOutput(createOutput<PJ301WPort>(Vec(mm2px(150.245), yncscape(115.267, 8.255)), module, Renato::XGATE));
-	ModuleLightWidget *plight = createLight<MediumLight<GreenLight>>(Vec(mm2px(157.888), yncscape(112.637, 3.176)), module, Renato::LED_GATEX);
+	addOutput(createOutput<PJ301WPort>(Vec(mm2px(152.891), yncscape(115.267, 8.255)), module, Renato::XGATE));
+	ModuleLightWidget *plight = createLight<MediumLight<GreenLight>>(Vec(mm2px(160.534), yncscape(112.637, 3.176)), module, Renato::LED_GATEX);
 	#ifdef OSCTEST_MODULE
 	if(module != NULL)
 	{
@@ -254,12 +266,12 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 		for(int c = 0; c < 4; c++)
 		{
 			int n = c + r * 4;
-			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[0]+c* groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::ACCESS_IN1+n));
-			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[1] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::GATEX_IN1 + n));
-			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[2] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::GATEY_IN1 + n));
-			addOutput(createOutput<PJ301WPort>(Vec(mm2px(x_sup[3] + c * groupdist_h), yncscape(y_sup+r*groupdist_v, 8.255)), module, Renato::CV_OUTSTEP1 + n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[0] + c * groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::ACCESS_IN1 + n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[1] + c * groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::GATEX_IN1 + n));
+			addInput(createInput<PJ301BPort>(Vec(mm2px(x_sup[2] + c * groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::GATEY_IN1 + n));
+			addOutput(createOutput<PJ301WPort>(Vec(mm2px(x_sup[3] + c * groupdist_h), yncscape(y_sup + r * groupdist_v, 8.255)), module, Renato::CV_OUTSTEP1 + n));
 
-			ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[0]+c*groupdist_h), yncscape(y_inf + r * groupdist_v, 6.607)), module, Renato::ACCESS_1 + n);
+			ParamWidget *pwdg = createParam<TL1105Sw>(Vec(mm2px(x_inf[0] + c * groupdist_h), yncscape(y_inf + r * groupdist_v, 6.607)), module, Renato::ACCESS_1 + n);
 			addParam(pwdg);
 			#ifdef LAUNCHPAD
 			if(module != NULL)
@@ -306,18 +318,18 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
-			
+
 			pwdg = createParam<Davies1900hFixRedKnob>(Vec(mm2px(x_inf[3] + c * groupdist_h), yncscape(y_pot + r * groupdist_v, 9.525)), module, Renato::VOLTAGE_1 + n);
 			#ifdef OSCTEST_MODULE
 			if(module != NULL)
 			{
-				sprintf(name, "/Knob%i", n+1);
+				sprintf(name, "/Knob%i", n + 1);
 				module->oscDrv->Add(new oscControl(name), pwdg);
 			}
 			#endif
 			addParam(pwdg);
 
-			ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(mm2px(x_led + c * groupdist_h), yncscape(y_led+r*groupdist_v, 3.176)), module, Renato::LED_1 + n);
+			ModuleLightWidget *plight = createLight<MediumLight<RedLight>>(Vec(mm2px(x_led + c * groupdist_h), yncscape(y_led + r * groupdist_v, 3.176)), module, Renato::LED_1 + n);
 			addChild(plight);
 			#ifdef LAUNCHPAD
 			if(module != NULL)
@@ -335,7 +347,7 @@ RenatoWidget::RenatoWidget(Renato *module ) : SequencerWidget()
 			#endif
 		}
 	}
-	
+
 	#ifdef DIGITAL_EXT
 	if(module != NULL)
 		addChild(new DigitalLed(mm2px(107.531), yncscape(117.461, 3.867), &module->connected));

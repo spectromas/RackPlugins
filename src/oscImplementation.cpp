@@ -1,8 +1,8 @@
-#include "common.hpp"
+#include "../include/common.hpp"
 #ifdef OSC_ENABLE
-#include "../digitalExt/osc/oscCommunicator.hpp"
-#include "../digitalExt/osc/oscControl.hpp"
-#include "../digitalExt/osc/oscDriver.hpp"
+#include "../include/../digitalExt/osc/oscCommunicator.hpp"
+#include "../include/../digitalExt/osc/oscControl.hpp"
+#include "../include/../digitalExt/osc/oscDriver.hpp"
 
 void oscControl::Draw(OSCDriver *drv, bool force)
 {
