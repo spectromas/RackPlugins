@@ -7,6 +7,10 @@ struct portSmall : _ioPort
 struct daviesVerySmall : _davies1900base
 {
 	daviesVerySmall() : _davies1900base("res/Davies1900hBlackVerySmall.svg") {}
+	void randomize() override
+	{
+		// do NOT randomaiz
+	}
 };
 
 struct outputRange
